@@ -2,18 +2,20 @@
 import { useState } from "react";
 import NoteOptions from "./NoteOptions";
 
-export default function NoteArea() {
+export default function NoteArea({ user }: any) {
   const [text, setText] = useState("");
+
+  console.log(user)
 
   const handleChange = (event: any) => {
     setText(event.target.value);
-    // console.log(event.target.value);
+    // console.log(text);
   };
   return (
     <div className="flex flex-row gap-1">
-      <div className="w-2/3">
+      <div className="w-2/3 h-full">
         <textarea
-          className="w-full h-[80vh] focus:border focus:border-blue-500 rounded-md p-3 outline-none dark:bg-slate-700 dark:text-white"
+          className="w-full h-[100vh] focus:border focus:border-blue-500 rounded-md p-3 outline-none dark:bg-slate-700 dark:text-white"
           rows={5}
           value={text}
           onChange={handleChange}
@@ -21,7 +23,7 @@ export default function NoteArea() {
         />
       </div>
       <div className="bg-slate-800 w-1/3">
-        <NoteOptions />
+        <NoteOptions text={text} />
       </div>
     </div>
   );

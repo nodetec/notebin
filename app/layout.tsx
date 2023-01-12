@@ -1,6 +1,6 @@
 import Footer from "./Footer";
 import "./globals.css";
-import Header from "./Header";
+// import Header from "./Header";
 
 export default function RootLayout({
   children,
@@ -15,7 +15,7 @@ export default function RootLayout({
       */}
       <head />
       <body className="dark:bg-slate-900 container p-6 m-auto md:max-w-[90%] 2xl:max-w-[50%]">
-        <Header />
+        {/* <Header /> */}
         {children}
         <Footer />
       </body>
