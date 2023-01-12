@@ -15,7 +15,7 @@ export default function NoteArea({ user }: any) {
     <div className="flex flex-row gap-1">
       <div className="w-2/3 h-full">
         <textarea
-          className="w-full h-[100vh] focus:border focus:border-blue-500 rounded-md p-3 outline-none dark:bg-slate-700 dark:text-white"
+          className="w-full h-[100vh] 2xl:h-[50vh] focus:border focus:border-blue-500 rounded-md p-3 outline-none dark:bg-slate-700 dark:text-white"
           rows={5}
           value={text}
           onChange={handleChange}
