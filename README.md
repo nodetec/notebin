@@ -4,6 +4,14 @@
 
 Deployed at [notebin.org](https://www.notebin.org/)
 
+## Stack
+
+- Next.js 13
+- Typescript
+- Tailwindcss
+- nostr
+- lightning (webln)
+
 ## Development
 
 First, run the development server:
