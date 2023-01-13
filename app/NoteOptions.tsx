@@ -48,22 +48,23 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
               onChange={(e: any) => handleSelect(e)}
               className="
                 py-2 
-                px-4 
+                px-3
                 text-base
-                dark:text-neutral-900 bg-blue-400 hover:bg-blue-500
+                dark:text-slate-300 bg-neutral-700 hover:bg-blue-500
                 font-medium
                 w-full
-                text-s
+                text-sm
                 leading-tight
                 uppercase
-                rounded
+                rounded-md
                 focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0
                 active:bg-blue-600 active:shadow-lg active:text-white
                 transition
                 duration-150
                 ease-in-out
+                outline-none
                 whitespace-nowrap"
-            >
+              >
               <option value="abap">abap</option>
               <option value="aes">aes</option>
               <option value="apex">apex</option>
@@ -171,14 +172,14 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
             <input
               type="text"
               placeholder="Enter Tags..."
-              className="px-3 py-2 rounded w-full text-slate-300 bg-gray-600"
+              className="px-3 py-2 rounded w-full text-slate-300 bg-neutral-700"
             />
           </div>
           <div className="flex flex-col gap-2 justify-start items-start text-sm mb-4">
             <label>Relay</label>
             <select
               onChange={(e: any) => setRelayUrl(e.target.value)}
-              className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-gray-600 outline-none"
+              className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-neutral-700 outline-none"
             >
               <option>wss://nostr-pub.wellorder.net</option>
               <option>wss://nostr.onsats.org</option>
