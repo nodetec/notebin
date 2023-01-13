@@ -7,10 +7,12 @@ import { TbNote } from "react-icons/tb";
 
 import Button from "./Button";
 import Buttons from "./Buttons";
+import TextInput from "./TextInput";
 
 export default function Header({ onSetUser }: any) {
   // const [user, setUser] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [keys, setKeys] = useState({ private: "", public: "" });
   const [isLightningConnected, setIsLightningConnected] = useState(false);
 
   useEffect(() => {
@@ -92,22 +94,13 @@ export default function Header({ onSetUser }: any) {
           </Button>
         </div>
       </nav>
-      <div>
-        {isOpen && (
-          <div className="z-50 fixed top-0 left-0 w-full h-full flex items-center justify-center">
-            <div className="bg-neutral-900 opacity-50"></div>
-            <div className="bg-neutral-900 flex flex-col justify-center items-center p-6 rounded-md shadow-lg">
-              <h3 className="text-xl text-neutral-400 pb-5">Generate Keys</h3>
-              <input
-                type="text"
-                placeholder="Private Key"
-                className="px-3 py-2 mb-2 rounded w-full text-neutral-400 bg-neutral-700"
-              />
-              <input
-                type="text"
-                placeholder="Public Key"
-                className="px-3 py-2 mb-2 rounded w-full text-neutral-400 bg-neutral-700"
-              />
+      {isOpen && (
+        <>
+          <div className="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm">
+            <div className="bg-neutral-900 flex flex-col justify-center items-stretch gap-4 p-6 rounded-md shadow-lg ">
+              <h3 className="text-xl text-neutral-400 text-center pb-4">Generate Keys</h3>
+              <TextInput value={keys.private} onChange={(e) => setKeys(current => ({ ...current, private: e.target.value }))} label="Private Key" />
+              <TextInput value={keys.public} onChange={(e) => setKeys(current => ({ ...current, public: e.target.value }))} label="Pubilc Key" />
               <Buttons>
                 <Button color="neutralDark" onClick={() => setIsOpen(false)}>
                   Cancel
@@ -116,8 +109,9 @@ export default function Header({ onSetUser }: any) {
               </Buttons>
             </div>
           </div>
-        )}
-      </div>
+          <div className="bg-neutral-900 opacity-50 fixed z-40 w-full h-full" onClick={() => setIsOpen(false)} />
+        </>
+      )}
     </div>
   );
 }
