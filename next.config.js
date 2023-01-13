@@ -1,8 +1,6 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  experimental: {
-    appDir: true,
-  },
-}
+const removeImports = require("next-remove-imports")();
 
-module.exports = nextConfig
+module.exports = removeImports({
+  experimental: { esmExternals: "loose", appDir: true, }
+});

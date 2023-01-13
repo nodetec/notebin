@@ -8,13 +8,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html className="dark" lang="en">
+    <html data-color-mode="dark" lang="en">
       {/*
         <head /> will contain the components returned by the nearest parent
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body className="dark:bg-slate-900 container p-6 m-auto md:max-w-[90%] 2xl:max-w-[70%]">
+      <body className="dark:bg-gray-700 container p-6 m-auto md:max-w-[90%] 2xl:max-w-[70%]">
         {/* <Header /> */}
         {children}
         <Footer />
