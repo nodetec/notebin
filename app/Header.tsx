@@ -51,9 +51,21 @@ export default function Header({ onSetUser }: any) {
         {isOpen && (
           <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center">
             <div className="bg-gray-900 opacity-50"></div>
-            <div className="bg-slate-800 p-6 rounded-md shadow-lg">
-              <button onClick={() => setIsOpen(false)}>Close</button>
-              <p>Popup Content</p>
+            <div className="bg-slate-800 flex flex-col justify-center items-center p-6 rounded-md shadow-lg">
+              <h3 className="text-xl text-slate-300 pb-5">Generate Keys</h3>
+              <input
+                type="text"
+                placeholder="Private Key"
+                className="px-3 py-2 mb-2 rounded w-full text-slate-300 bg-gray-600"
+              />
+              <input
+                type="text"
+                placeholder="Public Key"
+                className="px-3 py-2 mb-2 rounded w-full text-slate-300 bg-gray-600"
+              />
+
+              <button className="bg-blue-500 text-slate-300 rounded-md py-1 px-2 mb-2" onClick={() => setIsOpen(false)}>Generate</button>
+              <button className="bg-slate-600 text-slate-300 rounded-md py-1 px-2" onClick={() => setIsOpen(false)}>Cancel</button>
             </div>
           </div>
         )}

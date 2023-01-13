@@ -53,14 +53,14 @@ export namespace NostrService {
   export function createEvent(
     publicKey: string,
     content: string,
-    filename: string
+    syntax: string
   ) {
     const event: Event = {
       kind: 2222,
       pubkey: publicKey,
       created_at: Math.floor(Date.now() / 1000),
       tags: [
-        ["filename", filename],
+        ["syntax", syntax],
         ["client", "notebin"],
         ["tags", "TODO"],
         ["ln_address", "TODO"],
