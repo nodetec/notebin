@@ -29,7 +29,7 @@ export default function NoteArea({ user }: any) {
           }}
         />
       </div>
-      <div className="bg-neutral-800 h-[80vh] rounded-md w-1/3">
+      <div className="bg-neutral-800 rounded-md w-1/3">
         <NoteOptions text={text} onSetSyntaxOption={setSyntaxOption} />
       </div>
     </div>

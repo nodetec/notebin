@@ -49,16 +49,12 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
               className="
                 py-2 
                 px-3
-                text-base
                 dark:text-slate-300 bg-neutral-700 hover:bg-blue-500
                 font-medium
                 w-full
                 text-sm
                 leading-tight
-                uppercase
                 rounded-md
-                focus:bg-blue-500 focus:shadow-lg focus:outline-none focus:ring-0
-                active:bg-blue-600 active:shadow-lg active:text-white
                 transition
                 duration-150
                 ease-in-out
@@ -107,7 +103,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
               <option value="livescript">livescript</option>
               <option value="lua">lua</option>
               <option value="m3">m3</option>
-              <option value="markdown">markdown</option>
+              <option selected value="markdown">markdown</option>
               <option value="mips">mips</option>
               <option value="msdax">msdax</option>
               <option value="mysql">mysql</option>
