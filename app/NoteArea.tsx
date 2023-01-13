@@ -9,17 +9,19 @@ const CodeEditor = dynamic(
   { ssr: true }
 );
 export default function NoteArea({ user }: any) {
-  const [text, setText] = useState(`function add(a, b) {\n  return a + b;\n}`);
+  const [text, setText] = useState("");
+  const [syntaxOption, setSyntaxOption] = useState("markdown");
+
   return (
     <div className="flex flex-row gap-1">
-      <div className="w-2/3 h-full">
+      <div className="w-2/3 h-[68rem] overflow-auto">
         <CodeEditor
-          className="w-full h-[80vh] 3xl:h-[50vh] focus:border focus:border-blue-500 rounded-md p-3 outline-none dark:bg-neutral-800"
+          className="w-full min-h-full focus:border focus:border-blue-500 rounded-md p-3 outline-none dark:bg-neutral-800"
           value={text}
-          language="jsx"
-          placeholder="Please enter JS code."
+          language={syntaxOption}
+          placeholder="Please enter text."
           onChange={(evn) => setText(evn.target.value)}
-          padding={15}
+          padding={25}
           style={{
             fontSize: 15,
             fontFamily:
@@ -27,8 +29,8 @@ export default function NoteArea({ user }: any) {
           }}
         />
       </div>
-      <div className="bg-neutral-800 h-[80vh] rounded-md w-1/3">
-        <NoteOptions text={text} />
+      <div className="bg-neutral-800 rounded-md w-1/3">
+        <NoteOptions text={text} onSetSyntaxOption={setSyntaxOption} />
       </div>
     </div>
   );
