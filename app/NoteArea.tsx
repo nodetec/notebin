@@ -14,20 +14,20 @@ export default function NoteArea({ user }: any) {
     <div className="flex flex-row gap-1">
       <div className="w-2/3 h-full">
         <CodeEditor
-          className="w-full h-[100vh] 3xl:h-[50vh] focus:border focus:border-blue-500 rounded-md p-3 outline-none dark:bg-gray-900"
+          className="w-full h-[80vh] 3xl:h-[50vh] focus:border focus:border-blue-500 rounded-md p-3 outline-none dark:bg-neutral-800"
           value={text}
           language="jsx"
           placeholder="Please enter JS code."
           onChange={(evn) => setText(evn.target.value)}
           padding={15}
           style={{
-            fontSize: 20,
+            fontSize: 15,
             fontFamily:
               "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
           }}
         />
       </div>
-      <div className="bg-gray-800 w-1/3">
+      <div className="bg-neutral-800 h-[80vh] rounded-md w-1/3">
         <NoteOptions text={text} />
       </div>
     </div>
