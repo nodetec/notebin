@@ -1,8 +1,10 @@
 "use client";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
+import { useTheme } from "next-themes";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { GiOstrich } from "react-icons/gi";
+import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 import { TbNote } from "react-icons/tb";
 import { IoMdCloseCircleOutline } from "react-icons/io"
 import { CgCloseO } from "react-icons/cg"
@@ -16,8 +18,10 @@ export default function Header({ onSetUser }: any) {
   const [isOpen, setIsOpen] = useState(false);
   const [keys, setKeys] = useState({ private: "", public: "" });
   const [isLightningConnected, setIsLightningConnected] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    setMounted(true);
     const connected = sessionStorage.getItem("connected");
 
     const getConnected = async (connected: string) => {
@@ -52,6 +56,23 @@ export default function Header({ onSetUser }: any) {
     setIsLightningConnected(true);
   };
 
+  const { systemTheme, theme, setTheme } = useTheme();
+
+  const renderThemeChanger = () => {
+    if (!mounted) return null;
+
+    const currentTheme = theme === "system" ? systemTheme : theme;
+    if (currentTheme === "dark") {
+      return (
+        <HiOutlineSun className="w-16 h-16 text-white" role="button" onClick={() => setTheme('light')} />
+      )
+    }
+    else {
+      return (
+        <HiOutlineMoon className="w-16 h-16 text-black" role="button" onClick={() => setTheme('dark')} />
+      )
+    }
+  };
   return (
     <div>
       <nav className="flex justify-between items-center pb-12">
@@ -66,6 +87,7 @@ export default function Header({ onSetUser }: any) {
           </div>
         </Link>
         <div className="flex gap-4 flex-row">
+          {renderThemeChanger()}
           {/* <Link href="/"> */}
           <Button
             color="neutralLight"
@@ -99,12 +121,12 @@ export default function Header({ onSetUser }: any) {
       {isOpen && (
         <>
           <div className="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm border-2 border-neutral-500 rounded-md">
-              <Button 
-                icon={ <IoMdCloseCircleOutline size={24} /> }
-                className="absolute w-fit right-0 top-0 text-neutral-400"
-                onClick={() => setIsOpen(false)}
-                color="transparent"
-              />
+            <Button
+              icon={<IoMdCloseCircleOutline size={24} />}
+              className="absolute w-fit right-0 top-0 text-neutral-400"
+              onClick={() => setIsOpen(false)}
+              color="transparent"
+            />
             <div className="bg-neutral-900 flex flex-col justify-center items-stretch gap-4 p-6 rounded-md shadow-lg ">
               <h3 className="text-xl text-neutral-400 text-center pb-4">Generate Keys</h3>
               <TextInput value={keys.private} onChange={(e) => setKeys(current => ({ ...current, private: e.target.value }))} label="Private Key" />
