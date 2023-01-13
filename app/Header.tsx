@@ -7,7 +7,6 @@ import { GiOstrich } from "react-icons/gi";
 import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 import { TbNote } from "react-icons/tb";
 import { IoMdCloseCircleOutline } from "react-icons/io"
-import { CgCloseO } from "react-icons/cg"
 
 import Button from "./Button";
 import Buttons from "./Buttons";

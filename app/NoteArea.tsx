@@ -14,7 +14,8 @@ export default function NoteArea({ user }: any) {
 
   return (
     <div className="flex flex-row gap-1">
-      <div className="w-2/3 h-[68rem] overflow-auto">
+      {/* <div className="w-2/3 h-[20rem] overflow-auto"> */}
+      <div className="w-2/3 h-[34rem] overflow-auto">
         <CodeEditor
           className="w-full min-h-full focus:border focus:border-blue-500 rounded-md p-3 outline-none dark:bg-neutral-800"
           value={text}
