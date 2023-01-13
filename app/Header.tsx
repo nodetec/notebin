@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { GiOstrich } from "react-icons/gi";
 import { TbNote } from "react-icons/tb";
@@ -11,11 +11,42 @@ import Buttons from "./Buttons";
 export default function Header({ onSetUser }: any) {
   // const [user, setUser] = useState("");
   const [isOpen, setIsOpen] = useState(false);
+  const [isLightningConnected, setIsLightningConnected] = useState(false);
+
+  useEffect(() => {
+    const connected = sessionStorage.getItem("connected");
+
+    const getConnected = async (connected: string) => {
+      let enabled = false;
+      if (connected === "true") {
+        // @ts-ignore
+        enabled = await window.webln.enable();
+        setIsLightningConnected(true);
+      }
+      return enabled;
+    };
+
+    if (connected) {
+      getConnected(connected);
+    }
+  }, []);
 
   function handleClick() {
     onSetUser("chris");
     setIsOpen(true);
   }
+
+  const connectLightningHandler = async () => {
+    // @ts-ignore
+    if (typeof window.webln !== "undefined") {
+      // @ts-ignore
+      const enabled = await window.webln.enable();
+
+      sessionStorage.setItem("connected", "true");
+    }
+    console.log("connected");
+    setIsLightningConnected(true);
+  };
 
   return (
     <div>
@@ -47,7 +78,7 @@ export default function Header({ onSetUser }: any) {
           </Button>
           {/* <Button onClick={() => setIsOpen(true)}>Open Popup</Button> */}
           <Button
-            onClick={handleClick}
+            onClick={connectLightningHandler}
             color="yellow"
             size="sm"
             icon={
@@ -57,7 +88,7 @@ export default function Header({ onSetUser }: any) {
               />
             }
           >
-            connect
+            {isLightningConnected ? "connected" : "connect"}
           </Button>
         </div>
       </nav>
