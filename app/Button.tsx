@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
+import { ImSpinner9 } from "react-icons/im";
 
 const sizes = {
   lg: "py-4 px-6 text-lg",
@@ -28,6 +29,7 @@ export interface Props
   color?: keyof typeof colors;
   icon?: ReactNode;
   iconAfter?: boolean;
+  loading?: boolean;
 }
 
 const Button: React.FC<Props> = ({
@@ -35,6 +37,7 @@ const Button: React.FC<Props> = ({
   size = "md",
   color = "blue",
   className = "",
+  loading = false,
   icon,
   iconAfter,
   disabled,
@@ -53,7 +56,7 @@ const Button: React.FC<Props> = ({
       disabled={disabled}
       {...props}
     >
-      {icon ? <span className={iconAfter ? "order-2" : ""}>{icon}</span> : null}
+      {loading || icon ? <span className={iconAfter ? "order-2" : ""}>{loading ? <ImSpinner9 className="animate-spin" /> : icon}</span> : null}
       {children}
     </button>
   );
