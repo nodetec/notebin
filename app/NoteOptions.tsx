@@ -4,6 +4,7 @@ import "websocket-polyfill";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { NostrService } from "./utils/NostrService";
+import Button from "./Button";
 
 export default function NoteOptions({ text }: any) {
   const [syntax, setSyntax] = useState("");
@@ -91,12 +92,7 @@ export default function NoteOptions({ text }: any) {
           </div>
           <span className="text-sm">▶ Advanced</span>
         </div>
-        <button
-          className="font-bold flex flex-row justify-center items-center bg-blue-400 hover:bg-blue-500 text-sm dark:text-slate-900 py-1 px-2 rounded-md w-2/5 self-center"
-          type="submit"
-        >
-          Send
-        </button>
+        <Button type="submit">Send</Button>
       </div>
     </form>
   );

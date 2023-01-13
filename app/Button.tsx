@@ -1,0 +1,62 @@
+import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
+
+const sizes = {
+  lg: "py-4 px-6 text-lg",
+  md: "py-2 px-4 text-base",
+  sm: "py-2 px-3 text-xs",
+};
+
+const iconSized = {
+  lg: "p-3",
+  md: "p-2",
+  sm: "p-1",
+};
+
+const colors = {
+  blue: "dark:text-neutral-900 bg-blue-400 hover:bg-blue-500",
+  slateDark: "text-slate-300 bg-slate-600 hover:bg-slate-700",
+  slateLight: "bg-slate-300 text-slate-900 hover:bg-slate-400",
+  yellow: "dark:text-neutral-900 tex bg-yellow-300 hover:bg-yellow-400",
+};
+
+export interface Props
+  extends DetailedHTMLProps<
+    ButtonHTMLAttributes<HTMLButtonElement>,
+    HTMLButtonElement
+  > {
+  size?: keyof typeof sizes;
+  color?: keyof typeof colors;
+  icon?: ReactNode;
+  iconAfter?: boolean;
+}
+
+const Button: React.FC<Props> = ({
+  children,
+  size = "md",
+  color = "blue",
+  className = "",
+  icon,
+  iconAfter,
+  disabled,
+  ...props
+}) => {
+  return (
+    <button
+      aria-label={children as string}
+      title={children as string}
+      className={`rounded-md font-bold text-base flex items-center justify-center cursor-pointer gap-2 self-center transition-colors w-full
+         ${disabled ? "cursor-not-allowed opacity-40" : ""}
+         ${children ? sizes[size] : iconSized[size]}
+         ${colors[color]}
+         ${className}
+      `}
+      disabled={disabled}
+      {...props}
+    >
+      {icon ? <span className={iconAfter ? "order-2" : ""}>{icon}</span> : null}
+      {children}
+    </button>
+  );
+};
+
+export default Button;
