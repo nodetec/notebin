@@ -3,6 +3,8 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { GiOstrich } from "react-icons/gi";
+import Button from "./Button";
+import Buttons from "./Buttons";
 
 export default function Header({ onSetUser }: any) {
   // const [user, setUser] = useState("");
@@ -22,29 +24,29 @@ export default function Header({ onSetUser }: any) {
         </Link>
         <div className="flex gap-4 flex-row">
           {/* <Link href="/"> */}
-          <button
-            className="font-bold flex flex-row justify-center items-center bg-slate-300 text-sm dark:text-neutral-900 py-1 px-2 rounded-md"
+          <Button
+            color="slateLight"
             onClick={handleClick}
-          >
+            size="sm"
+            icon={
             <GiOstrich
-              className="mr-1"
               // color={"#111"}
               size="14"
-            />
+            /> }>
             login
-          </button>
-          {/* <button onClick={() => setIsOpen(true)}>Open Popup</button> */}
-          <button
-            className="font-bold flex flex-row justify-center items-center bg-yellow-300 text-sm dark:text-neutral-900 py-1 px-2 rounded-md"
+          </Button>
+          {/* <Button onClick={() => setIsOpen(true)}>Open Popup</Button> */}
+          <Button
             onClick={handleClick}
-          >
+            color="yellow"
+            size="sm"
+            icon={
             <BsLightningChargeFill
-              className="mr-1"
               // color={"#111"}
               size="14"
-            />
+            />}>
             connect
-          </button>
+          </Button>
         </div>
       </nav>
       <div>
@@ -63,9 +65,14 @@ export default function Header({ onSetUser }: any) {
                 placeholder="Public Key"
                 className="px-3 py-2 mb-2 rounded w-full text-slate-300 bg-gray-600"
               />
-
-              <button className="bg-blue-500 text-slate-300 rounded-md py-1 px-2 mb-2" onClick={() => setIsOpen(false)}>Generate</button>
-              <button className="bg-slate-600 text-slate-300 rounded-md py-1 px-2" onClick={() => setIsOpen(false)}>Cancel</button>
+              <Buttons>
+                <Button color="slateDark" onClick={() => setIsOpen(false)}>
+                  Cancel
+                </Button>
+                <Button onClick={() => setIsOpen(false)}>
+                  Generate
+                </Button>
+              </Buttons>
             </div>
           </div>
         )}
