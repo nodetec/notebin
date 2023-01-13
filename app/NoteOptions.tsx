@@ -41,7 +41,7 @@ export default function NoteOptions({ text }: any) {
             <label>Syntax</label>
             <select
               onChange={(e: any) => setSyntax(e.target.value)}
-              className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-gray-600 outline-none"
+              className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-neutral-700 outline-none"
             >
               <option>JavaScript</option>
               <option>C++</option>
@@ -61,14 +61,14 @@ export default function NoteOptions({ text }: any) {
             <input
               type="text"
               placeholder="Enter Tags..."
-              className="px-3 py-2 rounded w-full text-slate-300 bg-gray-600"
+              className="px-3 py-2 rounded w-full text-slate-300 bg-neutral-700"
             />
           </div>
           <div className="flex flex-col gap-2 justify-start items-start text-sm mb-4">
             <label>Relay</label>
             <select
               onChange={(e: any) => setRelayUrl(e.target.value)}
-              className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-gray-600 outline-none"
+              className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-neutral-700 outline-none"
             >
               <option>wss://nostr-pub.wellorder.net</option>
               <option>wss://nostr.onsats.org</option>

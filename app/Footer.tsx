@@ -2,13 +2,13 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-slate-700 mt-12">
+    <footer className="border-t border-neutral-700 mt-12">
       <div className="container items-center mx-auto grid grid-cols-3 gap-4 py-4">
         <a
           href="https://www.youtube.com/@chrisatmachine"
           target="_blank"
           rel="nofollow noopener noreferrer"
-          className="text-slate-500 hover:text-gray-600 text-center"
+          className="text-neutral-500 hover:text-neutral-600 text-center"
         >
           YouTube
         </a>
@@ -16,7 +16,7 @@ export default function Footer() {
           href="https://twitter.com/chrisatmachine"
           target="_blank"
           rel="nofollow noopener noreferrer"
-          className="text-slate-500 hover:text-gray-600 text-center"
+          className="text-neutral-500 hover:text-neutral-600 text-center"
         >
           Twitter
         </a>
@@ -24,7 +24,7 @@ export default function Footer() {
           href="https://getalby.com/chrisatmachine"
           target="_blank"
           rel="nofollow noopener noreferrer"
-          className="text-slate-500 hover:text-gray-600 text-center"
+          className="text-neutral-500 hover:text-neutral-600 text-center"
         >
           Donate
         </a>
@@ -32,7 +32,7 @@ export default function Footer() {
           href="https://github.com/nodetec/NoteBin"
           target="_blank"
           rel="nofollow noopener noreferrer"
-          className="text-slate-500 hover:text-gray-600 text-center"
+          className="text-neutral-500 hover:text-neutral-600 text-center"
         >
           GitHub
         </a>
@@ -40,7 +40,7 @@ export default function Footer() {
           href="https://github.com/fiatjaf/nos2x"
           target="_blank"
           rel="nofollow noopener noreferrer"
-          className="text-slate-500 hover:text-gray-600 text-center"
+          className="text-neutral-500 hover:text-neutral-600 text-center"
         >
           Nostr Extension
         </a>
@@ -48,7 +48,7 @@ export default function Footer() {
           href="https://getalby.com"
           target="_blank"
           rel="nofollow noopener noreferrer"
-          className="text-slate-500 hover:text-gray-600 text-center"
+          className="text-neutral-500 hover:text-neutral-600 text-center"
         >
           Lightning Wallet
         </a>

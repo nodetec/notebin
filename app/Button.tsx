@@ -14,8 +14,8 @@ const iconSized = {
 
 const colors = {
   blue: "dark:text-neutral-900 bg-blue-400 hover:bg-blue-500",
-  slateDark: "text-slate-300 bg-slate-600 hover:bg-slate-700",
-  slateLight: "bg-slate-300 text-slate-900 hover:bg-slate-400",
+  neutralDark: "text-neutral-300 bg-neutral-600 hover:bg-neutral-700",
+  neutralLight: "bg-neutral-300 text-neutral-900 hover:bg-neutral-400",
   yellow: "dark:text-neutral-900 tex bg-yellow-300 hover:bg-yellow-400",
 };
 
