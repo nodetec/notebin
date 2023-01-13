@@ -5,7 +5,6 @@ import { BsLightningChargeFill } from "react-icons/bs";
 import { GiOstrich } from "react-icons/gi";
 import { TbNote } from "react-icons/tb";
 import { IoMdCloseCircleOutline } from "react-icons/io"
-import { CgCloseO } from "react-icons/cg"
 
 import Button from "./Button";
 import Buttons from "./Buttons";
