@@ -1,20 +1,22 @@
 "use client";
 
 import "websocket-polyfill";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { NostrService } from "./utils/NostrService";
 import Button from "./Button";
 
 export default function NoteOptions({ text }: any) {
   const [syntax, setSyntax] = useState("");
-  const [relayUrl, setRelayUrl] = useState("wss://nostr-pub.wellorder.net");
+  const [postLoading, setPostLoading] = useState(false);
+  const relayUrlInput = useRef<HTMLSelectElement>(null);
   const router = useRouter();
 
   const post = async (e: any) => {
     e.preventDefault();
+    setPostLoading(true);
 
-    const relay = await NostrService.connect(relayUrl);
+    const relay = await NostrService.connect(relayUrlInput.current?.value  || "wss://nostr-pub.wellorder.net");
     const privateKey = NostrService.genPrivateKey();
     const publicKey = NostrService.genPublicKey(privateKey);
     const event = NostrService.createEvent(publicKey, text, syntax);
@@ -67,7 +69,7 @@ export default function NoteOptions({ text }: any) {
           <div className="flex flex-col gap-2 justify-start items-start text-sm mb-4">
             <label>Relay</label>
             <select
-              onChange={(e: any) => setRelayUrl(e.target.value)}
+              ref={relayUrlInput}
               className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-neutral-700 outline-none"
             >
               <option>wss://nostr-pub.wellorder.net</option>
@@ -92,7 +94,7 @@ export default function NoteOptions({ text }: any) {
           </div>
           <span className="text-sm">▶ Advanced</span>
         </div>
-        <Button type="submit">Send</Button>
+        <Button loading={postLoading} type="submit">{postLoading ? "Sending..." : "Send"}</Button>
       </div>
     </form>
   );
