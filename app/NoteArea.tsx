@@ -9,8 +9,8 @@ const CodeEditor = dynamic(
   { ssr: true }
 );
 export default function NoteArea({ user }: any) {
-  const [text, setText] = useState(`function add(a, b) {\n  return a + b;\n}`);
-  const [syntaxOption, setSyntaxOption] = useState("jsx");
+  const [text, setText] = useState("");
+  const [syntaxOption, setSyntaxOption] = useState("markdown");
 
   return (
     <div className="flex flex-row gap-1">
