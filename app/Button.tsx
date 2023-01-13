@@ -18,6 +18,7 @@ const colors = {
   neutralDark: "text-neutral-300 bg-neutral-600 hover:bg-neutral-700",
   neutralLight: "bg-neutral-300 text-neutral-900 hover:bg-neutral-400",
   yellow: "dark:text-neutral-900 tex bg-yellow-300 hover:bg-yellow-400",
+  transparent: "bg-transparent",
 };
 
 export interface Props

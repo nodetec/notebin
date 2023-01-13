@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { GiOstrich } from "react-icons/gi";
 import { TbNote } from "react-icons/tb";
+import { IoMdCloseCircleOutline } from "react-icons/io"
+import { CgCloseO } from "react-icons/cg"
 
 import Button from "./Button";
 import Buttons from "./Buttons";
@@ -97,6 +99,12 @@ export default function Header({ onSetUser }: any) {
       {isOpen && (
         <>
           <div className="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm border-2 border-neutral-500 rounded-md">
+              <Button 
+                icon={ <IoMdCloseCircleOutline size={24} /> }
+                className="absolute w-fit right-0 top-0 text-neutral-400"
+                onClick={() => setIsOpen(false)}
+                color="transparent"
+              />
             <div className="bg-neutral-900 flex flex-col justify-center items-stretch gap-4 p-6 rounded-md shadow-lg ">
               <h3 className="text-xl text-neutral-400 text-center pb-4">Generate Keys</h3>
               <TextInput value={keys.private} onChange={(e) => setKeys(current => ({ ...current, private: e.target.value }))} label="Private Key" />
