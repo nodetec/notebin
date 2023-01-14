@@ -30,7 +30,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     const privateKey = null;
     // const publicKey = null;
     const publicKey = await nostr.getPublicKey();
-    let event = NostrService.createEvent(publicKey, text, syntax);
+    let event = NostrService.createEvent(publicKey, text, syntax, tagsList);
     event = await NostrService.addEventData(event);
 
     let pub = relay.publish(event);
@@ -56,7 +56,6 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     onSetSyntaxOption(e.target.value);
     setSyntax(e.target.value);
   }
-    console.log(syntax)
 
   const validateTagsInputKeyDown = (event: any) => {
     const TAG_KEYS = ["Enter", ",", " "];

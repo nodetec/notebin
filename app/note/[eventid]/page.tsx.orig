@@ -13,16 +13,22 @@ export default function NotePage({ params }: any) {
       <Header />
       <h1 className="text-slate-50 text-2xl">event id: {event?.id}</h1>
       <div className="">
+<<<<<<< HEAD
         <p className="text-slate-300">pubkey: {event?.pubkey}</p>
         <p className="text-slate-300">content: {event?.content}</p>
         <p className="text-slate-300">kind: {event?.kind}</p>
-        <ul className="text-slate-300">tags:
-          {event?.tags.map(([title, content]: string[]) => (
-            <li key={title} className="pl-4">{`${title}: ${content}`}</li>
-          ))}
-        </ul>
+        <p className="text-slate-300">tags: {event?.tags}</p>
         <p className="text-slate-300">sig: {event?.sig}</p>
         <p className="text-slate-300">created_at: {event?.created_at}</p>
+||||||| 6b816ee
+        <p className="text-slate-300">pubkey: {note?.pubkey}</p>
+        <p className="text-slate-300">content: {note?.content}</p>
+        <p className="text-slate-300">kind: {note?.kind}</p>
+        <p className="text-slate-300">tags: {note?.tags}</p>
+        <p className="text-slate-300">sig: {note?.sig}</p>
+        <p className="text-slate-300">created_at: {note?.created_at}</p>
+=======
+>>>>>>> separate-tags
       </div>
     </div>
   );
