@@ -10,10 +10,8 @@ import { IoMdCloseCircleOutline } from "react-icons/io";
 import { RelayContext } from "./context/relay-provider.jsx";
 
 import Button from "./Button";
-// import Buttons from "./Buttons";
 // import TextInput from "./TextInput";
 import { NostrService } from "./utils/NostrService";
-import Buttons from "./Buttons.jsx";
 
 export default function Header({ onSetUser }: any) {
   const [isOpen, setIsOpen] = useState(false);
@@ -109,31 +107,15 @@ export default function Header({ onSetUser }: any) {
             /> : null
           }
         </div>
-        <Buttons>
-          {/* <Link href="/"> */}
-          <Button
-            color="yellow"
-            onClick={handleClick}
-            size="sm"
-            icon={<BsLightningChargeFill size="14" />}
-          >
-            login
-          </Button>
-          {/* <Button onClick={() => setIsOpen(true)}>Open Popup</Button> */}
-          <Button
-            onClick={connectLightningHandler}
-            color="yellow"
-            size="sm"
-            icon={
-              <BsLightningChargeFill
-                // color={"#111"}
-                size="14"
-              />
-            }
-          >
-            {isLightningConnected ? "connected" : "connect"}
-          </Button>
-        </Buttons>
+        <Button
+          className="w-auto"
+          color="yellow"
+          onClick={handleClick}
+          size="sm"
+          icon={<BsLightningChargeFill size="14" />}
+        >
+          login
+        </Button>
       </nav>
   {isOpen && (
         <>
