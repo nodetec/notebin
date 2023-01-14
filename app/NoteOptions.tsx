@@ -10,7 +10,7 @@ import { LANGUAGES, RELAYS } from "./constants";
 import TextInput from "./TextInput";
 
 export default function NoteOptions({ text, onSetSyntaxOption }: any) {
-  const [syntax, setSyntax] = useState("");
+  const [syntax, setSyntax] = useState("markdown");
   const [postLoading, setPostLoading] = useState(false);
   const relayUrlInput = useRef<HTMLSelectElement>(null);
   const router = useRouter();
@@ -24,7 +24,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     const relay = await NostrService.connect(relayUrlInput.current?.value || "wss://nostr-pub.wellorder.net");
     const privateKey = NostrService.genPrivateKey();
     const publicKey = NostrService.genPublicKey(privateKey);
-    const event = NostrService.createEvent(publicKey, text, syntax);
+    const event = NostrService.createEvent(publicKey, text, syntax, tagsList);
     const eventId = await NostrService.post(relay, privateKey, event);
     console.log(eventId);
     router.push("/note/" + eventId);
@@ -34,15 +34,17 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     onSetSyntaxOption(e.target.value);
     setSyntax(e.target.value);
   }
+    console.log(syntax)
 
   const validateTagsInputKeyDown = (event: any) => {
-    if (event.key === "Enter") {
+    const TAG_KEYS = ["Enter", ",", " "];
+    if (TAG_KEYS.some((key) => key === event.key)) {
       event.preventDefault();
       if (tagInputValue) {
         setTagsList(Array.from(new Set([...tagsList, tagInputValue])));
         setTagInputValue("");
-      }
-    } 
+      } 
+    }
   }
 
   return (
@@ -58,7 +60,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
           <Select
             label="Syntax"
             options={LANGUAGES}
-            onChange={(e: any) => handleSelect(e)}
+            onChange={handleSelect}
             defaultValue="markdown"
           />
           {/* <Select */}
