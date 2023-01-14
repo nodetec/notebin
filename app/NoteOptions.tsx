@@ -12,14 +12,16 @@ import { LANGUAGES, RELAYS } from "./constants";
 import TextInput from "./TextInput";
 
 export default function NoteOptions({ text, onSetSyntaxOption }: any) {
-  const [syntax, setSyntax] = useState("");
+  const [syntax, setSyntax] = useState("markdown");
   const [postLoading, setPostLoading] = useState(false);
-  const relayUrlInput = useRef<HTMLSelectElement>(null);
+  /* const relayUrlInput = useRef<HTMLSelectElement>(null); */
   const router = useRouter();
   // @ts-ignore
   const { relay, setRelay } = useContext(RelayContext);
   // @ts-ignore
   const { setEvent } = useContext(EventContext);
+  const [tagInputValue, setTagInputValue] = useState<string>("");
+  const [tagsList, setTagsList] = useState<string[]>([]);
 
   const post = async (e: any) => {
     e.preventDefault();
@@ -48,11 +50,40 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     pub.on("failed", (reason: any) => {
       console.error(`failed to publish to ${relay.url}: ${reason}`);
     });
+||||||| 6b816ee
+    const relay = await NostrService.connect(relayUrlInput.current?.value || RELAYS[0]);
+    const privateKey = NostrService.genPrivateKey();
+    const publicKey = NostrService.genPublicKey(privateKey);
+    const event = NostrService.createEvent(publicKey, text, syntax);
+    const eventId = await NostrService.post(relay, privateKey, event);
+    console.log(eventId);
+    router.push("/note/" + eventId);
+=======
+    const relay = await NostrService.connect(relayUrlInput.current?.value || RELAYS[0]);
+    const privateKey = NostrService.genPrivateKey();
+    const publicKey = NostrService.genPublicKey(privateKey);
+    const event = NostrService.createEvent(publicKey, text, syntax, tagsList);
+    const eventId = await NostrService.post(relay, privateKey, event);
+    console.log(eventId);
+    router.push("/note/" + eventId);
+>>>>>>> separate-tags
   };
 
   function handleSelect(e: any) {
     onSetSyntaxOption(e.target.value);
     setSyntax(e.target.value);
+  }
+    console.log(syntax)
+
+  const validateTagsInputKeyDown = (event: any) => {
+    const TAG_KEYS = ["Enter", ",", " "];
+    if (TAG_KEYS.some((key) => key === event.key)) {
+      event.preventDefault();
+      if (tagInputValue) {
+        setTagsList(Array.from(new Set([...tagsList, tagInputValue])));
+        setTagInputValue("");
+      } 
+    }
   }
 
   return (
@@ -68,7 +99,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
           <Select
             label="Syntax"
             options={LANGUAGES}
-            onChange={(e: any) => handleSelect(e)}
+            onChange={handleSelect}
             defaultValue="markdown"
           />
           {/* <Select */}
@@ -78,6 +109,11 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
           <TextInput
             label="Tags"
             placeholder="Enter tags..."
+            onKeyDown={validateTagsInputKeyDown}
+            value={tagInputValue}
+            onChange={(e) => setTagInputValue(e.target.value)}
+            tagsList={tagsList}
+            setTagsList={setTagsList}
           />
             <label>Relay</label>
             <span className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-neutral-700 overflow-scroll">

@@ -78,7 +78,8 @@ export namespace NostrService {
   export function createEvent(
     publicKey: string,
     content: string,
-    syntax: string
+    syntax: string,
+    tagsList: string[]
   ) {
     const event: Event = {
       kind: 2222,
@@ -88,7 +89,7 @@ export namespace NostrService {
       tags: [
         ["syntax", syntax],
         ["client", "notebin"],
-        ["tags", "TODO"],
+        ["tags", tagsList.join(",")],
         ["ln_address", "TODO"],
       ],
       content: content,
