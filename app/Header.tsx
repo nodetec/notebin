@@ -7,7 +7,6 @@ import { GiOstrich } from "react-icons/gi";
 import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 import { TbNote } from "react-icons/tb";
 import { IoMdCloseCircleOutline } from "react-icons/io"
-
 import Button from "./Button";
 import Buttons from "./Buttons";
 import TextInput from "./TextInput";
@@ -59,7 +58,7 @@ export default function Header({ onSetUser }: any) {
   const isDarkTheme = (theme === "system" ? systemTheme : theme) === "dark";
 
   const toggleTheme = () => {
-    if ( isDarkTheme  ) {
+    if (isDarkTheme) {
       setTheme("light");
       document.documentElement.setAttribute('data-color-mode', 'light')
     } else {
@@ -68,36 +67,33 @@ export default function Header({ onSetUser }: any) {
     }
   }
 
-  const renderThemeChanger = () => {
-    if (!mounted) return null;
-
-    return (
-      <Button
-        onClick={toggleTheme}
-        icon={isDarkTheme ?
-          <HiOutlineSun className="w-6 h-6 text-zinc-200" /> :
-          <HiOutlineMoon className="w-6 h-6 text-neutral-800" />}
-        size="sm"
-        color="transparent"
-      />
-    )
-  };
-
   return (
     <div>
-      <nav className="flex justify-between items-center pb-12">
-        <Link className="text-3xl font-bold dark:text-zinc-200 text-neutral-800" href="/">
-          <div className="flex flex-row">
-            <TbNote
-              className="text-neutral-800 dark:text-zinc-200"
-              size="40"
-            />
-            <span className="dark:text-zinc-200 text-neutral-800 ml-1">note</span>
-            <span className="text-blue-400">bin</span>
-          </div>
-        </Link>
-        <div className="flex gap-4 flex-row">
-          {renderThemeChanger()}
+      <nav className="flex justify-between flex-col sm:flex-row items-stretch pb-12 gap-4">
+        <div className="flex justify-between items-center w-full gap-4">
+          <Link className="text-3xl font-bold dark:text-zinc-200 text-neutral-800" href="/">
+            <div className="flex flex-row">
+              <TbNote
+                className="text-neutral-800 dark:text-zinc-200"
+                size="40"
+              />
+              <span className="dark:text-zinc-200 text-neutral-800 ml-1">note</span>
+              <span className="text-blue-400">bin</span>
+            </div>
+          </Link>
+          {mounted ?
+            <Button
+              className="w-auto"
+              onClick={toggleTheme}
+              icon={isDarkTheme ?
+                <HiOutlineSun className="w-6 h-6 text-zinc-200" /> :
+                <HiOutlineMoon className="w-6 h-6 text-neutral-800" />}
+              size="sm"
+              color="transparent"
+            /> : null
+          }
+        </div>
+        <Buttons>
           {/* <Link href="/"> */}
           <Button
             color="neutralLight"
@@ -126,7 +122,7 @@ export default function Header({ onSetUser }: any) {
           >
             {isLightningConnected ? "connected" : "connect"}
           </Button>
-        </div>
+        </Buttons>
       </nav>
       {isOpen && (
         <>
