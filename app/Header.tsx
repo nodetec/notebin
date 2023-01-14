@@ -2,6 +2,7 @@
 import Link from "next/link";
 import React, { useContext, useEffect, useState } from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
+import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 import { TbNote } from "react-icons/tb";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { RelayContext } from "./context/relay-provider.jsx";
@@ -15,11 +16,13 @@ export default function Header({ onSetUser }: any) {
   const [isOpen, setIsOpen] = useState(false);
   const [keys, setKeys] = useState({ private: "", public: "" });
   const [isLightningConnected, setIsLightningConnected] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   // @ts-ignore
   const { relay, setRelay } = useContext(RelayContext);
 
   useEffect(() => {
+    setMounted(true);
     const connected = sessionStorage.getItem("connected");
 
     const getConnected = async (connected: string) => {
@@ -64,16 +67,44 @@ export default function Header({ onSetUser }: any) {
     setIsLightningConnected(true);
   };
 
+  const { systemTheme, theme, setTheme } = useTheme();
+  const isDarkTheme = (theme === "system" ? systemTheme : theme) === "dark";
+
+  const toggleTheme = () => {
+    if ( isDarkTheme  ) {
+      setTheme("light");
+      document.documentElement.setAttribute('data-color-mode', 'light')
+    } else {
+      setTheme("dark");
+      document.documentElement.setAttribute('data-color-mode', 'dark')
+    }
+  }
+
+  const renderThemeChanger = () => {
+    if (!mounted) return null;
+
+    return (
+      <Button
+        onClick={toggleTheme}
+        icon={isDarkTheme ?
+          <HiOutlineSun className="w-6 h-6 text-zinc-200" /> :
+          <HiOutlineMoon className="w-6 h-6 text-neutral-800" />}
+        size="sm"
+        color="transparent"
+      />
+    )
+  };
+
   return (
     <div>
       <nav className="flex justify-between items-center pb-12">
-        <Link className="text-3xl font-bold dark:text-white" href="/">
+        <Link className="text-3xl font-bold dark:text-zinc-200 text-neutral-800" href="/">
           <div className="flex flex-row">
             <TbNote
-              // color={"#111"}
+              className="text-neutral-800 dark:text-zinc-200"
               size="40"
             />
-            <span className="text-zinc-200">note</span>
+            <span className="dark:text-zinc-200 text-neutral-800 ml-1">note</span>
             <span className="text-blue-400">bin</span>
           </div>
         </Link>
@@ -134,10 +165,6 @@ export default function Header({ onSetUser }: any) {
               </Button>
             </div>
           </div>
-          <div
-            className="bg-neutral-900 opacity-50 fixed z-40 w-full h-full"
-            onClick={() => setIsOpen(false)}
-          />
         </>
       )}
     </div>

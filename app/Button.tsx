@@ -2,8 +2,8 @@ import { ButtonHTMLAttributes, DetailedHTMLProps, ReactNode } from "react";
 import { ImSpinner9 } from "react-icons/im";
 
 const sizes = {
-  lg: "py-4 px-6 text-lg",
-  md: "py-2 px-4 text-base",
+  lg: "py-5 px-6 text-lg",
+  md: "py-3 px-4 text-base",
   sm: "py-2 px-3 text-xs",
 };
 
