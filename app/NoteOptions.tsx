@@ -1,7 +1,7 @@
 "use client";
 
 import "websocket-polyfill";
-import { useRef, useState } from "react";
+import { ChangeEvent, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { NostrService } from "./utils/NostrService";
 import Button from "./Button";
@@ -14,6 +14,8 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
   const [postLoading, setPostLoading] = useState(false);
   const relayUrlInput = useRef<HTMLSelectElement>(null);
   const router = useRouter();
+  const [tagInputValue, setTagInputValue] = useState<string>("");
+  const [tagsList, setTagsList] = useState<string[]>([]);
 
   const post = async (e: any) => {
     e.preventDefault();
@@ -31,6 +33,16 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
   function handleSelect(e: any) {
     onSetSyntaxOption(e.target.value);
     setSyntax(e.target.value);
+  }
+
+  const validateTagsInputKeyDown = (event: any) => {
+    if (event.key === "Enter") {
+      event.preventDefault();
+      if (tagInputValue) {
+        setTagsList(Array.from(new Set([...tagsList, tagInputValue])));
+        setTagInputValue("");
+      }
+    } 
   }
 
   return (
@@ -56,9 +68,15 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
           <TextInput
             label="Tags"
             placeholder="Enter tags..."
+            onKeyDown={validateTagsInputKeyDown}
+            value={tagInputValue}
+            onChange={(e) => setTagInputValue(e.target.value)}
+            tagsList={tagsList}
+            setTagsList={setTagsList}
           />
           <Select
             label="Relay"
+            // FIXME: can't pass ref into react functional components
             ref={relayUrlInput}
             options={RELAYS}
           />
