@@ -1,7 +1,9 @@
 "use client";
 import Link from "next/link";
-import React, { useContext, useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useTheme } from "next-themes";
 import { BsLightningChargeFill } from "react-icons/bs";
+/* import { GiOstrich } from "react-icons/gi"; */
 import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 import { TbNote } from "react-icons/tb";
 import { IoMdCloseCircleOutline } from "react-icons/io";
@@ -14,7 +16,7 @@ import { NostrService } from "./utils/NostrService";
 
 export default function Header({ onSetUser }: any) {
   const [isOpen, setIsOpen] = useState(false);
-  const [keys, setKeys] = useState({ private: "", public: "" });
+  /* const [keys, setKeys] = useState({ private: "", public: "" }); */
   const [isLightningConnected, setIsLightningConnected] = useState(false);
   const [mounted, setMounted] = useState(false);
 
@@ -109,6 +111,9 @@ export default function Header({ onSetUser }: any) {
           </div>
         </Link>
         <div className="flex gap-4 flex-row">
+
+          {renderThemeChanger()}
+
           <Button
             color="yellow"
             onClick={handleClick}
@@ -124,11 +129,12 @@ export default function Header({ onSetUser }: any) {
           <div className="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm border-2 border-neutral-500 rounded-md">
             <Button
               icon={<IoMdCloseCircleOutline size={24} />}
-              className="absolute w-fit right-0 top-0 text-neutral-400"
+              className="absolute w-fit right-0 top-0 text-neutral-700 dark:text-zinc-300"
               onClick={() => setIsOpen(false)}
               color="transparent"
             />
-            <div className="bg-neutral-900 flex flex-col justify-center items-stretch gap-4 p-6 rounded-md shadow-lg ">
+             <div className="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm border-2 dark:border-neutral-700 border-zinc-300 rounded-md shadow-overlay">
+
               <h3 className="text-xl text-neutral-400 text-center pb-4">
                 Generate Keys
               </h3>
@@ -165,8 +171,13 @@ export default function Header({ onSetUser }: any) {
               </Button>
             </div>
           </div>
+          <div
+            className="bg-neutral-900 opacity-50 fixed z-40 w-full h-full"
+            onClick={() => setIsOpen(false)}
+          />
         </>
       )}
     </div>
   );
 }
+

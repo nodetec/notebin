@@ -59,7 +59,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     <form onSubmit={post}>
       <div className="text-xl dark:text-slate-300 p-3 rounded-md flex flex-col justify-between">
         Options
-        <div className="flex flex-col gap-4 py-4">
+          <div className="flex flex-col gap-4 py-4">
           {/* <TextInput */}
           {/*   label="Filename" */}
           {/*   placeholder="Enter filename..." */}
@@ -79,19 +79,22 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
             label="Tags"
             placeholder="Enter tags..."
           />
-          <Select
-            label="Relay"
-            innerRef={relayUrlInput}
-            options={RELAYS}
-          />
-          <div>
-            <input
-              type="text"
-              placeholder="Enter Tags..."
-              className="px-3 py-2 rounded w-full text-slate-300 bg-neutral-700"
-            />
-          </div>
-          <span className="text-sm">▶ Advanced</span>
+            <label>Relay</label>
+            <span className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-neutral-700 overflow-scroll">
+              wss://nostr-pub.wellorder.net
+            </span>
+          {/* <div> */}
+          {/*   <input */}
+          {/*     type="checkbox" */}
+          {/*     className="focus:ring-offset-0 focus:ring-0 rounded text-pink-500 bg-gray-200 focus:outline-none" */}
+          {/*     id="flexCheckChecked" */}
+          {/*   /> */}
+          {/*   {/* TODO: fix this hack, having troubling aligning center */} */}
+          {/*   <label className="text-sm pl-2 pb-1" htmlFor="flexCheckChecked"> */}
+          {/*     encrypt */}
+          {/*   </label> */}
+          {/* </div> */}
+          {/* <span className="text-sm">▶ Advanced</span> */}
         </div>
         <Button loading={postLoading} type="submit">
           {postLoading ? "Sending..." : "Send"}

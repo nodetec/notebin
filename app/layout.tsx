@@ -22,10 +22,10 @@ export default function RootLayout({
         <RelayProvider>
           <EventProvider>
             <KeysProvider>
-              {/* <Header /> */}
               <Providers>
-                {children}
-              </Providers>
+              {/* <Header /> */}
+              {children}   
+             </Providers>
             </KeysProvider>
           </EventProvider>
         </RelayProvider>
