@@ -42,8 +42,7 @@ export default function Header({ onSetUser }: any) {
 
     if (!relay) {
       const new_relay = await NostrService.connect(
-        // "wss://nostr-pub.wellorder.net"
-        "wss://nostr.chaker.net"
+        "wss://nostr-pub.wellorder.net"
       );
       setRelay(new_relay);
     }
