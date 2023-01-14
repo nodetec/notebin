@@ -22,28 +22,46 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     e.preventDefault();
     setPostLoading(true);
 
-    // if (!relay) {
-    //   const new_relay = await NostrService.connect(
-    //     relayUrlInput.current?.value || "wss://nostr-pub.wellorder.net"
-    //   );
-    //   await setRelay(new_relay);
-    // }
-    console.log("gonna post")
-    console.log(relay)
+    console.log("gonna poooooooost");
+    console.log("RELAY:", relay);
 
-    const privateKey = NostrService.genPrivateKey();
-    console.log(privateKey)
-    const publicKey = NostrService.genPublicKey(privateKey);
-    console.log(publicKey)
-    const event = NostrService.createEvent(publicKey, text, syntax);
-    console.log("event:", event)
-    const eventId = await NostrService.post(relay, privateKey, event);
-    console.log("eventID:", eventId)
-    const retrieved_event = await NostrService.getEvent(eventId, relay);
-    console.log("got event:", retrieved_event)
-    await setEvent(retrieved_event);
-    console.log("did it")
-    router.push("/note/" + eventId);
+    // const privateKey = NostrService.genPrivateKey();
+    const privateKey =
+      "nsec1vynrep7s85paz8ju5p53w8753w03ez5vcptr4rlnwzryccug8l7swpgc3u";
+    // console.log(privateKey);
+    // const publicKey = NostrService.genPublicKey(privateKey);
+    const publicKey = await nostr.getPublicKey();
+    console.log(publicKey);
+    let event = NostrService.createEvent(publicKey, text, syntax);
+    console.log("event:", event);
+    console.log("hi0");
+    event = await NostrService.addEventData(relay, privateKey, event);
+    console.log("event with id and sig:", event);
+
+    let pub = relay.publish(event);
+    pub.on("ok", () => {
+      console.debug(`${relay.url} has accepted our event`);
+    });
+
+    pub.on("seen", async () => {
+      console.debug(`we saw the event on ${relay.url}`);
+
+      const retrieved_event = await NostrService.getEvent(event.id, relay);
+      console.log("got event:", retrieved_event);
+      await setEvent(retrieved_event);
+      console.log("did it");
+      router.push("/note/" + event.id);
+    });
+
+    pub.on("failed", (reason: any) => {
+      console.error(`failed to publish to ${relay.url}: ${reason}`);
+    });
+
+    // const retrieved_event = await NostrService.getEvent(eventId, relay);
+    // console.log("got event:", retrieved_event);
+    // await setEvent(retrieved_event);
+    // console.log("did it");
+    // router.push("/note/" + eventId);
   };
 
   function handleSelect(e: any) {
@@ -201,37 +219,40 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
               className="px-3 py-2 rounded w-full text-slate-300 bg-neutral-700"
             />
           </div>
-          {/* <div className="flex flex-col gap-2 justify-start items-start text-sm mb-4"> */}
-          {/*   <label>Relay</label> */}
-          {/*   <select */}
-          {/*     ref={relayUrlInput} */}
-          {/*     className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-neutral-700 outline-none" */}
-          {/*   > */}
-          {/*     {[ */}
-          {/*       "wss://nostr-pub.wellorder.net", */}
-          {/*       "wss://nostr.onsats.org", */}
-          {/*       "wss://nostr.bitcoiner.social", */}
-          {/*       "wss://nostr-relay.wlvs.space", */}
-          {/*       "wss://nostr.zebedee.cloud", */}
-          {/*       "wss://relay.damus.io", */}
-          {/*       "wss://relay.nostr.info", */}
-          {/*     ].map((relay) => ( */}
-          {/*       <option key={relay} value={relay}> */}
-          {/*         {relay} */}
-          {/*       </option> */}
-          {/*     ))} */}
-          {/*   </select> */}
-          {/* </div> */}
-          {/* <div className="flex flex-row gap-2 justify-start items-center mb-4"> */}
-          {/*   <input */}
-          {/*     type="checkbox" */}
-          {/*     className="focus:ring-offset-0 focus:ring-0 rounded text-pink-500 bg-gray-200 focus:outline-none" */}
-          {/*     id="flexCheckChecked" */}
-          {/*   /> */}
-          {/*   <label className="text-sm pb-1" htmlFor="flexCheckChecked"> */}
-          {/*     encrypt */}
-          {/*   </label> */}
-          {/* </div> */}
+          <div className="flex flex-col gap-2 justify-start items-start text-sm mb-4">
+            <label>Relay</label>
+            <span className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-neutral-700 overflow-scroll">
+              wss://nostr-pub.wellorder.net
+            </span>
+            {/*   <select */}
+            {/*     ref={relayUrlInput} */}
+            {/*     className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-neutral-700 outline-none" */}
+            {/*   > */}
+            {/*     {[ */}
+            {/*       "wss://nostr-pub.wellorder.net", */}
+            {/*       "wss://nostr.onsats.org", */}
+            {/*       "wss://nostr.bitcoiner.social", */}
+            {/*       "wss://nostr-relay.wlvs.space", */}
+            {/*       "wss://nostr.zebedee.cloud", */}
+            {/*       "wss://relay.damus.io", */}
+            {/*       "wss://relay.nostr.info", */}
+            {/*     ].map((relay) => ( */}
+            {/*       <option key={relay} value={relay}> */}
+            {/*         {relay} */}
+            {/*       </option> */}
+            {/*     ))} */}
+            {/*   </select> */}
+            {/* </div> */}
+            {/* <div className="flex flex-row gap-2 justify-start items-center mb-4"> */}
+            {/*   <input */}
+            {/*     type="checkbox" */}
+            {/*     className="focus:ring-offset-0 focus:ring-0 rounded text-pink-500 bg-gray-200 focus:outline-none" */}
+            {/*     id="flexCheckChecked" */}
+            {/*   /> */}
+            {/*   <label className="text-sm pb-1" htmlFor="flexCheckChecked"> */}
+            {/*     encrypt */}
+            {/*   </label> */}
+          </div>
           {/* <span className="text-sm">▶ Advanced</span> */}
         </div>
         <Button loading={postLoading} type="submit">

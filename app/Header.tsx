@@ -42,11 +42,14 @@ export default function Header({ onSetUser }: any) {
 
     if (!relay) {
       const new_relay = await NostrService.connect(
-        "wss://nostr-pub.wellorder.net"
-        // "wss://nostr.chaker.net"
+        // "wss://nostr-pub.wellorder.net"
+        "wss://nostr.chaker.net"
       );
       setRelay(new_relay);
     }
+
+    const info = await window.webln.getInfo();
+    console.log(info);
   };
 
   const connectLightningHandler = async () => {

@@ -5,6 +5,7 @@ import { EventContext } from "../../context/event-provider.jsx";
 import { useContext } from "react";
 
 export default function NotePage({ params }: any) {
+  // @ts-ignore
   const { event } = useContext(EventContext);
 
   return (
