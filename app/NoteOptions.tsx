@@ -99,7 +99,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
             setTagsList={setTagsList}
           />
             <label>Relay</label>
-            <span className="px-3 py-2 rounded-md text-sm w-full text-slate-300 bg-neutral-700 overflow-scroll">
+            <span className="px-3 py-2 rounded-md text-sm w-full text-neutral-700 dark:text-zinc-300 bg-zinc-300 dark:bg-neutral-700 overflow-scroll">
               wss://nostr-pub.wellorder.net
             </span>
           {/* <div> */}

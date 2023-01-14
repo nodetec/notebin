@@ -16,7 +16,11 @@ export default function NotePage({ params }: any) {
         <p className="text-slate-300">pubkey: {event?.pubkey}</p>
         <p className="text-slate-300">content: {event?.content}</p>
         <p className="text-slate-300">kind: {event?.kind}</p>
-        <p className="text-slate-300">tags: {event?.tags}</p>
+        <ul className="text-slate-300">tags:
+          {note?.tags.map(([title, content]: string[]) => (
+            <li key={title} className="pl-4">{`${title}: ${content}`}</li>
+          ))}
+        </ul>
         <p className="text-slate-300">sig: {event?.sig}</p>
         <p className="text-slate-300">created_at: {event?.created_at}</p>
       </div>

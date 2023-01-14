@@ -126,7 +126,7 @@ export default function Header({ onSetUser }: any) {
               onClick={() => setIsOpen(false)}
               color="transparent"
             />
-            <div className="bg-neutral-900 flex flex-col justify-center items-stretch gap-4 p-6 rounded-md shadow-lg ">
+            <div className="bg-neutral-900 flex flex-col justify-center items-stretch gap-4 p-6 rounded-md shadow-overlay">
               <h3 className="text-xl text-neutral-400 text-center pb-4">
                 Generate Keys
               </h3>
@@ -163,10 +163,6 @@ export default function Header({ onSetUser }: any) {
               </Button>
             </div>
           </div>
-          <div
-            className="bg-neutral-900 opacity-50 fixed z-40 w-full h-full"
-            onClick={() => setIsOpen(false)}
-          />
         </>
       )}
     </div>
