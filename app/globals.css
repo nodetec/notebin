@@ -14,3 +14,7 @@ html[data-color-mode="dark"] .w-tc-editor code[class*='language-'] .token.punctu
 html[data-color-mode="light"] .w-tc-editor code[class*='language-'] .token.punctuation, html[data-color-mode="light"] .w-tc-editor pre[class*='language-'] .token.punctuation {
   color: #24292f !important;
 }
+
+html[data-color-mode="dark"] .w-tc-editor {
+    background-color: rgb(38 38 38);
+}
