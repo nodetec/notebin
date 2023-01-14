@@ -22,21 +22,10 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     e.preventDefault();
     setPostLoading(true);
 
-    console.log("gonna poooooooost");
-    console.log("RELAY:", relay);
-
-    // const privateKey = NostrService.genPrivateKey();
-    const privateKey =
-      "nsec1vynrep7s85paz8ju5p53w8753w03ez5vcptr4rlnwzryccug8l7swpgc3u";
-    // console.log(privateKey);
-    // const publicKey = NostrService.genPublicKey(privateKey);
-    const publicKey = await nostr.getPublicKey();
-    console.log(publicKey);
+    const privateKey = null;
+    // const publicKey = await nostr.getPublicKey();
     let event = NostrService.createEvent(publicKey, text, syntax);
-    console.log("event:", event);
-    console.log("hi0");
     event = await NostrService.addEventData(relay, privateKey, event);
-    console.log("event with id and sig:", event);
 
     let pub = relay.publish(event);
     pub.on("ok", () => {
@@ -56,12 +45,6 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     pub.on("failed", (reason: any) => {
       console.error(`failed to publish to ${relay.url}: ${reason}`);
     });
-
-    // const retrieved_event = await NostrService.getEvent(eventId, relay);
-    // console.log("got event:", retrieved_event);
-    // await setEvent(retrieved_event);
-    // console.log("did it");
-    // router.push("/note/" + eventId);
   };
 
   function handleSelect(e: any) {
