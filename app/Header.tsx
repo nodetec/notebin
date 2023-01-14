@@ -124,17 +124,16 @@ export default function Header({ onSetUser }: any) {
           </Button>
         </div>
       </nav>
-      {isOpen && (
+  {isOpen && (
         <>
           <div className="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm border-2 border-neutral-500 rounded-md">
             <Button
               icon={<IoMdCloseCircleOutline size={24} />}
-              className="absolute w-fit right-0 top-0 text-neutral-700 dark:text-zinc-300"
+              className="absolute w-fit right-0 top-0 text-neutral-400"
               onClick={() => setIsOpen(false)}
               color="transparent"
             />
-             <div className="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm border-2 dark:border-neutral-700 border-zinc-300 rounded-md shadow-overlay">
-
+            <div className="bg-neutral-900 flex flex-col justify-center items-stretch gap-4 p-6 rounded-md shadow-lg ">
               <h3 className="text-xl text-neutral-400 text-center pb-4">
                 Generate Keys
               </h3>

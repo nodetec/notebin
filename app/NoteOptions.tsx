@@ -89,7 +89,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
           {/*     className="focus:ring-offset-0 focus:ring-0 rounded text-pink-500 bg-gray-200 focus:outline-none" */}
           {/*     id="flexCheckChecked" */}
           {/*   /> */}
-          {/*   {/* TODO: fix this hack, having troubling aligning center */} */}
+          {/* TODO: fix this hack, having troubling aligning center */}
           {/*   <label className="text-sm pl-2 pb-1" htmlFor="flexCheckChecked"> */}
           {/*     encrypt */}
           {/*   </label> */}
