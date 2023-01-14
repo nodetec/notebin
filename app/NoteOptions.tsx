@@ -23,8 +23,8 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     setPostLoading(true);
 
     const privateKey = null;
-    const publicKey = null;
-    // const publicKey = await nostr.getPublicKey();
+    // const publicKey = null;
+    const publicKey = await nostr.getPublicKey();
     let event = NostrService.createEvent(publicKey, text, syntax);
     event = await NostrService.addEventData(event);
 
