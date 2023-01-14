@@ -10,11 +10,14 @@ const Select = ({ label, options, ...props }: SelectProps) => {
   const id = useId();
 
   return (
-    <div className={`dark:text-slate-300
+    <div className={`
+                    text-neutral-700
+                    dark:text-slate-300
                     relative
                     w-full
                     rounded-md
-                    bg-neutral-700
+                    bg-zinc-300
+                    dark:bg-neutral-700
                     border-neutral-500
                     border-2
                     border-solid
@@ -22,7 +25,7 @@ const Select = ({ label, options, ...props }: SelectProps) => {
                     group
     `}
     >
-      <label htmlFor={id} className="absolute text-sm font-bold top-2 left-2 group-focus-within:text-blue-500">{label}</label>
+      <label htmlFor={id} className="absolute text-sm font-bold top-2 left-2 group-focus-within:text-blue-500 text-inherit">{label}</label>
       <IoChevronDown className="text-2xl text-current absolute top-0 right-2 bottom-0 my-auto pointer-events-none text-neutral-500 group-focus-within:text-blue-500" />
       <select
         id={id}
