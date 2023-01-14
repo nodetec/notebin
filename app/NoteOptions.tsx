@@ -19,7 +19,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     e.preventDefault();
     setPostLoading(true);
 
-    const relay = await NostrService.connect(relayUrlInput.current?.value || "wss://nostr-pub.wellorder.net");
+    const relay = await NostrService.connect(relayUrlInput.current?.value || RELAYS[0]);
     const privateKey = NostrService.genPrivateKey();
     const publicKey = NostrService.genPublicKey(privateKey);
     const event = NostrService.createEvent(publicKey, text, syntax);
@@ -59,7 +59,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
           />
           <Select
             label="Relay"
-            ref={relayUrlInput}
+            innerRef={relayUrlInput}
             options={RELAYS}
           />
           <div>

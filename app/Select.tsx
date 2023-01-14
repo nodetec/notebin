@@ -1,12 +1,13 @@
-import { DetailedHTMLProps, SelectHTMLAttributes, useId } from "react";
+import { DetailedHTMLProps, LegacyRef, SelectHTMLAttributes, useId } from "react";
 import { IoChevronDown } from "react-icons/io5";
 
 interface SelectProps extends DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> {
   label: string;
   options: string[];
+  innerRef?: LegacyRef<HTMLSelectElement>;
 }
 
-const Select = ({ label, options, ...props }: SelectProps) => {
+const Select = ({ label, options, innerRef, ...props }: SelectProps) => {
   const id = useId();
 
   return (
@@ -41,6 +42,7 @@ const Select = ({ label, options, ...props }: SelectProps) => {
                 whitespace-nowrap"
                 appearance-none
                 ${props.className}`}
+        ref={innerRef}
         {...props}
       >
         {options.map(option => <option key={option} value={option}>{option}</option>)}
