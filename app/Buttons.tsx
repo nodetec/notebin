@@ -5,7 +5,7 @@ interface ButtonsProps {
 }
 
 const Buttons = ({children, ...props}: ButtonsProps) => (
-  <div className="flex flex-row gap-4 w-full" {...props}>
+  <div className="flex flex-row gap-4" {...props}>
     {children}
   </div>
 )
