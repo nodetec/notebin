@@ -1,7 +1,7 @@
 "use client";
 
 import "websocket-polyfill";
-import { ChangeEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { NostrService } from "./utils/NostrService";
 import Button from "./Button";
@@ -21,7 +21,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     e.preventDefault();
     setPostLoading(true);
 
-    const relay = await NostrService.connect(relayUrlInput.current?.value || "wss://nostr-pub.wellorder.net");
+    const relay = await NostrService.connect(relayUrlInput.current?.value || RELAYS[0]);
     const privateKey = NostrService.genPrivateKey();
     const publicKey = NostrService.genPublicKey(privateKey);
     const event = NostrService.createEvent(publicKey, text, syntax, tagsList);
@@ -78,8 +78,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
           />
           <Select
             label="Relay"
-            // FIXME: can't pass ref into react functional components
-            ref={relayUrlInput}
+            innerRef={relayUrlInput}
             options={RELAYS}
           />
           <div>
