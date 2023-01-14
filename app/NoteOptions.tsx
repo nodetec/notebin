@@ -50,23 +50,6 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     pub.on("failed", (reason: any) => {
       console.error(`failed to publish to ${relay.url}: ${reason}`);
     });
-||||||| 6b816ee
-    const relay = await NostrService.connect(relayUrlInput.current?.value || RELAYS[0]);
-    const privateKey = NostrService.genPrivateKey();
-    const publicKey = NostrService.genPublicKey(privateKey);
-    const event = NostrService.createEvent(publicKey, text, syntax);
-    const eventId = await NostrService.post(relay, privateKey, event);
-    console.log(eventId);
-    router.push("/note/" + eventId);
-=======
-    const relay = await NostrService.connect(relayUrlInput.current?.value || RELAYS[0]);
-    const privateKey = NostrService.genPrivateKey();
-    const publicKey = NostrService.genPublicKey(privateKey);
-    const event = NostrService.createEvent(publicKey, text, syntax, tagsList);
-    const eventId = await NostrService.post(relay, privateKey, event);
-    console.log(eventId);
-    router.push("/note/" + eventId);
->>>>>>> separate-tags
   };
 
   function handleSelect(e: any) {
