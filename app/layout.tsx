@@ -1,5 +1,8 @@
 import Footer from "./Footer";
 import "./globals.css";
+import RelayProvider from "./context/relay-provider.jsx";
+import EventProvider from "./context/event-provider.jsx";
+import KeysProvider from "./context/keys-provider.jsx";
 // import Header from "./Header";
 
 export default function RootLayout({
@@ -15,8 +18,14 @@ export default function RootLayout({
       */}
       <head />
       <body className="dark:bg-neutral-900 container p-6 m-auto md:max-w-[90%] 2xl:max-w-[70%]">
-        {/* <Header /> */}
-        {children}
+        <RelayProvider>
+          <EventProvider>
+            <KeysProvider>
+              {/* <Header /> */}
+              {children}
+            </KeysProvider>
+          </EventProvider>
+        </RelayProvider>
         <Footer />
       </body>
     </html>

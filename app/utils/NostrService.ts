@@ -13,6 +13,7 @@ export namespace NostrService {
   export async function connect(relayUrl: string) {
     const relay = relayInit(relayUrl);
     await relay.connect();
+    console.log(relay)
 
     relay.on("connect", () => {
       console.log(`connected to ${relay.url}`);

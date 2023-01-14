@@ -1,30 +1,23 @@
+"use client";
+
 import Header from "../../Header";
-import { NostrService } from "../../utils/NostrService";
+import { EventContext } from "../../context/event-provider.jsx";
+import { useContext } from "react";
 
-async function getNote(eventid: string) {
-  const relay = await NostrService.connect("wss://nostr-pub.wellorder.net");
-  const event = await NostrService.getEvent(eventid, relay);
-  console.log(event);
-
-  return event;
-}
-
-export default async function NotePage({ params }: any) {
-  // console.log("HELLO")
-  // console.log(params)
-  const note = await getNote(params.eventid);
+export default function NotePage({ params }: any) {
+  const { event } = useContext(EventContext);
 
   return (
     <div>
       <Header />
-      <h1 className="text-slate-50 text-2xl">note id: {note?.id}</h1>
+      <h1 className="text-slate-50 text-2xl">event id: {event?.id}</h1>
       <div className="">
-        <p className="text-slate-300">pubkey: {note?.pubkey}</p>
-        <p className="text-slate-300">content: {note?.content}</p>
-        <p className="text-slate-300">kind: {note?.kind}</p>
-        <p className="text-slate-300">tags: {note?.tags}</p>
-        <p className="text-slate-300">sig: {note?.sig}</p>
-        <p className="text-slate-300">created_at: {note?.created_at}</p>
+        <p className="text-slate-300">pubkey: {event?.pubkey}</p>
+        <p className="text-slate-300">content: {event?.content}</p>
+        <p className="text-slate-300">kind: {event?.kind}</p>
+        <p className="text-slate-300">tags: {event?.tags}</p>
+        <p className="text-slate-300">sig: {event?.sig}</p>
+        <p className="text-slate-300">created_at: {event?.created_at}</p>
       </div>
     </div>
   );
