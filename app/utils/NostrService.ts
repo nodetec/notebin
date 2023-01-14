@@ -112,60 +112,11 @@ export namespace NostrService {
     return sha256(serializeEvent(event)).toString(Hex);
   }
 
-  function validateEvent(event: Event) {
-    if (event.id !== getEventHash(event)) {
-      console.log("event id does not match event hash");
-      return false;
-    }
-
-    if (typeof event.content !== "string") {
-      console.log("event content is not a string");
-      return false;
-    }
-
-    if (typeof event.created_at !== "number") {
-      console.log("event created_at is not a number");
-      return false;
-    }
-
-    if (!Array.isArray(event.tags)) {
-      console.log("event tags is not an array");
-      return false;
-    }
-
-    for (const tag of event.tags) {
-      if (!Array.isArray(tag)) {
-        console.log("event tag is not an array");
-        return false;
-      }
-
-      for (let j = 0; j < tag.length; j++) {
-        if (typeof tag[j] === "object") return false;
-      }
-    }
-
-    return true;
-  }
-
-  export async function addEventData(relay: Relay, privateKey: string, event: Event) {
-    // event.id = getEventHash(event);
+  export async function addEventData(
+    event: Event
+  ) {
     event.id = getEventHash(event);
-
-    console.log("HELLO");
-
-    console.log(event);
-
-    console.log("validating event");
-    const valid = validateEvent(event);
-    console.log("validated event:", valid);
-
     event = await window.nostr.signEvent(event);
-    // event.sig = signEvent(event, privateKey);
-    console.log("SIG:", event);
-    console.log(event);
-
-
-
     return event;
   }
 }

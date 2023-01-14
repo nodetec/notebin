@@ -23,9 +23,10 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     setPostLoading(true);
 
     const privateKey = null;
+    const publicKey = null;
     // const publicKey = await nostr.getPublicKey();
     let event = NostrService.createEvent(publicKey, text, syntax);
-    event = await NostrService.addEventData(relay, privateKey, event);
+    event = await NostrService.addEventData(event);
 
     let pub = relay.publish(event);
     pub.on("ok", () => {
@@ -34,7 +35,6 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
 
     pub.on("seen", async () => {
       console.debug(`we saw the event on ${relay.url}`);
-
       const retrieved_event = await NostrService.getEvent(event.id, relay);
       console.log("got event:", retrieved_event);
       await setEvent(retrieved_event);
