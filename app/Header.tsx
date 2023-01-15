@@ -28,6 +28,10 @@ export default function Header({ onSetUser }: any) {
     setMounted(true);
 
     const getConnected = async (shouldReconnect: string) => {
+      if (!relay) {
+        const new_relay = await NostrService.connect(RELAYS[0]);
+        setRelay(new_relay);
+      }
       let enabled = false;
       // @ts-ignore
       if (shouldReconnect === "true" && !webln.executing) {
@@ -45,13 +49,6 @@ export default function Header({ onSetUser }: any) {
 
   const handleClick = async () => {
     setIsOpen(true);
-
-    if (!relay) {
-      const new_relay = await NostrService.connect(
-        "wss://nostr-pub.wellorder.net"
-      );
-      setRelay(new_relay);
-    }
   };
 
   const connectLightningHandler = async () => {
@@ -72,12 +69,12 @@ export default function Header({ onSetUser }: any) {
   const toggleTheme = () => {
     if (isDarkTheme) {
       setTheme("light");
-      document.documentElement.setAttribute('data-color-mode', 'light')
+      document.documentElement.setAttribute("data-color-mode", "light");
     } else {
       setTheme("dark");
-      document.documentElement.setAttribute('data-color-mode', 'dark')
+      document.documentElement.setAttribute("data-color-mode", "dark");
     }
-  }
+  };
 
   return (
     <div>
@@ -95,20 +92,26 @@ export default function Header({ onSetUser }: any) {
                 className="text-neutral-800 dark:text-zinc-200"
                 size="40"
               />
-              <span className="dark:text-zinc-200 text-neutral-800 ml-1">note</span>
+              <span className="dark:text-zinc-200 text-neutral-800 ml-1">
+                note
+              </span>
               <span className="text-blue-400">bin</span>
             </div>
           </Link>
-          {mounted ?
+          {mounted ? (
             <Button
               onClick={toggleTheme}
-              icon={isDarkTheme ?
-                <HiOutlineSun className="w-6 h-6 text-zinc-200" /> :
-                <HiOutlineMoon className="w-6 h-6 text-neutral-800" />}
+              icon={
+                isDarkTheme ? (
+                  <HiOutlineSun className="w-6 h-6 text-zinc-200" />
+                ) : (
+                  <HiOutlineMoon className="w-6 h-6 text-neutral-800" />
+                )
+              }
               size="sm"
               color={isDarkTheme ? "neutralDark" : "neutralLight"}
               variant="ghost"
-            /> : null
+            />) : null
           }
           <Button
             color="yellow"
@@ -159,4 +162,3 @@ export default function Header({ onSetUser }: any) {
     </div>
   );
 }
-
