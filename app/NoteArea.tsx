@@ -2,7 +2,7 @@
 import { useContext, useState } from "react";
 import "@uiw/react-textarea-code-editor/dist.css";
 import dynamic from "next/dynamic";
-import { LANGUAGES, RELAYS } from "./constants";
+import { LANGUAGES } from "./constants";
 import Button from "./Button";
 import { RelayContext } from "./context/relay-provider";
 import { NostrService } from "./utils/NostrService";
@@ -36,7 +36,7 @@ const NoteArea = () => {
     let localRelay = relay;
 
     if (!localRelay) {
-      localRelay = await NostrService.connect(RELAYS[0]);
+      localRelay = await NostrService.connect(relay);
       setRelay(localRelay);
     }
 

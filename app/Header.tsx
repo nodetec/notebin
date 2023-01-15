@@ -8,10 +8,11 @@ import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 import { TbNote } from "react-icons/tb";
 import { RelayContext } from "./context/relay-provider.jsx";
 import Popup from "./Popup";
-
+import Select from "./Select";
 import Button from "./Button";
 // import TextInput from "./TextInput";
 import { NostrService } from "./utils/NostrService";
+import { RELAYS } from "./constants";
 
 export default function Header({ onSetUser }: any) {
   const [isOpen, setIsOpen] = useState(false);
@@ -80,9 +81,15 @@ export default function Header({ onSetUser }: any) {
 
   return (
     <div>
-      <nav className="flex justify-between flex-row items-stretch pb-12 gap-4">
-        <div className="flex justify-between items-center w-full gap-4">
-          <Link className="text-3xl font-bold dark:text-zinc-200 text-neutral-800" href="/">
+      <nav className="mb-8">
+        <div className="flex gap-4 flex-col-reverse md:flex-row-reverse">
+          <Select
+            label="Relay"
+            options={RELAYS}
+            onChange={e => setRelay(e.target.value)}
+          />
+          <div className="flex gap-4 items-center justify-end md:w-full">
+          <Link className="text-3xl font-bold dark:text-zinc-200 text-neutral-800 w-full" href="/">
             <div className="flex flex-row">
               <TbNote
                 className="text-neutral-800 dark:text-zinc-200"
@@ -103,16 +110,17 @@ export default function Header({ onSetUser }: any) {
               variant="ghost"
             /> : null
           }
+          <Button
+            color="yellow"
+            variant="outline"
+            onClick={handleClick}
+            size="sm"
+            icon={<BsLightningChargeFill size="14" />}
+          >
+            login
+          </Button>
+          </div>
         </div>
-        <Button
-          color="yellow"
-          variant="outline"
-          onClick={handleClick}
-          size="sm"
-          icon={<BsLightningChargeFill size="14" />}
-        >
-          login
-        </Button>
       </nav>
       <Popup title="Generate Keys" isOpen={isOpen} setIsOpen={setIsOpen}>
         {/* <TextInput */}

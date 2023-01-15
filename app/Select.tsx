@@ -15,7 +15,6 @@ const Select = ({ label, options, innerRef, ...props }: SelectProps) => {
                     text-neutral-700
                     dark:text-slate-300
                     relative
-                    w-full
                     rounded-md
                     bg-zinc-300
                     dark:bg-neutral-700
@@ -23,22 +22,20 @@ const Select = ({ label, options, innerRef, ...props }: SelectProps) => {
                     border-2
                     border-solid
                     focus-within:border-blue-500
-                    group
+                    flex items-center gap-2
+                    pl-2 group
     `}
     >
-      <label htmlFor={id} className="absolute text-sm font-bold top-2 left-2 group-focus-within:text-blue-500 text-inherit">{label}</label>
-      <IoChevronDown className="text-2xl text-current absolute top-0 right-2 bottom-0 my-auto pointer-events-none text-neutral-500 group-focus-within:text-blue-500" />
+      <label htmlFor={id} className="text-sm font-bold group-focus-within:text-blue-500 text-inherit">{label}</label>
       <select
         id={id}
         className={`
-                pt-8 pr-12 pb-2 pl-2
                 bg-transparent 
                 focus:ring-0 
                 font-medium
-                w-full
                 leading-tight
                 border-0 
-                outline-0 
+                outline-0 text-sm
                 whitespace-nowrap"
                 appearance-none
                 ${props.className}`}
@@ -47,6 +44,7 @@ const Select = ({ label, options, innerRef, ...props }: SelectProps) => {
       >
         {options.map(option => <option key={option} value={option}>{option}</option>)}
       </select>
+      <IoChevronDown className="text-xl text-current absolute top-0 right-2 bottom-0 my-auto pointer-events-none text-neutral-500 group-focus-within:text-blue-500" />
     </div>
   )
 }
