@@ -97,11 +97,11 @@ export default function Header({ onSetUser }: any) {
           </Link>
         </div>
         <Button
-          className="w-auto border border-yellow-300"
-          color="slateDark"
+          className="w-auto border border-zinc-400"
+          color="zincDark"
           onClick={handleClick}
           size="sm"
-          icon={<BsLightningChargeFill size="14" />}
+          // icon={<BsLightningChargeFill size="14" />}
         >
           login
         </Button>

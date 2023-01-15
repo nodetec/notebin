@@ -65,7 +65,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
       // @ts-ignore
       const retrieved_event = await NostrService.getEvent(event.id, localRelay);
       await setEvent(retrieved_event);
-      router.push("/note/" + event.id);
+      router.push("/note/" + event.id, );
     });
 
     pub.on("failed", (reason: any) => {

@@ -4,7 +4,7 @@ import { ImSpinner9 } from "react-icons/im";
 const sizes = {
   lg: "py-5 px-6 text-lg",
   md: "py-3 px-4 text-base",
-  sm: "py-2 px-3 text-xs",
+  sm: "py-2 px-3 text-sm",
 };
 
 const iconSized = {
@@ -18,7 +18,7 @@ const colors = {
   neutralDark: "text-neutral-300 bg-neutral-600 hover:bg-neutral-700",
   neutralLight: "bg-neutral-300 text-neutral-900 hover:bg-neutral-400",
   yellow: "dark:text-neutral-900 bg-yellow-300 hover:bg-yellow-400",
-  slateDark: "dark:text-yellow-300 bg-zinc-900 hover:text-yellow-400",
+  zincDark: "dark:text-zinc-400 bg-zinc-900 hover:text-yellow-400",
   transparent: "bg-transparent",
 };
 
