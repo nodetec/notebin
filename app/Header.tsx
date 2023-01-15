@@ -12,6 +12,7 @@ import Popup from "./Popup";
 import Button from "./Button";
 // import TextInput from "./TextInput";
 import { NostrService } from "./utils/NostrService";
+import { RELAYS } from "./constants";
 
 export default function Header({ onSetUser }: any) {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,9 +29,7 @@ export default function Header({ onSetUser }: any) {
 
     const getConnected = async (shouldReconnect: string) => {
       if (!relay) {
-        const new_relay = await NostrService.connect(
-          "wss://nostr-pub.wellorder.net"
-        );
+        const new_relay = await NostrService.connect(RELAYS[0]);
         setRelay(new_relay);
       }
       let enabled = false;
