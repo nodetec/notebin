@@ -115,6 +115,23 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
           {/*   </label> */}
           {/* </div> */}
           {/* <span className="text-sm">▶ Advanced</span> */}
+
+          {/* <div className="flex flex-col gap-2 justify-start items-start text-sm mb-4"> */}
+          {/*   <label>Lightning Address</label> */}
+          {/*   <input */}
+          {/*     type="text" */}
+          {/*     placeholder="Lightning Addres..." */}
+          {/*     className="px-3 py-2 rounded w-full text-slate-300 bg-neutral-700" */}
+          {/*   /> */}
+          {/* </div> */}
+          {/* <div className="flex flex-col gap-2 justify-start items-start text-sm mb-4"> */}
+          {/*   <label>Alby Custom Value</label> */}
+          {/*   <input */}
+          {/*     type="text" */}
+          {/*     placeholder="Custom Value..." */}
+          {/*     className="px-3 py-2 rounded w-full text-slate-300 bg-neutral-700" */}
+          {/*   /> */}
+          {/* </div> */}
         </div>
         <Button loading={postLoading} type="submit">
           {postLoading ? "Sending..." : "Send"}

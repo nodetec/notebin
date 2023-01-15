@@ -7,7 +7,7 @@ export default function Home() {
   const [user, setUser] = useState("test");
   return (
     <>
-      <Header onSetUser={setUser} />
+      {/* <Header onSetUser={setUser} /> */}
       <NoteArea user={user} />
     </>
   );
