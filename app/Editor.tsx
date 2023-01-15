@@ -40,8 +40,6 @@ const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagIn
     }
   };
 
-  console.log(event)
-
   return (
     <div className="rounded-md border-2 border-zinc-400 dark:border-neutral-700">
       <div className="bg-zinc-300 dark:bg-neutral-800 p-2 flex items-center justify-between">
