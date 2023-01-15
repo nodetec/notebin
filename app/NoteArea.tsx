@@ -8,6 +8,7 @@ import { RelayContext } from "./context/relay-provider";
 import { NostrService } from "./utils/NostrService";
 import { EventContext } from "./context/event-provider";
 import { useRouter } from "next/navigation";
+import TextInput from "./TextInput";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -23,6 +24,7 @@ const NoteArea = () => {
   // @ts-ignore
   const { relay, setRelay } = useContext(RelayContext);
   const router = useRouter();
+  const [tagInputValue, setTagInputValue] = useState<string>("");
   const [tagsList, setTagsList] = useState<string[]>([]);
   const [tipInfo, setTipInfo] = useState({
     noteAddress: "",
@@ -75,6 +77,17 @@ const NoteArea = () => {
     });
   };
 
+  const validateTagsInputKeyDown = (event: any) => {
+    const TAG_KEYS = ["Enter", ",", " "];
+    if (TAG_KEYS.some((key) => key === event.key)) {
+      event.preventDefault();
+      if (tagInputValue) {
+        setTagsList(Array.from(new Set([...tagsList, tagInputValue])));
+        setTagInputValue("");
+      }
+    }
+  };
+
   return (
     <div className="w-full lg:w-2/3 mx-auto">
       <div className="rounded-md border-2 border-zinc-400 dark:border-neutral-700">
@@ -108,8 +121,18 @@ const NoteArea = () => {
             }}
           />
         </div>
+        <div className="bg-zinc-300 dark:bg-neutral-800 p-2">
+          <TextInput
+            label="Tags"
+            placeholder="Enter tags"
+            tagsList={tagsList}
+            setTagsList={setTagsList}
+            value={tagInputValue}
+            onKeyDown={validateTagsInputKeyDown}
+            onChange={(e) => setTagInputValue(e.target.value)}
+          />
+        </div>
       </div>
-
       <div className="pt-2">
         <Button
           color="blue"
