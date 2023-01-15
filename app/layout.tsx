@@ -3,6 +3,7 @@ import "./globals.css";
 import RelayProvider from "./context/relay-provider.jsx";
 import EventProvider from "./context/event-provider.jsx";
 import KeysProvider from "./context/keys-provider.jsx";
+import Header from "./Header";
 // import Header from "./Header";
 
 export default function RootLayout({
@@ -21,7 +22,7 @@ export default function RootLayout({
         <RelayProvider>
           <EventProvider>
             <KeysProvider>
-              {/* <Header /> */}
+              <Header />
               {children}
             </KeysProvider>
           </EventProvider>
