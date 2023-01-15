@@ -9,8 +9,5 @@ module.exports = {
       }
     },
   },
-  plugins: [
-    require("@tailwindcss/forms"),
-    require("tailwindcss-scoped-groups"),
-  ],
+  plugins: [ require("@tailwindcss/forms"), ],
 };
