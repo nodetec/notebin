@@ -18,7 +18,7 @@ const NoteArea = () => {
   // @ts-ignore
   const { setEvent } = useContext(EventContext);
   // @ts-ignore
-  const { relay, setRelay } = useContext(RelayContext);
+  const { relays, setRelays } = useContext(RelayContext);
   const router = useRouter();
   const [tipInfo, setTipInfo] = useState({
     noteAddress: "",
@@ -29,11 +29,11 @@ const NoteArea = () => {
     e.preventDefault();
     setPostLoading(true);
 
-    let localRelay = relay;
+    let localRelays = relays;
 
-    if (!localRelay) {
-      localRelay = await NostrService.connect(RELAYS[0]);
-      setRelay(localRelay);
+    if (!localRelays) {
+      localRelays = await NostrService.connect(RELAYS);
+      setRelays(localRelays);
     }
 
     // const privateKey = null;
@@ -50,15 +50,17 @@ const NoteArea = () => {
     );
     event = await NostrService.addEventData(event);
 
-    let pub = localRelay.publish(event);
+    // TODO: publish to all relays
+
+    let pub = localRelays[0].publish(event);
     pub.on("ok", () => {
-      console.debug(`${localRelay.url} has accepted our event`);
+      console.debug(`${localRelays[0].url} has accepted our event`);
     });
 
     pub.on("seen", async () => {
-      console.debug(`we saw the event on ${localRelay.url}`);
+      console.debug(`we saw the event on ${localRelays[0].url}`);
       // @ts-ignore
-      const retrieved_event = await NostrService.getEvent(event.id, localRelay);
+      const retrieved_event = await NostrService.getEvent(event.id, localRelays[0]);
       console.log("got event:", retrieved_event);
       await setEvent(retrieved_event);
       console.log("did it");
@@ -67,8 +69,19 @@ const NoteArea = () => {
 
     pub.on("failed", (reason: any) => {
       setPostLoading(false);
-      console.error(`failed to publish to ${localRelay.url}: ${reason}`);
+      console.error(`failed to publish to ${localRelays[0].url}: ${reason}`);
     });
+  };
+
+  const validateTagsInputKeyDown = (event: any) => {
+    const TAG_KEYS = ["Enter", ",", " "];
+    if (TAG_KEYS.some((key) => key === event.key)) {
+      event.preventDefault();
+      if (tagInputValue) {
+        setTagsList(Array.from(new Set([...tagsList, tagInputValue])));
+        setTagInputValue("");
+      }
+    }
   };
 
   return (

@@ -31,20 +31,27 @@ export type Event = {
 };
 
 export namespace NostrService {
-  export async function connect(relayUrl: string) {
-    const relay = relayInit(relayUrl);
-    await relay.connect();
-    console.log(relay);
+  export async function connect(relayUrls: string[]) {
+    let relays: any = [];
 
-    relay.on("connect", () => {
-      console.log(`connected to ${relay.url}`);
-    });
 
-    relay.on("error", () => {
-      console.log(`failed to connect to ${relay.url}`);
-    });
+    for await (const relayUrl of relayUrls.map(async (relayUrl) => {
+      const relay = relayInit(relayUrl);
 
-    return relay;
+      await relay.connect();
+
+      console.log(relay);
+
+      relay.on("connect", () => {
+        console.log(`connected to ${relay.url}`);
+        relays.push(relay);
+      });
+
+      relay.on("error", () => {
+        console.log(`failed to connect to ${relay.url}`);
+      });
+    }))
+      return relays;
   }
 
   export function genPrivateKey(): string {
@@ -112,9 +119,7 @@ export namespace NostrService {
     return sha256(serializeEvent(event)).toString(Hex);
   }
 
-  export async function addEventData(
-    event: Event
-  ) {
+  export async function addEventData(event: Event) {
     event.id = getEventHash(event);
     // @ts-ignore
     event = await window.nostr.signEvent(event);
