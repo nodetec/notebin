@@ -27,11 +27,12 @@ export default function Header({ onSetUser }: any) {
     const shouldReconnect = sessionStorage.getItem("shouldReconnect");
     setMounted(true);
 
+    const connectToRelays = async () => {
+      const new_relays = await NostrService.connect(RELAYS);
+      setRelay(new_relays);
+    };
+
     const getConnected = async (shouldReconnect: string) => {
-      if (!relay) {
-        const new_relays = await NostrService.connect(RELAYS);
-        setRelay(new_relays);
-      }
       let enabled = false;
       // @ts-ignore
       if (shouldReconnect === "true" && !webln.executing) {
@@ -41,6 +42,9 @@ export default function Header({ onSetUser }: any) {
       }
       return enabled;
     };
+    if (!relay) {
+      connectToRelays();
+    }
 
     if (shouldReconnect) {
       getConnected(shouldReconnect);
