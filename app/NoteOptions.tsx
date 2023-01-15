@@ -34,6 +34,13 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     e.preventDefault();
     setPostLoading(true);
 
+    let localRelay = relay;
+
+    if (!localRelay) {
+      localRelay = await NostrService.connect("wss://nostr-pub.wellorder.net");
+      setRelay(localRelay);
+    }
+
     const privateKey = null;
     // const publicKey = null;
     // @ts-ignore
@@ -48,15 +55,15 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     );
     event = await NostrService.addEventData(event);
 
-    let pub = relay.publish(event);
+    let pub = localRelay.publish(event);
     pub.on("ok", () => {
-      console.debug(`${relay.url} has accepted our event`);
+      console.debug(`${localRelay.url} has accepted our event`);
     });
 
     pub.on("seen", async () => {
-      console.debug(`we saw the event on ${relay.url}`);
+      console.debug(`we saw the event on ${localRelay.url}`);
       // @ts-ignore
-      const retrieved_event = await NostrService.getEvent(event.id, relay);
+      const retrieved_event = await NostrService.getEvent(event.id, localRelay);
       console.log("got event:", retrieved_event);
       await setEvent(retrieved_event);
       console.log("did it");
@@ -64,7 +71,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     });
 
     pub.on("failed", (reason: any) => {
-      console.error(`failed to publish to ${relay.url}: ${reason}`);
+      console.error(`failed to publish to ${localRelay.url}: ${reason}`);
     });
   };
 
@@ -84,9 +91,9 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
       if (tagInputValue) {
         setTagsList(Array.from(new Set([...tagsList, tagInputValue])));
         setTagInputValue("");
-      } 
+      }
     }
-  }
+  };
 
   return (
     <div>
@@ -94,21 +101,12 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
         <div className="text-xl dark:text-slate-300 p-3 rounded-md flex flex-col justify-between">
           Options
           <div className="flex flex-col gap-4 py-4">
-            {/* <TextInput */}
-            {/*   label="Filename" */}
-            {/*   placeholder="Enter filename..." */}
-            {/*   onChange={(e) => setSyntax(e.target.value)} */}
-            {/* /> */}
             <Select
               label="Syntax"
               options={LANGUAGES}
               onChange={handleSelect}
               defaultValue="markdown"
             />
-            {/* <Select */}
-            {/*   label="Kind" */}
-            {/*   options={["1", "2", "3"]} */}
-            {/* /> */}
             <TextInput
               label="Tags"
               placeholder="Enter tags..."
@@ -122,18 +120,6 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
             <span className="px-3 py-2 rounded-md text-sm w-full text-neutral-700 dark:text-zinc-300 bg-zinc-300 dark:bg-neutral-700 overflow-scroll">
               wss://nostr-pub.wellorder.net
             </span>
-            {/* <div> */}
-            {/*   <input */}
-            {/*     type="checkbox" */}
-            {/*     className="focus:ring-offset-0 focus:ring-0 rounded text-pink-500 bg-gray-200 focus:outline-none" */}
-            {/*     id="flexCheckChecked" */}
-            {/*   /> */}
-            {/* TODO: fix this hack, having troubling aligning center */}
-            {/*   <label className="text-sm pl-2 pb-1" htmlFor="flexCheckChecked"> */}
-            {/*     encrypt */}
-            {/*   </label> */}
-            {/* </div> */}
-            {/* <span className="text-sm">▶ Advanced</span> */}
           </div>
           <Button loading={postLoading} type="submit">
             {postLoading ? "Sending..." : "Send"}
