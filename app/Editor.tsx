@@ -2,6 +2,8 @@ import { LANGUAGES } from "./constants";
 import dynamic from "next/dynamic";
 import "@uiw/react-textarea-code-editor/dist.css";
 import TextInput from "./TextInput";
+import Button from "./Button";
+import { BsLightningChargeFill } from "react-icons/bs";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -21,9 +23,28 @@ const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagIn
     }
   };
 
+  const handleTip = async () => {
+    // @ts-ignore
+    if (typeof window.webln !== "undefined") {
+      const nodeAddress = event.tags[2][1];
+      const customRecord = event.tags[3][1];
+      // @ts-ignore
+      const result = await webln.keysend({
+        destination: nodeAddress,
+        amount: 1,
+        customRecords: {
+          696969: customRecord,
+        },
+      });
+      console.log("Tip Result:", result);
+    }
+  };
+
+  console.log(event)
+
   return (
     <div className="rounded-md border-2 border-zinc-400 dark:border-neutral-700">
-      <div className="bg-zinc-300 dark:bg-neutral-800 p-2">
+      <div className="bg-zinc-300 dark:bg-neutral-800 p-2 flex items-center justify-between">
         <input className="bg-zinc-200 text-neutral-900 dark:bg-neutral-900 dark:text-zinc-300 border-0 outline-0 focus:ring-0 text-sm rounded-md"
           type="text"
           list="syntax-languages"
@@ -37,12 +58,23 @@ const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagIn
             <option key={lang} value={lang}>{lang}</option>
           ))}
         </datalist>
+        {event  ? 
+        <Button
+          color="yellow"
+          onClick={handleTip}
+          size="sm"
+          icon={<BsLightningChargeFill size="14" />}
+        >
+          tip
+        </Button> :
+          null
+        }
       </div>
       <div className="overflow-auto h-[34rem]">
         <CodeEditor
           className="w-full focus:border focus:border-blue-500 p-3 outline-none h-full"
-          value={!!event ? event?.content : text}
-          language={!!event ? event?.tags[0][1] : syntax}
+          value={event ? event?.content : text}
+          language={event ? event?.tags[0][1] : syntax}
           placeholder="Enter your note..."
           autoCapitalize="none"
           onChange={(evn) => setText(evn.target.value)}
