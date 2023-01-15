@@ -43,7 +43,7 @@ const TextInput = ({ label, error, tagsList, setTagsList, placeholder = "", valu
                   icon={<IoMdCloseCircleOutline className="text-sm" />}
                   size="sm"
                   color="transparent"
-                  className="hidden group-hover:block p-0"
+                  className={`hidden p-0 ${props.disabled ? "" : "group-hover:block"}`}
                   onClick={() => setTagsList(tagsList.filter((tagInList) => tagInList !== tag))}
                 />
               </div>
