@@ -17,7 +17,6 @@ const CodeEditor = dynamic(
 const NoteArea = () => {
   const [text, setText] = useState("");
   const [syntax, setSyntax] = useState("markdown");
-  const [syntaxOption] = useState("markdown");
   const [postLoading, setPostLoading] = useState(false);
   // @ts-ignore
   const { setEvent } = useContext(EventContext);
@@ -96,7 +95,7 @@ const NoteArea = () => {
         <CodeEditor
           className="w-full min-h-full focus:border focus:border-blue-500 p-3 outline-none h-[34rem]"
           value={text}
-          language={syntaxOption}
+          language={syntax}
           placeholder="Enter your note..."
           autoCapitalize="none"
           onChange={(evn) => setText(evn.target.value)}
