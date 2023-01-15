@@ -76,6 +76,8 @@ export namespace NostrService {
     publicKey: string,
     content: string,
     syntax: string,
+    noteAddress: string,
+    customValue: string,
     tagsList: string[]
   ) {
     const event: Event = {
@@ -85,8 +87,8 @@ export namespace NostrService {
       tags: [
         ["syntax", syntax],
         ["client", "notebin"],
-        ["node_address", "030a58b8653d32b99200a2334cfe913e51dc7d155aa0116c176657a4f1722677a3"],
-        ["custom_value", "z6jZV4xv9PuJoMGQvs2m"],
+        ["node_address", noteAddress],
+        ["custom_value", customValue],
         ["tags", tagsList.join(",")],
       ],
       content: content,
