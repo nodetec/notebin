@@ -107,7 +107,7 @@ const NoteArea = () => {
         </div>
         <div className="overflow-auto h-[34rem]">
           <CodeEditor
-            className="w-full focus:border focus:border-blue-500 p-3 outline-none"
+            className="w-full focus:border focus:border-blue-500 p-3 outline-none h-full"
             value={text}
             language={syntax}
             placeholder="Enter your note..."

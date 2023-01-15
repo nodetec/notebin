@@ -21,12 +21,8 @@ const TextInput = ({ label, error, tagsList, setTagsList, placeholder = "", valu
                         text-neutral-600
                         dark:text-neutral-400
                         flex items-start gap-4
-                        ${error ?
-          "border-red-400 text-red-400" :
-          "focus-within:border-blue-500 focus-within:text-blue-500"
-        }`
-      }>
-        <label className={`text-sm font-bold`} htmlFor={id}>{label}</label>
+                        ${error ? "border-red-400 text-red-400" : "focus-within:border-blue-500" }` }>
+        <label className="text-sm font-bold pt-[.15rem]" htmlFor={id}>{label}</label>
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex gap-2 flex-1 w-full flex-wrap">
             {tagsList?.map((tag) => (
@@ -37,9 +33,9 @@ const TextInput = ({ label, error, tagsList, setTagsList, placeholder = "", valu
                                       dark:bg-neutral-600
                                       dark:text-zinc-300
                                       hover:dark:text-zinc-200
-                                      border 
-                                      border-neutral-500
-                                      hover:border-blue-500
+                                      border border-transparent
+                                      hover:border-neutral-500
+                                      hover:dark:border-zinc-500
                                       rounded-md p-1 group
                                       flex items-center gap-1">
                 {tag}
