@@ -46,6 +46,7 @@ const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagIn
           placeholder="Enter your note..."
           autoCapitalize="none"
           onChange={(evn) => setText(evn.target.value)}
+          disabled={!!event}
           padding={25}
           style={{
             fontSize: 15,
@@ -62,8 +63,8 @@ const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagIn
           setTagsList={event ? () => {} : setTagsList}
           value={tagInputValue}
           disabled={!!event}
-          onKeyDown={event ? () => {} : validateTagsInputKeyDown}
-          onChange={event ? () => {} : (e) => setTagInputValue(e.target.value)}
+          onKeyDown={validateTagsInputKeyDown}
+          onChange={(e) => setTagInputValue(e.target.value)}
         />
       </div>
     </div>

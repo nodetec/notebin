@@ -1,12 +1,11 @@
 "use client";
 import { useContext, useState } from "react";
-import { LANGUAGES, RELAYS } from "./constants";
+import { RELAYS } from "./constants";
 import Button from "./Button";
 import { RelayContext } from "./context/relay-provider";
 import { NostrService } from "./utils/NostrService";
 import { EventContext } from "./context/event-provider";
 import { useRouter } from "next/navigation";
-import TextInput from "./TextInput";
 import Editor from "./Editor";
 
 const NoteArea = () => {
