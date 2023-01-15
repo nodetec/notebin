@@ -10,6 +10,8 @@ import Button from "./Button";
 import Select from "./Select";
 import { LANGUAGES, RELAYS } from "./constants";
 import TextInput from "./TextInput";
+import { BsLightningChargeFill } from "react-icons/bs";
+import { IoMdCloseCircleOutline } from "react-icons/io";
 
 export default function NoteOptions({ text, onSetSyntaxOption }: any) {
   const [syntax, setSyntax] = useState("markdown");
@@ -18,8 +20,13 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
   const router = useRouter();
   // @ts-ignore
   const { relay, setRelay } = useContext(RelayContext);
+  const [isOpen, setIsOpen] = useState(false);
   // @ts-ignore
   const { setEvent } = useContext(EventContext);
+  const [tipInfo, setTipInfo] = useState({
+    noteAddress: "",
+    customValue: "",
+  });
   const [tagInputValue, setTagInputValue] = useState<string>("");
   const [tagsList, setTagsList] = useState<string[]>([]);
 
@@ -31,7 +38,14 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     // const publicKey = null;
     // @ts-ignore
     const publicKey = await nostr.getPublicKey();
-    let event = NostrService.createEvent(publicKey, text, syntax, tagsList);
+    let event = NostrService.createEvent(
+      publicKey,
+      text,
+      syntax,
+      tipInfo.noteAddress,
+      tipInfo.customValue,
+      tagsList
+    );
     event = await NostrService.addEventData(event);
 
     let pub = relay.publish(event);
@@ -54,6 +68,10 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     });
   };
 
+  const handleClick = async () => {
+    setIsOpen(true);
+  };
+
   function handleSelect(e: any) {
     onSetSyntaxOption(e.target.value);
     setSyntax(e.target.value);
@@ -71,72 +89,104 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
   }
 
   return (
-    <form onSubmit={post}>
-      <div className="text-xl dark:text-slate-300 p-3 rounded-md flex flex-col justify-between">
-        Options
+    <div>
+      <form onSubmit={post}>
+        <div className="text-xl dark:text-slate-300 p-3 rounded-md flex flex-col justify-between">
+          Options
           <div className="flex flex-col gap-4 py-4">
-          {/* <TextInput */}
-          {/*   label="Filename" */}
-          {/*   placeholder="Enter filename..." */}
-          {/*   onChange={(e) => setSyntax(e.target.value)} */}
-          {/* /> */}
-          <Select
-            label="Syntax"
-            options={LANGUAGES}
-            onChange={handleSelect}
-            defaultValue="markdown"
-          />
-          {/* <Select */}
-          {/*   label="Kind" */}
-          {/*   options={["1", "2", "3"]} */}
-          {/* /> */}
-          <TextInput
-            label="Tags"
-            placeholder="Enter tags..."
-            onKeyDown={validateTagsInputKeyDown}
-            value={tagInputValue}
-            onChange={(e) => setTagInputValue(e.target.value)}
-            tagsList={tagsList}
-            setTagsList={setTagsList}
-          />
+            {/* <TextInput */}
+            {/*   label="Filename" */}
+            {/*   placeholder="Enter filename..." */}
+            {/*   onChange={(e) => setSyntax(e.target.value)} */}
+            {/* /> */}
+            <Select
+              label="Syntax"
+              options={LANGUAGES}
+              onChange={handleSelect}
+              defaultValue="markdown"
+            />
+            {/* <Select */}
+            {/*   label="Kind" */}
+            {/*   options={["1", "2", "3"]} */}
+            {/* /> */}
+            <TextInput
+              label="Tags"
+              placeholder="Enter tags..."
+              onKeyDown={validateTagsInputKeyDown}
+              value={tagInputValue}
+              onChange={(e) => setTagInputValue(e.target.value)}
+              tagsList={tagsList}
+              setTagsList={setTagsList}
+            />
             <label>Relay</label>
             <span className="px-3 py-2 rounded-md text-sm w-full text-neutral-700 dark:text-zinc-300 bg-zinc-300 dark:bg-neutral-700 overflow-scroll">
               wss://nostr-pub.wellorder.net
             </span>
-          {/* <div> */}
-          {/*   <input */}
-          {/*     type="checkbox" */}
-          {/*     className="focus:ring-offset-0 focus:ring-0 rounded text-pink-500 bg-gray-200 focus:outline-none" */}
-          {/*     id="flexCheckChecked" */}
-          {/*   /> */}
-          {/* TODO: fix this hack, having troubling aligning center */}
-          {/*   <label className="text-sm pl-2 pb-1" htmlFor="flexCheckChecked"> */}
-          {/*     encrypt */}
-          {/*   </label> */}
-          {/* </div> */}
-          {/* <span className="text-sm">▶ Advanced</span> */}
-
-          {/* <div className="flex flex-col gap-2 justify-start items-start text-sm mb-4"> */}
-          {/*   <label>Lightning Address</label> */}
-          {/*   <input */}
-          {/*     type="text" */}
-          {/*     placeholder="Lightning Addres..." */}
-          {/*     className="px-3 py-2 rounded w-full text-slate-300 bg-neutral-700" */}
-          {/*   /> */}
-          {/* </div> */}
-          {/* <div className="flex flex-col gap-2 justify-start items-start text-sm mb-4"> */}
-          {/*   <label>Alby Custom Value</label> */}
-          {/*   <input */}
-          {/*     type="text" */}
-          {/*     placeholder="Custom Value..." */}
-          {/*     className="px-3 py-2 rounded w-full text-slate-300 bg-neutral-700" */}
-          {/*   /> */}
-          {/* </div> */}
+            {/* <div> */}
+            {/*   <input */}
+            {/*     type="checkbox" */}
+            {/*     className="focus:ring-offset-0 focus:ring-0 rounded text-pink-500 bg-gray-200 focus:outline-none" */}
+            {/*     id="flexCheckChecked" */}
+            {/*   /> */}
+            {/* TODO: fix this hack, having troubling aligning center */}
+            {/*   <label className="text-sm pl-2 pb-1" htmlFor="flexCheckChecked"> */}
+            {/*     encrypt */}
+            {/*   </label> */}
+            {/* </div> */}
+            {/* <span className="text-sm">▶ Advanced</span> */}
+          </div>
+          <Button loading={postLoading} type="submit">
+            {postLoading ? "Sending..." : "Send"}
+          </Button>
+          <Button
+            color={"yellow"}
+            className={"mt-4"}
+            icon={<BsLightningChargeFill size="14" />}
+            onClick={handleClick}
+            type="button"
+          >
+            Accept Tip
+          </Button>
         </div>
-        <Button loading={postLoading} type="submit">
-          {postLoading ? "Sending..." : "Send"}
-        </Button>
-      </div>
-    </form >
+      </form>
+      {isOpen && (
+        <>
+          <div className="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/4 border-2 border-neutral-500 rounded-md h-1/4">
+            <Button
+              icon={<IoMdCloseCircleOutline size={24} />}
+              className="absolute w-fit right-0 top-0 text-neutral-400"
+              onClick={() => setIsOpen(false)}
+              color="transparent"
+            />
+            <div className="bg-neutral-900 flex flex-col justify-center items-stretch gap-4 p-6 rounded-md shadow-overlay">
+              <h3 className="text-xl text-neutral-400 text-center pb-4">
+                Tip Info
+              </h3>
+              <TextInput
+                value={tipInfo.noteAddress}
+                onChange={(e) =>
+                  setTipInfo((current) => ({
+                    ...current,
+                    noteAddress: e.target.value,
+                  }))
+                }
+                label="Note Address"
+              />
+              <TextInput
+                value={tipInfo.customValue}
+                onChange={(e) =>
+                  setTipInfo((current) => ({
+                    ...current,
+                    customValue: e.target.value,
+                  }))
+                }
+                label="Custom Record (if applicable)"
+              />
+              <Button onClick={() => setIsOpen(false)}>Done</Button>
+            </div>
+          </div>
+        </>
+      )}
+    </div>
   );
 }
