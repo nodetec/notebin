@@ -21,7 +21,7 @@ const NoteArea = () => {
   // @ts-ignore
   const { setEvent } = useContext(EventContext);
   // @ts-ignore
-  const { relay, setRelay } = useContext(RelayContext);
+  const { relays, setRelays } = useContext(RelayContext);
   const router = useRouter();
   const [tagsList, setTagsList] = useState<string[]>([]);
   const [tipInfo, setTipInfo] = useState({
@@ -33,11 +33,11 @@ const NoteArea = () => {
     e.preventDefault();
     setPostLoading(true);
 
-    let localRelays = relay;
+    let localRelays = relays;
 
     if (!localRelays) {
       localRelays = await NostrService.connect(RELAYS);
-      setRelay(localRelays);
+      setRelays(localRelays);
     }
 
     // const privateKey = null;

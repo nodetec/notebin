@@ -21,7 +21,7 @@ export default function Header({ onSetUser }: any) {
   const [mounted, setMounted] = useState(false);
 
   // @ts-ignore
-  const { relay, setRelay } = useContext(RelayContext);
+  const { relays, setRelays } = useContext(RelayContext);
 
   useEffect(() => {
     const shouldReconnect = sessionStorage.getItem("shouldReconnect");
@@ -29,7 +29,7 @@ export default function Header({ onSetUser }: any) {
 
     const connectToRelays = async () => {
       const new_relays = await NostrService.connect(RELAYS);
-      setRelay(new_relays);
+      setRelays(new_relays);
     };
 
     const getConnected = async (shouldReconnect: string) => {
@@ -42,7 +42,7 @@ export default function Header({ onSetUser }: any) {
       }
       return enabled;
     };
-    if (!relay) {
+    if (!relays) {
       connectToRelays();
     }
 
