@@ -64,9 +64,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
       console.debug(`we saw the event on ${localRelay.url}`);
       // @ts-ignore
       const retrieved_event = await NostrService.getEvent(event.id, localRelay);
-      console.log("got event:", retrieved_event);
       await setEvent(retrieved_event);
-      console.log("did it");
       router.push("/note/" + event.id);
     });
 

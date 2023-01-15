@@ -17,7 +17,8 @@ const colors = {
   blue: "dark:text-neutral-900 bg-blue-400 hover:bg-blue-500",
   neutralDark: "text-neutral-300 bg-neutral-600 hover:bg-neutral-700",
   neutralLight: "bg-neutral-300 text-neutral-900 hover:bg-neutral-400",
-  yellow: "dark:text-neutral-900 tex bg-yellow-300 hover:bg-yellow-400",
+  yellow: "dark:text-neutral-900 bg-yellow-300 hover:bg-yellow-400",
+  slateDark: "dark:text-yellow-300 bg-zinc-900 hover:text-yellow-400",
   transparent: "bg-transparent",
 };
 

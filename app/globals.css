@@ -16,7 +16,7 @@ html[data-color-mode="light"] .w-tc-editor code[class*='language-'] .token.punct
 }
 
 html[data-color-mode="dark"] .w-tc-editor {
-  @apply bg-neutral-800;
+  @apply bg-zinc-900;
 }
 
 html[data-color-mode="light"] .w-tc-editor {
