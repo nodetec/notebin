@@ -80,7 +80,7 @@ export default function Header({ onSetUser }: any) {
 
   return (
     <div>
-      <nav className="flex justify-between flex-col sm:flex-row items-stretch pb-12 gap-4">
+      <nav className="flex justify-between flex-row items-stretch pb-12 gap-4">
         <div className="flex justify-between items-center w-full gap-4">
           <Link className="text-3xl font-bold dark:text-zinc-200 text-neutral-800" href="/">
             <div className="flex flex-row">
