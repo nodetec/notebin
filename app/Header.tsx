@@ -8,6 +8,7 @@ import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 import { TbNote } from "react-icons/tb";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { RelayContext } from "./context/relay-provider.jsx";
+import Popup from "./Popup";
 
 import Button from "./Button";
 // import TextInput from "./TextInput";
@@ -114,54 +115,39 @@ export default function Header({ onSetUser }: any) {
           login
         </Button>
       </nav>
-  {isOpen && (
-        <>
-          <div className="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-sm border-2 border-neutral-500 rounded-md">
-            <Button
-              icon={<IoMdCloseCircleOutline size={24} />}
-              className="absolute w-fit right-0 top-0 text-neutral-400"
-              onClick={() => setIsOpen(false)}
-              color="transparent"
-            />
-            <div className="bg-neutral-900 flex flex-col justify-center items-stretch gap-4 p-6 rounded-md shadow-overlay">
-              <h3 className="text-xl text-neutral-400 text-center pb-4">
-                Generate Keys
-              </h3>
-              {/* <TextInput */}
-              {/*   value={keys.private} */}
-              {/*   onChange={(e) => */}
-              {/*     setKeys((current) => ({ */}
-              {/*       ...current, */}
-              {/*       private: e.target.value, */}
-              {/*     })) */}
-              {/*   } */}
-              {/*   label="Private Key" */}
-              {/* /> */}
-              {/* <TextInput */}
-              {/*   value={keys.public} */}
-              {/*   onChange={(e) => */}
-              {/*     setKeys((current) => ({ ...current, public: e.target.value })) */}
-              {/*   } */}
-              {/*   label="Pubilc Key" */}
-              {/* /> */}
-              {/* <Buttons> */}
-              {/*   <Button color="neutralDark" onClick={() => setIsOpen(false)}> */}
-              {/*     Cancel */}
-              {/*   </Button> */}
-              {/*   <Button onClick={() => setIsOpen(false)}>Generate</Button> */}
-              {/* </Buttons> */}
-              <Button
-                onClick={connectLightningHandler}
-                color="yellow"
-                size="sm"
-                icon={<BsLightningChargeFill size="14" />}
-              >
-                {isLightningConnected ? "connected" : "Login with Lightning"}
-              </Button>
-            </div>
-          </div>
-        </>
-      )}
+      <Popup title="Generate Keys" isOpen={isOpen} setIsOpen={setIsOpen}>
+        {/* <TextInput */}
+        {/*   value={keys.private} */}
+        {/*   onChange={(e) => */}
+        {/*     setKeys((current) => ({ */}
+        {/*       ...current, */}
+        {/*       private: e.target.value, */}
+        {/*     })) */}
+        {/*   } */}
+        {/*   label="Private Key" */}
+        {/* /> */}
+        {/* <TextInput */}
+        {/*   value={keys.public} */}
+        {/*   onChange={(e) => */}
+        {/*     setKeys((current) => ({ ...current, public: e.target.value })) */}
+        {/*   } */}
+        {/*   label="Pubilc Key" */}
+        {/* /> */}
+        {/* <Buttons> */}
+        {/*   <Button color="neutralDark" onClick={() => setIsOpen(false)}> */}
+        {/*     Cancel */}
+        {/*   </Button> */}
+        {/*   <Button onClick={() => setIsOpen(false)}>Generate</Button> */}
+        {/* </Buttons> */}
+        <Button
+          onClick={connectLightningHandler}
+          color="yellow"
+          size="sm"
+          icon={<BsLightningChargeFill size="14" />}
+        >
+          {isLightningConnected ? "connected" : "Login with Lightning"}
+        </Button>
+      </Popup>
     </div>
   );
 }

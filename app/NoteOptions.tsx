@@ -1,7 +1,7 @@
 "use client";
 
 import "websocket-polyfill";
-import { useContext, useRef, useState } from "react";
+import { useContext, useState } from "react";
 import { useRouter } from "next/navigation";
 import { NostrService } from "./utils/NostrService";
 import { RelayContext } from "./context/relay-provider.jsx";
@@ -11,7 +11,7 @@ import Select from "./Select";
 import { LANGUAGES, RELAYS } from "./constants";
 import TextInput from "./TextInput";
 import { BsLightningChargeFill } from "react-icons/bs";
-import { IoMdCloseCircleOutline } from "react-icons/io";
+import Popup from "./Popup";
 
 export default function NoteOptions({ text, onSetSyntaxOption }: any) {
   const [syntax, setSyntax] = useState("markdown");
@@ -37,7 +37,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     let localRelay = relay;
 
     if (!localRelay) {
-      localRelay = await NostrService.connect("wss://nostr-pub.wellorder.net");
+      localRelay = await NostrService.connect(RELAYS[0]);
       setRelay(localRelay);
     }
 
@@ -118,7 +118,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
             />
             <label>Relay</label>
             <span className="px-3 py-2 rounded-md text-sm w-full text-neutral-700 dark:text-zinc-300 bg-zinc-300 dark:bg-neutral-700 overflow-scroll">
-              wss://nostr-pub.wellorder.net
+              {RELAYS[0]}
             </span>
           </div>
           <Button loading={postLoading} type="submit">
@@ -135,44 +135,29 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
           </Button>
         </div>
       </form>
-      {isOpen && (
-        <>
-          <div className="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-1/4 border-2 border-neutral-500 rounded-md h-1/4">
-            <Button
-              icon={<IoMdCloseCircleOutline size={24} />}
-              className="absolute w-fit right-0 top-0 text-neutral-400"
-              onClick={() => setIsOpen(false)}
-              color="transparent"
-            />
-            <div className="bg-neutral-900 flex flex-col justify-center items-stretch gap-4 p-6 rounded-md shadow-overlay">
-              <h3 className="text-xl text-neutral-400 text-center pb-4">
-                Tip Info
-              </h3>
-              <TextInput
-                value={tipInfo.noteAddress}
-                onChange={(e) =>
-                  setTipInfo((current) => ({
-                    ...current,
-                    noteAddress: e.target.value,
-                  }))
-                }
-                label="Note Address"
-              />
-              <TextInput
-                value={tipInfo.customValue}
-                onChange={(e) =>
-                  setTipInfo((current) => ({
-                    ...current,
-                    customValue: e.target.value,
-                  }))
-                }
-                label="Custom Record (if applicable)"
-              />
-              <Button onClick={() => setIsOpen(false)}>Done</Button>
-            </div>
-          </div>
-        </>
-      )}
+      <Popup title="Tip Info" isOpen={isOpen} setIsOpen={setIsOpen}>
+        <TextInput
+          value={tipInfo.noteAddress}
+          onChange={(e) =>
+            setTipInfo((current) => ({
+              ...current,
+              noteAddress: e.target.value,
+            }))
+          }
+          label="Note Address"
+        />
+        <TextInput
+          value={tipInfo.customValue}
+          onChange={(e) =>
+            setTipInfo((current) => ({
+              ...current,
+              customValue: e.target.value,
+            }))
+          }
+          label="Custom Record (if applicable)"
+        />
+        <Button onClick={() => setIsOpen(false)}>Done</Button>
+      </Popup>
     </div>
   );
 }
