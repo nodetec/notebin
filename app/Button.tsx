@@ -14,11 +14,26 @@ const iconSized = {
 };
 
 const colors = {
-  blue: "dark:text-neutral-900 bg-blue-400 hover:bg-blue-500",
-  neutralDark: "text-neutral-300 bg-neutral-600 hover:bg-neutral-700",
-  neutralLight: "bg-neutral-300 text-neutral-900 hover:bg-neutral-400",
-  yellow: "dark:text-neutral-900 tex bg-yellow-300 hover:bg-yellow-400",
-  transparent: "bg-transparent",
+  blue: {
+    solid: "text-neutral-900 bg-blue-400 hover:bg-blue-500 border-transparent",
+    outline: "text-blue-400 bg-transparent border-blue-400 hover:bg-blue-500 hover:text-neutral-900",
+    ghost: "text-blue-400 bg-transparent border-transparent hover:border-blue-500",
+  },
+  neutralDark: {
+    solid: "text-neutral-300 bg-neutral-600 hover:bg-neutral-700 border-transparent",
+    outline: "text-neutral-600 bg-transparent border-neutral-600 hover:bg-neutral-700 hover:text-neutral-300",
+    ghost: "text-neutral-600 bg-transparent border-transparent hover:border-neutral-700",
+  },
+  neutralLight: {
+    solid: "text-neutral-900 bg-neutral-300 hover:bg-neutral-400 border-transparent",
+    outline: "text-neutral-300 bg-transparent border-neutral-300 hover:bg-neutral-400 hover:text-neutral-900",
+    ghost: "text-neutral-300 bg-transparent border-transparent hover:border-neutral-300",
+  },
+  yellow: {
+    solid: "text-neutral-900 bg-yellow-300 hover:bg-yellow-400 border-transparent",
+    outline: "text-yellow-300 bg-transparent border-yellow-300 hover:bg-yellow-400 hover:text-neutral-900",
+    ghost: "text-yellow-300 bg-transparent border-transparent hover:border-yellow-300",
+  },
 };
 
 export interface Props
@@ -28,6 +43,7 @@ export interface Props
   > {
   size?: keyof typeof sizes;
   color?: keyof typeof colors;
+  variant?: "solid" | "outline" | "ghost";
   icon?: ReactNode;
   iconAfter?: boolean;
   loading?: boolean;
@@ -37,6 +53,7 @@ const Button: React.FC<Props> = ({
   children,
   size = "md",
   color = "blue",
+  variant = "solid",
   className = "",
   loading = false,
   icon,
@@ -48,10 +65,10 @@ const Button: React.FC<Props> = ({
     <button
       aria-label={children as string}
       title={children as string}
-      className={`rounded-md font-bold text-base flex items-center justify-center cursor-pointer gap-2 self-center transition-colors w-full
+      className={`rounded-md font-bold text-base flex items-center justify-center cursor-pointer gap-2 self-center transition-colors w-full border border-solid
          ${disabled ? "cursor-not-allowed opacity-40" : ""}
          ${children ? sizes[size] : iconSized[size]}
-         ${colors[color]}
+         ${colors[color][variant]}
          ${className}
       `}
       disabled={disabled}

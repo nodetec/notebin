@@ -6,7 +6,6 @@ import { BsLightningChargeFill } from "react-icons/bs";
 /* import { GiOstrich } from "react-icons/gi"; */
 import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 import { TbNote } from "react-icons/tb";
-import { IoMdCloseCircleOutline } from "react-icons/io";
 import { RelayContext } from "./context/relay-provider.jsx";
 import Popup from "./Popup";
 
@@ -101,13 +100,15 @@ export default function Header({ onSetUser }: any) {
                 <HiOutlineSun className="w-6 h-6 text-zinc-200" /> :
                 <HiOutlineMoon className="w-6 h-6 text-neutral-800" />}
               size="sm"
-              color="transparent"
+              color={isDarkTheme ? "neutralDark" : "neutralLight"}
+              variant="ghost"
             /> : null
           }
         </div>
         <Button
           className="w-auto"
           color="yellow"
+          variant="outline"
           onClick={handleClick}
           size="sm"
           icon={<BsLightningChargeFill size="14" />}

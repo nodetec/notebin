@@ -125,11 +125,10 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
             {postLoading ? "Sending..." : "Send"}
           </Button>
           <Button
-            color={"yellow"}
-            className={"mt-4"}
+            color="yellow"
+            className="mt-4"
             icon={<BsLightningChargeFill size="14" />}
             onClick={handleClick}
-            type="button"
           >
             Accept Tip
           </Button>
