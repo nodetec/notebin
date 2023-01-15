@@ -56,9 +56,6 @@ export namespace NostrService {
   }
 
   export async function getEvent(id: string, relay: Relay) {
-    console.log("GETEVENT ID:", id);
-    console.log("GETEVENT RELAY:", relay);
-
     return new Promise<Event | null>((resolve) => {
       let sub = relay.sub([
         {
@@ -84,12 +81,12 @@ export namespace NostrService {
       kind: 2222,
       pubkey: publicKey,
       created_at: Math.floor(Date.now() / 1000),
-      // tags: ["syntax", syntax],
       tags: [
         ["syntax", syntax],
         ["client", "notebin"],
-        ["tags", "TODO"],
-        ["ln_address", "TODO"],
+        // ["tags", "TODO"],
+        ["node_address", "030a58b8653d32b99200a2334cfe913e51dc7d155aa0116c176657a4f1722677a3"],
+        ["custom_value", "z6jZV4xv9PuJoMGQvs2m"],
       ],
       content: content,
     };
@@ -116,6 +113,7 @@ export namespace NostrService {
     event: Event
   ) {
     event.id = getEventHash(event);
+    // @ts-ignore
     event = await window.nostr.signEvent(event);
     return event;
   }
