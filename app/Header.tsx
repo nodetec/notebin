@@ -20,11 +20,12 @@ export default function Header({ onSetUser }: any) {
   const { relay, setRelay } = useContext(RelayContext);
 
   useEffect(() => {
-    const connected = sessionStorage.getItem("connected");
+    const shouldReconnect = sessionStorage.getItem("shouldReconnect");
 
-    const getConnected = async (connected: string) => {
+    const getConnected = async (shouldReconnect: string) => {
       let enabled = false;
-      if (connected === "true") {
+      // @ts-ignore
+      if (shouldReconnect === "true" && !webln.executing) {
         // @ts-ignore
         enabled = await window.webln.enable();
         setIsLightningConnected(true);
@@ -32,8 +33,8 @@ export default function Header({ onSetUser }: any) {
       return enabled;
     };
 
-    if (connected) {
-      getConnected(connected);
+    if (shouldReconnect) {
+      getConnected(shouldReconnect);
     }
   }, []);
 
@@ -46,9 +47,6 @@ export default function Header({ onSetUser }: any) {
       );
       setRelay(new_relay);
     }
-
-    const info = await window.webln.getInfo();
-    console.log(info);
   };
 
   const connectLightningHandler = async () => {
@@ -57,9 +55,9 @@ export default function Header({ onSetUser }: any) {
       // @ts-ignore
       const enabled = await window.webln.enable();
 
-      sessionStorage.setItem("connected", "true");
+      sessionStorage.setItem("shouldReconnect", "true");
     }
-    console.log("connected");
+    console.log("connected to lightning");
     setIsLightningConnected(true);
   };
 
