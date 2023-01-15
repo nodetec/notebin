@@ -1,3 +1,4 @@
+import { Providers } from './providers'
 import Footer from "./Footer";
 import "./globals.css";
 import RelayProvider from "./context/relay-provider.jsx";
@@ -21,8 +22,10 @@ export default function RootLayout({
         <RelayProvider>
           <EventProvider>
             <KeysProvider>
+              <Providers>
               {/* <Header /> */}
-              {children}
+              {children}   
+             </Providers>
             </KeysProvider>
           </EventProvider>
         </RelayProvider>
