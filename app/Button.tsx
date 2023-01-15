@@ -70,7 +70,7 @@ const Button: React.FC<Props> = ({
     <button
       aria-label={children as string}
       title={children as string}
-      className={`rounded-md font-bold text-base flex items-center justify-center cursor-pointer gap-2 self-center transition-colors w-full border border-solid
+      className={`rounded-md font-bold text-base flex items-center justify-center cursor-pointer gap-2 self-center transition-colors border border-solid
          ${disabled ? "cursor-not-allowed opacity-40" : ""}
          ${children ? sizes[size] : iconSized[size]}
          ${colors[color][variant]}

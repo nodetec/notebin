@@ -94,7 +94,6 @@ export default function Header({ onSetUser }: any) {
           </Link>
           {mounted ?
             <Button
-              className="w-auto"
               onClick={toggleTheme}
               icon={isDarkTheme ?
                 <HiOutlineSun className="w-6 h-6 text-zinc-200" /> :
@@ -106,7 +105,6 @@ export default function Header({ onSetUser }: any) {
           }
         </div>
         <Button
-          className="w-auto"
           color="yellow"
           variant="outline"
           onClick={handleClick}
@@ -141,6 +139,7 @@ export default function Header({ onSetUser }: any) {
         {/*   <Button onClick={() => setIsOpen(false)}>Generate</Button> */}
         {/* </Buttons> */}
         <Button
+          className="w-full"
           onClick={connectLightningHandler}
           color="yellow"
           size="sm"

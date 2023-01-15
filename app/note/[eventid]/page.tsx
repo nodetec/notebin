@@ -64,7 +64,6 @@ export default function NotePage({ params }: any) {
           {event?.content}
         </p>
         <Button
-          className="w-12 self-start"
           color="yellow"
           onClick={handleTip}
           size="sm"

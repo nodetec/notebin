@@ -112,7 +112,7 @@ const NoteArea = () => {
           color="blue"
           variant="solid"
           size="sm"
-          className="w-auto ml-auto"
+          className="ml-auto"
           loading={postLoading}
           onClick={post}
         >

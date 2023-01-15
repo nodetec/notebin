@@ -57,7 +57,6 @@ const TextInput = ({ label, error, tagsList, setTagsList, placeholder = "", valu
                                       flex items-center gap-1">
                 {tag}
                 <Button
-                  className="w-auto"
                   icon= { <IoMdCloseCircleOutline /> }
                   size="sm"
                   color="transparent"
