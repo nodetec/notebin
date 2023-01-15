@@ -34,6 +34,11 @@ const colors = {
     outline: "text-yellow-300 bg-transparent border-yellow-300 hover:bg-yellow-400 hover:text-neutral-900",
     ghost: "text-yellow-300 bg-transparent border-transparent hover:border-yellow-300",
   },
+  transparent: {
+    solid: "bg-transparent border-transparent",
+    outline: "bg-transparent border-transparent",
+    ghost: "bg-transparent border-transparent",
+  }
 };
 
 export interface Props
