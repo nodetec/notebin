@@ -21,17 +21,18 @@ export default function Header({ onSetUser }: any) {
   const [mounted, setMounted] = useState(false);
 
   // @ts-ignore
-  const { relay, setRelay } = useContext(RelayContext);
+  const { relays, setRelays } = useContext(RelayContext);
 
   useEffect(() => {
     const shouldReconnect = sessionStorage.getItem("shouldReconnect");
     setMounted(true);
 
+    const connectToRelays = async () => {
+      const new_relays = await NostrService.connect(RELAYS);
+      setRelays(new_relays);
+    };
+
     const getConnected = async (shouldReconnect: string) => {
-      if (!relay) {
-        const new_relay = await NostrService.connect(RELAYS[0]);
-        setRelay(new_relay);
-      }
       let enabled = false;
       // @ts-ignore
       if (shouldReconnect === "true" && !webln.executing) {
@@ -41,6 +42,9 @@ export default function Header({ onSetUser }: any) {
       }
       return enabled;
     };
+    if (!relays) {
+      connectToRelays();
+    }
 
     if (shouldReconnect) {
       getConnected(shouldReconnect);

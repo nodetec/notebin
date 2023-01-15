@@ -9,6 +9,7 @@ import { BsLightningChargeFill } from "react-icons/bs";
 import { usePathname } from "next/navigation.js";
 import { RelayContext } from "../../context/relay-provider.jsx";
 import { NostrService } from "../../utils/NostrService";
+import { RELAYS } from "../../constants";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -26,16 +27,16 @@ export default function NotePage({ params }: any) {
   useEffect(() => {
     async function getEvent() {
       if (!relay) {
-        const new_relay = await NostrService.connect(
-          "wss://nostr-pub.wellorder.net"
-        );
+        const new_relays = await NostrService.connect(RELAYS);
+        console.log("new relays", new_relays);
+        setRelay(new_relays);
         if (pathname) {
           const eventId = pathname.split("/").pop() || "";
           console.log("eventId from path name", eventId);
-          await setRelay(new_relay);
+          await setRelay(new_relays);
           const retrieved_event = await NostrService.getEvent(
             eventId,
-            new_relay
+            new_relays[0]
           );
           await setEvent(retrieved_event);
         }

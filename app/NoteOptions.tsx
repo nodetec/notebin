@@ -37,7 +37,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     let localRelay = relay;
 
     if (!localRelay) {
-      localRelay = await NostrService.connect(RELAYS[0]);
+      localRelay = await NostrService.connect(RELAYS);
       setRelay(localRelay);
     }
 
