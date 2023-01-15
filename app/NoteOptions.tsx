@@ -24,6 +24,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
 
     const privateKey = null;
     // const publicKey = null;
+    // @ts-ignore
     const publicKey = await nostr.getPublicKey();
     let event = NostrService.createEvent(publicKey, text, syntax);
     event = await NostrService.addEventData(event);
