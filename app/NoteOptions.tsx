@@ -36,6 +36,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
 
     pub.on("seen", async () => {
       console.debug(`we saw the event on ${relay.url}`);
+      // @ts-ignore
       const retrieved_event = await NostrService.getEvent(event.id, relay);
       console.log("got event:", retrieved_event);
       await setEvent(retrieved_event);
