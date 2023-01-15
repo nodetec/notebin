@@ -29,8 +29,8 @@ export default function Header({ onSetUser }: any) {
 
     const getConnected = async (shouldReconnect: string) => {
       if (!relay) {
-        const new_relay = await NostrService.connect(RELAYS[0]);
-        setRelay(new_relay);
+        const new_relays = await NostrService.connect(RELAYS);
+        setRelay(new_relays);
       }
       let enabled = false;
       // @ts-ignore
