@@ -44,14 +44,14 @@ const TextInput = ({ label, error, tagsList, setTagsList, placeholder = "", valu
               </div>
             ))}
             {error && <p className="text-red-400 pl-3 text-sm mt-1">{error}</p>}
-            <input
+            {error ? null : <input
               type="text"
               id={id}
               className="focus:border-0 p-0 bg-transparent border-0 outline-0 focus:ring-0 text-neutral-800 dark:text-zinc-200"
               placeholder={placeholder}
               value={value}
               {...props}
-            />
+            />}
           </div>
         </div>
       </div>
