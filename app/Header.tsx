@@ -1,70 +1,24 @@
 "use client";
 import Link from "next/link";
-import { useEffect, useState, useContext } from "react";
+import { useState, } from "react";
 import { useTheme } from "next-themes";
 import { BsLightningChargeFill } from "react-icons/bs";
 /* import { GiOstrich } from "react-icons/gi"; */
 import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 import { TbNote } from "react-icons/tb";
-import { RelayContext } from "./context/relay-provider.jsx";
 import Popup from "./Popup";
 
 import Button from "./Button";
+import useRelays from "./context/hooks/useRelays";
 // import TextInput from "./TextInput";
-import { NostrService } from "./utils/NostrService";
-import { RELAYS } from "./constants";
 
 export default function Header({ onSetUser }: any) {
   const [isOpen, setIsOpen] = useState(false);
   /* const [keys, setKeys] = useState({ private: "", public: "" }); */
-  const [isLightningConnected, setIsLightningConnected] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  // @ts-ignore
-  const { relays, setRelays } = useContext(RelayContext);
-
-  useEffect(() => {
-    const shouldReconnect = sessionStorage.getItem("shouldReconnect");
-    setMounted(true);
-
-    const connectToRelays = async () => {
-      const new_relays = await NostrService.connect(RELAYS);
-      setRelays(new_relays);
-    };
-
-    const getConnected = async (shouldReconnect: string) => {
-      let enabled = false;
-      // @ts-ignore
-      if (shouldReconnect === "true" && !webln.executing) {
-        // @ts-ignore
-        enabled = await window.webln.enable();
-        setIsLightningConnected(true);
-      }
-      return enabled;
-    };
-    if (!relays) {
-      connectToRelays();
-    }
-
-    if (shouldReconnect) {
-      getConnected(shouldReconnect);
-    }
-  }, []);
+  const { mounted, relays, connecting, error, isLightningConnected, setIsLightningConnected } = useRelays();
 
   const handleClick = async () => {
     setIsOpen(true);
-  };
-
-  const connectLightningHandler = async () => {
-    // @ts-ignore
-    if (typeof window.webln !== "undefined") {
-      // @ts-ignore
-      const enabled = await window.webln.enable();
-
-      sessionStorage.setItem("shouldReconnect", "true");
-    }
-    console.log("connected to lightning");
-    setIsLightningConnected(true);
   };
 
   const { systemTheme, theme, setTheme } = useTheme();
@@ -80,12 +34,31 @@ export default function Header({ onSetUser }: any) {
     }
   };
 
+  const connectLightningHandler = async () => {
+    // @ts-ignore
+    if (typeof window.webln !== "undefined") {
+      // @ts-ignore
+      const enabled = await window.webln.enable();
+
+      sessionStorage.setItem("shouldReconnect", "true");
+    }
+    console.log("connected to lightning");
+    setIsLightningConnected(true);
+  };
+
+  const relayConnectionStateColors =
+    connecting ?
+    "bg-yellow-500 dark:bg-yellow-400 text-yellow-500 dark:text-yellow-400" :
+    error ? "bg-red-500 dark:bg-red-400 text-red-500 dark:text-red-400" :
+    isLightningConnected ? "bg-green-600 dark:bg-green-400 text-green-600 dark:text-green-400" :
+    "bg-neutral-500 dark:bg-neutral-400 text-neutral-500 dark:text-neutral-400"
+
   return (
     <div>
       <nav className="flex justify-between flex-row items-stretch pb-12 gap-4">
-        <div className="flex justify-between items-center w-full gap-4">
+        <div className="flex items-center w-full gap-4">
           <Link
-            className="text-3xl font-bold dark:text-zinc-200 text-neutral-800"
+            className="text-3xl font-bold dark:text-zinc-200 text-neutral-800 flex-1"
             href="/"
           >
             <div className="flex flex-row">
@@ -99,6 +72,16 @@ export default function Header({ onSetUser }: any) {
               <span className="text-blue-400">bin</span>
             </div>
           </Link>
+          <p className={`py-2 px-4 rounded-full bg-opacity-25 dark:bg-opacity-20 text-xs flex items-center gap-2 font-semibold
+              ${relayConnectionStateColors}
+            `}>
+            <span className={`w-2 h-2 rounded-full inline-block ${relayConnectionStateColors}`} />
+            {
+              connecting ? "Connecting..." :
+                error ? error :
+                  isLightningConnected ? `Connected to ${relays.length} relays 📡` : "Not Connected"
+            }
+          </p>
           {mounted ? (
             <Button
               onClick={toggleTheme}
@@ -114,16 +97,16 @@ export default function Header({ onSetUser }: any) {
               variant="ghost"
             />
           ) : null}
+          <Button
+            color="yellow"
+            variant="outline"
+            onClick={handleClick}
+            size="sm"
+            icon={<BsLightningChargeFill size="14" />}
+          >
+            login
+          </Button>
         </div>
-        <Button
-          color="yellow"
-          variant="outline"
-          onClick={handleClick}
-          size="sm"
-          icon={<BsLightningChargeFill size="14" />}
-        >
-          login
-        </Button>
       </nav>
       <Popup title="Generate Keys" isOpen={isOpen} setIsOpen={setIsOpen}>
         {/* <TextInput */}
