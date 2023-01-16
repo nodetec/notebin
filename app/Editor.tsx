@@ -102,16 +102,8 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
         <TextInput
           label="Tags"
           placeholder={event ? "" : "Enter tags"}
-<<<<<<< HEAD
-          tagsList={event ? event.tags[4][1].split(",") : tagsList}
-          setTagsList={event ? () => { } : handleSetTagsList}
-||||||| 6edbd0b
-          tagsList={event ? event.tags[4][1].split(",") : tagsList}
-          setTagsList={event ? () => {} : setTagsList}
-=======
           tagsList={event?.tags[4][1] ? event?.tags[4][1].split(",") : tagsList}
-          setTagsList={event ? () => { } : setTagsList}
->>>>>>> master
+          setTagsList={event ? () => { } : handleSetTagsList}
           value={tagInputValue}
           disabled={!!event}
           error={tagsInputError}
