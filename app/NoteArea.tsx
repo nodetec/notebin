@@ -2,23 +2,27 @@
 import { useContext, useState } from "react";
 import { RELAYS } from "./constants";
 import Button from "./Button";
-import { RelayContext } from "./context/relay-provider";
 import { NostrService } from "./utils/NostrService";
+import { RelayContext } from "./context/relay-provider";
 import { EventContext } from "./context/event-provider";
+import { KeysContext } from "./context/keys-provider.jsx";
 import { useRouter } from "next/navigation";
 import Editor from "./Editor";
 
 const NoteArea = () => {
+  // @ts-ignore
+  const { keys, setKeys } = useContext(KeysContext);
+  // @ts-ignore
+  const { setEvent } = useContext(EventContext);
+  // @ts-ignore
+  const { relays, setRelays } = useContext(RelayContext);
+
+  const router = useRouter();
   const [filetype, setFiletype] = useState("markdown");
   const [text, setText] = useState("");
   const [tagInputValue, setTagInputValue] = useState<string>("");
   const [tagsList, setTagsList] = useState<string[]>([]);
   const [postLoading, setPostLoading] = useState(false);
-  // @ts-ignore
-  const { setEvent } = useContext(EventContext);
-  // @ts-ignore
-  const { relays, setRelays } = useContext(RelayContext);
-  const router = useRouter();
   const [tipInfo, setTipInfo] = useState({
     noteAddress: "",
     customValue: "",
@@ -37,8 +41,8 @@ const NoteArea = () => {
 
     // const privateKey = null;
     // const publicKey = null;
-    // @ts-ignore
-    const publicKey = await nostr.getPublicKey();
+    // const publicKey = await nostr.getPublicKey();
+    const publicKey = keys.publicKey;
     let event = NostrService.createEvent(
       publicKey,
       text,
@@ -49,8 +53,10 @@ const NoteArea = () => {
     );
     event = await NostrService.addEventData(event);
 
-    // TODO: publish to all relays
+    let eventId: any = null;
+    eventId = event?.id;
 
+    // TODO: publish to all relays
     let pub = localRelays[0].publish(event);
     pub.on("ok", () => {
       console.debug(`${localRelays[0].url} has accepted our event`);
@@ -59,11 +65,14 @@ const NoteArea = () => {
     pub.on("seen", async () => {
       console.debug(`we saw the event on ${localRelays[0].url}`);
       // @ts-ignore
-      const retrieved_event = await NostrService.getEvent(event.id, localRelays[0]);
+      const retrieved_event = await NostrService.getEvent(
+        eventId,
+        localRelays[0]
+      );
       console.log("got event:", retrieved_event);
       await setEvent(retrieved_event);
       console.log("did it");
-      router.push("/note/" + event.id);
+      router.push("/note/" + eventId);
     });
 
     pub.on("failed", (reason: any) => {
@@ -98,6 +107,6 @@ const NoteArea = () => {
       </div>
     </div>
   );
-}
+};
 
 export default NoteArea;

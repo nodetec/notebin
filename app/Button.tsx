@@ -24,6 +24,11 @@ const colors = {
     outline: "text-neutral-600 bg-transparent border-neutral-600 hover:bg-neutral-700 hover:text-neutral-300",
     ghost: "text-neutral-600 bg-transparent border-transparent hover:border-neutral-700",
   },
+  zincDark: {
+    solid: "text-zinc-300 bg-zinc-500 hover:bg-zinc-600 border-transparent",
+    outline: "text-zinc-500 bg-transparent border-zinc-500 hover:bg-zinc-700 hover:text-zinc-300",
+    ghost: "text-zinc-500 bg-transparent border-transparent hover:border-zinc-600",
+  },
   neutralLight: {
     solid: "text-neutral-900 bg-neutral-300 hover:bg-neutral-400 border-transparent",
     outline: "text-neutral-300 bg-transparent border-neutral-300 hover:bg-neutral-400 hover:text-neutral-900",

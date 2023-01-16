@@ -14,10 +14,13 @@ import { RELAYS } from "./constants";
 // import TextInput from "./TextInput";
 
 import { RelayContext } from "./context/relay-provider.jsx";
+import { KeysContext } from "./context/keys-provider.jsx";
 
 export default function Header() {
   // @ts-ignore
   const { relays, setRelays } = useContext(RelayContext);
+  // @ts-ignore
+  const { keys, setKeys } = useContext(KeysContext);
   const [isOpen, setIsOpen] = useState(false);
   const [connecting, setConnecting] = useState(false);
   const [error, setError] = useState("");
@@ -49,6 +52,9 @@ export default function Header() {
           // @ts-ignore
           enabled = await window.webln.enable();
           setIsLightningConnected(true);
+          // @ts-ignore
+          const publicKey = await nostr.getPublicKey();
+          setKeys({ privateKey: "", publicKey: publicKey });
         } catch (e: any) {
           console.log(e.message);
         }
@@ -86,7 +92,9 @@ export default function Header() {
     if (typeof window.webln !== "undefined") {
       // @ts-ignore
       const enabled = await window.webln.enable();
-
+      // @ts-ignore
+      const publicKey = await nostr.getPublicKey();
+      setKeys({ private: "", public: publicKey });
       localStorage.setItem("shouldReconnect", "true");
     }
     console.log("connected to lightning");
@@ -100,6 +108,12 @@ export default function Header() {
     : relays
     ? "bg-green-600 dark:bg-green-400 text-green-600 dark:text-green-400"
     : "bg-neutral-500 dark:bg-neutral-400 text-neutral-500 dark:text-neutral-400";
+
+  const shortenHash = (hash: string) => {
+    if (hash) {
+      return hash.substring(0, 4) + "..." + hash.substring(hash.length - 4);
+    }
+  };
 
   return (
     <div>
@@ -147,15 +161,19 @@ export default function Header() {
           {/*     variant="ghost" */}
           {/*   /> */}
           {/* ) : null} */}
-          <Button
-            color="yellow"
-            variant="outline"
-            onClick={handleClick}
-            size="sm"
-            icon={<BsLightningChargeFill size="14" />}
-          >
-            login
-          </Button>
+          {isLightningConnected && keys?.publicKey ? (
+            <span className="dark:bg-blue-500 text-zinc-900 rounded-full py-1 px-2" >{shortenHash(keys?.publicKey)}</span>
+          ) : (
+            <Button
+              color="zincDark"
+              variant="outline"
+              onClick={handleClick}
+              size="sm"
+              // icon={<BsLightningChargeFill size="14" />}
+            >
+              login
+            </Button>
+          )}
         </div>
       </nav>
       <Popup title="Generate Keys" isOpen={isOpen} setIsOpen={setIsOpen}>
