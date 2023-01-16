@@ -18,7 +18,18 @@ export default function NotePage() {
 
   const pathname = usePathname();
 
+  function setupMarkdown(event: string) {
+    var md = require("markdown-it")();
+    var result = md.render(event);
+    setIsMarkdown(true);
+    setMarkdown(result);
+  }
+
   useEffect(() => {
+    if (event?.tags[0][1] === "markdown") {
+      setupMarkdown(event?.content);
+    }
+
     let eventId = "";
     if (pathname) {
       eventId = pathname.split("/").pop() || "";
@@ -36,19 +47,12 @@ export default function NotePage() {
         await setEvent(retrieved_event);
 
         if (retrieved_event?.tags[0][1] === "markdown") {
-          var md = require("markdown-it")();
-          var result = md.render(retrieved_event?.content);
-          setIsMarkdown(true);
-          setMarkdown(result);
+          setupMarkdown(retrieved_event?.content);
         }
       } else {
         const retrieved_event = await NostrService.getEvent(eventId, relays[0]);
-
         if (retrieved_event?.tags[0][1] === "markdown") {
-          var md = require("markdown-it")();
-          var result = md.render(retrieved_event?.content);
-          setIsMarkdown(true);
-          setMarkdown(result);
+          setupMarkdown(retrieved_event?.content);
         }
       }
     }
@@ -87,7 +91,7 @@ export default function NotePage() {
     <div>
       <div className="flex flex-col gap-4 justify-start items-stretch flex-1">
         {event &&
-          (isMarkdown ? (
+          (isMarkdown || event?.tags[0][1] === "markdown" ? (
             <div className="container flex flex-row w-full justify-between border-t border-zinc-700">
               <div className="basis-2/3 w-2/3 prose prose-zinc dark:prose-invert p-10 flex-shrink-0">
                 <div dangerouslySetInnerHTML={{ __html: markdown }}></div>
@@ -118,36 +122,6 @@ export default function NotePage() {
           ) : (
             <Editor event={event} />
           ))}
-
-        {/* {markdown && ( */}
-        {/*   <div className="container flex flex-row w-full justify-between border-t border-zinc-700"> */}
-        {/*     <div className="basis-2/3 w-2/3 prose prose-zinc dark:prose-invert p-10 flex-shrink-0"> */}
-        {/*       <div dangerouslySetInnerHTML={{ __html: markdown }}></div> */}
-        {/*     </div> */}
-        {/*     <div className="flex flex-col basis-1/3 w-1/3"> */}
-        {/*       <div className="p-10 border-l overflow-hidden border-zinc-700 h-full"> */}
-        {/*         <p className="text-zinc-600">kind: {event?.kind}</p> */}
-        {/*         <p className="text-zinc-600"> */}
-        {/*           pubkey: */}
-        {/*           {shortenHash(event?.pubkey)} */}
-        {/*         </p> */}
-        {/* <p className="text-slate-600">tags: {event?.tags}</p> */}
-        {/*         <p className="text-zinc-600"> */}
-        {/*           sig: */}
-        {/*           {shortenHash(event?.sig)} */}
-        {/*         </p> */}
-        {/*         <p className="text-zinc-600"> */}
-        {/*           event id: */}
-        {/*           {shortenHash(event?.id)} */}
-        {/*         </p> */}
-        {/*         <p className="text-zinc-600">created_at: {event?.created_at}</p> */}
-        {/*       </div> */}
-        {/*       <div></div> */}
-        {/*     </div> */}
-        {/*   </div> */}
-        {/* )} */}
-
-        {/* {event && <Editor event={event} />} */}
       </div>
     </div>
   );
