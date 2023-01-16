@@ -16,12 +16,7 @@ const TextInput = ({ label, error, tagsList, setTagsList, placeholder = "", valu
 
   return (
     <div>
-      <div className={`relative
-                        p-2
-                        text-neutral-600
-                        dark:text-neutral-400
-                        flex items-start gap-4
-                        ${error ? "border-red-400 text-red-400" : "focus-within:border-blue-500" }` }>
+      <div className="relative p-2 text-neutral-600 dark:text-neutral-400 flex items-start gap-4">
         <label className="text-sm font-bold pt-[.15rem]" htmlFor={id}>{label}</label>
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex gap-2 flex-1 w-full flex-wrap">
@@ -48,6 +43,7 @@ const TextInput = ({ label, error, tagsList, setTagsList, placeholder = "", valu
                 />
               </div>
             ))}
+            {error && <p className="text-red-400 pl-3 text-sm mt-1">{error}</p>}
             <input
               type="text"
               id={id}
@@ -59,7 +55,6 @@ const TextInput = ({ label, error, tagsList, setTagsList, placeholder = "", valu
           </div>
         </div>
       </div>
-      {error && <p className="text-red-400 pl-3 text-sm mt-1">{error}</p>}
     </div>
   )
 }

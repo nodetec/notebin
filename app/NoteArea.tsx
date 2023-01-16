@@ -72,17 +72,6 @@ const NoteArea = () => {
     });
   };
 
-  const validateTagsInputKeyDown = (event: any) => {
-    const TAG_KEYS = ["Enter", ",", " "];
-    if (TAG_KEYS.some((key) => key === event.key)) {
-      event.preventDefault();
-      if (tagInputValue) {
-        setTagsList(Array.from(new Set([...tagsList, tagInputValue])));
-        setTagInputValue("");
-      }
-    }
-  };
-
   return (
     <div className="w-full lg:w-2/3 mx-auto">
       <Editor
