@@ -1,21 +1,68 @@
 "use client";
 import Link from "next/link";
-import { useState, } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { BsLightningChargeFill } from "react-icons/bs";
 /* import { GiOstrich } from "react-icons/gi"; */
-import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
+// import { HiOutlineSun, HiOutlineMoon } from "react-icons/hi2";
 import { TbNote } from "react-icons/tb";
 import Popup from "./Popup";
 
 import Button from "./Button";
-import useRelays from "./context/hooks/useRelays";
+import { NostrService } from "./utils/NostrService";
+import { RELAYS } from "./constants";
 // import TextInput from "./TextInput";
 
-export default function Header({ onSetUser }: any) {
+import { RelayContext } from "./context/relay-provider.jsx";
+
+export default function Header() {
+  // @ts-ignore
+  const { relays, setRelays } = useContext(RelayContext);
   const [isOpen, setIsOpen] = useState(false);
+  const [connecting, setConnecting] = useState(false);
+  const [error, setError] = useState("");
+  const [isLightningConnected, setIsLightningConnected] = useState(false);
   /* const [keys, setKeys] = useState({ private: "", public: "" }); */
-  const { mounted, relays, connecting, error, isLightningConnected, setIsLightningConnected } = useRelays();
+  // const { mounted, relays, connecting, error, isLightningConnected, setIsLightningConnected } = useRelays();
+
+  useEffect(() => {
+    const shouldReconnect = localStorage.getItem("shouldReconnect");
+
+    const connectToRelays = async () => {
+      try {
+        setConnecting(true);
+        const new_relays = await NostrService.connect(RELAYS);
+        await setRelays(new_relays);
+      } catch (e: any) {
+        setError("Error Connecting to Relays");
+        console.log(e.message);
+      } finally {
+        setConnecting(false);
+      }
+    };
+
+    const getConnected = async (shouldReconnect: string) => {
+      let enabled = false;
+      // @ts-ignore
+      if (shouldReconnect === "true" && !webln.executing) {
+        try {
+          // @ts-ignore
+          enabled = await window.webln.enable();
+          setIsLightningConnected(true);
+        } catch (e: any) {
+          console.log(e.message);
+        }
+      }
+      return enabled;
+    };
+    if (!relays) {
+      connectToRelays();
+    }
+
+    if (shouldReconnect === "true") {
+      getConnected(shouldReconnect);
+    }
+  }, []);
 
   const handleClick = async () => {
     setIsOpen(true);
@@ -40,18 +87,19 @@ export default function Header({ onSetUser }: any) {
       // @ts-ignore
       const enabled = await window.webln.enable();
 
-      sessionStorage.setItem("shouldReconnect", "true");
+      localStorage.setItem("shouldReconnect", "true");
     }
     console.log("connected to lightning");
     setIsLightningConnected(true);
   };
 
-  const relayConnectionStateColors =
-    connecting ?
-    "bg-yellow-500 dark:bg-yellow-400 text-yellow-500 dark:text-yellow-400" :
-    error ? "bg-red-500 dark:bg-red-400 text-red-500 dark:text-red-400" :
-    isLightningConnected ? "bg-green-600 dark:bg-green-400 text-green-600 dark:text-green-400" :
-    "bg-neutral-500 dark:bg-neutral-400 text-neutral-500 dark:text-neutral-400"
+  const relayConnectionStateColors = connecting
+    ? "bg-yellow-500 dark:bg-yellow-400 text-yellow-500 dark:text-yellow-400"
+    : error
+    ? "bg-red-500 dark:bg-red-400 text-red-500 dark:text-red-400"
+    : relays
+    ? "bg-green-600 dark:bg-green-400 text-green-600 dark:text-green-400"
+    : "bg-neutral-500 dark:bg-neutral-400 text-neutral-500 dark:text-neutral-400";
 
   return (
     <div>
@@ -72,40 +120,18 @@ export default function Header({ onSetUser }: any) {
               <span className="text-blue-400">bin</span>
             </div>
           </Link>
-          <p className={`py-2 px-4 rounded-full bg-opacity-25 dark:bg-opacity-20 text-xs flex items-center gap-2 font-semibold
+          <p
+            className={`py-2 px-4 rounded-full bg-opacity-25 dark:bg-opacity-20 text-xs flex items-center gap-2 font-semibold
               ${relayConnectionStateColors}
-            `}>
-            <span className={`w-2 h-2 rounded-full inline-block ${relayConnectionStateColors}`} />
-            {
-              connecting ? "Connecting..." :
-                error ? error :
-                  isLightningConnected ? `Connected to ${relays.length} relays 📡` : "Not Connected"
-            }
-          </p>
-          {mounted ? (
-            <Button
-              onClick={toggleTheme}
-              icon={
-                isDarkTheme ? (
-                  <HiOutlineSun className="w-6 h-6 text-zinc-200" />
-                ) : (
-                  <HiOutlineMoon className="w-6 h-6 text-neutral-800" />
-                )
-              }
-              size="sm"
-              color={isDarkTheme ? "neutralDark" : "neutralLight"}
-              variant="ghost"
-            />
-          ) : null}
-          <Button
-            color="yellow"
-            variant="outline"
-            onClick={handleClick}
-            size="sm"
-            icon={<BsLightningChargeFill size="14" />}
+            `}
           >
-            login
-          </Button>
+            <span
+              className={`w-2 h-2 rounded-full inline-block ${relayConnectionStateColors}`}
+            />
+            {relays
+              ? `Connected to ${relays.length} relays 📡`
+              : "Connecting..."}
+          </p>
           {/* {mounted ? ( */}
           {/*   <Button */}
           {/*     onClick={toggleTheme} */}
@@ -121,6 +147,15 @@ export default function Header({ onSetUser }: any) {
           {/*     variant="ghost" */}
           {/*   /> */}
           {/* ) : null} */}
+          <Button
+            color="yellow"
+            variant="outline"
+            onClick={handleClick}
+            size="sm"
+            icon={<BsLightningChargeFill size="14" />}
+          >
+            login
+          </Button>
         </div>
       </nav>
       <Popup title="Generate Keys" isOpen={isOpen} setIsOpen={setIsOpen}>
