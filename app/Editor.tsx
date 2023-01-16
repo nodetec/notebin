@@ -11,7 +11,7 @@ const CodeEditor = dynamic(
   { ssr: true }
 );
 
-const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagInputValue, setTagInputValue, event }: any) => {
+const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, tagInputValue, setTagInputValue, event }: any) => {
   const [tagsInputError, setTagsInputError] = useState("");
 
   const handleSetTagsList = (list: string[]) => {
@@ -58,13 +58,13 @@ const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagIn
       <div className="bg-zinc-300 dark:bg-neutral-800 p-2 flex items-center justify-between">
         <input className="bg-zinc-200 text-neutral-900 dark:bg-neutral-900 dark:text-zinc-300 border-0 outline-0 focus:ring-0 text-sm rounded-md"
           type="text"
-          list="syntax-languages"
-          placeholder="syntax"
-          value={syntax}
+          list="filetypes"
+          placeholder="filetype"
+          value={filetype || event?.tags[0][1]}
           disabled={!!event}
-          onChange={(e) => setSyntax(e.target.value)}
+          onChange={(e) => setFiletype(e.target.value)}
         />
-        <datalist id="syntax-languages">
+        <datalist id="filetypes">
           {LANGUAGES.map((lang) => (
             <option key={lang} value={lang}>{lang}</option>
           ))}
@@ -83,9 +83,9 @@ const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagIn
       </div>
       <div className="overflow-auto h-[34rem]">
         <CodeEditor
-          className="w-full focus:border focus:border-blue-500 p-3 outline-none h-full"
+          className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
           value={event ? event?.content : text}
-          language={event ? event?.tags[0][1] : syntax}
+          language={event ? event?.tags[0][1] : filetype}
           placeholder="Enter your note..."
           autoCapitalize="none"
           onChange={(evn) => setText(evn.target.value)}
@@ -102,8 +102,16 @@ const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagIn
         <TextInput
           label="Tags"
           placeholder={event ? "" : "Enter tags"}
+<<<<<<< HEAD
           tagsList={event ? event.tags[4][1].split(",") : tagsList}
           setTagsList={event ? () => { } : handleSetTagsList}
+||||||| 6edbd0b
+          tagsList={event ? event.tags[4][1].split(",") : tagsList}
+          setTagsList={event ? () => {} : setTagsList}
+=======
+          tagsList={event?.tags[4][1] ? event?.tags[4][1].split(",") : tagsList}
+          setTagsList={event ? () => { } : setTagsList}
+>>>>>>> master
           value={tagInputValue}
           disabled={!!event}
           error={tagsInputError}

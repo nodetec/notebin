@@ -99,21 +99,21 @@ export default function Header({ onSetUser }: any) {
               <span className="text-blue-400">bin</span>
             </div>
           </Link>
-          {mounted ? (
-            <Button
-              onClick={toggleTheme}
-              icon={
-                isDarkTheme ? (
-                  <HiOutlineSun className="w-6 h-6 text-zinc-200" />
-                ) : (
-                  <HiOutlineMoon className="w-6 h-6 text-neutral-800" />
-                )
-              }
-              size="sm"
-              color={isDarkTheme ? "neutralDark" : "neutralLight"}
-              variant="ghost"
-            />
-          ) : null}
+          {/* {mounted ? ( */}
+          {/*   <Button */}
+          {/*     onClick={toggleTheme} */}
+          {/*     icon={ */}
+          {/*       isDarkTheme ? ( */}
+          {/*         <HiOutlineSun className="w-6 h-6 text-zinc-200" /> */}
+          {/*       ) : ( */}
+          {/*         <HiOutlineMoon className="w-6 h-6 text-neutral-800" /> */}
+          {/*       ) */}
+          {/*     } */}
+          {/*     size="sm" */}
+          {/*     color={isDarkTheme ? "neutralDark" : "neutralLight"} */}
+          {/*     variant="ghost" */}
+          {/*   /> */}
+          {/* ) : null} */}
         </div>
         <Button
           color="yellow"

@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import Editor from "./Editor";
 
 const NoteArea = () => {
-  const [syntax, setSyntax] = useState("markdown");
+  const [filetype, setFiletype] = useState("markdown");
   const [text, setText] = useState("");
   const [tagInputValue, setTagInputValue] = useState<string>("");
   const [tagsList, setTagsList] = useState<string[]>([]);
@@ -42,7 +42,7 @@ const NoteArea = () => {
     let event = NostrService.createEvent(
       publicKey,
       text,
-      syntax,
+      filetype,
       tipInfo.noteAddress,
       tipInfo.customValue,
       tagsList
@@ -75,8 +75,8 @@ const NoteArea = () => {
   return (
     <div className="w-full lg:w-2/3 mx-auto">
       <Editor
-        syntax={syntax}
-        setSyntax={setSyntax}
+        filetype={filetype}
+        setFiletype={setFiletype}
         text={text}
         setText={setText}
         tagsList={tagsList}
