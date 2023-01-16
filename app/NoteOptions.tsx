@@ -13,8 +13,8 @@ import TextInput from "./TextInput";
 import { BsLightningChargeFill } from "react-icons/bs";
 import Popup from "./Popup";
 
-export default function NoteOptions({ text, onSetSyntaxOption }: any) {
-  const [syntax, setSyntax] = useState("markdown");
+export default function NoteOptions({ text, onSetFiletypeOption }: any) {
+  const [filetype, setFiletype] = useState("markdown");
   const [postLoading, setPostLoading] = useState(false);
   /* const relayUrlInput = useRef<HTMLSelectElement>(null); */
   const router = useRouter();
@@ -48,7 +48,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
     let event = NostrService.createEvent(
       publicKey,
       text,
-      syntax,
+      filetype,
       tipInfo.noteAddress,
       tipInfo.customValue,
       tagsList
@@ -80,8 +80,8 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
   };
 
   function handleSelect(e: any) {
-    onSetSyntaxOption(e.target.value);
-    setSyntax(e.target.value);
+    onSetFiletypeOption(e.target.value);
+    setFiletype(e.target.value);
   }
 
   const validateTagsInputKeyDown = (event: any) => {
@@ -102,7 +102,7 @@ export default function NoteOptions({ text, onSetSyntaxOption }: any) {
           Options
           <div className="flex flex-col gap-4 py-4">
             <Select
-              label="Syntax"
+              label="filetype"
               options={LANGUAGES}
               onChange={handleSelect}
               defaultValue="markdown"
