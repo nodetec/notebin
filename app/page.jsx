@@ -4,7 +4,7 @@ import NoteArea from "./NoteArea";
 export default function HomePage() {
   return (
     <>
-      <NoteArea user={user} />
+      <NoteArea />
     </>
   );
 }
