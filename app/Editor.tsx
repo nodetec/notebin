@@ -70,7 +70,7 @@ const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagIn
       </div>
       <div className="overflow-auto h-[34rem]">
         <CodeEditor
-          className="w-full focus:border focus:border-blue-500 p-3 outline-none h-full"
+          className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
           value={event ? event?.content : text}
           language={event ? event?.tags[0][1] : syntax}
           placeholder="Enter your note..."
