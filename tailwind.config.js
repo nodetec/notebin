@@ -5,9 +5,9 @@ module.exports = {
   theme: {
     extend: {
       boxShadow: {
-        "overlay": "0 0 0 100vmax rgba(0, 0, 0, 0.7)",
-      }
+        overlay: "0 0 0 100vmax rgba(0, 0, 0, 0.7)",
+      },
     },
   },
-  plugins: [ require("@tailwindcss/forms"), ],
+  plugins: [require("@tailwindcss/forms"), require("@tailwindcss/typography")],
 };
