@@ -4,6 +4,7 @@ import "@uiw/react-textarea-code-editor/dist.css";
 import TextInput from "./TextInput";
 import Button from "./Button";
 import { BsLightningChargeFill } from "react-icons/bs";
+import { useState } from "react";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -11,14 +12,26 @@ const CodeEditor = dynamic(
 );
 
 const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, tagInputValue, setTagInputValue, event }: any) => {
+  const [tagsInputError, setTagsInputError] = useState("");
+
+  const handleSetTagsList = (list: string[]) => {
+    if (list.length > 5) {
+      setTagsInputError("You can only have up to 5 tags");
+      return;
+    }
+    setTagsInputError("");
+    setTagsList(list);
+  }
 
   const validateTagsInputKeyDown = (event: any) => {
     const TAG_KEYS = ["Enter", ",", " "];
     if (TAG_KEYS.some((key) => key === event.key)) {
       event.preventDefault();
-      if (tagInputValue) {
+      if (tagInputValue && tagsList.length < 5) {
         setTagsList(Array.from(new Set([...tagsList, tagInputValue])));
         setTagInputValue("");
+      } else {
+        setTagsInputError("You can only have up to 5 tags");
       }
     }
   };
@@ -90,9 +103,10 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
           label="Tags"
           placeholder={event ? "" : "Enter tags"}
           tagsList={event?.tags[4][1] ? event?.tags[4][1].split(",") : tagsList}
-          setTagsList={event ? () => { } : setTagsList}
+          setTagsList={event ? () => { } : handleSetTagsList}
           value={tagInputValue}
           disabled={!!event}
+          error={tagsInputError}
           onKeyDown={validateTagsInputKeyDown}
           onChange={(e) => setTagInputValue(e.target.value)}
         />
