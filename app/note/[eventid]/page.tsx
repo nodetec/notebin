@@ -12,20 +12,20 @@ export default function NotePage() {
   // @ts-ignore
   const { event, setEvent } = useContext(EventContext);
   // @ts-ignore
-  const { relay, setRelay } = useContext(RelayContext);
+  const { relays, setRelays } = useContext(RelayContext);
 
   const pathname = usePathname();
 
   useEffect(() => {
     async function getEvent() {
-      if (!relay) {
+      if (!relays) {
         const new_relays = await NostrService.connect(RELAYS);
         console.log("new relays", new_relays);
-        setRelay(new_relays);
+        setRelays(new_relays);
         if (pathname) {
           const eventId = pathname.split("/").pop() || "";
           console.log("eventId from path name", eventId);
-          await setRelay(new_relays);
+          await setRelays(new_relays);
           const retrieved_event = await NostrService.getEvent(
             eventId,
             new_relays[0]
