@@ -82,7 +82,7 @@ export namespace NostrService {
   export function createEvent(
     publicKey: string,
     content: string,
-    syntax: string,
+    filetype: string,
     noteAddress: string,
     customValue: string,
     tagsList: string[]
@@ -92,7 +92,7 @@ export namespace NostrService {
       pubkey: publicKey,
       created_at: Math.floor(Date.now() / 1000),
       tags: [
-        ["syntax", syntax],
+        ["filetype", filetype],
         ["client", "notebin"],
         ["node_address", noteAddress],
         ["custom_value", customValue],

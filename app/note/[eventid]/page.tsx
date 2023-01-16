@@ -17,23 +17,27 @@ export default function NotePage() {
   const pathname = usePathname();
 
   useEffect(() => {
+    let eventId = "";
+    if (pathname) {
+      eventId = pathname.split("/").pop() || "";
+      console.log("eventId from path name", eventId);
+    }
+
     async function getEvent() {
       if (!relays) {
         const new_relays = await NostrService.connect(RELAYS);
-        console.log("new relays", new_relays);
-        setRelays(new_relays);
-        if (pathname) {
-          const eventId = pathname.split("/").pop() || "";
-          console.log("eventId from path name", eventId);
-          await setRelays(new_relays);
-          const retrieved_event = await NostrService.getEvent(
-            eventId,
-            new_relays[0]
-          );
-          await setEvent(retrieved_event);
-        }
+        await setRelays(new_relays);
+        const retrieved_event = await NostrService.getEvent(
+          eventId,
+          new_relays[0]
+        );
+        await setEvent(retrieved_event);
+      } else {
+        const retrieved_event = await NostrService.getEvent(eventId, relays[0]);
+        await setEvent(retrieved_event);
       }
     }
+
     if (!event) {
       getEvent();
     }
@@ -59,7 +63,7 @@ export default function NotePage() {
   return (
     <div>
       <div className="flex flex-col gap-4 justify-start">
-        <h1 className="text-slate-400 text-2xl">Event ID: {event?.id}</h1>
+        {/* <h1 className="text-slate-400 text-2xl">Event ID: {event?.id}</h1> */}
         <Editor event={event} />
       </div>
       {/* <p className="text-slate-600">pubkey: {event?.pubkey}</p> */}
@@ -70,4 +74,7 @@ export default function NotePage() {
       {/* <p className="text-slate-600 text-2xl">event id: {event?.id}</p> */}
     </div>
   );
+}
+function sleep(arg0: number) {
+  throw new Error("Function not implemented.");
 }

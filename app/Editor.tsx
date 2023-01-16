@@ -10,7 +10,7 @@ const CodeEditor = dynamic(
   { ssr: true }
 );
 
-const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagInputValue, setTagInputValue, event }: any) => {
+const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, tagInputValue, setTagInputValue, event }: any) => {
 
   const validateTagsInputKeyDown = (event: any) => {
     const TAG_KEYS = ["Enter", ",", " "];
@@ -45,26 +45,26 @@ const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagIn
       <div className="bg-zinc-300 dark:bg-neutral-800 p-2 flex items-center justify-between">
         <input className="bg-zinc-200 text-neutral-900 dark:bg-neutral-900 dark:text-zinc-300 border-0 outline-0 focus:ring-0 text-sm rounded-md"
           type="text"
-          list="syntax-languages"
-          placeholder="syntax"
-          value={syntax}
+          list="filetypes"
+          placeholder="filetype"
+          value={filetype}
           disabled={!!event}
-          onChange={(e) => setSyntax(e.target.value)}
+          onChange={(e) => setFiletype(e.target.value)}
         />
-        <datalist id="syntax-languages">
+        <datalist id="filetypes">
           {LANGUAGES.map((lang) => (
             <option key={lang} value={lang}>{lang}</option>
           ))}
         </datalist>
-        {event  ? 
-        <Button
-          color="yellow"
-          onClick={handleTip}
-          size="sm"
-          icon={<BsLightningChargeFill size="14" />}
-        >
-          tip
-        </Button> :
+        {event ?
+          <Button
+            color="yellow"
+            onClick={handleTip}
+            size="sm"
+            icon={<BsLightningChargeFill size="14" />}
+          >
+            tip
+          </Button> :
           null
         }
       </div>
@@ -72,7 +72,7 @@ const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagIn
         <CodeEditor
           className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
           value={event ? event?.content : text}
-          language={event ? event?.tags[0][1] : syntax}
+          language={event ? event?.tags[0][1] : filetype}
           placeholder="Enter your note..."
           autoCapitalize="none"
           onChange={(evn) => setText(evn.target.value)}
@@ -90,7 +90,7 @@ const Editor = ({ syntax, setSyntax, text, setText, tagsList, setTagsList, tagIn
           label="Tags"
           placeholder={event ? "" : "Enter tags"}
           tagsList={event ? event.tags[4][1].split(",") : tagsList}
-          setTagsList={event ? () => {} : setTagsList}
+          setTagsList={event ? () => { } : setTagsList}
           value={tagInputValue}
           disabled={!!event}
           onKeyDown={validateTagsInputKeyDown}
