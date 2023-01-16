@@ -47,7 +47,7 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
           type="text"
           list="filetypes"
           placeholder="filetype"
-          value={filetype}
+          value={filetype || event?.tags[0][1]}
           disabled={!!event}
           onChange={(e) => setFiletype(e.target.value)}
         />

@@ -64,7 +64,7 @@ export default function NotePage() {
     <div>
       <div className="flex flex-col gap-4 justify-start">
         {/* <h1 className="text-slate-400 text-2xl">Event ID: {event?.id}</h1> */}
-        <Editor event={event} />
+        {event && <Editor event={event} />}
       </div>
       {/* <p className="text-slate-600">pubkey: {event?.pubkey}</p> */}
       {/* <p className="text-slate-600">kind: {event?.kind}</p> */}
