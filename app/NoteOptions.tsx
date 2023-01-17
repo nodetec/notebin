@@ -8,7 +8,7 @@ import { RelayContext } from "./context/relay-provider.jsx";
 import { EventContext } from "./context/event-provider.jsx";
 import Button from "./Button";
 import Select from "./Select";
-import { LANGUAGES, RELAYS } from "./constants";
+import { LANGUAGES, RELAYS } from "./utils/constants";
 import TextInput from "./TextInput";
 import { BsLightningChargeFill } from "react-icons/bs";
 import Popup from "./Popup";

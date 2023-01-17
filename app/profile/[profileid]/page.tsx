@@ -2,7 +2,7 @@
 import Profile from "./Profile";
 
 import { NostrProvider } from "nostr-react";
-import { PROFILE_RELAYS } from "../../constants";
+import { PROFILE_RELAYS } from "../../utils/constants";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
