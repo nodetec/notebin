@@ -11,29 +11,34 @@ import type { Relay } from "nostr-tools";
 import sha256 from "crypto-js/sha256";
 import Hex from "crypto-js/enc-hex";
 
-export enum EventKind {
+export enum Kind {
   Metadata = 0,
   Text = 1,
-  RelayRec = 2,
+  RecommendRelay = 2,
   Contacts = 3,
-  DM = 4,
-  Deleted = 5,
+  EncryptedDirectMessage = 4,
+  EventDeletion = 5,
+  Reaction = 7,
+  ChannelCreation = 40,
+  ChannelMetadata = 41,
+  ChannelMessage = 42,
+  ChannelHideMessage = 43,
+  ChannelMuteUser = 44,
 }
 
 export type Event = {
   id?: string;
-  kind: EventKind;
-  pubkey?: string;
-  content: string;
-  tags: string[][];
-  created_at: number;
   sig?: string;
+  kind: Kind;
+  tags: string[][];
+  pubkey: string;
+  content: string;
+  created_at: number;
 };
 
 export namespace NostrService {
   export async function connect(relayUrls: string[]) {
     let relays: any = [];
-
 
     for await (const relayUrl of relayUrls.map(async (relayUrl) => {
       const relay = relayInit(relayUrl);
@@ -123,6 +128,7 @@ export namespace NostrService {
     event.id = getEventHash(event);
     // @ts-ignore
     event = await window.nostr.signEvent(event);
+    console.log("signed event", event);
     return event;
   }
 }
