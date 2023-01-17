@@ -144,7 +144,7 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
               noteAddress: e.target.value,
             }))
           }
-          label="Note Address"
+          label="Node Address"
         />
         <PopupInput
           value={tipInfo.customValue}
