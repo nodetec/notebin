@@ -45,12 +45,29 @@ const NoteArea = () => {
 
     console.log("gonna publish");
 
-    publish(event);
+    const pubs = publish(event);
 
-    let eventId: any = null;
-    eventId = event?.id;
+    console.log("RETVAL:", pubs);
 
-    router.push("/note/" + eventId);
+    let eventSeen = false;
+
+    // @ts-ignore
+    for await (const pub of pubs) {
+      pub.on("ok", () => {
+        console.log("OUR EVENT WAS ACCEPTED");
+      });
+
+      pub.on("seen", async () => {
+        let eventId: any = null;
+        eventId = event?.id;
+        router.push("/note/" + eventId);
+        console.log("OUR EVENT WAS SEEN");
+      });
+
+      pub.on("failed", (reason: any) => {
+        console.log("OUR EVENT HAS FAILED");
+      });
+    }
   };
 
   return (

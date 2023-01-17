@@ -61,7 +61,7 @@ export default function Note({ eventId, keys }: any) {
               <div className="flex flex-col basis-1/3 w-1/3">
                 <div className="p-10 border-l overflow-hidden border-zinc-700 h-full">
                   <img className="rounded-full w-20" src={data?.picture} />
-                  <p className="text-lg font-bold pt-4 text-zinc-200">{data?.name}</p>
+                  <p className="text-lg font-bold pt-4 text-zinc-200">@{data?.name}</p>
                   <p className="text-lg text-zinc-400">{shortenHash(data?.npub)}</p>
                   <p className="text-sm text-zinc-400 pt-4">{data?.about}</p>
                   {/* <p className="text-zinc-600">kind: {event?.kind}</p> */}
