@@ -55,7 +55,7 @@ export default function Header() {
       await window.webln.enable();
       // @ts-ignore
       const publicKey = await nostr.getPublicKey();
-      setKeys({ private: "", public: publicKey });
+      setKeys({ private: "", publicKey: publicKey });
       localStorage.setItem("shouldReconnect", "true");
     }
     console.log("connected to lightning");
