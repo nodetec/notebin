@@ -45,11 +45,25 @@ const NoteArea = () => {
 
     console.log("gonna publish");
 
+    let eventId: any = null;
+    eventId = event?.id;
+
+    connectedRelays.forEach((relay) => {
+      let sub = relay.sub([
+        {
+          ids: [eventId],
+        },
+      ]);
+      sub.on("event", (event: Event) => {
+        console.log("we got the event we wanted:", event);
+        router.push("/note/" + eventId);
+      });
+      sub.on("eose", () => {
+        sub.unsub();
+      });
+    });
+
     const pubs = publish(event);
-
-    console.log("RETVAL:", pubs);
-
-    let eventSeen = false;
 
     // @ts-ignore
     for await (const pub of pubs) {
@@ -57,11 +71,8 @@ const NoteArea = () => {
         console.log("OUR EVENT WAS ACCEPTED");
       });
 
-      pub.on("seen", async () => {
-        let eventId: any = null;
-        eventId = event?.id;
+      await pub.on("seen", async () => {
         console.log("OUR EVENT WAS SEEN");
-        router.push("/note/" + eventId);
       });
 
       pub.on("failed", (reason: any) => {
