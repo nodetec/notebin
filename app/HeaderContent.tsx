@@ -61,6 +61,7 @@ export default function Header() {
     }
     console.log("connected to lightning");
     setIsLightningConnected(true);
+    setIsOpen(false);
   };
 
   const shortenHash = (hash: string) => {
