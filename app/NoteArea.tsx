@@ -56,6 +56,7 @@ const NoteArea = () => {
     eventId = event?.id;
 
     connectedRelays.forEach((relay) => {
+      console.log("HELLO")
       let sub = relay.sub([
         {
           ids: [eventId],
@@ -67,6 +68,7 @@ const NoteArea = () => {
         router.push("/note/" + eventId);
       });
       sub.on("eose", () => {
+        console.log("EOSE!!!!!!!")
         sub.unsub();
       });
     });
@@ -82,6 +84,8 @@ const NoteArea = () => {
 
       await pub.on("seen", async () => {
         console.log("OUR EVENT WAS SEEN");
+        setEvent(event);
+        router.push("/note/" + eventId);
       });
 
       pub.on("failed", (reason: any) => {
