@@ -25,7 +25,7 @@ export default function AccountButton({ publicKey }: any) {
   return (
     <>
       <Link href={`/profile/` + publicKey}>
-        <span className="flex gap-2 dark:bg-zinc-800 text-zinc-300 border border-zinc-700 rounded-full py-1 px-2">
+        <span className="flex gap-2 dark:bg-zinc-900 text-zinc-300 border border-zinc-700 rounded-full py-1 px-2">
           {data?.picture && (
             <img className="rounded-full w-6" src={data?.picture} />
           )}
