@@ -1,17 +1,26 @@
 "use client";
 
-import { useNostrEvents } from "nostr-react";
+import { useNostrEvents, useProfile } from "nostr-react";
 import { useEffect, useState } from "react";
 import Editor from "../../Editor";
 import { Event } from "../../utils/NostrService";
 
-export default function Note({ eventId }: any) {
+export default function Note({ eventId, keys }: any) {
   const { events } = useNostrEvents({
     filter: {
       ids: [eventId],
       since: 0,
       kinds: [2222],
     },
+  });
+
+  let pubkey = "";
+  if (keys.publicKey) {
+    pubkey = keys.publicKey;
+  }
+
+  const { data } = useProfile({
+    pubkey,
   });
   console.log("events", events);
   const [markdown, setMarkdown] = useState("");
@@ -51,23 +60,27 @@ export default function Note({ eventId }: any) {
               </div>
               <div className="flex flex-col basis-1/3 w-1/3">
                 <div className="p-10 border-l overflow-hidden border-zinc-700 h-full">
-                  <p className="text-zinc-600">kind: {event?.kind}</p>
-                  <p className="text-zinc-600">
-                    pubkey:
-                    {shortenHash(event?.pubkey)}
-                  </p>
-                  <p className="text-slate-600">tags: {event?.tags}</p>
-                  <p className="text-zinc-600">
-                    sig:
-                    {shortenHash(event?.sig)}
-                  </p>
-                  <p className="text-zinc-600">
-                    event id:
-                    {shortenHash(event?.id)}
-                  </p>
-                  <p className="text-zinc-600">
-                    created_at: {event?.created_at}
-                  </p>
+                  <img className="rounded-full w-20" src={data?.picture} />
+                  <p className="text-lg font-bold pt-4 text-zinc-200">{data?.name}</p>
+                  <p className="text-lg text-zinc-400">{shortenHash(data?.npub)}</p>
+                  <p className="text-sm text-zinc-400 pt-4">{data?.about}</p>
+                  {/* <p className="text-zinc-600">kind: {event?.kind}</p> */}
+                  {/* <p className="text-zinc-600"> */}
+                  {/*   pubkey: */}
+                  {/*   {shortenHash(event?.pubkey)} */}
+                  {/* </p> */}
+                  {/* <p className="text-slate-600">tags: {event?.tags}</p> */}
+                  {/* <p className="text-zinc-600"> */}
+                  {/*   sig: */}
+                  {/*   {shortenHash(event?.sig)} */}
+                  {/* </p> */}
+                  {/* <p className="text-zinc-600"> */}
+                  {/*   event id: */}
+                  {/*   {shortenHash(event?.id)} */}
+                  {/* </p> */}
+                  {/* <p className="text-zinc-600"> */}
+                  {/*   created_at: {event?.created_at} */}
+                  {/* </p> */}
                 </div>
                 <div></div>
               </div>
