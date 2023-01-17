@@ -125,7 +125,7 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
             }}
           />
           { event ? 
-            <div className="absolute top-2 right-2 opacity-0 transition-opacity group-hover:opacity-100 text-xs">
+            <div className={`absolute top-2 right-2 transition-opacity group-hover:opacity-100 text-xs ${(copied || error) ? "opacity-100" : "opacity-0"}`}>
               <Button
                 color="neutralDark"
                 size="sm"
