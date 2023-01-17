@@ -8,6 +8,7 @@ import { useContext, useState } from "react";
 import Popup from "./Popup";
 import { TipContext } from "./context/tip-provider.jsx";
 import PopupInput from "./PopupInput";
+import { handleTip } from "./utils/webln";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -43,23 +44,6 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
     }
   };
 
-  const handleTip = async () => {
-    // @ts-ignore
-    if (typeof window.webln !== "undefined") {
-      const nodeAddress = event.tags[2][1];
-      const customRecord = event.tags[3][1];
-      // @ts-ignore
-      const result = await webln.keysend({
-        destination: nodeAddress,
-        amount: 1,
-        customRecords: {
-          696969: customRecord,
-        },
-      });
-      console.log("Tip Result:", result);
-    }
-  };
-
   return (
     <div>
       <div className="rounded-md border-2 border-zinc-400 dark:border-neutral-700">
@@ -84,7 +68,7 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
             <Button
               color="yellow"
               variant="outline"
-              onClick={handleTip}
+              onClick={() => handleTip(event)}
               size="sm"
               icon={<BsLightningChargeFill size="14" />}
             >

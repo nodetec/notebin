@@ -1,9 +1,14 @@
 "use client";
 
 import { useNostrEvents, useProfile } from "nostr-react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { BsLightningChargeFill } from "react-icons/bs";
+import Button from "../../Button";
 import Editor from "../../Editor";
+import Popup from "../../Popup";
+import TextInput from "../../TextInput";
 import { Event } from "../../utils/NostrService";
+import { handleTip } from "../../utils/webln";
 
 export default function Note({ eventId, keys }: any) {
   const { events } = useNostrEvents({
@@ -26,6 +31,8 @@ export default function Note({ eventId, keys }: any) {
   const [markdown, setMarkdown] = useState("");
   const [isMarkdown, setIsMarkdown] = useState(false);
   const [event, setEvent] = useState<Event>();
+  const [isTipOpen, setIsTipOpen] = useState(false);
+  const tipAmountRef = useRef<HTMLInputElement>(null);
 
   function setupMarkdown(event: string) {
     var md = require("markdown-it")();
@@ -81,14 +88,47 @@ export default function Note({ eventId, keys }: any) {
                   {/* <p className="text-zinc-600"> */}
                   {/*   created_at: {event?.created_at} */}
                   {/* </p> */}
+                  <Button
+                    className="w-full mt-4"
+                    color="yellow"
+                    onClick={() => setIsTipOpen(true)}
+                    icon={<BsLightningChargeFill size="14" />}
+                  >
+                    tip
+                  </Button>
                 </div>
-                <div></div>
               </div>
             </div>
           ) : (
             <Editor event={event} />
           ))}
       </div>
+      <Popup title="Pay with Lightning" isOpen={isTipOpen} setIsOpen={setIsTipOpen}>
+        <form 
+          onSubmit={() => handleTip(event, tipAmountRef.current.value)}
+          className="flex flex-col gap-4 items-center">
+          <div className="flex items-center w-full py-2 px-4 rounded-md dark:bg-neutral-800 dark:text-zinc-300 ring-1 ring-yellow-500">
+            <input
+              type="number"
+              ref={tipAmountRef}
+              placeholder="Enter amount in sats"
+              required
+              min={1}
+              className="w-full flex-1 focus:ring-0 border-0 bg-transparent dark:text-zinc-300"
+            />
+          <span className="text-yellow-400 text-sm font-bold">
+            satoshis
+          </span>
+          </div>
+          <Button
+            className="w-full"
+            color="yellow"
+            icon={<BsLightningChargeFill size="14" />}
+          >
+            tip
+          </Button>
+        </form>
+      </Popup>
     </div>
   );
 }

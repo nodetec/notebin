@@ -1,4 +1,4 @@
-import { ReactNode, useContext } from "react";
+import { ReactNode } from "react";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import Button from "./Button";
 
