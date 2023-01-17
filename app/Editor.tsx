@@ -27,11 +27,14 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
     const TAG_KEYS = ["Enter", ",", " "];
     if (TAG_KEYS.some((key) => key === event.key)) {
       event.preventDefault();
-      if (tagInputValue && tagsList.length < 5) {
-        setTagsList(Array.from(new Set([...tagsList, tagInputValue])));
-        setTagInputValue("");
-      } else {
-        setTagsInputError("You can only have up to 5 tags");
+      if (tagInputValue) {
+        if ( tagsList.length < 5 ) {
+          setTagsList(Array.from(new Set([...tagsList, tagInputValue])));
+          setTagInputValue("");
+        }
+        else {
+          setTagsInputError("You can only have up to 5 tags");
+        }
       }
     }
   };
