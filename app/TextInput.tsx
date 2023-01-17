@@ -25,12 +25,12 @@ const TextInput = ({ label, error, tagsList, setTagsList, placeholder = "", valu
                                       bg-zinc-200
                                       text-neutral-600
                                       hover:text-neutral-800
-                                      dark:bg-neutral-600
+                                      dark:bg-neutral-900
                                       dark:text-zinc-300
                                       hover:dark:text-zinc-200
                                       border border-transparent
-                                      hover:border-neutral-500
-                                      hover:dark:border-zinc-500
+                                      hover:border-neutral-600
+                                      hover:dark:border-zinc-600
                                       rounded-md p-1 group
                                       flex items-center gap-1">
                 {tag}

@@ -11,6 +11,7 @@ import { Event } from "../../utils/NostrService";
 import { handleTip } from "../../utils/webln";
 
 export default function Note({ eventId, keys }: any) {
+  // TODO: get event from context if available instead of using hook everytime
   const { events } = useNostrEvents({
     filter: {
       ids: [eventId],
