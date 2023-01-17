@@ -1,11 +1,10 @@
-import { Providers } from "./providers";
+import { CustomThemeProvider } from "./context/theme-provider";
 import Footer from "./Footer";
 import "./globals.css";
 import RelayProvider from "./context/relay-provider.jsx";
 import EventProvider from "./context/event-provider.jsx";
 import KeysProvider from "./context/keys-provider.jsx";
 import Header from "./Header";
-// import Header from "./Header";
 
 export default function RootLayout({
   children,
@@ -23,10 +22,10 @@ export default function RootLayout({
         <RelayProvider>
           <EventProvider>
             <KeysProvider>
-              <Providers>
+              <CustomThemeProvider>
                 <Header />
                 {children}
-              </Providers>
+              </CustomThemeProvider>
             </KeysProvider>
           </EventProvider>
         </RelayProvider>
