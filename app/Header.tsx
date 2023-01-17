@@ -2,7 +2,7 @@
 
 import { NostrProvider } from "nostr-react";
 import HeaderContent from "./HeaderContent";
-import { RELAYS } from "./constants";
+import { RELAYS } from "./utils/constants";
 
 export default function Header() {
   return (

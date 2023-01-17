@@ -1,4 +1,4 @@
-import { LANGUAGES } from "./constants";
+import { LANGUAGES } from "./utils/constants";
 import dynamic from "next/dynamic";
 import "@uiw/react-textarea-code-editor/dist.css";
 import TextInput from "./TextInput";
