@@ -60,8 +60,8 @@ const NoteArea = () => {
       pub.on("seen", async () => {
         let eventId: any = null;
         eventId = event?.id;
-        router.push("/note/" + eventId);
         console.log("OUR EVENT WAS SEEN");
+        router.push("/note/" + eventId);
       });
 
       pub.on("failed", (reason: any) => {
