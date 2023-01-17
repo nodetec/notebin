@@ -5,6 +5,7 @@ import Button from "./Button";
 import { NostrService } from "./utils/NostrService";
 import { EventContext } from "./context/event-provider";
 import { KeysContext } from "./context/keys-provider.jsx";
+import { TipContext } from "./context/tip-provider.jsx";
 import { useRouter } from "next/navigation";
 import Editor from "./Editor";
 
@@ -13,6 +14,8 @@ const NoteArea = () => {
   const { keys } = useContext(KeysContext);
   // @ts-ignore
   const { setEvent } = useContext(EventContext);
+  // @ts-ignore
+  const { tipInfo, setTipInfo } = useContext(TipContext);
   const { publish } = useNostr();
   const { connectedRelays } = useNostr();
 
@@ -22,10 +25,6 @@ const NoteArea = () => {
   const [tagInputValue, setTagInputValue] = useState<string>("");
   const [tagsList, setTagsList] = useState<string[]>([]);
   const [postLoading, setPostLoading] = useState(false);
-  const [tipInfo, setTipInfo] = useState({
-    noteAddress: "",
-    customValue: "",
-  });
 
   const post = async (e: any) => {
     e.preventDefault();
@@ -55,7 +54,7 @@ const NoteArea = () => {
   };
 
   return (
-    <div className="w-full lg:w-2/3 mx-auto">
+    <div className="w-full mx-auto">
       <Editor
         filetype={filetype}
         setFiletype={setFiletype}
