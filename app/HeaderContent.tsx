@@ -3,15 +3,14 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { TbNote } from "react-icons/tb";
-import { useNostr, dateToUnix } from "nostr-react";
 import Popup from "./Popup";
 
 import Button from "./Button";
 
 import { KeysContext } from "./context/keys-provider.jsx";
+import ConnectedRelaysStatus from "./ConnectedRelaysStatus";
 
 export default function Header() {
-  const { connectedRelays, isLoading } = useNostr();
   // @ts-ignore
   const { keys, setKeys } = useContext(KeysContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -62,12 +61,6 @@ export default function Header() {
     setIsLightningConnected(true);
   };
 
-  const relayConnectionStateColors = isLoading
-    ? "bg-yellow-500 dark:bg-yellow-400 text-yellow-500 dark:text-yellow-400"
-    : connectedRelays
-    ? "bg-green-600 dark:bg-green-400 text-green-600 dark:text-green-400"
-    : "bg-neutral-500 dark:bg-neutral-400 text-neutral-500 dark:text-neutral-400";
-
   const shortenHash = (hash: string) => {
     if (hash) {
       return hash.substring(0, 4) + "..." + hash.substring(hash.length - 4);
@@ -77,7 +70,7 @@ export default function Header() {
   return (
     <div>
       <nav className="flex justify-between flex-row items-stretch pb-12 gap-4">
-        <div className="flex items-center justify-between w-full gap-4">
+        <div className="flex items-center justify-between w-full gap-4 flex-col sm:flex-row">
           <div className="flex items-center gap-4">
             <Link
               className="text-3xl font-bold dark:text-zinc-200 text-neutral-800"
@@ -102,18 +95,7 @@ export default function Header() {
             </Link>
           </div>
           <div className="flex gap-4">
-            <p
-              className={`py-2 px-4 rounded-full bg-opacity-25 dark:bg-opacity-20 text-xs flex items-center gap-2 font-semibold
-              ${relayConnectionStateColors}
-            `}
-            >
-              <span
-                className={`w-2 h-2 rounded-full inline-block ${relayConnectionStateColors}`}
-              />
-              {connectedRelays
-                ? `Connected to ${connectedRelays.length} relays 📡`
-                : "Connecting..."}
-            </p>
+            <ConnectedRelaysStatus />
             {isLightningConnected && keys?.publicKey ? (
               <span className="dark:bg-blue-500 text-zinc-900 rounded-full py-1 px-2">
                 {shortenHash(keys?.publicKey)}
