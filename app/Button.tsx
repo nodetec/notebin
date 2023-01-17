@@ -41,7 +41,7 @@ const colors = {
   },
   transparent: {
     solid: "bg-transparent border-transparent",
-    outline: "bg-transparent border-transparent",
+    outline: "bg-transparent border-transparent border-current",
     ghost: "bg-transparent border-transparent",
   }
 };
