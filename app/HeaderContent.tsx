@@ -3,10 +3,11 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { TbNote } from "react-icons/tb";
-import { useNostr, dateToUnix } from "nostr-react";
+import { useNostr } from "nostr-react";
 import Popup from "./Popup";
 
 import Button from "./Button";
+import AccountButton from "./AccountButton";
 
 import { KeysContext } from "./context/keys-provider.jsx";
 
@@ -94,12 +95,6 @@ export default function Header() {
                 <span className="text-blue-400">bin</span>
               </div>
             </Link>
-            <Link
-              className="text-xl dark:text-zinc-400 text-neutral-800 hover:dark:text-zinc-500"
-              href={`/profile/` + keys.publicKey}
-            >
-              Profile
-            </Link>
           </div>
           <div className="flex gap-4">
             <p
@@ -115,9 +110,7 @@ export default function Header() {
                 : "Connecting..."}
             </p>
             {isLightningConnected && keys?.publicKey ? (
-              <span className="dark:bg-blue-500 text-zinc-900 rounded-full py-1 px-2">
-                {shortenHash(keys?.publicKey)}
-              </span>
+              <AccountButton publicKey={keys?.publicKey} />
             ) : (
               <Button
                 color="zincDark"
