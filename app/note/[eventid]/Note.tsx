@@ -7,7 +7,6 @@ import { BsLightningChargeFill } from "react-icons/bs";
 import Button from "../../Button";
 import Editor from "../../Editor";
 import Popup from "../../Popup";
-import TextInput from "../../TextInput";
 import { Event } from "../../utils/NostrService";
 import { handleTip } from "../../utils/webln";
 
@@ -49,23 +48,6 @@ export default function Note({ eventId, keys }: any) {
     }
   }, [events]);
 
-  const handleTip = async () => {
-    // @ts-ignore
-    if (typeof window.webln !== "undefined") {
-      const nodeAddress = event?.tags[2][1];
-      const customRecord = event?.tags[3][1];
-      // @ts-ignore
-      const result = await webln.keysend({
-        destination: nodeAddress,
-        amount: 1,
-        customRecords: {
-          696969: customRecord,
-        },
-      });
-      console.log("Tip Result:", result);
-    }
-  };
-
   const shortenHash = (hash: string | undefined) => {
     if (hash) {
       return (
@@ -102,7 +84,7 @@ export default function Note({ eventId, keys }: any) {
                     className="mt-4"
                     color="yellow"
                     variant="outline"
-                    onClick={handleTip}
+                    onClick={() => handleTip(event)}
                     size="sm"
                     icon={<BsLightningChargeFill size="14" />}
                   >
@@ -142,7 +124,7 @@ export default function Note({ eventId, keys }: any) {
       </div>
       <Popup title="Pay with Lightning" isOpen={isTipOpen} setIsOpen={setIsTipOpen}>
         <form 
-          onSubmit={() => handleTip(event, tipAmountRef.current.value)}
+          onSubmit={() => handleTip(event, parseInt(tipAmountRef?.current?.value) || 0)}
           className="flex flex-col gap-4 items-center">
           <div className="flex items-center w-full py-2 px-4 rounded-md dark:bg-neutral-800 dark:text-zinc-300 ring-1 ring-yellow-500">
             <input
