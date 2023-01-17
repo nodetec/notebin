@@ -1,9 +1,9 @@
 "use client";
 import { useContext, useState } from "react";
-import { useNostr, useNostrEvents } from "nostr-react";
+import { useNostr } from "nostr-react";
 import Button from "./Button";
 import { NostrService } from "./utils/NostrService";
-import { EventContext } from "./context/event-provider";
+/* import { EventContext } from "./context/event-provider"; */
 import { KeysContext } from "./context/keys-provider.jsx";
 import { TipContext } from "./context/tip-provider.jsx";
 import { useRouter } from "next/navigation";
@@ -13,22 +13,22 @@ const NoteArea = () => {
   // @ts-ignore
   const { keys } = useContext(KeysContext);
   // @ts-ignore
-  const { setEvent } = useContext(EventContext);
+  /* const { setEvent } = useContext(EventContext); */
   // @ts-ignore
-  const { tipInfo, setTipInfo } = useContext(TipContext);
+  const { tipInfo } = useContext(TipContext);
   const { publish } = useNostr();
-  const { connectedRelays } = useNostr();
+  /* const { connectedRelays } = useNostr(); */
 
   const router = useRouter();
   const [filetype, setFiletype] = useState("markdown");
   const [text, setText] = useState("");
   const [tagInputValue, setTagInputValue] = useState<string>("");
   const [tagsList, setTagsList] = useState<string[]>([]);
-  const [postLoading, setPostLoading] = useState(false);
+  const [{postSending, postError}, setPost] = useState({postSending: false, postError: ""});
 
   const post = async (e: any) => {
     e.preventDefault();
-    setPostLoading(true);
+    setPost({postSending: true, postError: ""});
 
     const publicKey = keys.publicKey;
 
@@ -41,20 +41,25 @@ const NoteArea = () => {
       tagsList
     );
 
-    event = await NostrService.addEventData(event);
-
+    try {
+      event = await NostrService.addEventData(event);
+    } catch(err: any) {
+      setPost({postSending: false, postError: err.message});
+      return;
+    }
     console.log("gonna publish");
 
     const pubs = publish(event);
 
     console.log("RETVAL:", pubs);
 
-    let eventSeen = false;
+    /* let eventSeen = false; */
 
     // @ts-ignore
     for await (const pub of pubs) {
       pub.on("ok", () => {
         console.log("OUR EVENT WAS ACCEPTED");
+        setPost({postSending: false, postError: ""});
       });
 
       pub.on("seen", async () => {
@@ -62,9 +67,11 @@ const NoteArea = () => {
         eventId = event?.id;
         console.log("OUR EVENT WAS SEEN");
         router.push("/note/" + eventId);
+        setPost({postSending: false, postError: ""});
       });
 
       pub.on("failed", (reason: any) => {
+        setPost({postSending: false, postError: reason});
         console.log("OUR EVENT HAS FAILED");
       });
     }
@@ -88,10 +95,10 @@ const NoteArea = () => {
           variant="solid"
           size="sm"
           className="ml-auto"
-          loading={postLoading}
+          loading={postSending}
           onClick={post}
         >
-          {postLoading ? "Sending..." : "Create Note"}
+          {postSending ? "Sending..." : postError ? postError : "Create Note"}
         </Button>
       </div>
     </div>
