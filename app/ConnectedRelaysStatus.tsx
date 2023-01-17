@@ -15,8 +15,6 @@ const ConnectedRelaysStatus = () => {
         ? { bg: "bg-green-600 dark:bg-green-400", fg: "text-green-600 dark:text-green-400" }
         : { bg: "bg-neutral-500 dark:bg-neutral-400", fg: "text-neutral-500 dark:text-neutral-400" }
 
-  console.log(connectedRelays)
-
   return (
     <button
       className={`py-2 px-4 rounded-full bg-opacity-25 dark:bg-opacity-20 text-xs flex items-center gap-2 font-semibold relative border border-transparent focus:border-current group
