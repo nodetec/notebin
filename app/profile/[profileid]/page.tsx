@@ -1,25 +1,25 @@
 "use client";
-import Note from "./Note";
+import Profile from "./Profile";
 
 import { NostrProvider } from "nostr-react";
 import { PROFILE_RELAYS } from "../../constants";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function NotePage() {
+export default function ProfilePage() {
   const pathname = usePathname();
-  const [eventId, setEventId] = useState("");
+  const [pubkey, setPubkey] = useState("");
 
   useEffect(() => {
     if (pathname) {
-      setEventId(pathname.split("/").pop() || "");
-      console.log("eventId from path name", eventId);
+      setPubkey(pathname.split("/").pop() || "");
+      console.log("pubkey from path name", pubkey);
     }
   }, []);
   return (
     <>
       <NostrProvider relayUrls={PROFILE_RELAYS} debug={true}>
-        <Note eventId={eventId} />
+        <Profile pubkey={pubkey} />
       </NostrProvider>
     </>
   );
