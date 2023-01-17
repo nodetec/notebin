@@ -9,6 +9,7 @@ import Editor from "../../Editor";
 import { Event } from "../../utils/NostrService";
 
 export default function Note({ eventId, keys }: any) {
+  // TODO: get event from context if available instead of using hook everytime
   const { events } = useNostrEvents({
     filter: {
       ids: [eventId],
