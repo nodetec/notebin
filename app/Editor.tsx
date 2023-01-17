@@ -139,7 +139,7 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
         <PopupInput
           value={tipInfo.noteAddress}
           onChange={(e) =>
-            setTipInfo((current) => ({
+            setTipInfo((current: any) => ({
               ...current,
               noteAddress: e.target.value,
             }))
@@ -149,7 +149,7 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
         <PopupInput
           value={tipInfo.customValue}
           onChange={(e) =>
-            setTipInfo((current) => ({
+            setTipInfo((current: any) => ({
               ...current,
               customValue: e.target.value,
             }))
