@@ -3,7 +3,7 @@ import { useContext, useState } from "react";
 import { useNostr } from "nostr-react";
 import Button from "./Button";
 import { NostrService } from "./utils/NostrService";
-/* import { EventContext } from "./context/event-provider"; */
+import { EventContext } from "./context/event-provider";
 import { KeysContext } from "./context/keys-provider.jsx";
 import { TipContext } from "./context/tip-provider.jsx";
 import { useRouter } from "next/navigation";
@@ -13,22 +13,25 @@ const NoteArea = () => {
   // @ts-ignore
   const { keys } = useContext(KeysContext);
   // @ts-ignore
-  /* const { setEvent } = useContext(EventContext); */
+  const { setEvent } = useContext(EventContext);
   // @ts-ignore
   const { tipInfo } = useContext(TipContext);
   const { publish } = useNostr();
-  /* const { connectedRelays } = useNostr(); */
+  const { connectedRelays } = useNostr();
 
   const router = useRouter();
   const [filetype, setFiletype] = useState("markdown");
   const [text, setText] = useState("");
   const [tagInputValue, setTagInputValue] = useState<string>("");
   const [tagsList, setTagsList] = useState<string[]>([]);
-  const [{postSending, postError}, setPost] = useState({postSending: false, postError: ""});
+  const [{ postSending, postError }, setPost] = useState({
+    postSending: false,
+    postError: "",
+  });
 
   const post = async (e: any) => {
     e.preventDefault();
-    setPost({postSending: true, postError: ""});
+    setPost({ postSending: true, postError: "" });
 
     const publicKey = keys.publicKey;
 
@@ -43,8 +46,8 @@ const NoteArea = () => {
 
     try {
       event = await NostrService.addEventData(event);
-    } catch(err: any) {
-      setPost({postSending: false, postError: err.message});
+    } catch (err: any) {
+      setPost({ postSending: false, postError: err.message });
       return;
     }
     console.log("gonna publish");
@@ -60,6 +63,7 @@ const NoteArea = () => {
       ]);
       sub.on("event", (event: Event) => {
         console.log("we got the event we wanted:", event);
+        setEvent(event);
         router.push("/note/" + eventId);
       });
       sub.on("eose", () => {
@@ -73,7 +77,7 @@ const NoteArea = () => {
     for await (const pub of pubs) {
       pub.on("ok", () => {
         console.log("OUR EVENT WAS ACCEPTED");
-        setPost({postSending: false, postError: ""});
+        setPost({ postSending: false, postError: "" });
       });
 
       await pub.on("seen", async () => {
@@ -81,7 +85,7 @@ const NoteArea = () => {
       });
 
       pub.on("failed", (reason: any) => {
-        setPost({postSending: false, postError: reason});
+        setPost({ postSending: false, postError: reason });
         console.log("OUR EVENT HAS FAILED");
       });
     }
