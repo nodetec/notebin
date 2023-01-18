@@ -106,28 +106,30 @@ const Editor = ({ filetype, setFiletype, text, setText, title, setTitle, tagsLis
           )}
         </div>
         <div className="overflow-auto h-[34rem]">
-          <textarea
-            className="bg-neutral-900 border-none focus:border-none resize-none text-4xl px-5 pt-7 pb-0 w-full h-1/6 max-h-16 overflow-hidden focus:ring-0"
-            value={event ? event?.tags[5][1] : title}
-            placeholder="Title..."
-            onChange={(evn) => setTitle(evn.target.value)}
-            disabled={!!event}
-          ></textarea>
-          <CodeEditor
-            className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
-            value={event ? event?.content : text}
-            language={event ? event?.tags[0][1] : filetype}
-            placeholder="Enter your note..."
-            autoCapitalize="none"
-            onChange={(evn) => setText(evn.target.value)}
-            disabled={!!event}
-            padding={25}
-            style={{
-              fontSize: 15,
-              fontFamily:
+          <div className="min-h-full">
+            <textarea
+              className="bg-neutral-900 border-none focus:border-none resize-none text-4xl px-5 pt-7 pb-0 w-full h-1/6 max-h-16 overflow-hidden focus:ring-0"
+              value={event ? event?.tags[5][1] : title}
+              placeholder="Title..."
+              onChange={(evn) => setTitle(evn.target.value)}
+              disabled={!!event}
+            />
+            <CodeEditor
+              className="w-full focus:border focus:border-blue-500 p-3 outline-none h-full"
+              value={event ? event?.content : text}
+              language={event ? event?.tags[0][1] : filetype}
+              placeholder="Enter your note..."
+              autoCapitalize="none"
+              onChange={(evn) => setText(evn.target.value)}
+              disabled={!!event}
+              padding={25}
+              style={{
+                fontSize: 15,
+                fontFamily:
                 "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
-            }}
-          />
+              }}
+            />
+          </div>
         </div>
         <div className="bg-zinc-300 dark:bg-neutral-800 p-2">
           <TextInput
