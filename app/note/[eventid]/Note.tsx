@@ -72,15 +72,15 @@ export default function Note({ eventId, keys }: any) {
 
   return (
     <div>
-      <div className="flex flex-col gap-4 justify-start items-stretch flex-1">
-        {event &&
-          (isMarkdown || event?.tags[0][1] === "markdown" ? (
-            <div className="container flex flex-row w-full justify-between border-t border-zinc-700">
-              <div className="basis-2/3 w-2/3 prose prose-zinc dark:prose-invert p-10 flex-shrink-0">
+      {event &&
+        (isMarkdown || event?.tags[0][1] === "markdown" ? (
+          <div className="border-t border-zinc-700">
+            <div className="flex justify-center">
+              <div className="w-2/3 prose prose-zinc dark:prose-invert p-10 shrink-0 grow-0 basis-11/12">
                 <div dangerouslySetInnerHTML={{ __html: markdown }}></div>
               </div>
-              <div className="flex flex-col basis-1/3 w-1/3">
-                <div className="p-10 border-l overflow-hidden border-zinc-700 h-full">
+              <div className="w-1/3 border-l border-zinc-700 grow-0 shrink-0 basis-1/12">
+                <div className="p-10 overflow-hidden h-full">
                   <Link
                     className="text-xl dark:text-zinc-400 text-neutral-800 hover:dark:text-zinc-500"
                     href={`/profile/` + pubkey}
@@ -122,13 +122,12 @@ export default function Note({ eventId, keys }: any) {
                   {/*   created_at: {event?.created_at} */}
                   {/* </p> */}
                 </div>
-                <div></div>
               </div>
             </div>
-          ) : (
-            <Editor event={event} />
-          ))}
-      </div>
+          </div>
+        ) : (
+          <Editor event={event} />
+        ))}
     </div>
   );
 }
