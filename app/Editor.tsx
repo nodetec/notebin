@@ -136,7 +136,7 @@ const Editor = ({
                       title="Split Preview"
                       className="hover:text-neutral-900 dark:hover:text-zinc-300"
                       onClick={() => setMdPreviewMode(mdPreviewMode === "split" ? "off" : "split")}
-                      icon={<RiLayoutColumnFill className={mdPreviewMode === "split" ?  "" : "rotate-180"} />}
+                      icon={<RiLayoutColumnFill className={mdPreviewMode === "split" ?  "rotate-[270deg] md:rotate-0" : "rotate-90 md:rotate-180"} />}
                     />
                   </Fragment>
                 )
@@ -164,10 +164,10 @@ const Editor = ({
             </Button>
           )}
         </div>
-        <div className="flex h-[36rem] overflow-y-auto" >
+        <div className="flex h-[36rem] overflow-y-auto flex-col md:flex-row" >
           {
             (filetype !== "markdown" || mdPreviewMode !== "preview") &&
-              <div className="w-full overflow-auto" onScroll={scrollView}>
+              <div className="w-full h-full overflow-auto" onScroll={scrollView}>
                 <textarea
                   rows={1}
                   className="bg-neutral-900 border-none focus:border-none resize-none text-4xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
@@ -198,7 +198,10 @@ const Editor = ({
           }
           {
             filetype === "markdown" && mdPreviewMode !== "off" &&
-              <div ref={previewRef} className={`w-full h-full overflow-y-auto prose prose-zinc dark:prose-invert p-6 ${mdPreviewMode === "preview" ? "min-w-full" : ""}`}>
+              <div ref={previewRef}
+                className={`w-full h-full overflow-y-auto prose prose-zinc dark:prose-invert p-6 
+                ${mdPreviewMode === "preview" ? "min-w-full" :
+                  mdPreviewMode === "split" ? "border-t-2 md:border-l-2 md:border-t-0 border-neutral-600" : ""}`}>
                 <h1 className="text-4xl font-normal mb-4">{title}</h1>
                 <div dangerouslySetInnerHTML={{ __html: setupMarkdown(text) }}></div>
               </div>
