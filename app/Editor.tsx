@@ -106,6 +106,10 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
           )}
         </div>
         <div className="overflow-auto h-[34rem]">
+          <textarea
+            className="bg-neutral-900 border-none focus:border-none resize-none text-4xl px-5 pt-7 pb-0 w-full h-1/6 max-h-16 overflow-hidden focus:ring-0"
+            placeholder="Title..."
+          ></textarea>
           <CodeEditor
             className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
             value={event ? event?.content : text}
