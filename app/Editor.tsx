@@ -4,10 +4,7 @@ import "@uiw/react-textarea-code-editor/dist.css";
 import TextInput from "./TextInput";
 import Button from "./Button";
 import { BsLightningChargeFill } from "react-icons/bs";
-import { Fragment, useContext, useRef, useState } from "react";
-import Popup from "./Popup";
-import { TipContext } from "./context/tip-provider.jsx";
-import PopupInput from "./PopupInput";
+import { Fragment, useRef, useState } from "react";
 import { HiOutlineClipboardCheck, HiOutlineClipboardCopy } from "react-icons/hi";
 import { TbClipboardX } from "react-icons/tb";
 import { AiFillEdit, AiFillEye } from "react-icons/ai";
@@ -38,9 +35,6 @@ const Editor = ({
     "off" | "preview" | "split"
   >("off");
 
-  const [isOpen, setIsOpen] = useState(false);
-  // @ts-ignore
-  const { tipInfo, setTipInfo } = useContext(TipContext);
   const previewRef = useRef(null);
 
   const handleSetTagsList = (list: string[]) => {
@@ -178,17 +172,7 @@ const Editor = ({
                 tip
               </Button>
             </div>
-          ) : (
-            <Button
-              color="yellow"
-              variant="outline"
-              onClick={() => setIsOpen(true)}
-              size="sm"
-              icon={<BsLightningChargeFill size="14" />}
-            >
-              Accept Tips
-            </Button>
-          )}
+          ) : null}
         </div>
         <div className="flex h-[36rem] overflow-y-auto flex-col md:flex-row" >
           {
@@ -249,31 +233,6 @@ const Editor = ({
           />
         </div>
       </div>
-      <Popup title="Tip Info" isOpen={isOpen} setIsOpen={setIsOpen}>
-        <PopupInput
-          value={tipInfo.noteAddress}
-          onChange={(e) =>
-            setTipInfo((current: any) => ({
-              ...current,
-              noteAddress: e.target.value,
-            }))
-          }
-          label="Node Address"
-        />
-        <PopupInput
-          value={tipInfo.customValue}
-          onChange={(e) =>
-            setTipInfo((current: any) => ({
-              ...current,
-              customValue: e.target.value,
-            }))
-          }
-          label="Custom Record (if applicable)"
-        />
-        <Button className="w-full" onClick={() => setIsOpen(false)}>
-          Done
-        </Button>
-      </Popup>
     </div>
   );
 };
