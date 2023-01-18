@@ -9,6 +9,7 @@ export default function Profile({ pubkey }: any) {
     filter: {
       kinds: [0, 3],
       authors: [pubkey],
+      limit: 5,
     },
   });
 
