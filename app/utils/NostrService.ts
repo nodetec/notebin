@@ -67,6 +67,24 @@ export namespace NostrService {
     return getPublicKey(privateKey);
   }
 
+  export async function getProfile(publicKey: string, relay: Relay) {
+    return new Promise<Event | null>((resolve) => {
+      let sub = relay.sub([
+        {
+          kinds: [0],
+          authors: [publicKey],
+        },
+      ]);
+      sub.on("event", (event: Event) => {
+        console.log("we got the event we wanted:", event);
+        resolve(event);
+      });
+      sub.on("eose", () => {
+        sub.unsub();
+      });
+    });
+  }
+
   export async function getEvent(id: string, relay: Relay) {
     return new Promise<Event | null>((resolve) => {
       let sub = relay.sub([
