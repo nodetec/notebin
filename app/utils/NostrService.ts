@@ -105,6 +105,7 @@ export namespace NostrService {
   export function createEvent(
     publicKey: string,
     content: string,
+    subject: string,
     filetype: string,
     noteAddress: string,
     customValue: string,
@@ -120,6 +121,7 @@ export namespace NostrService {
         ["node_address", noteAddress],
         ["custom_value", customValue],
         ["tags", tagsList.join(",")],
+        ["subject", subject],
       ],
       content: content,
     };
