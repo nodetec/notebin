@@ -208,7 +208,7 @@ const Editor = ({
               </div>
           }
         </div>
-        <div className="bg-zinc-300 dark:bg-neutral-800 p-2">
+        <div className="bg-zinc-300 dark:bg-neutral-900 border-t border-zinc-800 px-2">
           <TextInput
             icon={<BsFillTagFill className="w-4 h-4" />}
             placeholder={event ? "" : "Enter tags"}
