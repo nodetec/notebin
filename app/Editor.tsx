@@ -201,7 +201,7 @@ const Editor = ({
               <div ref={previewRef}
                 className={`w-full h-full overflow-y-auto prose prose-zinc dark:prose-invert p-6 
                 ${mdPreviewMode === "preview" ? "min-w-full" :
-                  mdPreviewMode === "split" ? "border-t-2 md:border-l-2 md:border-t-0 border-neutral-600" : ""}`}>
+                  mdPreviewMode === "split" ? "border-t-2 md:border-l-2 md:border-t-0 border-neutral-600 md:border-neutral-800" : ""}`}>
                 <h1 className="text-4xl font-normal mb-4">{title}</h1>
                 <div dangerouslySetInnerHTML={{ __html: setupMarkdown(text) }}></div>
               </div>
