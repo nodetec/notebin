@@ -22,6 +22,7 @@ const NoteArea = () => {
   const router = useRouter();
   const [filetype, setFiletype] = useState("markdown");
   const [text, setText] = useState("");
+  const [title, setTitle] = useState("");
   const [tagInputValue, setTagInputValue] = useState<string>("");
   const [tagsList, setTagsList] = useState<string[]>([]);
   const [{ postSending, postError }, setPost] = useState({
@@ -38,6 +39,7 @@ const NoteArea = () => {
     let event = NostrService.createEvent(
       publicKey,
       text,
+      title,
       filetype,
       tipInfo.noteAddress,
       tipInfo.customValue,
@@ -102,6 +104,8 @@ const NoteArea = () => {
         setFiletype={setFiletype}
         text={text}
         setText={setText}
+        title={title}
+        setTitle={setTitle}
         tagsList={tagsList}
         setTagsList={setTagsList}
         tagInputValue={tagInputValue}
