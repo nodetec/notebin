@@ -8,6 +8,8 @@ import { Fragment, useContext, useRef, useState } from "react";
 import Popup from "./Popup";
 import { TipContext } from "./context/tip-provider.jsx";
 import PopupInput from "./PopupInput";
+import { HiOutlineClipboardCheck, HiOutlineClipboardCopy } from "react-icons/hi";
+import { TbClipboardX } from "react-icons/tb";
 import { AiFillEdit, AiFillEye } from "react-icons/ai";
 import { RiLayoutColumnFill } from "react-icons/ri";
 import { BsFillTagFill } from "react-icons/bs";
@@ -31,6 +33,7 @@ const Editor = ({
   event,
 }: any) => {
   const [tagsInputError, setTagsInputError] = useState("");
+  const [{ copied, error }, setClipboard] = useState({ copied: false, error: false });
   const [mdPreviewMode, setMdPreviewMode] = useState<
     "off" | "preview" | "split"
   >("off");
@@ -144,15 +147,37 @@ const Editor = ({
             }
           </div>
           {event ? (
-            <Button
-              color="yellow"
-              variant="outline"
-              onClick={handleTip}
-              size="sm"
-              icon={<BsLightningChargeFill size="14" />}
-            >
-              tip
-            </Button>
+            <div className="flex items-center gap-4">
+              <Button
+                color="neutralLight"
+                variant="ghost"
+                className={copied  ? "text-green-600 dark:text-green-400" : error ? "text-red-600 dark:text-red-400" : ""}
+                icon={ copied ? 
+                  <HiOutlineClipboardCheck /> :
+                  error ? <TbClipboardX /> :
+                    <HiOutlineClipboardCopy />}
+                onClick={() => {
+                  navigator.clipboard.writeText(event.content).then(() => {
+                    setClipboard({ copied: true, error: false });
+                  }).catch((_) => {
+                      setClipboard({ copied: false, error: true });
+                    }).finally(() => {
+                      setTimeout(() => {
+                        setClipboard({ copied: false, error: false });
+                      }, 2000);
+                    })
+                }}
+              />
+              <Button
+                color="yellow"
+                variant="outline"
+                onClick={handleTip}
+                size="sm"
+                icon={<BsLightningChargeFill size="14" />}
+              >
+                tip
+              </Button>
+            </div>
           ) : (
             <Button
               color="yellow"
