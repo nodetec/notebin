@@ -28,6 +28,7 @@ export default function LatestNotes({ pubkey }: any) {
             id={event.id}
             content={event.content}
             tags={event.tags}
+            createdAt={event.created_at}
           />
         ))}
       </ul>

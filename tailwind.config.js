@@ -3,6 +3,9 @@ module.exports = {
   darkMode: "class",
   content: ["./app/**/*.{js,ts,jsx,tsx}", "./components/**/*.{js,ts,jsx,tsx}"],
   theme: {
+    fontFamily: {
+      sans: ["Inter var, sans-serif"],
+    },
     extend: {
       scale: {
         101: "1.01",
