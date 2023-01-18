@@ -14,7 +14,7 @@ interface IRelayContext {
 export const RelayContext = createContext<IRelayContext|null>(null);
 
 const RelayProvider = ({ children }: { children: ReactNode }) => {
-  const [relays, setRelays] = useState(RELAYS);
+  const [relays, setRelays] = useState(JSON.parse(localStorage.getItem("customRelays") || "[]"));
 
   useEffect(() => {
     setRelays(JSON.parse(localStorage.getItem("customRelays") || "[]"));
@@ -34,7 +34,7 @@ const RelayProvider = ({ children }: { children: ReactNode }) => {
   }
 
   const removeRelay = (relay: string) => {
-    const newRelays = relays.filter((r) => r !== relay);
+    const newRelays = relays.filter((r: string) => r !== relay);
     setRelays(newRelays);
   }
 

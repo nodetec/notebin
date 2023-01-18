@@ -3,11 +3,13 @@
 import { NostrProvider } from "nostr-react";
 import UserDataProvider from "./context/userdata-provider.jsx";
 import HeaderContent from "./HeaderContent";
-import { RELAYS } from "./utils/constants";
+import { RelayContext } from "./context/relay-provider";
+import { useContext } from "react";
 
 export default function Header() {
+  const { relays } = useContext(RelayContext)!;
   return (
-    <NostrProvider relayUrls={RELAYS} debug={true}>
+    <NostrProvider relayUrls={relays} debug={true}>
       <UserDataProvider>
         <HeaderContent />
       </UserDataProvider>

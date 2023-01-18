@@ -8,8 +8,7 @@ import { RelayContext } from "./context/relay-provider";
 const ConnectedRelaysStatus = () => {
   const { connectedRelays, isLoading } = useNostr();
   const connectedRelaysCount = connectedRelays.length;
-  // use relay context with typescript
-  const { relays, resetRelays, addRelay, removeRelay } = useContext(RelayContext)!;
+  const { relays, addRelay, resetRelays, removeRelay } = useContext(RelayContext)!;
   const [isOpen, setIsOpen] = useState(false);
   const error = "";
   const nostrState = isLoading
@@ -82,7 +81,7 @@ const ConnectedRelaysStatus = () => {
       >
         {relays.map((relay) => (
           <li
-            className="flex items-center justify-start w-full gap-4 text-sm"
+            className="flex items-center justify-start w-full gap-4 text-sm group"
             key={relay}
           >
             <ConnectionStateDot bg={relayConnectionStateColors[connectedRelays.some(r => r.url === relay) ? "connected" : "error"].bg} />
@@ -91,7 +90,7 @@ const ConnectedRelaysStatus = () => {
               icon={<TbMinus className="w-4 h-4" />}
               size="sm"
               color="transparent"
-              className={`hover:border-current ml-auto ${relayConnectionStateColors.error.fg}`}
+              className={`hover:border-current ml-auto md:opacity-0 group-hover:opacity-100 ${relayConnectionStateColors.error.fg}`}
               onClick={() => {removeRelay(relay)}}
             />
           </li>
@@ -113,6 +112,12 @@ const ConnectedRelaysStatus = () => {
             icon={<TbPlus className="w-4 h-4" />}
           />
         </form>
+        <Button
+          size="sm"
+          color="transparent"
+          className={`hover:border-current w-full ${relayConnectionStateColors.error.fg}`}
+          onClick={resetRelays}
+        >reset to defualts</Button>
       </ul>
       { isOpen ? 
         <div className="fixed z-40 inset-0"
