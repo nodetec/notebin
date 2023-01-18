@@ -16,28 +16,28 @@ const iconSized = {
 const colors = {
   blue: {
     solid: "text-neutral-900 bg-blue-400 hover:bg-blue-500 border-transparent",
-    outline: "text-blue-400 bg-transparent border-blue-400 hover:bg-blue-500 hover:text-neutral-900",
-    ghost: "text-blue-400 bg-transparent border-transparent hover:border-blue-500",
+    outline: "text-blue-400 bg-transparent border-current hover:bg-blue-500 hover:text-neutral-900",
+    ghost: "text-blue-400 bg-transparent border-transparent hover:border-current",
   },
   neutralDark: {
     solid: "text-neutral-300 bg-neutral-600 hover:bg-neutral-700 border-transparent",
-    outline: "text-neutral-600 bg-transparent border-neutral-600 hover:bg-neutral-700 hover:text-neutral-300",
-    ghost: "text-neutral-600 bg-transparent border-transparent hover:border-neutral-700",
+    outline: "text-neutral-600 bg-transparent  border-current hover:bg-neutral-700 hover:text-neutral-300",
+    ghost: "text-neutral-600 bg-transparent border-transparent hover:border-current",
   },
   zincDark: {
     solid: "text-zinc-300 bg-zinc-500 hover:bg-zinc-600 border-transparent",
-    outline: "text-zinc-500 bg-transparent border-zinc-500 hover:bg-zinc-700 hover:text-zinc-300",
-    ghost: "text-zinc-500 bg-transparent border-transparent hover:border-zinc-600",
+    outline: "text-zinc-500 bg-transparent border-current hover:bg-zinc-700 hover:text-zinc-300",
+    ghost: "text-zinc-500 bg-transparent border-transparent hover:border-current",
   },
   neutralLight: {
     solid: "text-neutral-900 bg-neutral-300 hover:bg-neutral-400 border-transparent",
-    outline: "text-neutral-300 bg-transparent border-neutral-300 hover:bg-neutral-400 hover:text-neutral-900",
-    ghost: "text-neutral-300 bg-transparent border-transparent hover:border-neutral-300",
+    outline: "text-neutral-300 bg-transparent border-current hover:bg-neutral-400 hover:text-neutral-900",
+    ghost: "text-neutral-300 bg-transparent border-transparent hover:border-current",
   },
   yellow: {
     solid: "text-neutral-900 bg-yellow-300 hover:bg-yellow-400 border-transparent",
-    outline: "text-yellow-300 bg-transparent border-yellow-300 hover:bg-yellow-400 hover:text-neutral-900",
-    ghost: "text-yellow-300 bg-transparent border-transparent hover:border-yellow-300",
+    outline: "text-yellow-300 bg-transparent border-current hover:bg-yellow-400 hover:text-neutral-900",
+    ghost: "text-yellow-300 bg-transparent border-transparent hover:border-current",
   },
   transparent: {
     solid: "bg-transparent border-transparent",

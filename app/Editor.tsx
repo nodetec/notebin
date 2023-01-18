@@ -4,7 +4,7 @@ import "@uiw/react-textarea-code-editor/dist.css";
 import TextInput from "./TextInput";
 import Button from "./Button";
 import { BsLightningChargeFill } from "react-icons/bs";
-import { useContext, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import Popup from "./Popup";
 import { TipContext } from "./context/tip-provider.jsx";
 import PopupInput from "./PopupInput";
@@ -87,15 +87,37 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
             ))}
           </datalist>
           {event ? (
-            <Button
-              color="yellow"
-              variant="outline"
-              onClick={handleTip}
-              size="sm"
-              icon={<BsLightningChargeFill size="14" />}
-            >
-              tip
-            </Button>
+            <div className="flex items-center gap-4">
+              <Button
+                color="neutralLight"
+                variant="ghost"
+                className={copied  ? "text-green-600 dark:text-green-400" : error ? "text-red-600 dark:text-red-400" : ""}
+                icon={ copied ? 
+                  <HiOutlineClipboardCheck /> :
+                  error ? <TbClipboardX /> :
+                    <HiOutlineClipboardCopy />}
+                onClick={() => {
+                  navigator.clipboard.writeText(event.content).then(() => {
+                    setClipboard({ copied: true, error: false });
+                  }).catch((_) => {
+                      setClipboard({ copied: false, error: true });
+                    }).finally(() => {
+                      setTimeout(() => {
+                        setClipboard({ copied: false, error: false });
+                      }, 2000);
+                    })
+                }}
+              />
+              <Button
+                color="yellow"
+                variant="outline"
+                onClick={handleTip}
+                size="sm"
+                icon={<BsLightningChargeFill size="14" />}
+              >
+                tip
+              </Button>
+            </div>
           ) : (
             <Button
               color="yellow"
@@ -124,34 +146,6 @@ const Editor = ({ filetype, setFiletype, text, setText, tagsList, setTagsList, t
                 "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
             }}
           />
-          { event ? 
-            <div className={`absolute top-2 right-2 transition-opacity group-hover:opacity-100 text-xs ${(copied || error) ? "opacity-100" : "opacity-0"}`}>
-              <Button
-                color="neutralDark"
-                size="sm"
-                variant="solid"
-                className={copied  ? "text-green-600 dark:text-green-400" : error ? "text-red-600 dark:text-red-400" : ""}
-                icon={ copied ? 
-                  <HiOutlineClipboardCheck className="w-4 h-4" /> :
-                  error ? <TbClipboardX className="w-4 h-4" /> :
-                    <HiOutlineClipboardCopy className="w-4 h-4" />}
-                onClick={() => {
-                  navigator.clipboard.writeText(event.content).then(() => {
-                    setClipboard({ copied: true, error: false });
-                  }).catch((_) => {
-                      setClipboard({ copied: false, error: true });
-                    }).finally(() => {
-                      setTimeout(() => {
-                        setClipboard({ copied: false, error: false });
-                      }, 2000);
-                    })
-                }}
-              >{
-                copied ? "Copied to clipboard" : error ? "Error copying to clipboard" : "Copy to clipboard"
-              }
-              </Button>
-            </div>
-          : null}
         </div>
         <div className="bg-zinc-300 dark:bg-neutral-800 p-2">
           <TextInput
