@@ -3,7 +3,8 @@ import { IoMdCloseCircleOutline } from "react-icons/io"
 import Button from "./Button";
 
 interface TextInputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
-  label: string;
+  label?: string;
+  icon?: JSX.Element;
   error?: string;
   tagsList?: string[];
   // TODO: Figure out what type this should be
@@ -11,13 +12,16 @@ interface TextInputProps extends DetailedHTMLProps<InputHTMLAttributes<HTMLInput
   value?: string;
 }
 
-const TextInput = ({ label, error, tagsList, setTagsList, placeholder = "", value = "", ...props }: TextInputProps) => {
+const TextInput = ({ label, icon, error, tagsList, setTagsList, placeholder = "", value = "", ...props }: TextInputProps) => {
   const id = useId();
 
   return (
     <div>
-      <div className="relative p-2 text-neutral-600 dark:text-neutral-400 flex items-start gap-4">
-        <label className="text-sm font-bold pt-[.15rem]" htmlFor={id}>{label}</label>
+      <div className="relative p-2 text-neutral-600 dark:text-neutral-400 flex items-center gap-4">
+        <label className="text-sm font-bold flex items-center gap-4" htmlFor={id}>
+          <span>{icon}</span>
+          {label}
+        </label>
         <div className="flex items-center gap-4 flex-wrap">
           <div className="flex gap-2 flex-1 w-full flex-wrap">
             {tagsList?.map((tag) => (

@@ -2,8 +2,12 @@
 
 import Link from "next/link";
 import { useProfile } from "nostr-react";
+import { useContext, useEffect } from "react";
+import { UserDataContext } from "./context/userdata-provider.jsx";
 
 export default function AccountButton({ publicKey }: any) {
+  // @ts-ignore
+  const { setUserData } = useContext(UserDataContext);
   console.log("profile publickey:", publicKey);
 
   let pubkey = "";
@@ -15,6 +19,10 @@ export default function AccountButton({ publicKey }: any) {
   const { data } = useProfile({
     pubkey,
   });
+
+  useEffect(() => {
+    setUserData(data);
+  }, []);
 
   const shortenHash = (hash: string) => {
     if (hash) {

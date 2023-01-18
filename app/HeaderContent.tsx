@@ -3,7 +3,6 @@ import Link from "next/link";
 import { useContext, useEffect, useState } from "react";
 import { BsLightningChargeFill } from "react-icons/bs";
 import { TbNote } from "react-icons/tb";
-import { useNostr } from "nostr-react";
 import Popup from "./Popup";
 
 import Button from "./Button";
@@ -56,18 +55,19 @@ export default function Header() {
       await window.webln.enable();
       // @ts-ignore
       const publicKey = await nostr.getPublicKey();
-      setKeys({ private: "", public: publicKey });
+      setKeys({ private: "", publicKey: publicKey });
       localStorage.setItem("shouldReconnect", "true");
     }
     console.log("connected to lightning");
     setIsLightningConnected(true);
+    setIsOpen(false);
   };
 
-  const shortenHash = (hash: string) => {
+  /* const shortenHash = (hash: string) => {
     if (hash) {
       return hash.substring(0, 4) + "..." + hash.substring(hash.length - 4);
     }
-  };
+  }; */
 
   return (
     <div>

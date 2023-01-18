@@ -67,6 +67,24 @@ export namespace NostrService {
     return getPublicKey(privateKey);
   }
 
+  export async function getProfile(publicKey: string, relay: Relay) {
+    return new Promise<Event | null>((resolve) => {
+      let sub = relay.sub([
+        {
+          kinds: [0],
+          authors: [publicKey],
+        },
+      ]);
+      sub.on("event", (event: Event) => {
+        console.log("we got the event we wanted:", event);
+        resolve(event);
+      });
+      sub.on("eose", () => {
+        sub.unsub();
+      });
+    });
+  }
+
   export async function getEvent(id: string, relay: Relay) {
     return new Promise<Event | null>((resolve) => {
       let sub = relay.sub([
@@ -87,6 +105,7 @@ export namespace NostrService {
   export function createEvent(
     publicKey: string,
     content: string,
+    subject: string,
     filetype: string,
     noteAddress: string,
     customValue: string,
@@ -102,6 +121,7 @@ export namespace NostrService {
         ["node_address", noteAddress],
         ["custom_value", customValue],
         ["tags", tagsList.join(",")],
+        ["subject", subject],
       ],
       content: content,
     };
