@@ -12,12 +12,12 @@ export const RELAYS = [
 export const PROFILE_RELAYS = [
   "wss://nostr-pub.wellorder.net",
   "wss://relay.nostr.ch",
-  "wss://nostr.bitcoiner.social",
-  "wss://nostr.onsats.org",
-  "wss://nostr-relay.wlvs.space",
-  "wss://nostr.zebedee.cloud",
-  "wss://relay.damus.io",
-  "wss://relay.nostr.info",
+  // "wss://nostr.bitcoiner.social",
+  // "wss://nostr.onsats.org",
+  // "wss://nostr-relay.wlvs.space",
+  // "wss://nostr.zebedee.cloud",
+  // "wss://relay.damus.io",
+  // "wss://relay.nostr.info",
 ];
 
 

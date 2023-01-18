@@ -1,5 +1,6 @@
 import { useNostrEvents } from "nostr-react";
 import { nip19 } from "nostr-tools";
+import LatestNotes from "./LatestNotes";
 
 export default function Profile({ pubkey }: any) {
   const { events } = useNostrEvents({
@@ -19,12 +20,12 @@ export default function Profile({ pubkey }: any) {
 
   try {
     contentObj = JSON.parse(content);
-    console.log(contentObj);
+    // console.log(contentObj);
     name = contentObj?.name;
     about = contentObj?.about;
     picture = contentObj?.picture;
   } catch (e) {
-    console.log("Error parsing content:", e);
+    console.log("Error parsing content");
   }
 
   // npub: string;
@@ -46,15 +47,19 @@ export default function Profile({ pubkey }: any) {
   };
 
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-8 md:mx-72">
       <div className="flex flex-row items-center gap-4">
         <img className="rounded-full w-28" src={picture} />
-        <p className="text-4xl font-bold pt-4 text-zinc-200">@{name}</p>
+        <div>
+          <p className="text-4xl font-bold pt-4 text-zinc-200">
+            <span className="text-red-500">@</span>
+            {name}
+          </p>
+          <p className="text-lg text-zinc-400">{shortenHash(npub)}</p>
+          <p className="text-sm text-zinc-400">{about}</p>
+        </div>
       </div>
-      <div className="border border-zinc-500 rounded-md p-4">
-        <p className="text-lg text-zinc-400">{shortenHash(npub)}</p>
-        <p className="text-sm text-zinc-400">{about}</p>
-      </div>
+      <LatestNotes pubkey={pubkey} />
     </div>
   );
 }
