@@ -10,6 +10,7 @@ import { TipContext } from "./context/tip-provider.jsx";
 import PopupInput from "./PopupInput";
 import { AiFillEdit, AiFillEye } from "react-icons/ai";
 import { RiLayoutColumnFill } from "react-icons/ri";
+import { BsFillTagFill } from "react-icons/bs";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -209,7 +210,7 @@ const Editor = ({
         </div>
         <div className="bg-zinc-300 dark:bg-neutral-800 p-2">
           <TextInput
-            label="Tags"
+            icon={<BsFillTagFill className="w-4 h-4" />}
             placeholder={event ? "" : "Enter tags"}
             tagsList={
               event?.tags[4][1] ? event?.tags[4][1].split(",") : tagsList
