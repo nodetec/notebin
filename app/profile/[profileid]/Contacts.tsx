@@ -10,6 +10,7 @@ export default function Contacts({ userContacts }: any) {
     filter: {
       kinds: [0],
       authors: contactPublicKeys,
+      limit: 5,
     },
   });
 
