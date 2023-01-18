@@ -18,7 +18,7 @@ export default function ProfilePage() {
   }, []);
   return (
     <>
-      <NostrProvider relayUrls={PROFILE_RELAYS} debug={false}>
+      <NostrProvider relayUrls={PROFILE_RELAYS} debug={true}>
         <Profile pubkey={pubkey} />
       </NostrProvider>
     </>

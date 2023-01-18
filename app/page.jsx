@@ -7,7 +7,7 @@ import { RELAYS } from "./utils/constants";
 export default function HomePage() {
   return (
     <>
-      <NostrProvider relayUrls={RELAYS} debug={false}>
+      <NostrProvider relayUrls={RELAYS} debug={true}>
         <NoteArea />
       </NostrProvider>
     </>
