@@ -8,7 +8,7 @@ import { RELAYS } from "../utils/constants";
 
 export default function Providers({ children }) {
   return (
-    <NostrProvider relayUrls={RELAYS} debug={true}>
+    <NostrProvider relayUrls={RELAYS} debug={false}>
       <EventProvider>
         <KeysProvider>
           <CustomThemeProvider>{children}</CustomThemeProvider>
