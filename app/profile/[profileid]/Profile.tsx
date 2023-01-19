@@ -1,32 +1,42 @@
 import { useNostrEvents } from "nostr-react";
 import { nip19 } from "nostr-tools";
+import Contacts from "./Contacts";
 import LatestNotes from "./LatestNotes";
+import UserCard from "./UserCard";
 
 export default function Profile({ pubkey }: any) {
   const { events } = useNostrEvents({
     filter: {
-      kinds: [0],
+      kinds: [0, 3],
       authors: [pubkey],
+      limit: 5,
     },
   });
 
-  const content = events[0]?.content;
   const npub = nip19.npubEncode(pubkey);
-
   let contentObj;
   let name;
   let about;
   let picture;
 
+  const userMetaData = events.filter((event) => event.kind === 0);
+
   try {
+    const content = userMetaData[0]?.content;
     contentObj = JSON.parse(content);
-    // console.log(contentObj);
     name = contentObj?.name;
     about = contentObj?.about;
     picture = contentObj?.picture;
   } catch (e) {
     console.log("Error parsing content");
   }
+
+  const userContactEvent = events.filter((event) => event.kind === 3);
+  const userContacts = userContactEvent[0]?.tags;
+
+  // console.log()
+
+  console.log("CONTACTS:", userContacts);
 
   // npub: string;
   // name?: string | undefined;
@@ -47,19 +57,17 @@ export default function Profile({ pubkey }: any) {
   };
 
   return (
-    <div className="flex flex-col gap-8 md:mx-72">
-      <div className="border border-zinc-700 rounded-md p-4 flex flex-row justify-between items-center gap-4">
-        <div>
-          <p className="text-4xl font-bold pt-4 text-zinc-200">
-            <span className="text-red-500">@</span>
-            {name}
-          </p>
-          <p className="text-lg text-zinc-400">{shortenHash(npub)}</p>
-          <p className="text-sm text-zinc-400">{about}</p>
-        </div>
-        <img className="rounded-full w-28" src={picture} />
-      </div>
+    <div className="flex flex-row gap-8">
       <LatestNotes pubkey={pubkey} />
+      <div className="flex flex-col">
+        <UserCard
+          name={name}
+          npub={shortenHash(npub)}
+          about={about}
+          picture={picture}
+        />
+        {userContacts && <Contacts userContacts={userContacts} />}
+      </div>
     </div>
   );
 }

@@ -34,11 +34,8 @@ const Editor = ({
   const [mdPreviewMode, setMdPreviewMode] = useState<
     "off" | "preview" | "split"
   >("off");
-
-  const [isOpen, setIsOpen] = useState(false);
   const [focused, setFocused] = useState(false);
-  // @ts-ignore
-  const { tipInfo, setTipInfo } = useContext(TipContext);
+
   const previewRef = useRef(null);
 
   const handleSetTagsList = (list: string[]) => {
