@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { DetailedHTMLProps, FC, LiHTMLAttributes, ReactNode } from "react";
 import { BsFillFileEarmarkCodeFill, BsFillTagFill } from "react-icons/bs";
-import { MdDateRange } from "react-icons/md";
+import { FaCalendarAlt } from "react-icons/fa";
 
 interface NoteProps
   extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
@@ -68,7 +68,7 @@ const DatePosted = ({ timestamp }: { timestamp: number }) => {
   return (
     <InfoContainer>
       <span>
-        <MdDateRange className="w-4 h-4 text-current" />
+        <FaCalendarAlt className="w-4 h-4 text-current" />
       </span>
       <span>
         {timeStampToDate(timestamp)}
