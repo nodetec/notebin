@@ -6,6 +6,13 @@
   body {
     @apply dark:bg-neutral-900;
   }
+
+  textarea:invalid[focused="true"] {
+    border-bottom: 1px solid #ef4444;
+  }
+  textarea:invalid[focused="true"] ~ span {
+    display: block;
+  }
 }
 
 html[data-color-mode="dark"] .w-tc-editor code[class*='language-'] .token.punctuation, html[data-color-mode="dark"] .w-tc-editor pre[class*='language-'] .token.punctuation {

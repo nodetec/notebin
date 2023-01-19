@@ -97,32 +97,38 @@ const NoteArea = () => {
     }
   };
 
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    post(e)
+  }
+
   return (
     <div className="w-full mx-auto">
-      <Editor
-        filetype={filetype}
-        setFiletype={setFiletype}
-        text={text}
-        setText={setText}
-        title={title}
-        setTitle={setTitle}
-        tagsList={tagsList}
-        setTagsList={setTagsList}
-        tagInputValue={tagInputValue}
-        setTagInputValue={setTagInputValue}
-      />
-      <div className="pt-2">
-        <Button
-          color="blue"
-          variant="solid"
-          size="sm"
-          className="ml-auto"
-          loading={postSending}
-          onClick={post}
-        >
-          {postSending ? "Sending..." : postError ? postError : "Create Note"}
-        </Button>
-      </div>
+      <form onSubmit={handleSubmit}>
+        <Editor
+          filetype={filetype}
+          setFiletype={setFiletype}
+          text={text}
+          setText={setText}
+          title={title}
+          setTitle={setTitle}
+          tagsList={tagsList}
+          setTagsList={setTagsList}
+          tagInputValue={tagInputValue}
+          setTagInputValue={setTagInputValue}
+        />
+        <div className="pt-2">
+          <Button
+            color="blue"
+            variant="solid"
+            size="sm"
+            className="ml-auto"
+            loading={postSending}
+          >
+            {postSending ? "Sending..." : postError ? postError : "Create Note"}
+          </Button>
+        </div>
+      </form>
     </div>
   );
 };

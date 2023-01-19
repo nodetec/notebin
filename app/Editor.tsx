@@ -1,4 +1,4 @@
-import { LANGUAGES } from "./utils/constants";
+import { LANGUAGES, VALIDATION } from "./utils/constants";
 import dynamic from "next/dynamic";
 import "@uiw/react-textarea-code-editor/dist.css";
 import TextInput from "./TextInput";
@@ -36,6 +36,7 @@ const Editor = ({
   >("off");
 
   const [isOpen, setIsOpen] = useState(false);
+  const [focused, setFocused] = useState(false);
   // @ts-ignore
   const { tipInfo, setTipInfo } = useContext(TipContext);
   const previewRef = useRef(null);
@@ -90,6 +91,10 @@ const Editor = ({
   const scrollView = (e: any) => {
     /* @ts-ignore */
     previewRef.current?.scrollTo(0, e.target.scrollTop /e.target.scrollTopMax * previewRef.current.scrollTopMax)
+  }
+
+  const handleFocus = (e: any) => {
+    setFocused(true);
   }
 
   return (
@@ -170,13 +175,18 @@ const Editor = ({
             (filetype !== "markdown" || mdPreviewMode !== "preview") &&
               <div className="w-full h-full overflow-auto" onScroll={scrollView}>
                 <textarea
+                  title={title}
+                  required
                   rows={1}
                   className="bg-neutral-900 border-none focus:border-none resize-none text-4xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
                   value={event ? event?.tags[5][1] : title}
                   placeholder="Title..."
                   onChange={(evn) => setTitle(evn.target.value)}
+                  onBlur={handleFocus}
+                  focused={focused.toString()}
                   disabled={!!event}
                 />
+                <span className="title px-3 pb-3 text-xs text-red-500 hidden">{VALIDATION.required}</span>
                 <div
                 >
                   <CodeEditor
