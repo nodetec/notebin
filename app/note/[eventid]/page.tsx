@@ -14,7 +14,7 @@ export default function NotePage() {
   }
 
   // @ts-ignore
-  const { event: cachedEvent } = useContext(EventContext);
+  const { event: cachedEvent, setEvent } = useContext(EventContext);
 
   if (cachedEvent && eventId === cachedEvent.id) {
     console.log("using cached event");
@@ -31,6 +31,7 @@ export default function NotePage() {
   const event: Event = events[0];
 
   if (event) {
+    setEvent(event);
     return <Note event={event} />;
   }
 }
