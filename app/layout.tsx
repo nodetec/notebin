@@ -15,7 +15,7 @@ export default function RootLayout({
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
       */}
       <head />
-      <body className="dark:bg-neutral-900 container p-6 m-auto md:max-w-[90%] 2xl:max-w-[70%]">
+      <body className="dark:bg-primary container p-6 m-auto md:max-w-[90%] 2xl:max-w-[70%]">
         <Providers>
           <Header />
           {children}

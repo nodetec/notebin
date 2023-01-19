@@ -28,8 +28,8 @@ export default function Contact({ contact }: any) {
       <Link href={`/profile/${pubkey}`}>
         <div className="flex flex-row gap-4 hover:scale-101 items-center ease-in-out duration-300">
           <img className="rounded-full w-8 mr-3" src={picture} />
-          <span className="dark:text-zinc-500 mr-3 text-xl">{npub}</span>
-          <span className="dark:text-zinc-500 mr-3 text-xl">{name}</span>
+          <span className="dark:text-tertiary mr-3 text-xl">{npub}</span>
+          <span className="dark:text-tertiary mr-3 text-xl">{name}</span>
         </div>
       </Link>
     </li>

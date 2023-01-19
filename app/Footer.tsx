@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-neutral-700 mt-12">
+    <footer className="border-t border-tertiary mt-12">
       <div className="container items-center mx-auto grid grid-cols-3 gap-4 py-4">
         <a
           href="https://www.youtube.com/@chrisatmachine"
