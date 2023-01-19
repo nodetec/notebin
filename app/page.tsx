@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import Editor from "./Editor";
-import CreatePostButton from "./CreatePostButton";
 
 const HomePage = () => {
   const [filetype, setFiletype] = useState("markdown");
@@ -24,14 +23,6 @@ const HomePage = () => {
         tagInputValue={tagInputValue}
         setTagInputValue={setTagInputValue}
       />
-      <div className="pt-2">
-        <CreatePostButton
-          filetype={filetype}
-          text={text}
-          title={title}
-          tagsList={tagsList}
-        />
-      </div>
     </div>
   );
 };
