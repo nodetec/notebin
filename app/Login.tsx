@@ -27,7 +27,7 @@ export default function Login() {
           setIsLightningConnected(true);
           // @ts-ignore
           const publicKey = await nostr.getPublicKey();
-          console.log("public key", publicKey);
+          // console.log("public key", publicKey);
           setKeys({ privateKey: "", publicKey: publicKey });
         } catch (e: any) {
           console.log(e.message);
@@ -41,7 +41,7 @@ export default function Login() {
     }
   }, []);
 
-  const connectLightningHandler = async () => {
+  const loginHandler = async () => {
     // @ts-ignore
     if (typeof window.webln !== "undefined") {
       // @ts-ignore
@@ -63,7 +63,7 @@ export default function Login() {
   return (
     <>
       {isLightningConnected && keys?.publicKey ? (
-        <AccountButton publicKey={keys?.publicKey} />
+        <AccountButton pubkey={keys?.publicKey} />
       ) : (
         <Button
           color="zincDark"
@@ -78,7 +78,7 @@ export default function Login() {
       <Popup title="Generate Keys" isOpen={isOpen} setIsOpen={setIsOpen}>
         <Button
           className="w-full"
-          onClick={connectLightningHandler}
+          onClick={loginHandler}
           color="blue"
           size="sm"
           icon={<BsLightningChargeFill size="14" />}
