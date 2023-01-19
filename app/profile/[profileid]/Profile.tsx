@@ -83,7 +83,7 @@ export default function Profile({ pubkey }: any) {
             picture={picture}
           />
         )}
-        {userContacts && <Contacts userContacts={userContacts} />}
+        {currentContacts && <Contacts userContacts={currentContacts} />}
       </div>
       <LatestNotes name={name} pubkey={pubkey} />
     </div>
