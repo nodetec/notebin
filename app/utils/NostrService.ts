@@ -103,25 +103,17 @@ export namespace NostrService {
   }
 
   export function createEvent(
+    kind: number,
     publicKey: string,
     content: string,
-    subject: string,
-    filetype: string,
-    tagsList: string[]
+    tags: string[][]
   ) {
     const event: Event = {
-      kind: 2222,
+      kind: kind,
       pubkey: publicKey,
       created_at: Math.floor(Date.now() / 1000),
-      tags: [
-        ["filetype", filetype],
-        ["client", "notebin"],
-        ["node_address", ""],
-        ["custom_value", ""],
-        ["tags", tagsList.join(",")],
-        ["subject", subject],
-      ],
       content: content,
+      tags: tags,
     };
 
     return event;
