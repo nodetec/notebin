@@ -1,8 +1,6 @@
 "use client";
 import Profile from "./Profile";
 
-import { NostrProvider } from "nostr-react";
-import { PROFILE_RELAYS } from "../../utils/constants";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -18,9 +16,7 @@ export default function ProfilePage() {
   }, []);
   return (
     <>
-      <NostrProvider relayUrls={PROFILE_RELAYS} debug={true}>
-        <Profile pubkey={pubkey} />
-      </NostrProvider>
+      <Profile pubkey={pubkey} />
     </>
   );
 }

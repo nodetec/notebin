@@ -1,8 +1,6 @@
 "use client";
 import Note from "./Note";
 
-import { NostrProvider } from "nostr-react";
-import { PROFILE_RELAYS } from "../../utils/constants";
 import { usePathname } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 import { KeysContext } from "../../context/keys-provider.jsx";
@@ -22,9 +20,7 @@ export default function NotePage() {
 
   return (
     <>
-      <NostrProvider relayUrls={PROFILE_RELAYS} debug={true}>
-        <Note eventId={eventId} keys={keys} />
-      </NostrProvider>
+      <Note eventId={eventId} keys={keys} />
     </>
   );
 }
