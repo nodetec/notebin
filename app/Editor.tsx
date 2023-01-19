@@ -199,8 +199,6 @@ const Editor = ({
                     padding={25}
                     style={{
                       fontSize: 15,
-                      fontFamily:
-                      "ui-monospace,SFMono-Regular,SF Mono,Consolas,Liberation Mono,Menlo,monospace",
                     }}
                   />
                 </div>
