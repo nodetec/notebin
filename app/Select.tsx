@@ -12,13 +12,13 @@ const Select = ({ label, options, innerRef, ...props }: SelectProps) => {
 
   return (
     <div className={`
-                    text-neutral-700
+                    text-tertiary
                     dark:text-slate-300
                     relative
                     w-full
                     rounded-md
-                    bg-zinc-300
-                    dark:bg-neutral-700
+                    bg-accent
+                    dark:bg-tertiary
                     border-neutral-500
                     border-2
                     border-solid

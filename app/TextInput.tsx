@@ -27,14 +27,12 @@ const TextInput = ({ label, icon, error, tagsList, setTagsList, placeholder = ""
             {tagsList?.map((tag) => (
               <div key={tag} className="text-xs
                                       bg-zinc-200
-                                      text-neutral-600
-                                      hover:text-neutral-800
-                                      dark:bg-neutral-900
-                                      dark:text-zinc-300
+                                      text-secondary
+                                      hover:text-secondary
+                                      dark:bg-secondary
+                                      dark:text-accent
                                       hover:dark:text-zinc-200
                                       border border-transparent
-                                      hover:border-neutral-600
-                                      hover:dark:border-zinc-600
                                       rounded-md p-1 group
                                       flex items-center gap-1">
                 {tag}
@@ -51,7 +49,7 @@ const TextInput = ({ label, icon, error, tagsList, setTagsList, placeholder = ""
             {error ? null : <input
               type="text"
               id={id}
-              className="focus:border-0 p-0 bg-transparent border-0 outline-0 focus:ring-0 text-neutral-800 dark:text-zinc-200"
+              className="focus:border-0 p-0 bg-transparent border-0 outline-0 focus:ring-0 text-secondary dark:text-zinc-200"
               placeholder={placeholder}
               value={value}
               {...props}

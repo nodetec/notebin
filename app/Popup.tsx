@@ -19,7 +19,7 @@ const Popup = ({ title, isOpen, setIsOpen, children }: PopupProps) => {
       onClick={() => setIsOpen(false)}
       color="transparent"
     />
-    <div className="bg-neutral-900 flex flex-col justify-center items-stretch gap-4 p-6 shadow-overlay">
+    <div className="bg-primary flex flex-col justify-center items-stretch gap-4 p-6 shadow-overlay">
       <h3 className="text-xl text-neutral-400 text-center pb-4">
         {title}
       </h3>
