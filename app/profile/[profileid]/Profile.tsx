@@ -50,8 +50,8 @@ export default function Profile({ pubkey }: any) {
   // nip06?: string | undefined;
 
   return (
-    <div className="flex flex-col sm:flex-row gap-8 flex-1">
-      <div className="flex flex-col flex-shrink">
+    <div className="flex flex-col md:flex-row items-start gap-8 flex-1">
+      <div className="flex flex-col flex-shrink md:sticky top-4">
         <UserCard
           name={name}
           npub={shortenHash(npub)}
