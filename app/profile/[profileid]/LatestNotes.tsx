@@ -10,14 +10,6 @@ export default function LatestNotes({ pubkey }: any) {
     },
   });
 
-  const shortenHash = (hash: string | undefined) => {
-    if (hash) {
-      return (
-        " " + hash.substring(0, 4) + "..." + hash.substring(hash.length - 4)
-      );
-    }
-  };
-
   return (
     <div className="flex flex-col gap-4">
       <h1 className="text-3xl font-bold pt-8 pb-4">Latest Notes</h1>

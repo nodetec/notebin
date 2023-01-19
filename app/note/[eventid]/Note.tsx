@@ -94,16 +94,16 @@ export default function Note({ eventId, keys }: any) {
                     {shortenHash(data?.npub)}
                   </p>
                   <p className="text-sm text-zinc-400 pt-4">{data?.about}</p>
-                  <Button
-                    className="mt-4"
-                    color="yellow"
-                    variant="outline"
-                    onClick={handleTip}
-                    size="sm"
-                    icon={<BsLightningChargeFill size="14" />}
-                  >
-                    tip
-                  </Button>
+                  {/* <Button */}
+                  {/*   className="mt-4" */}
+                  {/*   color="yellow" */}
+                  {/*   variant="outline" */}
+                  {/*   onClick={handleTip} */}
+                  {/*   size="sm" */}
+                  {/*   icon={<BsLightningChargeFill size="14" />} */}
+                  {/* > */}
+                  {/*   tip */}
+                  {/* </Button> */}
                   {/* <p className="text-zinc-600">kind: {event?.kind}</p> */}
                   {/* <p className="text-zinc-600"> */}
                   {/*   pubkey: */}
