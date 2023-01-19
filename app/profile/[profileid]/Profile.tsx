@@ -1,4 +1,3 @@
-"use client"
 import { useNostrEvents } from "nostr-react";
 import { nip19 } from "nostr-tools";
 import Contacts from "./Contacts";
