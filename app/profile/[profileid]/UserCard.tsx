@@ -8,9 +8,11 @@ export default function UserCard({ name, npub, about, picture }: any) {
           <span className="text-red-500">@</span>
           {name}
         </p>
-        <p className="text-lg text-zinc-400">
+        <p className="text-lg text-zinc-400 flex items-center gap-1">
           <Truncate
             content={npub}
+            color="transparent"
+            size="sm"
           />
         </p>
         <p className="text-sm text-zinc-400">{about}</p>
