@@ -5,7 +5,6 @@ import KeysProvider from "./keys-provider.jsx";
 import { CustomThemeProvider } from "./theme-provider";
 import RelayProvider from "./relay-provider.jsx";
 import { NostrProvider } from "nostr-react";
-import UserDataProvider from "./userdata-provider.jsx";
 import { RELAYS } from "../utils/constants";
 
 export default function Providers({ children }) {
@@ -14,9 +13,7 @@ export default function Providers({ children }) {
       <RelayProvider>
         <EventProvider>
           <KeysProvider>
-            <UserDataProvider>
-              <CustomThemeProvider>{children}</CustomThemeProvider>
-            </UserDataProvider>
+            <CustomThemeProvider>{children}</CustomThemeProvider>
           </KeysProvider>
         </EventProvider>
       </RelayProvider>
