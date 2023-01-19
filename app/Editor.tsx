@@ -80,7 +80,7 @@ const Editor = ({
 
   return (
     <div>
-      <div className="rounded-md border-2 border-accent dark:border-tertiary">
+      <div className="rounded-md border-2 border-accent dark:border-secondary">
         <div className="bg-accent dark:bg-secondary p-2 flex items-center justify-between">
           <div className="flex gap-2">
             <input
@@ -213,7 +213,7 @@ const Editor = ({
                 ${mdPreviewMode === "preview"
                   ? "min-w-full"
                   : mdPreviewMode === "split"
-                    ? "border-t-2 md:border-l-2 md:border-t-0 border-neutral-600 md:border-secondary"
+                    ? "border-t-2 md:border-l-2 md:border-t-0 border-secondary"
                     : ""
                 }`}
             >
@@ -225,7 +225,7 @@ const Editor = ({
           )}
         </div>
       </div>
-      <div className="rounded-b-md border-x-2 border-b-2 border-accent dark:border-tertiary p-1 pt-2 -mt-1 flex items-center justify-between gap-4">
+      <div className="rounded-b-md border-x-2 border-b-2 border-accent dark:border-secondary p-1 pt-2 -mt-1 flex items-center justify-between gap-4">
         <TextInput
           icon={<BsFillTagFill className="w-4 h-4" />}
           placeholder={event ? "" : "Enter tags"}

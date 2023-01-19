@@ -44,19 +44,19 @@ export default function Note({ content, index, createdAt, id, tags }: any) {
   }
 
   return (
-    <li className="border-solid border-b border-tertiary pb-6 mb-6">
-      <Link href={`/note/${id}`}>
-        <div className="flex flex-row hover:scale-101 ease-in-out duration-300">
-          <span className="dark:text-tertiary mr-3 text-xl">0{index + 1}</span>
-          <div className="dark:text-gray-200 md:flex md:flex-row w-full">
+    <li>
+      <Link className="border-solid rounded-md hover:shadow-sm hover:scale-101 transition-transform hover:shadow-accent dark:bg-secondary text-accent p-4 block" href={`/note/${id}`}>
+        <div className="flex flex-row ease-in-out duration-300">
+          <span className="mr-3 text-xl">0{index + 1}</span>
+          <div className="md:flex md:flex-row w-full">
             <div className="flex flex-col w-full">
               <div className="flex flex-row justify-between items-center pb-3 w-full">
                 <div className="text-xl font-semibold">{title}</div>
-                <div className="sm:text-sm dark:text-zinc-600">
+                <div className="sm:text-sm">
                   {timeStampToDate(createdAt)}
                 </div>
               </div>
-              <div className="text-tertiary">{truncateString(content)}</div>
+              <div>{truncateString(content)}</div>
             </div>
           </div>
         </div>
