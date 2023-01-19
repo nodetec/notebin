@@ -1,58 +1,72 @@
-import React from "react";
+import { IconType } from "react-icons";
+import {
+  AiFillGithub,
+  AiFillHeart,
+  AiOutlineTwitter,
+  AiFillYoutube,
+} from "react-icons/ai";
+import { MdExtension } from "react-icons/md";
+import { BsFillLightningChargeFill } from "react-icons/bs";
 
-export default function Footer() {
-  return (
-    <footer className="border-t border-tertiary mt-12">
-      <div className="container items-center mx-auto grid grid-cols-3 gap-4 py-4">
-        <a
-          href="https://www.youtube.com/@chrisatmachine"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          className="text-neutral-500 hover:text-neutral-600 text-center"
-        >
-          YouTube
-        </a>
-        <a
-          href="https://twitter.com/chrisatmachine"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          className="text-neutral-500 hover:text-neutral-600 text-center"
-        >
-          Twitter
-        </a>
-        <a
-          href="https://getalby.com/chrisatmachine"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          className="text-neutral-500 hover:text-neutral-600 text-center"
-        >
-          Donate
-        </a>
-        <a
-          href="https://github.com/nodetec/NoteBin"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          className="text-neutral-500 hover:text-neutral-600 text-center"
-        >
-          GitHub
-        </a>
-        <a
-          href="https://github.com/fiatjaf/nos2x"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          className="text-neutral-500 hover:text-neutral-600 text-center"
-        >
-          Nostr Extension
-        </a>
-        <a
-          href="https://getalby.com"
-          target="_blank"
-          rel="nofollow noopener noreferrer"
-          className="text-neutral-500 hover:text-neutral-600 text-center"
-        >
-          Lightning Wallet
-        </a>
-      </div>
-    </footer>
-  );
+interface ISocialLink {
+  name: string;
+  url: string;
+  Icon: IconType;
 }
+
+const SOCIALS: ISocialLink[] = [
+  {
+    name: "YouTube",
+    url: "https://www.youtube.com/@chrisatmachine",
+    Icon: AiFillYoutube,
+  },
+  {
+    name: "Twitter",
+    url: "https://twitter.com/chrisatmachine",
+    Icon: AiOutlineTwitter,
+  },
+  {
+    name: "Donate",
+    url: "https://getalby.com/chrisatmachine",
+    Icon: AiFillHeart,
+  },
+  {
+    name: "GitHub",
+    url: "https://github.com/nodetec/NoteBin",
+    Icon: AiFillGithub,
+  },
+  {
+    name: "Nostr Extension",
+    url: "https://github.com/fiatjaf/nos2x",
+    Icon: MdExtension,
+  },
+  {
+    name: "Lightning Wallet",
+    url: "https://getalby.com",
+    Icon: BsFillLightningChargeFill,
+  },
+];
+
+const Footer = () => (
+  <footer className="mt-12">
+    <ul className="container items-center justify-center flex gap-8 flex-wrap py-4">
+      {SOCIALS.map((social) => (
+        <li key={social.url}>
+          <a
+            href={social.url}
+            target="_blank"
+            rel="nofollow noopener noreferrer"
+            className="flex items-center gap-2 text-accent opacity-70 hover:opacity-100 text-center"
+          >
+            <span>
+              <social.Icon />
+            </span>
+            {social.name}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </footer>
+);
+
+export default Footer;

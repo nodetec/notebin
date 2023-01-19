@@ -10,7 +10,7 @@ const HomePage = () => {
   const [tagsList, setTagsList] = useState<string[]>([]);
 
   return (
-    <div className="w-full mx-auto">
+    <div className="w-full mx-auto flex-1">
       <Editor
         filetype={filetype}
         setFiletype={setFiletype}
