@@ -2,5 +2,6 @@
 const removeImports = require("next-remove-imports")();
 
 module.exports = removeImports({
-  experimental: { esmExternals: "loose", appDir: true, }
+  reactStrictMode: false,
+  experimental: { esmExternals: "loose", appDir: true },
 });

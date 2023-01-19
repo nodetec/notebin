@@ -1,19 +1,12 @@
 import Link from "next/link";
 import { nip19 } from "nostr-tools";
+import { shortenHash } from "../../lib/utils";
 
 export default function Contact({ contact }: any) {
   let contentObj;
   let name;
   let about;
   let picture;
-
-  const shortenHash = (hash: string | undefined) => {
-    if (hash) {
-      return (
-        " " + hash.substring(0, 4) + "..." + hash.substring(hash.length - 4)
-      );
-    }
-  };
 
   const pubkey = contact.pubkey;
   const npub = shortenHash(nip19.npubEncode(contact.pubkey));

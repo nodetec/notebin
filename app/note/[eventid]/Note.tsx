@@ -1,79 +1,45 @@
-"use client";
-
 import Link from "next/link";
-import { useNostrEvents, useProfile } from "nostr-react";
-import { useEffect, useState } from "react";
-import { BsLightningChargeFill } from "react-icons/bs";
-import Button from "../../Button";
+import { useProfile } from "nostr-react";
 import Editor from "../../Editor";
-import { Event } from "../../utils/NostrService";
+import { shortenHash } from "../../lib/utils";
+import { Event } from "nostr-tools";
 
-export default function Note({ eventId, keys }: any) {
+interface NoteProps {
+  event: Event;
+}
+
+export default function Note({ event }: NoteProps) {
   // TODO: get event from context if available instead of using hook everytime
-  const { events } = useNostrEvents({
-    filter: {
-      ids: [eventId],
-      since: 0,
-      kinds: [2222],
-    },
-  });
 
-  let pubkey = "";
-  if (keys.publicKey) {
-    pubkey = keys.publicKey;
-  }
+  const id = event.id || "";
+  const pubkey = event.pubkey;
+  const content = event.content;
+  const createdAt = event.created_at || 0;
+  const tags = event.tags;
 
   const { data } = useProfile({
     pubkey,
   });
-  console.log("events", events);
-  const [markdown, setMarkdown] = useState("");
-  const [isMarkdown, setIsMarkdown] = useState(false);
-  const [event, setEvent] = useState<Event>();
 
-  function setupMarkdown(event: string) {
+  let markdown = "";
+
+  function setupMarkdown(content: string) {
     var md = require("markdown-it")();
-    var result = md.render(event);
-    setIsMarkdown(true);
-    setMarkdown(result);
+    var result = md.render(content);
+    return result;
   }
 
-  useEffect(() => {
-    setEvent(events[0]);
-    if (event?.tags[0][1] === "markdown") {
-      setupMarkdown(event?.content);
-    }
-  }, [events]);
+  let isMarkdown = false;
 
-  const handleTip = async () => {
-    // @ts-ignore
-    if (typeof window.webln !== "undefined") {
-      const nodeAddress = event?.tags[2][1];
-      const customRecord = event?.tags[3][1];
-      // @ts-ignore
-      const result = await webln.keysend({
-        destination: nodeAddress,
-        amount: 1,
-        customRecords: {
-          696969: customRecord,
-        },
-      });
-      console.log("Tip Result:", result);
-    }
-  };
-
-  const shortenHash = (hash: string | undefined) => {
-    if (hash) {
-      return (
-        " " + hash.substring(0, 4) + "..." + hash.substring(hash.length - 4)
-      );
-    }
-  };
+  if (tags[0][1] === "markdown") {
+    markdown = setupMarkdown(content);
+    isMarkdown = true;
+  }
 
   return (
     <div>
       {event &&
-        (isMarkdown || event?.tags[0][1] === "markdown" ? (
+        (isMarkdown || tags[0][1] === "markdown" ? (
           <div className="border-t border-zinc-700">
             <div className="flex justify-center">
               <div className="w-2/3 prose prose-zinc dark:prose-invert p-10 shrink-0 grow-0 basis-11/12">
@@ -91,19 +57,10 @@ export default function Note({ eventId, keys }: any) {
                     @{data?.name}
                   </p>
                   <p className="text-lg text-zinc-400">
-                    {shortenHash(data?.npub)}
+                    {data && shortenHash(data.npub)}
                   </p>
                   <p className="text-sm text-zinc-400 pt-4">{data?.about}</p>
-                  <Button
-                    className="mt-4"
-                    color="yellow"
-                    variant="outline"
-                    onClick={handleTip}
-                    size="sm"
-                    icon={<BsLightningChargeFill size="14" />}
-                  >
-                    tip
-                  </Button>
+                  {/* </Button> */}
                   {/* <p className="text-zinc-600">kind: {event?.kind}</p> */}
                   {/* <p className="text-zinc-600"> */}
                   {/*   pubkey: */}

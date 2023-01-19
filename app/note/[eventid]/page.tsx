@@ -1,30 +1,37 @@
 "use client";
-import Note from "./Note";
-
-import { NostrProvider } from "nostr-react";
-import { PROFILE_RELAYS } from "../../utils/constants";
 import { usePathname } from "next/navigation";
-import { useContext, useEffect, useState } from "react";
-import { KeysContext } from "../../context/keys-provider.jsx";
+import { useNostrEvents } from "nostr-react";
+import Note from "./Note";
+import { Event } from "nostr-tools";
+import { EventContext } from "../../context/event-provider";
+import { useContext } from "react";
 
 export default function NotePage() {
-  // @ts-ignore
-  const { keys } = useContext(KeysContext);
   const pathname = usePathname();
-  const [eventId, setEventId] = useState("");
+  let eventId = "";
+  if (pathname) {
+    eventId = pathname.split("/").pop() || "";
+  }
 
-  useEffect(() => {
-    if (pathname) {
-      setEventId(pathname.split("/").pop() || "");
-      console.log("eventId from path name", eventId);
-    }
-  }, [pathname, eventId]);
+  // @ts-ignore
+  const { event: cachedEvent, setEvent } = useContext(EventContext);
 
-  return (
-    <>
-      <NostrProvider relayUrls={PROFILE_RELAYS} debug={true}>
-        <Note eventId={eventId} keys={keys} />
-      </NostrProvider>
-    </>
-  );
+  if (cachedEvent && eventId === cachedEvent.id) {
+    console.log("using cached event");
+    return <Note event={cachedEvent} />;
+  }
+
+  const { events } = useNostrEvents({
+    filter: {
+      ids: [eventId],
+      kinds: [2222],
+    },
+  });
+
+  const event: Event = events[0];
+
+  if (event) {
+    setEvent(event);
+    return <Note event={event} />;
+  }
 }
