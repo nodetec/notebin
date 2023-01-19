@@ -1,11 +1,8 @@
-"use client";
-
 import Link from "next/link";
 import { useNostrEvents, useProfile } from "nostr-react";
 import { useEffect, useState } from "react";
-import { BsLightningChargeFill } from "react-icons/bs";
-import Button from "../../Button";
 import Editor from "../../Editor";
+import { shortenHash } from "../../lib/utils";
 import { Event } from "../../utils/NostrService";
 
 export default function Note({ eventId, keys }: any) {
@@ -45,15 +42,6 @@ export default function Note({ eventId, keys }: any) {
     }
   }, [events]);
 
-
-  const shortenHash = (hash: string | undefined) => {
-    if (hash) {
-      return (
-        " " + hash.substring(0, 4) + "..." + hash.substring(hash.length - 4)
-      );
-    }
-  };
-
   return (
     <div>
       {event &&
@@ -75,7 +63,7 @@ export default function Note({ eventId, keys }: any) {
                     @{data?.name}
                   </p>
                   <p className="text-lg text-zinc-400">
-                    {shortenHash(data?.npub)}
+                    {data && shortenHash(data.npub)}
                   </p>
                   <p className="text-sm text-zinc-400 pt-4">{data?.about}</p>
                   {/* </Button> */}
