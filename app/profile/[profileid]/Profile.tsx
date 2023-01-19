@@ -48,21 +48,13 @@ export default function Profile({ pubkey }: any) {
   // lud16?: string | undefined;
   // nip06?: string | undefined;
 
-  const shortenHash = (hash: string | undefined) => {
-    if (hash) {
-      return (
-        " " + hash.substring(0, 4) + "..." + hash.substring(hash.length - 4)
-      );
-    }
-  };
-
   return (
     <div className="flex flex-row gap-8">
       <LatestNotes pubkey={pubkey} />
       <div className="flex flex-col">
         <UserCard
           name={name}
-          npub={shortenHash(npub)}
+          npub={npub}
           about={about}
           picture={picture}
         />
