@@ -7,13 +7,19 @@ import { EventContext } from "./context/event-provider";
 import { KeysContext } from "./context/keys-provider.jsx";
 import { useRouter } from "next/navigation";
 
+interface CreatePostButtonProps {
+  filetype: string;
+  text: string;
+  title: string;
+  tagsList: string[];
+}
+
 const CreatePostButton = ({
   filetype,
   text,
   title,
-  tagInputValue,
   tagsList,
-}: any) => {
+}: CreatePostButtonProps) => {
   // @ts-ignore
   const { keys } = useContext(KeysContext);
   // @ts-ignore

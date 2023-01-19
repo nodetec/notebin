@@ -29,7 +29,6 @@ const HomePage = () => {
           filetype={filetype}
           text={text}
           title={title}
-          tagInputValue={tagInputValue}
           tagsList={tagsList}
         />
       </div>
