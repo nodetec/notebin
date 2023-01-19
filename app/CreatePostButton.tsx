@@ -6,9 +6,14 @@ import { NostrService } from "./utils/NostrService";
 import { EventContext } from "./context/event-provider";
 import { KeysContext } from "./context/keys-provider.jsx";
 import { useRouter } from "next/navigation";
-import Editor from "./Editor";
 
-const NoteArea = () => {
+const CreatePostButton = ({
+  filetype,
+  text,
+  title,
+  tagInputValue,
+  tagsList,
+}: any) => {
   // @ts-ignore
   const { keys } = useContext(KeysContext);
   // @ts-ignore
@@ -17,11 +22,6 @@ const NoteArea = () => {
   const { connectedRelays } = useNostr();
 
   const router = useRouter();
-  const [filetype, setFiletype] = useState("markdown");
-  const [text, setText] = useState("");
-  const [title, setTitle] = useState("");
-  const [tagInputValue, setTagInputValue] = useState<string>("");
-  const [tagsList, setTagsList] = useState<string[]>([]);
   const [{ postSending, postError }, setPost] = useState({
     postSending: false,
     postError: "",
@@ -47,13 +47,11 @@ const NoteArea = () => {
       setPost({ postSending: false, postError: err.message });
       return;
     }
-    console.log("gonna publish");
 
     let eventId: any = null;
     eventId = event?.id;
 
     connectedRelays.forEach((relay) => {
-      console.log("HELLO")
       let sub = relay.sub([
         {
           ids: [eventId],
@@ -65,7 +63,7 @@ const NoteArea = () => {
         router.push("/note/" + eventId);
       });
       sub.on("eose", () => {
-        console.log("EOSE!!!!!!!")
+        console.log("EOSE!!!!!!!");
         sub.unsub();
       });
     });
@@ -93,33 +91,17 @@ const NoteArea = () => {
   };
 
   return (
-    <div className="w-full mx-auto">
-      <Editor
-        filetype={filetype}
-        setFiletype={setFiletype}
-        text={text}
-        setText={setText}
-        title={title}
-        setTitle={setTitle}
-        tagsList={tagsList}
-        setTagsList={setTagsList}
-        tagInputValue={tagInputValue}
-        setTagInputValue={setTagInputValue}
-      />
-      <div className="pt-2">
-        <Button
-          color="blue"
-          variant="solid"
-          size="sm"
-          className="ml-auto"
-          loading={postSending}
-          onClick={post}
-        >
-          {postSending ? "Sending..." : postError ? postError : "Create Note"}
-        </Button>
-      </div>
-    </div>
+    <Button
+      color="blue"
+      variant="solid"
+      size="sm"
+      className="ml-auto"
+      loading={postSending}
+      onClick={post}
+    >
+      {postSending ? "Sending..." : postError ? postError : "Create Note"}
+    </Button>
   );
 };
 
-export default NoteArea;
+export default CreatePostButton;
