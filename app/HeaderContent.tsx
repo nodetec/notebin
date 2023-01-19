@@ -115,7 +115,7 @@ export default function Header() {
           size="sm"
           icon={<BsLightningChargeFill size="14" />}
         >
-          {isLightningConnected ? "connected" : "Login with Lightning"}
+          {isLightningConnected ? "connected" : "Login with NIP-07 Extension"}
         </Button>
       </Popup>
     </div>
