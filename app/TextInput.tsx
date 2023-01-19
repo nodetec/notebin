@@ -27,14 +27,12 @@ const TextInput = ({ label, icon, error, tagsList, setTagsList, placeholder = ""
             {tagsList?.map((tag) => (
               <div key={tag} className="text-xs
                                       bg-zinc-200
-                                      text-neutral-600
+                                      text-secondary
                                       hover:text-secondary
-                                      dark:bg-primary
+                                      dark:bg-secondary
                                       dark:text-accent
                                       hover:dark:text-zinc-200
                                       border border-transparent
-                                      hover:border-neutral-600
-                                      hover:dark:border-zinc-600
                                       rounded-md p-1 group
                                       flex items-center gap-1">
                 {tag}

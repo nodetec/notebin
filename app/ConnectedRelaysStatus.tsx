@@ -33,7 +33,7 @@ const ConnectedRelaysStatus = () => {
         </span>
       ) : null}
       {(connectedRelaysCount > 0 ) ? (
-        <span className={`absolute z-50 hidden group-focus:flex mx-auto min-w-max -bottom-4 right-0 items-center gap-4 flex-col translate-y-full border border-current p-4 rounded-md bg-accent dark:bg-secondary ${relayConnectionStateColors.fg}`}>
+        <span className={`absolute z-50 hidden group-focus:flex mx-auto min-w-max -bottom-4 right-0 items-center gap-4 flex-col translate-y-full border border-current p-4 rounded-md bg-accent dark:bg-primary ${relayConnectionStateColors.fg}`}>
           {connectedRelays.map((relay) => (
             <span key={relay.url} className="">{relay.url}</span>
           ))}
