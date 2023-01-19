@@ -50,8 +50,7 @@ export default function Profile({ pubkey }: any) {
   // nip06?: string | undefined;
 
   return (
-    <div className="flex flex-col-reverse sm:flex-row gap-8 flex-1">
-      <LatestNotes pubkey={pubkey} />
+    <div className="flex flex-col sm:flex-row gap-8 flex-1">
       <div className="flex flex-col flex-shrink">
         <UserCard
           name={name}
@@ -61,6 +60,7 @@ export default function Profile({ pubkey }: any) {
         />
         {userContacts && <Contacts userContacts={userContacts} />}
       </div>
+      <LatestNotes pubkey={pubkey} />
     </div>
   );
 }

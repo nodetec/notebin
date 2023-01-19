@@ -14,11 +14,10 @@ export default function LatestNotes({ pubkey }: any) {
     <div className="flex flex-col gap-4 flex-1">
       <h1 className="text-3xl font-bold pb-4">Latest Notes</h1>
       <ul className="flex flex-col gap-4">
-        {events.map((event, index) => (
+        {events.map((event) => (
           <Note
             key={event.id}
-            index={index}
-            id={event.id}
+            noteId={event.id!}
             content={event.content}
             tags={event.tags}
             createdAt={event.created_at}
