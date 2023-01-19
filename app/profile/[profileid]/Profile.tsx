@@ -60,7 +60,7 @@ export default function Profile({ pubkey }: any) {
         />
         {userContacts && <Contacts userContacts={userContacts} />}
       </div>
-      <LatestNotes pubkey={pubkey} />
+      <LatestNotes name={name} pubkey={pubkey} />
     </div>
   );
 }
