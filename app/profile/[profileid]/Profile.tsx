@@ -1,5 +1,6 @@
 import { useNostrEvents } from "nostr-react";
 import { nip19 } from "nostr-tools";
+import { shortenHash } from "../../lib/utils";
 import Contacts from "./Contacts";
 import LatestNotes from "./LatestNotes";
 import UserCard from "./UserCard";
@@ -47,14 +48,6 @@ export default function Profile({ pubkey }: any) {
   // lud06?: string | undefined;
   // lud16?: string | undefined;
   // nip06?: string | undefined;
-
-  const shortenHash = (hash: string | undefined) => {
-    if (hash) {
-      return (
-        " " + hash.substring(0, 4) + "..." + hash.substring(hash.length - 4)
-      );
-    }
-  };
 
   return (
     <div className="flex flex-row gap-8">
