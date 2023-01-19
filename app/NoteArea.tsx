@@ -5,7 +5,6 @@ import Button from "./Button";
 import { NostrService } from "./utils/NostrService";
 import { EventContext } from "./context/event-provider";
 import { KeysContext } from "./context/keys-provider.jsx";
-import { TipContext } from "./context/tip-provider.jsx";
 import { useRouter } from "next/navigation";
 import Editor from "./Editor";
 
@@ -14,8 +13,6 @@ const NoteArea = () => {
   const { keys } = useContext(KeysContext);
   // @ts-ignore
   const { setEvent } = useContext(EventContext);
-  // @ts-ignore
-  const { tipInfo } = useContext(TipContext);
   const { publish } = useNostr();
   const { connectedRelays } = useNostr();
 
@@ -41,8 +38,6 @@ const NoteArea = () => {
       text,
       title,
       filetype,
-      tipInfo.noteAddress,
-      tipInfo.customValue,
       tagsList
     );
 

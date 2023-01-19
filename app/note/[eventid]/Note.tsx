@@ -45,22 +45,6 @@ export default function Note({ eventId, keys }: any) {
     }
   }, [events]);
 
-  const handleTip = async () => {
-    // @ts-ignore
-    if (typeof window.webln !== "undefined") {
-      const nodeAddress = event?.tags[2][1];
-      const customRecord = event?.tags[3][1];
-      // @ts-ignore
-      const result = await webln.keysend({
-        destination: nodeAddress,
-        amount: 1,
-        customRecords: {
-          696969: customRecord,
-        },
-      });
-      console.log("Tip Result:", result);
-    }
-  };
 
   const shortenHash = (hash: string | undefined) => {
     if (hash) {
@@ -94,15 +78,6 @@ export default function Note({ eventId, keys }: any) {
                     {shortenHash(data?.npub)}
                   </p>
                   <p className="text-sm text-zinc-400 pt-4">{data?.about}</p>
-                  {/* <Button */}
-                  {/*   className="mt-4" */}
-                  {/*   color="yellow" */}
-                  {/*   variant="outline" */}
-                  {/*   onClick={handleTip} */}
-                  {/*   size="sm" */}
-                  {/*   icon={<BsLightningChargeFill size="14" />} */}
-                  {/* > */}
-                  {/*   tip */}
                   {/* </Button> */}
                   {/* <p className="text-zinc-600">kind: {event?.kind}</p> */}
                   {/* <p className="text-zinc-600"> */}

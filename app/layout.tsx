@@ -4,7 +4,6 @@ import "./globals.css";
 import RelayProvider from "./context/relay-provider.jsx";
 import EventProvider from "./context/event-provider.jsx";
 import KeysProvider from "./context/keys-provider.jsx";
-import TipProvider from "./context/tip-provider.jsx";
 import Header from "./Header";
 
 export default function RootLayout({
@@ -23,12 +22,10 @@ export default function RootLayout({
         <RelayProvider>
           <EventProvider>
             <KeysProvider>
-              <TipProvider>
                 <CustomThemeProvider>
                   <Header />
                   {children}
                 </CustomThemeProvider>
-              </TipProvider>
             </KeysProvider>
           </EventProvider>
         </RelayProvider>

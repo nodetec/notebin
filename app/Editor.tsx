@@ -61,23 +61,6 @@ const Editor = ({
     }
   };
 
-  const handleTip = async () => {
-    // @ts-ignore
-    if (typeof window.webln !== "undefined") {
-      const nodeAddress = event.tags[2][1];
-      const customRecord = event.tags[3][1];
-      // @ts-ignore
-      const result = await webln.keysend({
-        destination: nodeAddress,
-        amount: 1,
-        customRecords: {
-          696969: customRecord,
-        },
-      });
-      console.log("Tip Result:", result);
-    }
-  };
-
   const setupMarkdown = (text: string) => {
     const md = require("markdown-it")();
     const result = md.render(text);
@@ -162,15 +145,6 @@ const Editor = ({
                     })
                 }}
               />
-              <Button
-                color="yellow"
-                variant="outline"
-                onClick={handleTip}
-                size="sm"
-                icon={<BsLightningChargeFill size="14" />}
-              >
-                tip
-              </Button>
             </div>
           ) : null}
         </div>
