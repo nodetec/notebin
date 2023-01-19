@@ -192,6 +192,7 @@ const Editor = ({
                   placeholder="Title..."
                   onChange={(evn) => setTitle(evn.target.value)}
                   onBlur={handleFocus}
+                  /* @ts-ignore */
                   focused={focused.toString()}
                   disabled={!!event}
                 />
