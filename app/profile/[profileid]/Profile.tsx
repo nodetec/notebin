@@ -5,14 +5,23 @@ import Contacts from "./Contacts";
 import LatestNotes from "./LatestNotes";
 import UserCard from "./UserCard";
 
+import { useContext } from "react";
+import { KeysContext } from "../../context/keys-provider.jsx";
+
 export default function Profile({ pubkey }: any) {
+  // @ts-ignore
+  const { keys: loggedInUserPublicKey } = useContext(KeysContext);
+
   const { events } = useNostrEvents({
     filter: {
       kinds: [0, 3],
-      authors: [pubkey],
-      limit: 5,
+      authors: [pubkey, loggedInUserPublicKey?.publicKey],
+      // authors: [pubkey],
+      // limit: 5,
     },
   });
+
+  console.log("EVENTS:", events);
 
   const npub = nip19.npubEncode(pubkey);
   let contentObj;
@@ -20,7 +29,11 @@ export default function Profile({ pubkey }: any) {
   let about;
   let picture;
 
-  const userMetaData = events.filter((event) => event.kind === 0);
+  // console.log("PROFILE PUBLIC KEY", pubkey);
+
+  const userMetaData = events.filter(
+    (event) => event.kind === 0 && pubkey === event.pubkey
+  );
 
   try {
     const content = userMetaData[0]?.content;
@@ -32,12 +45,18 @@ export default function Profile({ pubkey }: any) {
     console.log("Error parsing content");
   }
 
-  const userContactEvent = events.filter((event) => event.kind === 3);
-  const userContacts = userContactEvent[0]?.tags;
+  const userContactEvent = events.filter(
+    (event) => event.kind === 3 && event.pubkey === pubkey
+  );
+  const currentContacts = userContactEvent[0]?.tags;
 
-  // console.log()
+  const loggedInUserEvent = events.filter(
+    (event) =>
+      event.kind === 3 && event.pubkey === loggedInUserPublicKey?.publicKey
+  );
+  const loggedInUsersContacts = loggedInUserEvent[0]?.tags;
 
-  console.log("CONTACTS:", userContacts);
+  // console.log("CONTACTS:", userContacts);
 
   // npub: string;
   // name?: string | undefined;
@@ -53,13 +72,19 @@ export default function Profile({ pubkey }: any) {
     <div className="flex flex-row gap-8">
       <LatestNotes pubkey={pubkey} />
       <div className="flex flex-col">
-        <UserCard
-          name={name}
-          npub={shortenHash(npub)}
-          about={about}
-          picture={picture}
-        />
-        {userContacts && <Contacts userContacts={userContacts} />}
+        {loggedInUsersContacts && (
+          <UserCard
+            loggedInUserPublicKey={loggedInUserPublicKey.publicKey}
+            loggedInUsersContacts={loggedInUsersContacts}
+            currentContacts={currentContacts}
+            pubkey={pubkey}
+            name={name}
+            npub={shortenHash(npub)}
+            about={about}
+            picture={picture}
+          />
+        )}
+        {currentContacts && <Contacts userContacts={currentContacts} />}
       </div>
     </div>
   );

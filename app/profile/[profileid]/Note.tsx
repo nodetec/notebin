@@ -6,7 +6,7 @@ export default function Note({ content, index, createdAt, id, tags }: any) {
   });
 
   if (title[0]) {
-    console.log("title:", title[0][1]);
+    // console.log("title:", title[0][1]);
     title = title[0][1];
   } else {
     title = "(Untitled)";

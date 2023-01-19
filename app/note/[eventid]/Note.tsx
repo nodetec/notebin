@@ -17,6 +17,7 @@ export default function Note({ event }: NoteProps) {
   const createdAt = event.created_at || 0;
   const tags = event.tags;
 
+  // TODO: cache this
   const { data } = useProfile({
     pubkey,
   });
