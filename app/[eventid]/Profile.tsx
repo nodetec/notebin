@@ -1,16 +1,17 @@
 import { useNostrEvents } from "nostr-react";
 import { nip19 } from "nostr-tools";
-import { shortenHash } from "../../lib/utils";
-import Contacts from "./Contacts";
-import LatestNotes from "./LatestNotes";
-import UserCard from "./UserCard";
+import { shortenHash } from "../lib/utils";
 
 import { useContext } from "react";
-import { KeysContext } from "../../context/keys-provider.jsx";
+import { KeysContext } from "../context/keys-provider.jsx";
+import UserCard from "../u/[profileid]/UserCard";
+import Note from "./Note";
 
-export default function Profile({ pubkey }: any) {
+export default function Profile({ event }: any) {
   // @ts-ignore
   const { keys: loggedInUserPublicKey } = useContext(KeysContext);
+
+  const pubkey = event?.pubkey;
 
   const { events } = useNostrEvents({
     filter: {
@@ -67,23 +68,29 @@ export default function Profile({ pubkey }: any) {
   // lud06?: string | undefined;
   // lud16?: string | undefined;
   // nip06?: string | undefined;
+  // console.log("DO I EVER GET HERE?")
 
-  return loggedInUsersContacts ? (
-    <div className="flex flex-col-reverse md:flex-row items-center md:items-start gap-20 mx-20 flex-1">
-      <LatestNotes name={name} pubkey={pubkey} />
-      <div className="flex flex-col flex-shrink md:sticky top-4 w-full md:w-auto max-w-[22rem]">
-        <UserCard
-          loggedInUserPublicKey={loggedInUserPublicKey.publicKey}
-          loggedInUsersContacts={loggedInUsersContacts}
-          currentContacts={currentContacts}
-          pubkey={pubkey}
-          name={name}
-          npub={shortenHash(npub)}
-          about={about}
-          picture={picture}
-        />
-        {currentContacts && <Contacts userContacts={currentContacts} />}
+  if (loggedInUsersContacts) {
+    return (
+      <div className="flex flex-col md:flex-row items-center justify-center md:items-start gap-20 flex-1">
+        <Note event={event} />
+        <div className="flex flex-col flex-shrink md:sticky justify-end items-end top-4 w-full md:w-auto max-w-[22rem]">
+          {loggedInUsersContacts && (
+            <UserCard
+              loggedInUserPublicKey={loggedInUserPublicKey.publicKey}
+              loggedInUsersContacts={loggedInUsersContacts}
+              currentContacts={currentContacts}
+              pubkey={pubkey}
+              name={name}
+              npub={shortenHash(npub)}
+              about={about}
+              picture={picture}
+            />
+          )}
+        </div>
       </div>
-    </div>
-  ) : null;
+    );
+  } else {
+    return <></>;
+  }
 }

@@ -1,7 +1,16 @@
-import { DetailedHTMLProps, LegacyRef, SelectHTMLAttributes, useId } from "react";
+import {
+  DetailedHTMLProps,
+  LegacyRef,
+  SelectHTMLAttributes,
+  useId,
+} from "react";
 import { IoChevronDown } from "react-icons/io5";
 
-interface SelectProps extends DetailedHTMLProps<SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> {
+interface SelectProps
+  extends DetailedHTMLProps<
+    SelectHTMLAttributes<HTMLSelectElement>,
+    HTMLSelectElement
+  > {
   label: string;
   options: string[];
   innerRef?: LegacyRef<HTMLSelectElement>;
@@ -11,7 +20,8 @@ const Select = ({ label, options, innerRef, ...props }: SelectProps) => {
   const id = useId();
 
   return (
-    <div className={`
+    <div
+      className={`
                     text-tertiary
                     dark:text-slate-300
                     relative
@@ -26,7 +36,12 @@ const Select = ({ label, options, innerRef, ...props }: SelectProps) => {
                     group
     `}
     >
-      <label htmlFor={id} className="absolute text-sm font-bold top-2 left-2 group-focus-within:text-blue-500 text-inherit">{label}</label>
+      <label
+        htmlFor={id}
+        className="absolute text-sm font-bold top-2 left-2 group-focus-within:text-blue-500 text-inherit"
+      >
+        {label}
+      </label>
       <IoChevronDown className="text-2xl text-current absolute top-0 right-2 bottom-0 my-auto pointer-events-none text-neutral-500 group-focus-within:text-blue-500" />
       <select
         id={id}
@@ -45,10 +60,14 @@ const Select = ({ label, options, innerRef, ...props }: SelectProps) => {
         ref={innerRef}
         {...props}
       >
-        {options.map(option => <option key={option} value={option}>{option}</option>)}
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
       </select>
     </div>
-  )
-}
+  );
+};
 
 export default Select;

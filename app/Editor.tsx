@@ -71,7 +71,12 @@ const Editor = ({
 
   const scrollView = (e: any) => {
     /* @ts-ignore */
-    previewRef.current?.scrollTo( 0, (e.target.scrollTop / e.target.scrollTopMax) * previewRef.current.scrollTopMax);
+    previewRef.current?.scrollTo(
+      0,
+      (e.target.scrollTop / e.target.scrollTopMax) *
+        /* @ts-ignore */
+        previewRef.current.scrollTopMax
+    );
   };
 
   return (
@@ -177,9 +182,10 @@ const Editor = ({
             <div
               ref={previewRef}
               className={`w-full h-full overflow-y-auto prose prose-zinc dark:prose-invert p-6 
-                ${mdPreviewMode === "preview"
-                  ? "min-w-full"
-                  : mdPreviewMode === "split"
+                ${
+                  mdPreviewMode === "preview"
+                    ? "min-w-full"
+                    : mdPreviewMode === "split"
                     ? "border-t-2 md:border-l-2 md:border-t-0 border-secondary"
                     : ""
                 }`}
@@ -197,7 +203,7 @@ const Editor = ({
           icon={<BsFillTagFill className="w-4 h-4" />}
           placeholder={event ? "" : "Enter tags"}
           tagsList={event?.tags[4][1] ? event?.tags[4][1].split(",") : tagsList}
-          setTagsList={event ? () => { } : handleSetTagsList}
+          setTagsList={event ? () => {} : handleSetTagsList}
           value={tagInputValue}
           disabled={!!event}
           error={tagsInputError}
