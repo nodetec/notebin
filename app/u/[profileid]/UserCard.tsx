@@ -1,5 +1,3 @@
-import { BsLightningChargeFill } from "react-icons/bs";
-import Button from "../../Button";
 import Buttons from "../../Buttons";
 import FollowButton from "./FollowButton";
 
@@ -27,15 +25,6 @@ export default function UserCard({
       <p className="text-sm text-accent">{about}</p>
       {loggedInUserPublicKey === pubkey ? null : (
         <Buttons>
-          <Button
-            className="w-full"
-            color="yellow"
-            variant="outline"
-            size="sm"
-            icon={<BsLightningChargeFill size="14" />}
-          >
-            tip
-          </Button>
           <FollowButton
             loggedInUserPublicKey={loggedInUserPublicKey}
             currentContacts={loggedInUsersContacts}
