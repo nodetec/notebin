@@ -21,7 +21,11 @@ export default function ArchiveNote({ event }: ArchiveNoteProps) {
       <Link href={`/u/` + event.pubkey}>
         <p className="text-lg text-zinc-300">Public Key: {event.pubkey}</p>
       </Link>
-      <img alt="(fill in with autoimage)" className="rounded-full w-6" src={data?.picture} />
+      <img
+        alt="(fill in with autoimage)"
+        className="rounded-full w-6"
+        src={data?.picture}
+      />
       {/* <p className="text-lg text-zinc-300">Created at: {event.created_at}</p> */}
       <DatePosted timestamp={event.created_at} />
       <p className="text-lg text-zinc-300">tags: {event.tags}</p>
