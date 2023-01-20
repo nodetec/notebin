@@ -68,26 +68,22 @@ export default function Profile({ pubkey }: any) {
   // lud16?: string | undefined;
   // nip06?: string | undefined;
 
-  if (loggedInUsersContacts) {
-    return (
-      <div className="flex flex-col md:flex-row items-center md:items-start gap-20 mx-20 flex-1">
-        <LatestNotes name={name} pubkey={pubkey} />
-        <div className="flex flex-col flex-shrink md:sticky top-4 w-full md:w-auto max-w-[22rem]">
-          <UserCard
-            loggedInUserPublicKey={loggedInUserPublicKey.publicKey}
-            loggedInUsersContacts={loggedInUsersContacts}
-            currentContacts={currentContacts}
-            pubkey={pubkey}
-            name={name}
-            npub={shortenHash(npub)}
-            about={about}
-            picture={picture}
-          />
-          {currentContacts && <Contacts userContacts={currentContacts} />}
-        </div>
+  return loggedInUsersContacts ? (
+    <div className="flex flex-col-reverse md:flex-row items-center md:items-start gap-20 mx-20 flex-1">
+      <LatestNotes name={name} pubkey={pubkey} />
+      <div className="flex flex-col flex-shrink md:sticky top-4 w-full md:w-auto max-w-[22rem]">
+        <UserCard
+          loggedInUserPublicKey={loggedInUserPublicKey.publicKey}
+          loggedInUsersContacts={loggedInUsersContacts}
+          currentContacts={currentContacts}
+          pubkey={pubkey}
+          name={name}
+          npub={shortenHash(npub)}
+          about={about}
+          picture={picture}
+        />
+        {currentContacts && <Contacts userContacts={currentContacts} />}
       </div>
-    );
-  } else {
-    return <></>;
-  }
+    </div>
+  ) : null;
 }
