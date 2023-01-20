@@ -69,9 +69,9 @@ export default function Profile({ pubkey }: any) {
   // nip06?: string | undefined;
 
   return loggedInUsersContacts ? (
-    <div className="flex flex-col-reverse md:flex-row items-center md:items-start gap-20 mx-20 flex-1">
+    <div className="flex flex-col-reverse lg:flex-row items-center lg:items-start gap-20 px-20 flex-1">
       <LatestNotes name={name} pubkey={pubkey} />
-      <div className="flex flex-col flex-shrink md:sticky top-4 w-full md:w-auto max-w-[22rem]">
+      <div className="flex flex-col flex-shrink lg:sticky top-4 w-full lg:w-auto max-w-[22rem]">
         <UserCard
           loggedInUserPublicKey={loggedInUserPublicKey.publicKey}
           loggedInUsersContacts={loggedInUsersContacts}
