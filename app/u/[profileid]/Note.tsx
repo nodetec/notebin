@@ -32,7 +32,7 @@ const Note: FC<NoteProps> = ({
       className="rounded-md hover:shadow-sm hover:scale-101 transition-transform hover:shadow-accent dark:bg-secondary text-accent"
       {...props}
     >
-      <Link href={`/note/${noteId}`} className="p-5 flex flex-col gap-3">
+      <Link href={`/${noteId}`} className="p-5 flex flex-col gap-3">
         {title ? (
           <h3 className="text-2xl font-semibold text-light twolines">
             {title}

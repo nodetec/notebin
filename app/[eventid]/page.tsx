@@ -5,6 +5,7 @@ import Note from "./Note";
 import { Event } from "nostr-tools";
 import { EventContext } from "../context/event-provider";
 import { useContext } from "react";
+import Profile from "./Profile";
 
 export default function NotePage() {
   const pathname = usePathname();
@@ -18,7 +19,8 @@ export default function NotePage() {
 
   if (cachedEvent && eventId === cachedEvent.id) {
     console.log("using cached event");
-    return <Note event={cachedEvent} />;
+    return <Profile event={cachedEvent} />;
+    // return <Note event={cachedEvent} />;
   }
 
   const { events } = useNostrEvents({
@@ -32,6 +34,6 @@ export default function NotePage() {
 
   if (event) {
     setEvent(event);
-    return <Note event={event} />;
+    return <Profile event={event} />;
   }
 }
