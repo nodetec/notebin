@@ -1,7 +1,4 @@
-import Link from "next/link";
-import { useProfile } from "nostr-react";
 import Editor from "../Editor";
-import { shortenHash } from "../lib/utils";
 import { Event } from "nostr-tools";
 
 interface NoteProps {
@@ -11,16 +8,8 @@ interface NoteProps {
 export default function Note({ event }: NoteProps) {
   // TODO: get event from context if available instead of using hook everytime
 
-  const id = event.id || "";
-  const pubkey = event.pubkey;
   const content = event.content;
-  const createdAt = event.created_at || 0;
   const tags = event.tags;
-
-  // TODO: cache this
-  const { data } = useProfile({
-    pubkey,
-  });
 
   let markdown = "";
 
