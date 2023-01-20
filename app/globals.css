@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply dark:bg-neutral-900;
+    @apply dark:bg-primary;
   }
 }
 
@@ -16,9 +16,19 @@ html[data-color-mode="light"] .w-tc-editor code[class*='language-'] .token.punct
 }
 
 html[data-color-mode="dark"] .w-tc-editor {
-  @apply bg-neutral-900;
+  @apply bg-primary;
 }
 
 html[data-color-mode="light"] .w-tc-editor {
   @apply bg-zinc-200;
+}
+
+.twolines {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-height: 1.5;
+  max-height: 5ch;
 }

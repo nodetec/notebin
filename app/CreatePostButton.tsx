@@ -39,13 +39,16 @@ const CreatePostButton = ({
 
     const publicKey = keys.publicKey;
 
-    let event = NostrService.createEvent(
-      publicKey,
-      text,
-      title,
-      filetype,
-      tagsList
-    );
+    const tags = [
+      ["filetype", filetype],
+      ["client", "notebin"],
+      ["node_address", ""],
+      ["custom_value", ""],
+      ["tags", tagsList.join(",")],
+      ["subject", title],
+    ];
+
+    let event = NostrService.createEvent(2222, publicKey, text, tags);
 
     try {
       event = await NostrService.addEventData(event);

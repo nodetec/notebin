@@ -21,16 +21,14 @@ export default function Contact({ contact }: any) {
     console.log("Error parsing content");
   }
 
-  // console.log("CONTACT:", contact);
-
   return (
-    <li className="pb-3 mb-3">
-      <Link href={`/profile/${pubkey}`}>
-        <div className="flex flex-row gap-4 hover:scale-101 items-center ease-in-out duration-300">
-          <img className="rounded-full w-8 mr-3" src={picture} />
-          <span className="dark:text-zinc-500 mr-3 text-xl">{npub}</span>
-          <span className="dark:text-zinc-500 mr-3 text-xl">{name}</span>
-        </div>
+    <li className="hover:bg-secondary transition-colors opacity-70 hover:opacity-100 rounded-full">
+      <Link 
+        href={`/profile/${pubkey}`}
+        className="dark:text-accent text-base flex items-center gap-2 justify-between py-2 pl-2 pr-4">
+        <img className="rounded-full w-8 h-8" src={picture} alt={name} />
+        <span>{npub}</span>
+        <span>{name}</span>
       </Link>
     </li>
   );
