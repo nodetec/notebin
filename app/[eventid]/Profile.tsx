@@ -73,24 +73,27 @@ export default function Profile({ event }: any) {
   // nip06?: string | undefined;
   // console.log("DO I EVER GET HERE?")
 
-  return (
-    <div className="flex flex-col md:flex-row items-center justify-end md:items-start gap-12 flex-1">
-      <Note event={event} />
-      <div className="flex flex-col flex-shrink md:sticky top-4 w-full md:w-auto max-w-[22rem]">
-        {loggedInUsersContacts && (
-          <UserCard
-            loggedInUserPublicKey={loggedInUserPublicKey.publicKey}
-            loggedInUsersContacts={loggedInUsersContacts}
-            currentContacts={currentContacts}
-            pubkey={pubkey}
-            name={name}
-            npub={shortenHash(npub)}
-            about={about}
-            picture={picture}
-          />
-        )}
-        {/* {currentContacts && <Contacts userContacts={currentContacts} />} */}
+  if (loggedInUsersContacts) {
+    return (
+      <div className="flex flex-col md:flex-row items-center justify-center md:items-start gap-20 flex-1">
+        <Note event={event} />
+        <div className="flex flex-col flex-shrink md:sticky justify-end items-end top-4 w-full md:w-auto max-w-[22rem]">
+          {loggedInUsersContacts && (
+            <UserCard
+              loggedInUserPublicKey={loggedInUserPublicKey.publicKey}
+              loggedInUsersContacts={loggedInUsersContacts}
+              currentContacts={currentContacts}
+              pubkey={pubkey}
+              name={name}
+              npub={shortenHash(npub)}
+              about={about}
+              picture={picture}
+            />
+          )}
+        </div>
       </div>
-    </div>
-  );
+    );
+  } else {
+    return <></>;
+  }
 }

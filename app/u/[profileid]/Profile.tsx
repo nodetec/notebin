@@ -68,10 +68,11 @@ export default function Profile({ pubkey }: any) {
   // lud16?: string | undefined;
   // nip06?: string | undefined;
 
-  return (
-    <div className="flex flex-col md:flex-row items-center md:items-start gap-12 flex-1">
-      <div className="flex flex-col flex-shrink md:sticky top-4 w-full md:w-auto max-w-[22rem]">
-        {loggedInUsersContacts && (
+  if (loggedInUsersContacts) {
+    return (
+      <div className="flex flex-col md:flex-row items-center md:items-start gap-12 flex-1">
+        <LatestNotes name={name} pubkey={pubkey} />
+        <div className="flex flex-col flex-shrink md:sticky top-4 w-full md:w-auto max-w-[22rem]">
           <UserCard
             loggedInUserPublicKey={loggedInUserPublicKey.publicKey}
             loggedInUsersContacts={loggedInUsersContacts}
@@ -82,10 +83,11 @@ export default function Profile({ pubkey }: any) {
             about={about}
             picture={picture}
           />
-        )}
-        {currentContacts && <Contacts userContacts={currentContacts} />}
+          {currentContacts && <Contacts userContacts={currentContacts} />}
+        </div>
       </div>
-      <LatestNotes name={name} pubkey={pubkey} />
-    </div>
-  );
+    );
+  } else {
+    return <></>;
+  }
 }
