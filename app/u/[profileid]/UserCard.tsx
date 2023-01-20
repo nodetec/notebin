@@ -22,7 +22,7 @@ export default function UserCard({
 
   return (
     <div className="flex flex-col items-center md:items-start gap-4">
-      <img className="rounded-full mb-4 w-36" src={picture} alt={name} />
+      <img className="rounded-full mb-4 w-36 h-36 object-cover" src={picture} alt={name} />
       <p className="text-2xl font-bold text-zinc-200">
         <span className="text-red-500">@</span>
         {name}
