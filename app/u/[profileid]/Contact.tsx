@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { nip19 } from "nostr-tools";
 import { shortenHash } from "../../lib/utils";
+import { DUMMY_PROFILE_API } from "../../utils/constants";
 
 export default function Contact({ contact }: any) {
   let contentObj;
@@ -27,7 +28,11 @@ export default function Contact({ contact }: any) {
         href={`/u/${pubkey}`}
         className="dark:text-accent text-base flex items-center gap-2 justify-between py-2 pl-2 pr-4"
       >
-        <img className="rounded-full w-8 h-8" src={picture} alt={name} />
+        <img
+          className="rounded-full w-8 h-8"
+          src={contentObj?.picture || DUMMY_PROFILE_API(name || npub)}
+          alt={name}
+        />
         <span>{npub}</span>
         <span>{name}</span>
       </Link>

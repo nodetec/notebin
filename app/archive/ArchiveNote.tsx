@@ -1,8 +1,9 @@
 import Link from "next/link";
 import { useProfile } from "nostr-react";
-import { Event } from "nostr-tools";
+import { Event, nip19 } from "nostr-tools";
 import { ReactNode } from "react";
 import { FaCalendarAlt } from "react-icons/fa";
+import { DUMMY_PROFILE_API } from "../utils/constants";
 
 interface ArchiveNoteProps {
   event: Event;
@@ -13,6 +14,8 @@ export default function ArchiveNote({ event }: ArchiveNoteProps) {
     pubkey: event.pubkey,
   });
 
+  const npub = nip19.npubEncode(event.pubkey);
+
   return (
     <div className="border border-gray-600 p-4 rounded-md">
       <Link href={`/u/` + event.pubkey}>
@@ -22,9 +25,9 @@ export default function ArchiveNote({ event }: ArchiveNoteProps) {
         <p className="text-lg text-zinc-300">Public Key: {event.pubkey}</p>
       </Link>
       <img
-        alt="(fill in with autoimage)"
         className="rounded-full w-6"
-        src={data?.picture}
+        src={data?.picture || DUMMY_PROFILE_API(data?.name || npub)}
+        alt={data?.name}
       />
       {/* <p className="text-lg text-zinc-300">Created at: {event.created_at}</p> */}
       <DatePosted timestamp={event.created_at} />
