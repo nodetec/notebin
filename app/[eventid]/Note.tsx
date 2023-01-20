@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useProfile } from "nostr-react";
-import Editor from "../../Editor";
-import { shortenHash } from "../../lib/utils";
+import Editor from "../Editor";
+import { shortenHash } from "../lib/utils";
 import { Event } from "nostr-tools";
 
 interface NoteProps {
@@ -50,7 +50,7 @@ export default function Note({ event }: NoteProps) {
                 <div className="p-10 overflow-hidden h-full">
                   <Link
                     className="text-xl dark:text-accent text-secondary hover:dark:text-tertiary"
-                    href={`/profile/` + pubkey}
+                    href={`/u/` + pubkey}
                   >
                     <img className="rounded-full w-20" src={data?.picture} />
                   </Link>

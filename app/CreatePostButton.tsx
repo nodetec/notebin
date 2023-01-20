@@ -69,10 +69,10 @@ const CreatePostButton = ({
       sub.on("event", (event: Event) => {
         console.log("we got the event we wanted:", event);
         setEvent(event);
-        router.push("/note/" + eventId);
+        router.push("/" + eventId);
       });
       sub.on("eose", () => {
-        console.log("EOSE!!!!!!!");
+        console.log("EOSE");
         sub.unsub();
       });
     });
@@ -89,7 +89,7 @@ const CreatePostButton = ({
       await pub.on("seen", async () => {
         console.log("OUR EVENT WAS SEEN");
         setEvent(event);
-        router.push("/note/" + eventId);
+        router.push("/" + eventId);
       });
 
       pub.on("failed", (reason: any) => {
