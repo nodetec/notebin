@@ -1,7 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
 import { useNostrEvents } from "nostr-react";
-import Note from "./Note";
 import { Event } from "nostr-tools";
 import { EventContext } from "../context/event-provider";
 import { useContext } from "react";
