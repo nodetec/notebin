@@ -1,28 +1,31 @@
 "use client";
 
 import { useNostr } from "nostr-react";
+import { HiUserAdd, HiUserRemove } from "react-icons/hi";
+import Button from "../../Button";
 import { NostrService } from "../../utils/NostrService";
 
 export default function FollowButton({
   loggedInUserPublicKey,
   currentContacts,
   profilePublicKey,
-  action,
+  contacts,
 }: any) {
   const { publish } = useNostr();
   const { connectedRelays } = useNostr();
+  const isFollowing = contacts.includes(profilePublicKey);
 
   const handleFollow = async (e: any) => {
     e.preventDefault();
 
     let newContactList;
 
-    if (action === "follow") {
-      newContactList = [...currentContacts, ["p", profilePublicKey]];
-    } else {
+    if (isFollowing) {
       newContactList = currentContacts.filter(
         (pair: string) => pair[1] !== profilePublicKey
       );
+    } else {
+      newContactList = [...currentContacts, ["p", profilePublicKey]];
     }
 
     let event = NostrService.createEvent(
@@ -75,11 +78,13 @@ export default function FollowButton({
   };
 
   return (
-    <button
-      className="bg-blue-400 text-slate-900 p-2 rounded-md mt-3 hover:bg-blue-500"
+    <Button
+      variant={isFollowing ? "ghost" : "outline"}
+      size="sm"
+      icon={isFollowing ? <HiUserRemove /> : <HiUserAdd />}
       onClick={handleFollow}
     >
-      {action}
-    </button>
+      {isFollowing ? "Unfollow" : "Follow"}
+    </Button>
   );
 }

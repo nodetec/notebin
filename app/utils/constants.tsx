@@ -22,8 +22,6 @@ export const PROFILE_RELAYS = [
   // "wss://relay.nostr.info",
 ];
 
-// `https://api.dicebear.com/5.x//svg?seed=${seed}`;
-
 export const DUMMY_PROFILE_API = (seed: string) => {
   const style:
     | "adventurer"
@@ -51,6 +49,7 @@ export const DUMMY_PROFILE_API = (seed: string) => {
     | "pixel-art-neutral" = "identicon";
   return `https://api.dicebear.com/5.x/${style}/svg?seed=${seed}`;
 };
+
 export const LANGUAGES = [
   "abap",
   "aes",

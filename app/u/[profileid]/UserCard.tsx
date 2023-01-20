@@ -1,3 +1,4 @@
+import Buttons from "../../Buttons";
 import FollowButton from "./FollowButton";
 
 export default function UserCard({
@@ -11,14 +12,7 @@ export default function UserCard({
 }: any) {
   const contacts = loggedInUsersContacts.map((pair: string) => pair[1]);
 
-  let showFollowButton = true;
-  let action = "follow";
-
-  if (loggedInUserPublicKey === pubkey) {
-    showFollowButton = false;
-  } else if (contacts.includes(pubkey)) {
-    action = "unfollow";
-  }
+  /* (contacts.includes(pubkey) */
 
   return (
     <div className="flex flex-col items-center md:items-start gap-4">
@@ -29,14 +23,16 @@ export default function UserCard({
       </p>
       <p className="text-lg text-accent">{npub}</p>
       <p className="text-sm text-accent">{about}</p>
-        {showFollowButton && (
+      {loggedInUserPublicKey === pubkey ? null : (
+        <Buttons>
           <FollowButton
-            action={action}
             loggedInUserPublicKey={loggedInUserPublicKey}
             currentContacts={loggedInUsersContacts}
             profilePublicKey={pubkey}
+            contacts={contacts}
           />
-        )}
-      </div>
+        </Buttons>
+      )}
+    </div>
   );
 }

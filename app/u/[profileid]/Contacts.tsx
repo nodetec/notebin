@@ -26,7 +26,9 @@ export default function Contacts({ userContacts }: any) {
         {uniqueContacts &&
           uniqueContacts
             .slice(0, 5)
-            .map((contact: any) => <Contact key={contact.id} contact={contact} />)}
+            .map((contact: any) => (
+              <Contact key={contact.id} contact={contact} />
+            ))}
       </ul>
     </div>
   );

@@ -32,7 +32,7 @@ const Note: FC<NoteProps> = ({
       className="rounded-md hover:shadow-sm hover:scale-101 transition-transform hover:shadow-accent dark:bg-secondary text-accent"
       {...props}
     >
-      <Link href={`/note/${noteId}`} className="p-5 flex flex-col gap-3">
+      <Link href={`/${noteId}`} className="p-5 flex flex-col gap-3">
         {title ? (
           <h3 className="text-2xl font-semibold text-light twolines">
             {title}
@@ -50,10 +50,8 @@ const Note: FC<NoteProps> = ({
 };
 
 const InfoContainer = ({ children }: { children: ReactNode }) => (
-  <div className="flex items-center gap-2">
-    {children}
-  </div>
-)
+  <div className="flex items-center gap-2">{children}</div>
+);
 
 const DatePosted = ({ timestamp }: { timestamp: number }) => {
   const timeStampToDate = (timestamp: number) => {
@@ -70,14 +68,12 @@ const DatePosted = ({ timestamp }: { timestamp: number }) => {
       <span>
         <FaCalendarAlt className="w-4 h-4 text-current" />
       </span>
-      <span>
-        {timeStampToDate(timestamp)}
-      </span>
+      <span>{timeStampToDate(timestamp)}</span>
     </InfoContainer>
   );
 };
 
-const NoteTags = ({tags}: {tags: string[]}) => (
+const NoteTags = ({ tags }: { tags: string[] }) => (
   <InfoContainer>
     <span>
       <BsFillTagFill className="w-4 h-4 text-current" />
@@ -88,7 +84,7 @@ const NoteTags = ({tags}: {tags: string[]}) => (
       ))}
     </ul>
   </InfoContainer>
-)
+);
 
 const FileType = ({ type }: { type: string }) => (
   <InfoContainer>
@@ -97,6 +93,6 @@ const FileType = ({ type }: { type: string }) => (
     </span>
     <span>{type}</span>
   </InfoContainer>
-)
+);
 
 export default Note;
