@@ -1,6 +1,7 @@
 "use client";
 
 import { useNostr } from "nostr-react";
+import { HiUserAdd, HiUserRemove } from "react-icons/hi";
 import Button from "../../Button";
 import { NostrService } from "../../utils/NostrService";
 
@@ -80,6 +81,7 @@ export default function FollowButton({
     <Button
       variant={isFollowing ? "ghost" : "outline"}
       size="sm"
+      icon={isFollowing ? <HiUserRemove /> : <HiUserAdd />}
       onClick={handleFollow}
     >
       {isFollowing ? "Unfollow" : "Follow"}
