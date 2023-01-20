@@ -38,8 +38,8 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#171717",
-    "background_color": "#171717",
+    "theme_color": "#121a23",
+    "background_color": "#121a23",
     "start_url": "https://www.notebin.org/",
     "display": "standalone"
 }
