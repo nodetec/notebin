@@ -40,7 +40,7 @@ export default function Profile({ pubkey }: any) {
     const contentObj = JSON.parse(content);
     name = contentObj?.name;
     about = contentObj?.about;
-    picture = contentObj?.picture || DUMMY_PROFILE_API(name||npub);
+    picture = contentObj?.picture || DUMMY_PROFILE_API(name || npub);
   } catch {
     console.log("Error parsing content");
   }
