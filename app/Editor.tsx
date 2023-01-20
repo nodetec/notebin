@@ -185,7 +185,10 @@ const Editor = ({
         </div>
         <div className="flex h-[36rem] overflow-y-auto flex-col md:flex-row">
           {(filetype !== "markdown" || mdPreviewMode !== "preview") && (
-            <div className="flex flex-col w-full h-full overflow-auto" onScroll={scrollView}>
+            <div
+              className="flex flex-col w-full h-full overflow-auto"
+              onScroll={scrollView}
+            >
               <textarea
                 rows={1}
                 className="bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
