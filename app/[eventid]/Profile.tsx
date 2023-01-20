@@ -6,6 +6,7 @@ import { useContext } from "react";
 import { KeysContext } from "../context/keys-provider.jsx";
 import UserCard from "../u/[profileid]/UserCard";
 import Note from "./Note";
+import { DUMMY_PROFILE_API } from "../utils/constants";
 
 export default function Profile({ event }: any) {
   // @ts-ignore
@@ -41,7 +42,7 @@ export default function Profile({ event }: any) {
     contentObj = JSON.parse(content);
     name = contentObj?.name;
     about = contentObj?.about;
-    picture = contentObj?.picture;
+    picture = contentObj?.picture || DUMMY_PROFILE_API(name || npub);
   } catch (e) {
     console.log("Error parsing content");
   }

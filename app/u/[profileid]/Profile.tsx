@@ -7,6 +7,7 @@ import UserCard from "./UserCard";
 
 import { useContext } from "react";
 import { KeysContext } from "../../context/keys-provider.jsx";
+import { DUMMY_PROFILE_API } from "../../utils/constants";
 
 export default function Profile({ pubkey }: any) {
   // @ts-ignore
@@ -24,7 +25,6 @@ export default function Profile({ pubkey }: any) {
   console.log("EVENTS:", events);
 
   const npub = nip19.npubEncode(pubkey);
-  let contentObj;
   let name;
   let about;
   let picture;
@@ -37,11 +37,11 @@ export default function Profile({ pubkey }: any) {
 
   try {
     const content = userMetaData[0]?.content;
-    contentObj = JSON.parse(content);
+    const contentObj = JSON.parse(content);
     name = contentObj?.name;
     about = contentObj?.about;
-    picture = contentObj?.picture;
-  } catch (e) {
+    picture = contentObj?.picture || DUMMY_PROFILE_API(name || npub);
+  } catch {
     console.log("Error parsing content");
   }
 
