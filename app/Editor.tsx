@@ -78,6 +78,7 @@ const Editor = ({
     previewRef.current?.scrollTo(
       0,
       (e.target.scrollTop / e.target.scrollTopMax) *
+        /* @ts-ignore */
         previewRef.current.scrollTopMax
     );
   };
