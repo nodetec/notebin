@@ -1,5 +1,6 @@
 import Buttons from "../../Buttons";
 import FollowButton from "./FollowButton";
+import Truncate from "../../Truncate";
 
 export default function UserCard({
   name,
@@ -21,7 +22,9 @@ export default function UserCard({
         <span className="text-red-500">@</span>
         {name}
       </p>
-      <p className="text-lg text-accent">{npub}</p>
+      <p className="flex items-center gap-1">
+        <Truncate content={npub} color="transparent" size="sm" />
+      </p>
       <p className="text-sm text-accent">{about}</p>
       {loggedInUserPublicKey === pubkey ? null : (
         <Buttons>

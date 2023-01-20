@@ -4,14 +4,10 @@ import "@uiw/react-textarea-code-editor/dist.css";
 import TextInput from "./TextInput";
 import Button from "./Button";
 import { Fragment, useRef, useState } from "react";
-import {
-  HiOutlineClipboardCheck,
-  HiOutlineClipboardCopy,
-} from "react-icons/hi";
-import { TbClipboardX } from "react-icons/tb";
 import { AiFillEdit, AiFillEye } from "react-icons/ai";
 import { RiLayoutColumnFill } from "react-icons/ri";
 import { BsFillTagFill } from "react-icons/bs";
+import Truncate from "./Truncate";
 import CreatePostButton from "./CreatePostButton";
 
 const CodeEditor = dynamic(
@@ -145,40 +141,11 @@ const Editor = ({
           </div>
           {event ? (
             <div className="flex items-center gap-4">
-              <Button
+              <Truncate
+                content={event.content}
+                iconOnly
                 color="neutralLight"
                 variant="ghost"
-                className={
-                  copied
-                    ? "text-green-600 dark:text-green-400"
-                    : error
-                    ? "text-red-600 dark:text-red-400"
-                    : ""
-                }
-                icon={
-                  copied ? (
-                    <HiOutlineClipboardCheck />
-                  ) : error ? (
-                    <TbClipboardX />
-                  ) : (
-                    <HiOutlineClipboardCopy />
-                  )
-                }
-                onClick={() => {
-                  navigator.clipboard
-                    .writeText(event.content)
-                    .then(() => {
-                      setClipboard({ copied: true, error: false });
-                    })
-                    .catch((_) => {
-                      setClipboard({ copied: false, error: true });
-                    })
-                    .finally(() => {
-                      setTimeout(() => {
-                        setClipboard({ copied: false, error: false });
-                      }, 2000);
-                    });
-                }}
               />
             </div>
           ) : null}
