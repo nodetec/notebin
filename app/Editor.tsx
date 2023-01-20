@@ -194,7 +194,7 @@ const Editor = ({
                 onChange={(evn) => setTitle(evn.target.value)}
                 disabled={!!event}
               />
-              <div>
+              <div className="h-full">
                 <CodeEditor
                   className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
                   value={event ? event?.content : text}
