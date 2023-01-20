@@ -23,11 +23,7 @@ export default function UserCard({
         {name}
       </p>
       <p className="flex items-center gap-1">
-        <Truncate
-          content={npub}
-          color="transparent"
-          size="sm"
-        />
+        <Truncate content={npub} color="transparent" size="sm" />
       </p>
       <p className="text-sm text-accent">{about}</p>
       {loggedInUserPublicKey === pubkey ? null : (

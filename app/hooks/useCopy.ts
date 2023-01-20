@@ -3,11 +3,13 @@ import { useState } from "react";
 interface ICopy {
   isCopied: boolean;
   isError: boolean;
-};
+}
 
 const useCopy = () => {
-  const [{ isCopied, isError }, setClipboard] = 
-    useState<ICopy>({ isCopied: false, isError: false });
+  const [{ isCopied, isError }, setClipboard] = useState<ICopy>({
+    isCopied: false,
+    isError: false,
+  });
 
   const copyToClipboard = (text: string) => {
     navigator.clipboard

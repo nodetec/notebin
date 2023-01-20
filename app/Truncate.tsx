@@ -36,8 +36,8 @@ const Truncate = ({
   const color = isCopied
     ? "text-green-600 dark:text-green-400"
     : isError
-      ? "text-red-600 dark:text-red-400"
-      : "";
+    ? "text-red-600 dark:text-red-400"
+    : "";
 
   return (
     <Fragment>
@@ -45,10 +45,10 @@ const Truncate = ({
         {iconOnly
           ? null
           : isCopied
-            ? "Copied!"
-            : isError
-              ? "Error"
-              : shorten(content)}
+          ? "Copied!"
+          : isError
+          ? "Error"
+          : shorten(content)}
       </span>
       <Button
         className={color}
