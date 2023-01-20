@@ -4,14 +4,10 @@ import "@uiw/react-textarea-code-editor/dist.css";
 import TextInput from "./TextInput";
 import Button from "./Button";
 import { Fragment, useRef, useState } from "react";
-import {
-  HiOutlineClipboardCheck,
-  HiOutlineClipboardCopy,
-} from "react-icons/hi";
-import { TbClipboardX } from "react-icons/tb";
 import { AiFillEdit, AiFillEye } from "react-icons/ai";
 import { RiLayoutColumnFill } from "react-icons/ri";
 import { BsFillTagFill } from "react-icons/bs";
+import Truncate from "./Truncate";
 import CreatePostButton from "./CreatePostButton";
 
 const CodeEditor = dynamic(
@@ -145,47 +141,21 @@ const Editor = ({
           </div>
           {event ? (
             <div className="flex items-center gap-4">
-              <Button
+              <Truncate
+                content={event.content}
+                iconOnly
                 color="neutralLight"
                 variant="ghost"
-                className={
-                  copied
-                    ? "text-green-600 dark:text-green-400"
-                    : error
-                    ? "text-red-600 dark:text-red-400"
-                    : ""
-                }
-                icon={
-                  copied ? (
-                    <HiOutlineClipboardCheck />
-                  ) : error ? (
-                    <TbClipboardX />
-                  ) : (
-                    <HiOutlineClipboardCopy />
-                  )
-                }
-                onClick={() => {
-                  navigator.clipboard
-                    .writeText(event.content)
-                    .then(() => {
-                      setClipboard({ copied: true, error: false });
-                    })
-                    .catch((_) => {
-                      setClipboard({ copied: false, error: true });
-                    })
-                    .finally(() => {
-                      setTimeout(() => {
-                        setClipboard({ copied: false, error: false });
-                      }, 2000);
-                    });
-                }}
               />
             </div>
           ) : null}
         </div>
         <div className="flex h-[36rem] overflow-y-auto flex-col md:flex-row">
           {(filetype !== "markdown" || mdPreviewMode !== "preview") && (
-            <div className="w-full h-full overflow-auto" onScroll={scrollView}>
+            <div
+              className="flex flex-col w-full h-full overflow-auto"
+              onScroll={scrollView}
+            >
               <textarea
                 rows={1}
                 className="bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
@@ -194,7 +164,7 @@ const Editor = ({
                 onChange={(evn) => setTitle(evn.target.value)}
                 disabled={!!event}
               />
-              <div>
+              <div className="grow">
                 <CodeEditor
                   className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
                   value={event ? event?.content : text}
