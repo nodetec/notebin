@@ -1,7 +1,7 @@
 import { useNostrEvents } from "nostr-react";
 import Note from "./Note";
 
-export default function LatestNotes({ pubkey }: any) {
+export default function LatestNotes({ pubkey, name }: any) {
   const { events } = useNostrEvents({
     filter: {
       kinds: [2222],
@@ -11,13 +11,15 @@ export default function LatestNotes({ pubkey }: any) {
   });
 
   return (
-    <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-bold pt-8 pb-4">Latest Notes</h1>
-      <ul>
-        {events.map((event, index) => (
+    <div className="flex flex-col gap-4 flex-1">
+      <h1 className="text-3xl font-bold pb-4">
+        {name ? `${name}'s l` : "L"}atest notes
+      </h1>
+      <ul className="flex flex-col gap-4">
+        {events.map((event) => (
           <Note
-            index={index}
-            id={event.id}
+            key={event.id}
+            noteId={event.id!}
             content={event.content}
             tags={event.tags}
             createdAt={event.created_at}

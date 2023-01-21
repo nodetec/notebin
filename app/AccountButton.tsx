@@ -1,45 +1,24 @@
-"use client";
-
 import Link from "next/link";
 import { useProfile } from "nostr-react";
-import { useContext, useEffect } from "react";
-import { UserDataContext } from "./context/userdata-provider.jsx";
+import { shortenHash } from "./lib/utils";
 
-export default function AccountButton({ publicKey }: any) {
-  // @ts-ignore
-  const { setUserData } = useContext(UserDataContext);
-  console.log("profile publickey:", publicKey);
+interface AccountButtonProps {
+  pubkey: string;
+}
 
-  let pubkey = "";
-
-  if (publicKey) {
-    pubkey = publicKey;
-  }
-
+export default function AccountButton({ pubkey }: AccountButtonProps) {
   const { data } = useProfile({
     pubkey,
   });
 
-  useEffect(() => {
-    setUserData(data);
-  }, []);
-
-  const shortenHash = (hash: string) => {
-    if (hash) {
-      return hash.substring(0, 4) + "..." + hash.substring(hash.length - 4);
-    }
-  };
-
   return (
-    <>
-      <Link href={`/profile/` + publicKey}>
-        <span className="flex gap-2 dark:bg-zinc-900 text-zinc-300 border border-zinc-700 rounded-full py-1 px-2">
-          {data?.picture && (
-            <img className="rounded-full w-6" src={data?.picture} />
-          )}
-          {shortenHash(publicKey)}
-        </span>
-      </Link>
-    </>
+    <Link href={`/u/` + pubkey}>
+      <span className="flex gap-2 dark:bg-primary text-accent border border-tertiary rounded-full py-2 px-3 hover:border-current">
+        {data?.picture && (
+          <img className="rounded-full w-6" src={data?.picture} />
+        )}
+        {shortenHash(pubkey)}
+      </span>
+    </Link>
   );
 }

@@ -22,7 +22,6 @@ export const PROFILE_RELAYS = [
   // "wss://relay.nostr.info",
 ];
 
-
 export const LANGUAGES = [
   "abap",
   "aes",

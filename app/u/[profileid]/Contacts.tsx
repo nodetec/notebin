@@ -14,29 +14,21 @@ export default function Contacts({ userContacts }: any) {
     },
   });
 
-  // const npub = nip19.npubEncode(pubkey);
-  // let contentObj;
-  // let name;
-  // let about;
-  // let picture;
-
-  // const userMetaData = events.filter((event) => event.kind === 0);
-
   let uniqueContacts = contacts.filter(
     (obj, index, self) =>
       index === self.findIndex((t) => t.pubkey === obj.pubkey)
   );
 
-  // console.log("UNIQUE CONTACTS:", uniqueContacts);
-
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-bold pt-8 pb-4">Following</h1>
-      <ul>
+      <h4 className="text-xl font-bold pt-8">Following</h4>
+      <ul className="flex flex-col gap-2">
         {uniqueContacts &&
           uniqueContacts
             .slice(0, 5)
-            .map((contact: any) => <Contact contact={contact} />)}
+            .map((contact: any) => (
+              <Contact key={contact.id} contact={contact} />
+            ))}
       </ul>
     </div>
   );
