@@ -181,7 +181,7 @@ const Editor = ({
                 titlevalid={titleValid.toString()}
                 disabled={!!event}
               />
-              <span className="title px-3 pb-3 text-xs text-red-500 hidden">{VALIDATION.required}</span>
+              <span className="px-3 text-xs text-red-500 hidden">{VALIDATION.required}</span>
               <div className="grow">
                 <CodeEditor
                   className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"

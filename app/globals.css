@@ -7,9 +7,6 @@
     @apply dark:bg-primary;
   }
 
-  textarea:invalid[focused="true"], textarea[titlevalid="false"] {
-    border-bottom: 1px solid #ef4444;
-  }
   textarea:invalid[focused="true"] ~ span, textarea[titlevalid="false"] ~ span {
     display: block;
   }
