@@ -184,7 +184,7 @@ const Editor = ({
                 titlevalid={titleValid.toString()}
                 disabled={!!event}
               />
-              <span className="px-3 text-xs text-red-500 hidden">
+              <span className="px-6 pt-0.5 text-xs text-red-500 hidden">
                 {VALIDATION.required}
               </span>
               <div className="grow">
