@@ -26,24 +26,37 @@ const Note: FC<NoteProps> = ({
 
   const actualTags = getValues("tags").split(",");
   const title = getValues("subject");
+  const markdownImageContent =
+    /!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<title>\".*\")?\)/g.exec(content);
 
   return (
     <li
       className="rounded-md hover:shadow-sm hover:scale-101 transition-transform hover:shadow-accent dark:bg-secondary text-accent"
       {...props}
     >
-      <Link href={`/${noteId}`} className="p-5 flex flex-col gap-3">
-        {title ? (
-          <h3 className="text-2xl font-semibold text-light twolines">
-            {title}
-          </h3>
-        ) : null}
-        <div className="flex items-center gap-5 opacity-70">
-          <DatePosted timestamp={createdAt} />
-          <FileType type={getValues("filetype")} />
-          {actualTags.length > 1 ? <NoteTags tags={actualTags} /> : null}
+      <Link href={`/${noteId}`} className="p-5 flex flex-row justify-between">
+        <div className="flex flex-col gap-3">
+          {title ? (
+            <h3 className="text-2xl font-semibold text-light twolines">
+              {title}
+            </h3>
+          ) : null}
+          <div className="flex flex-col sm:flex-row items-center gap-5 opacity-70">
+            <DatePosted timestamp={createdAt} />
+            <FileType type={getValues("filetype")} />
+            {actualTags.length > 1 ? <NoteTags tags={actualTags} /> : null}
+          </div>
+          <div className="flex flex-col sm:flex-row gap-5 opacity-70">
+            <div className="twolines opacity-70">{content}</div>
+          </div>
         </div>
-        <div className="twolines opacity-70">{content}</div>
+        {markdownImageContent?.groups?.filename ? (
+          <img
+            className="rounded-md self-center w-12 h-12 md:w-16 md:h-16 lg:w-24 lg:h-24 object-cover"
+            src={markdownImageContent?.groups?.filename}
+            title={markdownImageContent?.groups?.title}
+          />
+        ) : null}
       </Link>
     </li>
   );
