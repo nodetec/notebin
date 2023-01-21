@@ -118,5 +118,5 @@ export const LANGUAGES = [
 ];
 
 export const VALIDATION = {
-  required: "Required field"
-}
+  required: "Required field",
+};
