@@ -1,4 +1,4 @@
-import { LANGUAGES } from "./utils/constants";
+import { LANGUAGES, VALIDATION } from "./utils/constants";
 import dynamic from "next/dynamic";
 import "@uiw/react-textarea-code-editor/dist.css";
 import TextInput from "./TextInput";
@@ -36,6 +36,9 @@ const Editor = ({
   const [mdPreviewMode, setMdPreviewMode] = useState<
     "off" | "preview" | "split"
   >("off");
+
+  const [focused, setFocused] = useState(false);
+  const [titleValid, setTitleValid] = useState(true);
 
   const previewRef = useRef(null);
 
@@ -77,6 +80,14 @@ const Editor = ({
         /* @ts-ignore */
         previewRef.current.scrollTopMax
     );
+  };
+
+  const handleFocus = (e: any) => {
+    setFocused(true);
+  };
+
+  const onSubmit = (titleValid: boolean) => {
+    setTitleValid(titleValid);
   };
 
   return (
@@ -157,13 +168,25 @@ const Editor = ({
               onScroll={scrollView}
             >
               <textarea
+                title={title}
+                required
                 rows={1}
                 className="bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
                 value={event ? event?.tags[5][1] : title}
                 placeholder="Title..."
-                onChange={(evn) => setTitle(evn.target.value)}
+                onChange={(evn) => {
+                  setTitle(evn.target.value);
+                  setTitleValid(true);
+                }}
+                onBlur={handleFocus}
+                /* @ts-ignore */
+                focused={focused.toString()}
+                titlevalid={titleValid.toString()}
                 disabled={!!event}
               />
+              <span className="px-6 pt-0.5 text-xs text-red-500 hidden">
+                {VALIDATION.required}
+              </span>
               <div className="grow">
                 <CodeEditor
                   className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
@@ -219,6 +242,7 @@ const Editor = ({
             text={text}
             title={title}
             tagsList={tagsList}
+            onSubmit={onSubmit}
           />
         )}
       </div>

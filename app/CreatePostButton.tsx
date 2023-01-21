@@ -12,6 +12,7 @@ interface CreatePostButtonProps {
   text: string;
   title: string;
   tagsList: string[];
+  onSubmit: Function;
 }
 
 const CreatePostButton = ({
@@ -19,6 +20,7 @@ const CreatePostButton = ({
   text,
   title,
   tagsList,
+  onSubmit,
 }: CreatePostButtonProps) => {
   // @ts-ignore
   const { keys } = useContext(KeysContext);
@@ -35,67 +37,74 @@ const CreatePostButton = ({
 
   const post = async (e: any) => {
     e.preventDefault();
-    setPost({ postSending: true, postError: "" });
 
-    const publicKey = keys.publicKey;
+    if (title.trim().length) {
+      onSubmit(true);
 
-    const tags = [
-      ["filetype", filetype],
-      ["client", "notebin"],
-      ["node_address", ""],
-      ["custom_value", ""],
-      ["tags", tagsList.join(",")],
-      ["subject", title],
-    ];
+      setPost({ postSending: true, postError: "" });
 
-    let event = NostrService.createEvent(2222, publicKey, text, tags);
+      const publicKey = keys.publicKey;
 
-    try {
-      event = await NostrService.addEventData(event);
-    } catch (err: any) {
-      setPost({ postSending: false, postError: err.message });
-      return;
-    }
+      const tags = [
+        ["filetype", filetype],
+        ["client", "notebin"],
+        ["node_address", ""],
+        ["custom_value", ""],
+        ["tags", tagsList.join(",")],
+        ["subject", title],
+      ];
 
-    let eventId: any = null;
-    eventId = event?.id;
+      let event = NostrService.createEvent(2222, publicKey, text, tags);
 
-    connectedRelays.forEach((relay) => {
-      let sub = relay.sub([
-        {
-          ids: [eventId],
-        },
-      ]);
-      sub.on("event", (event: Event) => {
-        console.log("we got the event we wanted:", event);
-        setEvent(event);
-        router.push("/" + eventId);
-      });
-      sub.on("eose", () => {
-        console.log("EOSE");
-        sub.unsub();
-      });
-    });
+      try {
+        event = await NostrService.addEventData(event);
+      } catch (err: any) {
+        setPost({ postSending: false, postError: err.message });
+        return;
+      }
 
-    const pubs = publish(event);
+      let eventId: any = null;
+      eventId = event?.id;
 
-    // @ts-ignore
-    for await (const pub of pubs) {
-      pub.on("ok", () => {
-        console.log("OUR EVENT WAS ACCEPTED");
-        setPost({ postSending: false, postError: "" });
+      connectedRelays.forEach((relay) => {
+        let sub = relay.sub([
+          {
+            ids: [eventId],
+          },
+        ]);
+        sub.on("event", (event: Event) => {
+          console.log("we got the event we wanted:", event);
+          setEvent(event);
+          router.push("/" + eventId);
+        });
+        sub.on("eose", () => {
+          console.log("EOSE");
+          sub.unsub();
+        });
       });
 
-      await pub.on("seen", async () => {
-        console.log("OUR EVENT WAS SEEN");
-        setEvent(event);
-        router.push("/" + eventId);
-      });
+      const pubs = publish(event);
 
-      pub.on("failed", (reason: any) => {
-        setPost({ postSending: false, postError: reason });
-        console.log("OUR EVENT HAS FAILED");
-      });
+      // @ts-ignore
+      for await (const pub of pubs) {
+        pub.on("ok", () => {
+          console.log("OUR EVENT WAS ACCEPTED");
+          setPost({ postSending: false, postError: "" });
+        });
+
+        await pub.on("seen", async () => {
+          console.log("OUR EVENT WAS SEEN");
+          setEvent(event);
+          router.push("/" + eventId);
+        });
+
+        pub.on("failed", (reason: any) => {
+          setPost({ postSending: false, postError: reason });
+          console.log("OUR EVENT HAS FAILED");
+        });
+      }
+    } else {
+      onSubmit(false);
     }
   };
 

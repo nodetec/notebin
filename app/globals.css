@@ -6,6 +6,11 @@
   body {
     @apply dark:bg-primary;
   }
+
+  textarea:invalid[focused="true"] ~ span,
+  textarea[titlevalid="false"] ~ span {
+    display: block;
+  }
 }
 
 html[data-color-mode="dark"]

@@ -144,3 +144,7 @@ export const LANGUAGES = [
   "xml",
   "yaml",
 ];
+
+export const VALIDATION = {
+  required: "Required field",
+};
