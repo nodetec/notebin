@@ -71,7 +71,7 @@ export default function Profile({ pubkey }: any) {
   return loggedInUsersContacts ? (
     <div className="flex flex-col-reverse md:flex-row items-center md:items-start gap-10 lg:gap-20 md:px-10 lg:px-20 flex-1">
       <LatestNotes name={name} pubkey={pubkey} />
-      <div className="flex flex-col flex-shrink md:sticky top-4 w-auto md:w-[20%] max-w-[22rem]">
+      <div className="flex flex-col flex-shrink md:sticky top-4 w-auto md:w-[25%] max-w-[22rem]">
         <UserCard
           loggedInUserPublicKey={loggedInUserPublicKey.publicKey}
           loggedInUsersContacts={loggedInUsersContacts}
