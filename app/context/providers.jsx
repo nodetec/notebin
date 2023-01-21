@@ -15,5 +15,9 @@ export default function Providers({ children }) {
     </EventProvider>
   );
 }
-{/* <NostrProvider relayUrls={RELAYS} debug={false}> */ }
-{/* </NostrProvider> */ }
+{
+  /* <NostrProvider relayUrls={RELAYS} debug={false}> */
+}
+{
+  /* </NostrProvider> */
+}
