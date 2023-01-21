@@ -11,8 +11,8 @@ export default function LatestNotes({ pubkey, name }: any) {
   });
 
   return (
-    <div className="flex flex-col gap-4 flex-1">
-      <h1 className="text-3xl font-bold pb-4">
+    <div className="flex flex-col gap-4 max-w-[75%]">
+      <h1 className="text-3xl font-bold pb-4 text-center md:text-start">
         {name ? `${name}'s l` : "L"}atest notes
       </h1>
       <ul className="flex flex-col gap-4">
