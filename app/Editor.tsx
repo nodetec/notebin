@@ -84,11 +84,11 @@ const Editor = ({
 
   const handleFocus = (e: any) => {
     setFocused(true);
-  }
+  };
 
   const onSubmit = (titleValid: boolean) => {
-    setTitleValid(titleValid)
-  }
+    setTitleValid(titleValid);
+  };
 
   return (
     <div>
@@ -174,14 +174,19 @@ const Editor = ({
                 className="bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
                 value={event ? event?.tags[5][1] : title}
                 placeholder="Title..."
-                onChange={(evn) => { setTitle(evn.target.value); setTitleValid(true)}}
+                onChange={(evn) => {
+                  setTitle(evn.target.value);
+                  setTitleValid(true);
+                }}
                 onBlur={handleFocus}
                 /* @ts-ignore */
                 focused={focused.toString()}
                 titlevalid={titleValid.toString()}
                 disabled={!!event}
               />
-              <span className="px-3 text-xs text-red-500 hidden">{VALIDATION.required}</span>
+              <span className="px-3 text-xs text-red-500 hidden">
+                {VALIDATION.required}
+              </span>
               <div className="grow">
                 <CodeEditor
                   className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
