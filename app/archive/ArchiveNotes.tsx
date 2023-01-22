@@ -68,7 +68,7 @@ export default function ArchiveNotes({
     e.preventDefault();
     setFilter({
       kinds: [2222],
-      limit: 10,
+      limit: 100,
     });
   }
 
