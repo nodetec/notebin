@@ -65,14 +65,14 @@ export default function UserCard({
         <PopupInput label="Node Address"></PopupInput>
         <PopupInput label="Custom Record (if applicable)"></PopupInput>
         <Button
-            color="blue"
-            variant="solid"
-            onClick={handleClick}
-            size="sm"
-            className="w-1/4"
-          >
-            Save
-          </Button>
+          color="blue"
+          variant="solid"
+          onClick={handleClick}
+          size="sm"
+          className="w-1/4"
+        >
+          Save
+        </Button>
       </Popup>
     </div>
   );
