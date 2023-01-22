@@ -28,7 +28,7 @@ export default function Header() {
           </div>
           <div className="flex gap-4 items-center">
             <ConnectedRelaysStatus />
-            <Link href="/archive">
+            <Link href="/archive?page=1">
               <FaArchive
                 className="text-accent opacity-70 hover:opacity-100 text-center"
                 size="24"
