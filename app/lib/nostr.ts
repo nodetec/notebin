@@ -15,7 +15,7 @@ class NostrService {
   }
 
   public static getInstance(relayUrls: string[]): NostrService {
-    console.log("INSTANCE", this.instance)
+    console.log("instance!!!!!!", this.instance)
     if (!NostrService.instance) {
       NostrService.instance = new NostrService(relayUrls);
     }

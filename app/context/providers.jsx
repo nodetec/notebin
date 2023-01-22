@@ -8,12 +8,12 @@ import { RELAYS } from "../utils/constants";
 
 export default function Providers({ children }) {
   return (
-    <EventProvider>
-      <KeysProvider>
-        <CustomThemeProvider>{children}</CustomThemeProvider>
-      </KeysProvider>
-    </EventProvider>
+    <NostrProvider relayUrls={RELAYS} debug={false}>
+        <EventProvider>
+          <KeysProvider>
+            <CustomThemeProvider>{children}</CustomThemeProvider>
+          </KeysProvider>
+        </EventProvider>
+    </NostrProvider>
   );
 }
-{/* <NostrProvider relayUrls={RELAYS} debug={false}> */ }
-{/* </NostrProvider> */ }
