@@ -41,7 +41,7 @@ const Popup = ({ title, isOpen, setIsOpen, children }: PopupProps) => {
         </div>
       </div>
       <div
-        className="z-40 fixed top-0 left-0 w-full h-full bg-primary bg-opacity-50"
+        className="z-40 fixed top-0 left-0 w-full h-full bg-primary bg-opacity-50 backdrop-blur-sm"
         onClick={() => setIsOpen(false)}
       />
     </Fragment>
