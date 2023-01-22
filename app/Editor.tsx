@@ -29,10 +29,6 @@ const Editor = ({
   event,
 }: any) => {
   const [tagsInputError, setTagsInputError] = useState("");
-  const [{ copied, error }, setClipboard] = useState({
-    copied: false,
-    error: false,
-  });
   const [mdPreviewMode, setMdPreviewMode] = useState<
     "off" | "preview" | "split"
   >("off");
@@ -189,7 +185,7 @@ const Editor = ({
               </span>
               <div className="grow">
                 <CodeEditor
-                  className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
+                  className={`w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full ${event ? "note-cursor-text" : ""}`}
                   value={event ? event?.content : text}
                   language={event ? event?.tags[0][1] : filetype}
                   placeholder="Enter your note..."

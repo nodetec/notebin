@@ -51,3 +51,7 @@ html[data-color-mode="light"] .w-tc-editor {
   line-height: 1.5;
   max-height: 5ch;
 }
+
+.note-cursor-text textArea {
+  @apply cursor-text;
+}

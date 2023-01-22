@@ -59,11 +59,11 @@ export default function UserCard({
         </Buttons>
       )}
       <Popup title="Edit Profile" isOpen={isOpen} setIsOpen={setIsOpen}>
-        <PopupInput label="Profile Image Url"></PopupInput>
-        <PopupInput label="Name*"></PopupInput>
-        <PopupInput label="Bio"></PopupInput>
-        <PopupInput label="Node Address"></PopupInput>
-        <PopupInput label="Custom Record (if applicable)"></PopupInput>
+        <PopupInput label="Profile Image Url" />
+        <PopupInput label="Name*" />
+        <PopupInput label="Bio" />
+        <PopupInput label="Node Address" />
+        <PopupInput label="Custom Record (if applicable)" />
         <Button
           color="blue"
           variant="solid"
