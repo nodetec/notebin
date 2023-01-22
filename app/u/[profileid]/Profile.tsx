@@ -78,7 +78,7 @@ export default function Profile({ pubkey }: any) {
           currentContacts={currentContacts}
           pubkey={pubkey}
           name={name}
-          npub={shortenHash(npub)}
+          npub={npub}
           about={about}
           picture={picture}
         />

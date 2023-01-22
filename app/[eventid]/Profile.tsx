@@ -1,6 +1,5 @@
 import { useNostrEvents } from "nostr-react";
 import { nip19 } from "nostr-tools";
-import { shortenHash } from "../lib/utils";
 
 import { useContext } from "react";
 import { KeysContext } from "../context/keys-provider.jsx";
@@ -83,7 +82,7 @@ export default function Profile({ event }: any) {
               currentContacts={currentContacts}
               pubkey={pubkey}
               name={name}
-              npub={shortenHash(npub)}
+              npub={npub}
               about={about}
               picture={picture}
             />
