@@ -13,8 +13,8 @@ export const dynamic = "auto",
 
 async function getNotes() {
   // console.log(ns.relays)
-  console.log(ns.relays)
-  console.log("hi")
+  console.log(ns.relays);
+  console.log("hi");
 
   // console.log(ns.relays)
   // ns.connect()
@@ -42,7 +42,7 @@ async function getNotes() {
 export default async function ArchivePage() {
   const events = await getNotes();
   console.log("event", events[0]);
-  
+
   return (
     <div className="flex flex-col justify-center gap-3">
       <h1 className="text-3xl">Note Archive</h1>

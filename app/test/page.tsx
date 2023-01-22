@@ -1,4 +1,3 @@
-
 // import ArchiveNotes from "./ArchiveNotes";
 
 import Link from "next/link";
@@ -14,8 +13,8 @@ export const dynamic = "auto",
 
 async function getNotes() {
   // console.log(ns.relays)
-  console.log(ns.relays)
-  console.log("hi2")
+  console.log(ns.relays);
+  console.log("hi2");
 
   // console.log(ns.relays)
   // ns.connect()

@@ -7,7 +7,7 @@ import Login from "./Login";
 import { ns } from "./lib/nostr";
 
 export default function Header() {
-  ns.relays
+  ns.relays;
   return (
     <div>
       <nav className="flex justify-between flex-row items-stretch pb-12 gap-4">
