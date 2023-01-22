@@ -43,7 +43,7 @@ export default function ArchiveNotes({
         {
           authors: [loggedInUserKeys.publicKey],
           kinds: [3],
-          limit: 10,
+          limit: 100,
         },
       ]);
       sub.on("event", (event: Event) => {
@@ -57,7 +57,7 @@ export default function ArchiveNotes({
         setFilter({
           kinds: [2222],
           authors: followedAuthors,
-          limit: 10,
+          limit: 100,
         });
         sub.unsub();
       });
@@ -68,7 +68,7 @@ export default function ArchiveNotes({
     e.preventDefault();
     setFilter({
       kinds: [2222],
-      limit: 10,
+      limit: 100,
     });
   }
 
