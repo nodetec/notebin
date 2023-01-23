@@ -1,12 +1,9 @@
 "use client";
 import ArchiveNote from "./ArchiveNote";
-
 import { useNostr } from "nostr-react";
-import { useEffect } from "react";
-import { useContext } from "react";
+import { useEffect, useContext } from "react";
 import { KeysContext } from "../context/keys-provider";
-
-import type { Event, Filter } from "nostr-tools";
+import type { Event } from "nostr-tools";
 import Pagination from "../Pagination";
 import { useSearchParams } from "next/navigation";
 
@@ -94,7 +91,7 @@ export default function ArchiveNotes({
           currentPage * postPerPage
         )
         .map((event: Event) => {
-          return <ArchiveNote event={event} />;
+          return <ArchiveNote key={event.id} event={event} />;
         })}
       <Pagination setCurrentPage={setCurrentPage} numPages={numPages} />
     </>
