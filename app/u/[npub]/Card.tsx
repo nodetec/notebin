@@ -14,7 +14,12 @@ interface NoteProps
   dateOnly?: boolean;
 }
 
-const Card: FC<NoteProps> = ({ event, profile = false, dateOnly = false, ...props }) => {
+const Card: FC<NoteProps> = ({
+  event,
+  profile = false,
+  dateOnly = false,
+  ...props
+}) => {
   const { tags, content, created_at: createdAt, id: noteId } = event;
   const getValues = (name: string) => {
     const [itemTag] = tags.filter((tag: string[]) => tag[0] === name);
@@ -54,7 +59,10 @@ const Card: FC<NoteProps> = ({ event, profile = false, dateOnly = false, ...prop
                 <div className="flex items-center gap-2">
                   <img
                     className="rounded-full w-6 h-6 object-cover"
-                    src={data?.picture || DUMMY_PROFILE_API(data?.name || shortenHash(npub)!)}
+                    src={
+                      data?.picture ||
+                      DUMMY_PROFILE_API(data?.name || shortenHash(npub)!)
+                    }
                     alt={data?.name}
                   />
                   <div>
