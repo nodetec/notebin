@@ -2,9 +2,11 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import Button from "./Button";
 import { IoChevronDown } from "react-icons/io5";
+import { useMediaQuery } from "react-responsive";
 
 export default function Pagination({ numPages }: any) {
   const searchParams = useSearchParams();
+  const isSmallScreen = useMediaQuery({ minWidth: 640 });
 
   const pageSearchParam = searchParams.get("page");
 
@@ -16,17 +18,17 @@ export default function Pagination({ numPages }: any) {
   };
 
   return (
-    <div className="flex justify-between">
+    <div className="flex justify-between gap-2">
       <Button
         color="neutralLight"
         variant="outline"
         icon={<IoChevronDown className="rotate-90" />}
-        title="Previous page"
         size="sm"
+        title="Previous page"
         onClick={() => navigate(currentPage - 1)}
         disabled={currentPage <= 1}
       >
-        Prev
+        {isSmallScreen ? "Prev" : ""}
       </Button>
 
       <div className="flex items-center gap-2">
@@ -84,7 +86,7 @@ export default function Pagination({ numPages }: any) {
         disabled={currentPage >= numPages}
         iconAfter
       >
-        Next
+        {isSmallScreen ? "Next" : ""}
       </Button>
     </div>
   );
