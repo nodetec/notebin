@@ -15,6 +15,7 @@ export default function ArchivePage() {
   const [filter, setFilter] = useState<Filter>({
     kinds: [2222],
     limit: 100,
+    authors: [],
   });
 
   if (pathname) {
@@ -52,6 +53,7 @@ export default function ArchivePage() {
         postPerPage={POSTS_PER_PAGE}
         events={events}
         numPages={numPages}
+        filter={filter}
         setFilter={setFilter}
       />
     </div>

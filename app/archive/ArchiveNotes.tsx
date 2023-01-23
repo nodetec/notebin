@@ -1,5 +1,4 @@
 "use client";
-import { useProfile } from "nostr-react";
 import { useNostr } from "nostr-react";
 import { useEffect, useContext } from "react";
 import { KeysContext } from "../context/keys-provider";
@@ -7,11 +6,13 @@ import type { Event } from "nostr-tools";
 import Pagination from "../Pagination";
 import { useSearchParams } from "next/navigation";
 import Card from "../u/[npub]/Card";
+import Button from "../Button";
 
 export default function ArchiveNotes({
   numPages,
   events,
   setCurrentPage,
+  filter,
   setFilter,
   postPerPage,
 }: any) {
@@ -53,9 +54,8 @@ export default function ArchiveNotes({
       sub.on("eose", () => {
         console.log("EOSE");
         setFilter({
-          kinds: [2222],
+          ...filter,
           authors: followedAuthors,
-          limit: 100,
         });
         sub.unsub();
       });
@@ -65,26 +65,28 @@ export default function ArchiveNotes({
   function handleExploreFilter(e: any) {
     e.preventDefault();
     setFilter({
-      kinds: [2222],
-      limit: 100,
+      ...filter,
+      authors: [],
     });
   }
 
   return (
     <>
       <div className="flex gap-3">
-        <button
+        <Button
+          variant={filter.authors.length ? "solid" : "outline"}
           onClick={handleExploreFilter}
-          className="bg-blue-400 rounded-md text-xl w-40"
+          size="sm"
         >
           explore
-        </button>
-        <button
+        </Button>
+        <Button
+          variant={filter.authors.length ? "outline" : "solid"}
           onClick={handleFollowFilter}
-          className="bg-blue-400 rounded-md text-xl w-40"
+          size="sm"
         >
           following
-        </button>
+        </Button>
       </div>
       <ul className="flex flex-col gap-4 text-center md:text-start">
         {events
