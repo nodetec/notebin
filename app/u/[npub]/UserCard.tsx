@@ -284,18 +284,17 @@ export default function UserCard({
             profilePublicKey={pubkey}
             contacts={contacts}
           />
-          {lud06 ||
-            (lud16 && (
-              <Button
-                color="yellow"
-                variant="ghost"
-                onClick={handleClick}
-                size="sm"
-                icon={<BsLightningChargeFill size="14" />}
-              >
-                tip
-              </Button>
-            ))}
+          {(lud06 || lud16) && (
+            <Button
+              color="yellow"
+              variant="ghost"
+              onClick={handleClick}
+              size="sm"
+              icon={<BsLightningChargeFill size="14" />}
+            >
+              tip
+            </Button>
+          )}
         </Buttons>
       )}
 
