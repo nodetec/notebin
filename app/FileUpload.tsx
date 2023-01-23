@@ -12,6 +12,7 @@ const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
     if (typeof window !== "undefined") {
       const fileSelector = document.createElement("input");
       fileSelector.setAttribute("type", "file");
+      fileSelector.setAttribute("accept", ".js");
       return fileSelector;
     }
 
@@ -20,20 +21,41 @@ const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
 
   const [fileSelector, setFileSelector] = useState(buildFileSelector());
 
+  const extractFileContent = async (e: any) => {
+    // @ts-ignore
+    if (fileSelector.files.length) {
+      const allowedExtensions = ['js'];
+      const sizeLimit = 1_048_576;
+
+      // @ts-ignore
+      let { name: fileName, size: fileSize } = fileSelector.files[0];
+
+      const fileExtension = fileName.split(".").pop();
+
+      // @ts-ignore
+      if (!allowedExtensions.includes(fileExtension)) {
+        onFileUpload("", false, true);
+      } else if (fileSize > sizeLimit) {
+        onFileUpload("", true, false);
+      } else {
+        // @ts-ignore
+        const fileContent = await fileSelector.files[0].text();
+        onFileUpload(fileContent, true, true);
+      }
+    }
+  };
+
+  const resetFilePath = (e: any) => {
+    e.target.value = "";
+  };
+
   const handleFileSelect = async (e: any) => {
     e.preventDefault();
 
     if (fileSelector !== null) {
       fileSelector.click();
-
-      fileSelector.addEventListener("change", async () => {
-        // @ts-ignore
-        if (fileSelector.files.length) {
-          // @ts-ignore
-          const fileContent = await fileSelector.files[0].text();
-          onFileUpload(fileContent);
-        }
-      });
+      fileSelector.addEventListener("change", extractFileContent);
+      fileSelector.addEventListener("click", resetFilePath);
     }
   };
 

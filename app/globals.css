@@ -11,6 +11,20 @@
   textarea[titlevalid="false"] ~ span {
     display: block;
   }
+
+  div:has(textarea[filetypevalid="false"]) + span,
+  div:has(textarea[filesizevalid="false"]) + span {
+    display: block;
+  }
+
+  .w-tc-editor.min-h-full {
+    min-height: auto;
+    flex-grow: 1;
+  }
+
+  .w-tc-editor.min-h-full > textarea[style] {
+    padding-bottom: 0 !important;
+  }
 }
 
 html[data-color-mode="dark"]

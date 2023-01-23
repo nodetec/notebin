@@ -40,6 +40,8 @@ const Editor = ({
 
   const [focused, setFocused] = useState(false);
   const [titleValid, setTitleValid] = useState(true);
+  const [fileTypeValid, setFileTypeValid] = useState(true);
+  const [fileSizeValid, setFileSizeValid] = useState(true);
 
   const previewRef = useRef(null);
 
@@ -91,7 +93,9 @@ const Editor = ({
     setTitleValid(titleValid);
   };
 
-  const onFileUpload = (fileContent: string) => {
+  const onFileUpload = (fileContent: string, fileTypeValid: boolean, fileSizeValid: boolean) => {
+    setFileTypeValid(fileTypeValid);
+    setFileSizeValid(fileSizeValid);
     setText(fileContent);
   };
 
@@ -193,7 +197,7 @@ const Editor = ({
               <span className="px-6 pt-0.5 text-xs text-red-500 hidden">
                 {VALIDATION.required}
               </span>
-              <div className="grow">
+              <div className="flex flex-col grow pb-6">
                 <CodeEditor
                   className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
                   value={event ? event?.content : text}
@@ -201,12 +205,18 @@ const Editor = ({
                   placeholder="Enter your note..."
                   autoCapitalize="none"
                   onChange={(evn) => setText(evn.target.value)}
+                  /* @ts-ignore */
+                  filetypevalid={fileTypeValid.toString()}
+                  filesizevalid={fileSizeValid.toString()}
                   disabled={!!event}
-                  padding={25}
+                  padding={24}
                   style={{
                     fontSize: 15,
                   }}
                 />
+                <span className="px-6 pt-0.5 text-xs text-red-500 hidden">
+                  {!fileTypeValid ? VALIDATION.fileType : VALIDATION.fileSize}
+                </span>
               </div>
             </div>
           )}

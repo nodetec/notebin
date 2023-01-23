@@ -147,4 +147,6 @@ export const LANGUAGES = [
 
 export const VALIDATION = {
   required: "Required field",
+  fileType: "File type unsupported",
+  fileSize: "File size too large, max file size is 1MB",
 };
