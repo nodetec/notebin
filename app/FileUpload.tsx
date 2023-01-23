@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import { RiFileUploadFill } from "react-icons/ri";
 
@@ -35,8 +35,8 @@ const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
         }
       })
     }
-  }
-  
+  };
+
   return (
     <Button
       color="zincDark"
@@ -44,11 +44,9 @@ const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
       title="Upload File"
       className="hover:text-primary dark:hover:text-accent"
       onClick={handleFileSelect}
-      icon={
-        <RiFileUploadFill />
-      }
+      icon={<RiFileUploadFill />}
     />
-  )
-}
+  );
+};
 
 export default FileUpload;
