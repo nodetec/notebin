@@ -10,7 +10,7 @@ export default function ArchivePage() {
   const POSTS_PER_PAGE = 10;
   const { connectedRelays } = useNostr();
   const [events, setEvents] = useState<Event[]>([]);
-  const [numPages, setnumPages] = useState<number>();
+  const [numPages, setNumPages] = useState<number>(0);
 
   const [filter, setFilter] = useState<Filter>({
     kinds: [2222],
@@ -36,10 +36,10 @@ export default function ArchivePage() {
         if (eventArray.length) {
           const length = Math.ceil(eventArray.length / POSTS_PER_PAGE);
           if (length) {
-            setnumPages(length);
+            setNumPages(length);
           }
         }
-        console.log("numPages", numPages);
+        /* console.log("numPages", numPages); */
         sub.unsub();
       });
     });
