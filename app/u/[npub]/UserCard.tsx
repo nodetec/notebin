@@ -3,7 +3,7 @@ import FollowButton from "./FollowButton";
 import Truncate from "../../Truncate";
 import Popup from "../../Popup";
 import PopupInput from "../../PopupInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "../../Button";
 import { useNostr } from "nostr-react";
 import { NostrService } from "../../utils/NostrService";
@@ -58,26 +58,10 @@ export default function UserCard({
   const [convertedAddress, setConvertedAddress] = useState<any>();
 
   useEffect(() => {
-    setNewName(name);
-    setNewAbout(about);
-    setNewPicture(picture);
-    setNewNip05(nip05);
-    setNewLnPubkey(lnPubkey);
-    setNewLnCustomValue(lnCustomValue);
-    setNewLud06(lud06);
-    setNewLud16(lud16);
     setNewLnAddress(lud16);
   }, []);
 
   useEffect(() => {
-    setNewName(name);
-    setNewAbout(about);
-    setNewPicture(picture);
-    setNewNip05(nip05);
-    setNewLnPubkey(lnPubkey);
-    setNewLnCustomValue(lnCustomValue);
-    setNewLud06(lud06);
-    setNewLud16(lud16);
     setNewLnAddress(lud16);
   }, [isOpen]);
 
@@ -94,7 +78,8 @@ export default function UserCard({
           console.log("DATA:", data);
           console.log("METADATA:", JSON.parse(data.metadata)[0][1]);
           const newConvertedAddress = JSON.parse(data.metadata)[0][1];
-          setNewLud16(newConvertedAddress);
+
+          setProfile({ ...newProfile, newLud16: newConvertedAddress });
           setConvertedAddress(newConvertedAddress);
           console.log(newConvertedAddress); // chrisatmachine@getalby.com
         }
@@ -103,7 +88,7 @@ export default function UserCard({
           let words = bech32.toWords(Buffer.from(url, "utf8"));
           let newConvertedAddress = "";
           newConvertedAddress = bech32.encode("lnurl", words, 2000);
-          setNewLud06(newConvertedAddress);
+          setProfile({ ...newProfile, newLud06: newConvertedAddress });
           setConvertedAddress(newConvertedAddress);
         }
       } catch (error) {
