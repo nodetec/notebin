@@ -3,7 +3,7 @@ import { nip19 } from "nostr-tools";
 
 import { useContext } from "react";
 import { KeysContext } from "../context/keys-provider.jsx";
-import UserCard from "../u/[profileid]/UserCard";
+import UserCard from "../u/[npub]/UserCard";
 import Note from "./Note";
 import { DUMMY_PROFILE_API } from "../utils/constants";
 

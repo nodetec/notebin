@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { nip19 } from "nostr-tools";
 import { DetailedHTMLProps, FC, LiHTMLAttributes, ReactNode } from "react";
 import { BsFillFileEarmarkCodeFill, BsFillTagFill } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
@@ -34,7 +35,10 @@ const Note: FC<NoteProps> = ({
       className="rounded-md hover:shadow-sm hover:scale-101 transition-transform hover:shadow-accent dark:bg-secondary text-accent"
       {...props}
     >
-      <Link href={`/${noteId}`} className="p-5 flex flex-row justify-between">
+      <Link
+        href={`/${nip19.noteEncode(noteId)}`}
+        className="p-5 flex flex-row justify-between"
+      >
         <div className="flex flex-col gap-3">
           {title ? (
             <h3 className="text-2xl font-semibold text-light twolines">

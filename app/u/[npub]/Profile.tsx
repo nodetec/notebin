@@ -1,6 +1,5 @@
 import { useNostrEvents } from "nostr-react";
 import { nip19 } from "nostr-tools";
-import { shortenHash } from "../../lib/utils";
 import Contacts from "./Contacts";
 import LatestNotes from "./LatestNotes";
 import UserCard from "./UserCard";
@@ -9,7 +8,9 @@ import { useContext } from "react";
 import { KeysContext } from "../../context/keys-provider.jsx";
 import { DUMMY_PROFILE_API } from "../../utils/constants";
 
-export default function Profile({ pubkey }: any) {
+export default function Profile({ npub }: any) {
+  const pubkey = nip19.decode(npub).data.valueOf();
+
   // @ts-ignore
   const { keys: loggedInUserPublicKey } = useContext(KeysContext);
 
@@ -24,7 +25,6 @@ export default function Profile({ pubkey }: any) {
 
   console.log("EVENTS:", events);
 
-  const npub = nip19.npubEncode(pubkey);
   let name;
   let about;
   let picture;
