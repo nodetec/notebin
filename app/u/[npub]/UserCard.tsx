@@ -63,36 +63,6 @@ export default function UserCard({
     }
   };
 
-  // const handleSendTip = async (e: any) => {
-  //   e.preventDefault();
-  //   // @ts-ignore
-  //   if (typeof window.webln !== "undefined") {
-
-  //     let tip = {
-  //       destination: lnPubkey,
-  //       amount: tipInputValue,
-  //     };
-
-  //     if (lnCustomValue) {
-  //       // @ts-ignore
-  //       tip.customRecord = {
-  //         696969: lnCustomValue,
-  //       };
-  //     }
-
-  //     // @ts-ignore
-  //     const result = await webln.keysend({
-  //       destination: lnPubkey,
-  //       amount: tipInputValue,
-  //       customRecords: {
-  //         696969: lnCustomValue,
-  //       },
-  //     });
-  //     console.log("Tip Result:", result);
-  //   }
-  //   setIsOpen(!isOpen);
-  // };
-
   const handleSendTip = async (e: any) => {
     e.preventDefault();
     // @ts-ignore
