@@ -41,7 +41,7 @@ export default function Profile({ pubkey }: any) {
   );
 
   try {
-    console.log("USER PROFILE PRE UPDATE:", userMetaData[0])
+    console.log("USER PROFILE PRE UPDATE:", userMetaData[0]);
     const content = userMetaData[0]?.content;
     console.log("CONTENT:", content);
     const contentObj = JSON.parse(content);
@@ -90,7 +90,7 @@ export default function Profile({ pubkey }: any) {
           currentContacts={currentContacts}
           pubkey={pubkey}
           name={name}
-          npub={shortenHash(npub)}
+          npub={npub}
           nip05={nip05}
           about={about}
           picture={picture}
