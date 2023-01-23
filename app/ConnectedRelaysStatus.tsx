@@ -42,7 +42,7 @@ const ConnectedRelaysStatus = () => {
           ? `Connected to ${connectedRelaysCount} relay${
               connectedRelaysCount > 1 ? "s" : ""
             } 📡`
-          : "Not connected"}
+          : "Not connected (refresh browser)"}
       </span>
       {connectedRelaysCount > 0 ? (
         <span>
