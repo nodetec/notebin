@@ -36,7 +36,7 @@ export default function UserCard({
   const [newLnCustomValue, setNewLnCustomValue] = useState(lnCustomValue);
   const [newLud06, setNewLud06] = useState(lud06);
   const [newLud16, setNewLud16] = useState(lud16);
-  const [tipInputValue, setTipInputValue] = useState<string>();
+  const [tipInputValue, setTipInputValue] = useState<string>("1");
 
   // TODO: on close reset values
 
@@ -55,10 +55,10 @@ export default function UserCard({
     setIsOpen(!isOpen);
   };
 
-  const handleTipChange = (e: any) => {
-    e.preventDefault();
-    const value = e.target.value.replace(/\D/g, "");
-    setTipInputValue(value);
+  const validateTipInputKeyDown = (e: any) => {
+    if ((e.which != 8 && e.which != 0 && e.which < 48) || e.which > 57) {
+      e.preventDefault();
+    }
   };
 
   const handleSendTip = (e: any) => {
@@ -235,18 +235,32 @@ export default function UserCard({
           </Button>
         </Popup>
       ) : (
-        <Popup title="Send Tip" isOpen={isOpen} setIsOpen={setIsOpen}>
-          <PopupInput
-            label="Sats"
-            value={tipInputValue}
-            onChange={handleTipChange}
-          />
+        <Popup
+          title="Pay with Lightning"
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          className="w-[24rem]"
+        >
+          <div className="flex items-center w-full py-2 px-4 rounded-md dark:bg-primary dark:text-zinc-300 ring-1 ring-yellow-500">
+            <input
+              type="number"
+              value={tipInputValue}
+              onKeyDown={validateTipInputKeyDown}
+              onChange={(e) => setTipInputValue(e.target.value)}
+              placeholder="Enter amount in sats"
+              required
+              min={1}
+              className="w-full flex-1 focus:ring-0 border-0 bg-transparent dark:text-zinc-300"
+            />
+            <span className="text-yellow-400 text-sm font-bold">satoshis</span>
+          </div>
           <Button
             color="yellow"
             variant="solid"
             onClick={handleSendTip}
-            size="sm"
-            className="w-1/4"
+            size="md"
+            icon={<BsLightningChargeFill size="14" />}
+            className="w-full"
           >
             Send
           </Button>
