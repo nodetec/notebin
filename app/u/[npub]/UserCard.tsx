@@ -22,8 +22,8 @@ export default function UserCard({
   pubkey,
   loggedInUsersContacts,
   loggedInUserPublicKey,
-  lnPubkey,
-  lnCustomValue,
+  // lnPubkey,
+  // lnCustomValue,
   lud06,
   lud16,
 }: any) {
@@ -37,8 +37,8 @@ export default function UserCard({
     newAbout: about,
     newPicture: picture,
     newNip05: nip05,
-    newLnPubkey: lnPubkey,
-    newLnCustomValue: lnCustomValue,
+    // newLnPubkey: lnPubkey,
+    // newLnCustomValue: lnCustomValue,
     newLud06: lud06,
     newLud16: lud16,
   });
@@ -47,8 +47,8 @@ export default function UserCard({
     newAbout,
     newPicture,
     newNip05,
-    newLnPubkey,
-    newLnCustomValue,
+    // newLnPubkey,
+    // newLnCustomValue,
     newLud06,
     newLud16,
   } = newProfile;
@@ -179,9 +179,9 @@ export default function UserCard({
       nip05: newNip05,
       lud06: newLud06,
       lud16: newLud16,
-      ln_pubkey: newLnPubkey,
-      ln_custom_value: newLnCustomValue,
     };
+    // ln_pubkey: newLnPubkey,
+    // ln_custom_value: newLnCustomValue,
 
     const stringifiedContent = JSON.stringify(content);
 

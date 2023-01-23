@@ -31,8 +31,8 @@ export default function Profile({ npub }: any) {
   let lud06;
   let lud16;
   let nip05;
-  let lnPubkey;
-  let lnCustomValue;
+  // let lnPubkey;
+  // let lnCustomValue;
 
   // console.log("PROFILE PUBLIC KEY", pubkey);
 
@@ -48,8 +48,8 @@ export default function Profile({ npub }: any) {
     name = contentObj?.name;
     nip05 = contentObj?.nip05;
     about = contentObj?.about;
-    lnPubkey = contentObj?.ln_pubkey;
-    lnCustomValue = contentObj?.ln_custom_value;
+    // lnPubkey = contentObj?.ln_pubkey;
+    // lnCustomValue = contentObj?.ln_custom_value;
     lud06 = contentObj?.lud06;
     lud16 = contentObj?.lud16;
     picture = contentObj?.picture || DUMMY_PROFILE_API(name || npub);
@@ -94,8 +94,8 @@ export default function Profile({ npub }: any) {
           nip05={nip05}
           about={about}
           picture={picture}
-          lnPubkey={lnPubkey}
-          lnCustomValue={lnCustomValue}
+          // lnPubkey={lnPubkey}
+          // lnCustomValue={lnCustomValue}
           lud06={lud06}
           lud16={lud16}
         />
