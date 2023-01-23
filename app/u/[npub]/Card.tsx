@@ -45,7 +45,7 @@ const Card: FC<NoteProps> = ({
     >
       <Link
         href={`/${nip19.noteEncode(noteId!)}`}
-        className="p-5 flex flex-col-reverse gap-4 md:flex-row justify-between"
+        className="p-5 flex flex-col-reverse gap-4 justify-between"
       >
         <div className="flex flex-col gap-3">
           {title ? (
@@ -53,7 +53,7 @@ const Card: FC<NoteProps> = ({
               {title}
             </h3>
           ) : null}
-          <div className="flex flex-col sm:flex-row items-center gap-5 opacity-70">
+          <div className="flex flex-col sm:flex-row gap-5 opacity-70">
             {profile ? (
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
@@ -81,7 +81,7 @@ const Card: FC<NoteProps> = ({
         </div>
         {markdownImageContent?.groups?.filename ? (
           <img
-            className="rounded-md self-center w-full h-auto md:w-16 md:h-16 lg:w-24 lg:h-24 object-cover"
+            className="rounded-md self-center w-full h-auto object-cover"
             src={markdownImageContent?.groups?.filename}
             alt={markdownImageContent?.groups?.title}
           />

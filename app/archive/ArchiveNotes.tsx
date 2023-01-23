@@ -94,7 +94,7 @@ export default function ArchiveNotes({
           following
         </Button>
       </div>
-      <ul className="flex flex-col gap-4 text-center md:text-start">
+      <ul className="flex flex-col gap-4">
         {events
           .slice(
             currentPage * postPerPage - postPerPage,

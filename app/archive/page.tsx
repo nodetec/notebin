@@ -47,7 +47,7 @@ export default function ArchivePage() {
   }, [filter, connectedRelays]);
 
   return (
-    <div className="flex flex-col justify-center gap-3 px-2 md:px-16 lg:px-24">
+    <div className="flex flex-col justify-center gap-3 px-2 max-w-[50rem] mx-auto">
       <h1 className="text-3xl">Note Archive</h1>
       <ArchiveNotes
         postPerPage={POSTS_PER_PAGE}
