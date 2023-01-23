@@ -55,12 +55,13 @@ export default function UserCard({
     setIsOpen(!isOpen);
   };
 
-  const handleTipChange = (e) => {
+  const handleTipChange = (e: any) => {
+    e.preventDefault();
     const value = e.target.value.replace(/\D/g, "");
     setTipInputValue(value);
   };
 
-  const handleSendTip = (e) => {
+  const handleSendTip = (e: any) => {
     // TODO: send lightning tips
   };
   /* (contacts.includes(pubkey) */
