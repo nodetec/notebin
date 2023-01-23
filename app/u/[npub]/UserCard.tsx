@@ -28,6 +28,7 @@ export default function UserCard({
   const { publish } = useNostr();
   const contacts = loggedInUsersContacts.map((pair: string) => pair[1]);
   const [isOpen, setIsOpen] = useState(false);
+  const [isTipSuccessOpen, setIsTipSuccessOpen] = useState(false);
   const [newName, setNewName] = useState(name);
   const [newAbout, setNewAbout] = useState(about);
   const [newPicture, setNewPicture] = useState(picture);
@@ -37,6 +38,7 @@ export default function UserCard({
   const [newLud06, setNewLud06] = useState(lud06);
   const [newLud16, setNewLud16] = useState(lud16);
   const [tipInputValue, setTipInputValue] = useState<string>("1");
+  const [paymentHash, setPaymentHash] = useState();
 
   // TODO: on close reset values
 
@@ -61,21 +63,63 @@ export default function UserCard({
     }
   };
 
+  // const handleSendTip = async (e: any) => {
+  //   e.preventDefault();
+  //   // @ts-ignore
+  //   if (typeof window.webln !== "undefined") {
+
+  //     let tip = {
+  //       destination: lnPubkey,
+  //       amount: tipInputValue,
+  //     };
+
+  //     if (lnCustomValue) {
+  //       // @ts-ignore
+  //       tip.customRecord = {
+  //         696969: lnCustomValue,
+  //       };
+  //     }
+
+  //     // @ts-ignore
+  //     const result = await webln.keysend({
+  //       destination: lnPubkey,
+  //       amount: tipInputValue,
+  //       customRecords: {
+  //         696969: lnCustomValue,
+  //       },
+  //     });
+  //     console.log("Tip Result:", result);
+  //   }
+  //   setIsOpen(!isOpen);
+  // };
+
   const handleSendTip = async (e: any) => {
     e.preventDefault();
     // @ts-ignore
     if (typeof window.webln !== "undefined") {
-      // @ts-ignore
-      const result = await webln.keysend({
+      let tip = {
         destination: lnPubkey,
         amount: tipInputValue,
-        customRecords: {
+      };
+      console.log("TIP:", tip);
+      console.log("lnCustomValue:", lnCustomValue);
+      if (lnCustomValue) {
+        // @ts-ignore
+        tip.customRecords = {
           696969: lnCustomValue,
-        },
-      });
-      console.log("Tip Result:", result);
+        };
+      }
+      try {
+        // @ts-ignore
+        const result = await webln.keysend(tip);
+        console.log("Tip Result:", result);
+        setPaymentHash(result.paymentHash);
+      } catch (e) {
+        console.log("Tip Error:", e);
+      }
     }
     setIsOpen(!isOpen);
+    setIsTipSuccessOpen(!isTipSuccessOpen);
   };
 
   const handleSubmitNewProfile = async (e: any) => {
@@ -146,10 +190,6 @@ export default function UserCard({
         console.log("OUR EVENT HAS FAILED");
       });
     }
-
-    console.log("EVENT NEW PROFILE:", event);
-
-    console.log("SUBMIT NEW PROFILE");
   };
 
   return (
@@ -203,6 +243,20 @@ export default function UserCard({
           )}
         </Buttons>
       )}
+
+      <Popup
+        title="Success"
+        isOpen={isTipSuccessOpen}
+        setIsOpen={setIsTipSuccessOpen}
+      >
+        <h4 className="text-lg text-green-500 text-center pb-4">{`You sent ${name} ${tipInputValue} sat(s)!`}</h4>
+        <h5 className="text text-accent dark:bg-secondary overflow-x-scroll rounded-md text-center p-4">
+          <div className="flex justify-start whitespace-nowrap items-center">
+            <div className="mr-2">{"Payment Hash:"}</div>
+            <div className="pr-4">{paymentHash}</div>
+          </div>
+        </h5>
+      </Popup>
       {loggedInUserPublicKey === pubkey ? (
         <Popup title="Edit Profile" isOpen={isOpen} setIsOpen={setIsOpen}>
           <PopupInput

@@ -7,7 +7,7 @@ interface PopupProps {
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
   className?: string;
-  children: ReactNode;
+  children?: ReactNode;
 }
 
 const Popup = ({
