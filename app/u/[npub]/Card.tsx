@@ -10,9 +10,10 @@ interface NoteProps
   extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
   event: Event;
   profile?: boolean;
+  dateOnly?: boolean;
 }
 
-const Card: FC<NoteProps> = ({ event, profile = false, ...props }) => {
+const Card: FC<NoteProps> = ({ event, profile = false, dateOnly = false, ...props }) => {
   const { tags, content, created_at: createdAt, id: noteId } = event;
   const getValues = (name: string) => {
     const [itemTag] = tags.filter((tag: string[]) => tag[0] === name);
@@ -61,7 +62,7 @@ const Card: FC<NoteProps> = ({ event, profile = false, ...props }) => {
                 </div>
               </div>
             ) : null}
-            <DatePosted timestamp={createdAt} />
+            <DatePosted dateOnly={dateOnly} timestamp={createdAt} />
             <FileType type={getValues("filetype")} />
             {actualTags.length > 1 ? <NoteTags tags={actualTags} /> : null}
           </div>

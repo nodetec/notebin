@@ -20,6 +20,7 @@ export default function LatestNotes({ pubkey, name }: any) {
           <Card
             key={event.id}
             event={event}
+            dateOnly
           />
         ))}
       </ul>
