@@ -56,9 +56,8 @@ export default function UserCard({
   };
 
   const validateTipInputKeyDown = (e: any) => {
-    if (e.which != 8 && e.which != 0 && e.which < 48 || e.which > 57)
-    {
-        e.preventDefault();
+    if ((e.which != 8 && e.which != 0 && e.which < 48) || e.which > 57) {
+      e.preventDefault();
     }
   };
 
@@ -236,7 +235,12 @@ export default function UserCard({
           </Button>
         </Popup>
       ) : (
-        <Popup title="Pay with Lightning" isOpen={isOpen} setIsOpen={setIsOpen} className="w-[24rem]">
+        <Popup
+          title="Pay with Lightning"
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          className="w-[24rem]"
+        >
           <div className="flex items-center w-full py-2 px-4 rounded-md dark:bg-primary dark:text-zinc-300 ring-1 ring-yellow-500">
             <input
               type="number"
