@@ -10,6 +10,13 @@ import { NostrService } from "../../utils/NostrService";
 import type { Event } from "nostr-tools";
 import { BsPatchCheckFill, BsLightningChargeFill } from "react-icons/bs";
 
+const presetAmounts = [
+  { value: "1000", label: "1k" },
+  { value: "5000", label: "5k" },
+  { value: "10000", label: "10k" },
+  { value: "25000", label: "25k" },
+];
+
 export default function UserCard({
   name,
   nip05,
@@ -277,7 +284,6 @@ export default function UserCard({
           title="Pay with Lightning"
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          className="w-[24rem]"
         >
           <div className="flex items-center w-full py-2 px-4 rounded-md dark:bg-primary dark:text-zinc-300 ring-1 ring-yellow-500">
             <input
@@ -292,6 +298,23 @@ export default function UserCard({
             />
             <span className="text-yellow-400 text-sm font-bold">satoshis</span>
           </div>
+          <Buttons>
+              {
+                presetAmounts.map(amount => (
+                  <Button
+                    key={amount.label}
+                    color="yellow"
+                    variant="outline"
+                    iconAfter
+                    className="w-full"
+                    icon={<BsLightningChargeFill size="14" />}
+                    onClick={() => setTipInputValue(amount.value)}
+                  >
+                    {amount.label}
+                  </Button>
+                ))
+              }
+           </Buttons>
           <Button
             color="yellow"
             variant="solid"
