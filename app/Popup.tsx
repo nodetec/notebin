@@ -6,10 +6,11 @@ interface PopupProps {
   title: string;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
+  className?: string;
   children: ReactNode;
 }
 
-const Popup = ({ title, isOpen, setIsOpen, children }: PopupProps) => {
+const Popup = ({ title, isOpen, setIsOpen, className, children }: PopupProps) => {
   useEffect(() => {
     const handleKeyup = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
@@ -28,14 +29,14 @@ const Popup = ({ title, isOpen, setIsOpen, children }: PopupProps) => {
 
   return (
     <Fragment>
-      <div className="z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[32rem] border-2 border-tertiary rounded-md overflow-hidden">
+      <div className={`z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[32rem] border-2 border-tertiary rounded-md overflow-hidden ${className}`}>
         <Button
           icon={<IoMdCloseCircleOutline size={24} />}
           className="absolute w-fit right-0 top-0 text-accent opacity-70 hover:opacity-100"
           onClick={() => setIsOpen(false)}
           color="transparent"
         />
-        <div className="bg-primary flex flex-col justify-center items-stretch gap-4 p-6">
+        <div className="bg-primary flex flex-col justify-center items-stretch gap-4 p-10">
           <h3 className="text-xl text-accent text-center pb-4">{title}</h3>
           {children}
         </div>
