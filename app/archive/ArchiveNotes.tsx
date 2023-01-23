@@ -7,6 +7,8 @@ import Pagination from "../Pagination";
 import { useSearchParams } from "next/navigation";
 import Card from "../u/[npub]/Card";
 import Button from "../Button";
+import { ImSearch } from "react-icons/im";
+import { HiUserAdd } from "react-icons/hi";
 
 export default function ArchiveNotes({
   numPages,
@@ -77,6 +79,7 @@ export default function ArchiveNotes({
           variant={filter.authors?.length ? "ghost" : "solid"}
           onClick={handleExploreFilter}
           size="sm"
+          icon={<ImSearch />}
           className="w-full"
         >
           explore
@@ -84,6 +87,7 @@ export default function ArchiveNotes({
         <Button
           variant={filter.authors?.length ? "solid" : "ghost"}
           onClick={handleFollowFilter}
+          icon={<HiUserAdd />}
           size="sm"
           className="w-full"
         >
