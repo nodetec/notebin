@@ -9,14 +9,14 @@ interface CreatePostButtonProps {
 // @ts-ignore
 const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
   const buildFileSelector = () => {
-    if (typeof window !== 'undefined') {
-      const fileSelector = document.createElement('input');
-      fileSelector.setAttribute('type', 'file');
+    if (typeof window !== "undefined") {
+      const fileSelector = document.createElement("input");
+      fileSelector.setAttribute("type", "file");
       return fileSelector;
     }
 
     return null;
-  }
+  };
 
   const [fileSelector, setFileSelector] = useState(buildFileSelector());
 
@@ -26,14 +26,14 @@ const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
     if (fileSelector !== null) {
       fileSelector.click();
 
-      fileSelector.addEventListener('change', async () => {
+      fileSelector.addEventListener("change", async () => {
         // @ts-ignore
         if (fileSelector.files.length) {
           // @ts-ignore
           const fileContent = await fileSelector.files[0].text();
           onFileUpload(fileContent);
         }
-      })
+      });
     }
   };
 
