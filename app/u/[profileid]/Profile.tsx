@@ -28,6 +28,11 @@ export default function Profile({ pubkey }: any) {
   let name;
   let about;
   let picture;
+  let lud06;
+  let lud16;
+  let nip05;
+  let lnPubkey;
+  let lnCustomValue;
 
   // console.log("PROFILE PUBLIC KEY", pubkey);
 
@@ -36,10 +41,17 @@ export default function Profile({ pubkey }: any) {
   );
 
   try {
+    console.log("USER PROFILE PRE UPDATE:", userMetaData[0])
     const content = userMetaData[0]?.content;
+    console.log("CONTENT:", content);
     const contentObj = JSON.parse(content);
     name = contentObj?.name;
+    nip05 = contentObj?.nip05;
     about = contentObj?.about;
+    lnPubkey = contentObj?.ln_pubkey;
+    lnCustomValue = contentObj?.ln_custom_value;
+    lud06 = contentObj?.lud06;
+    lud16 = contentObj?.lud16;
     picture = contentObj?.picture || DUMMY_PROFILE_API(name || npub);
   } catch {
     console.log("Error parsing content");
@@ -79,8 +91,13 @@ export default function Profile({ pubkey }: any) {
           pubkey={pubkey}
           name={name}
           npub={shortenHash(npub)}
+          nip05={nip05}
           about={about}
           picture={picture}
+          lnPubkey={lnPubkey}
+          lnCustomValue={lnCustomValue}
+          lud06={lud06}
+          lud16={lud16}
         />
         {currentContacts && <Contacts userContacts={currentContacts} />}
       </div>
