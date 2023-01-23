@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import { RiFileUploadFill } from "react-icons/ri";
 
@@ -9,10 +9,10 @@ interface CreatePostButtonProps {
 // @ts-ignore
 const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
   const buildFileSelector = () => {
-    const fileSelector = document.createElement('input');
-    fileSelector.setAttribute('type', 'file');
+    const fileSelector = document.createElement("input");
+    fileSelector.setAttribute("type", "file");
     return fileSelector;
-  }
+  };
 
   const [fileSelector, setFileSelector] = useState(buildFileSelector());
 
@@ -24,10 +24,10 @@ const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
     if (fileSelector.files.length) {
       // @ts-ignore
       let fileContent = await fileSelector.files[0].text();
-      onFileUpload(fileContent)
+      onFileUpload(fileContent);
     }
-  }
-  
+  };
+
   return (
     <Button
       color="zincDark"
@@ -35,11 +35,9 @@ const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
       title="Upload File"
       className="hover:text-primary dark:hover:text-accent"
       onClick={handleFileSelect}
-      icon={
-        <RiFileUploadFill />
-      }
+      icon={<RiFileUploadFill />}
     />
-  )
-}
+  );
+};
 
 export default FileUpload;

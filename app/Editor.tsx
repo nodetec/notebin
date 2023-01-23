@@ -9,7 +9,7 @@ import { RiLayoutColumnFill } from "react-icons/ri";
 import { BsFillTagFill } from "react-icons/bs";
 import Truncate from "./Truncate";
 import CreatePostButton from "./CreatePostButton";
-import FileUpload from "./FileUpload"
+import FileUpload from "./FileUpload";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -152,9 +152,7 @@ const Editor = ({
                     />
                   }
                 />
-                <FileUpload
-                  onFileUpload={onFileUpload}
-                />
+                <FileUpload onFileUpload={onFileUpload} />
               </Fragment>
             )}
           </div>
