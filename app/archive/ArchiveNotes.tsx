@@ -93,13 +93,7 @@ export default function ArchiveNotes({
             currentPage * postPerPage
           )
           .map((event: Event) => {
-            return (
-              <Card
-                key={event.id}
-                event={event}
-                profile
-              />
-            );
+            return <Card key={event.id} event={event} profile />;
           })}
       </ul>
       <Pagination setCurrentPage={setCurrentPage} numPages={numPages} />

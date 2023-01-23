@@ -17,10 +17,7 @@ export default function LatestNotes({ pubkey, name }: any) {
       </h1>
       <ul className="flex flex-col gap-4 text-center md:text-start">
         {events.map((event) => (
-          <Card
-            key={event.id}
-            event={event}
-          />
+          <Card key={event.id} event={event} />
         ))}
       </ul>
     </div>
