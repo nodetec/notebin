@@ -9,6 +9,7 @@ import { RiLayoutColumnFill } from "react-icons/ri";
 import { BsFillTagFill } from "react-icons/bs";
 import Truncate from "./Truncate";
 import CreatePostButton from "./CreatePostButton";
+import FileUpload from "./FileUpload"
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -90,6 +91,10 @@ const Editor = ({
     setTitleValid(titleValid);
   };
 
+  const onFileUpload = (fileContent: string) => {
+    setText(fileContent);
+  };
+
   return (
     <div>
       <div className="rounded-md border-2 border-accent dark:border-secondary">
@@ -146,6 +151,9 @@ const Editor = ({
                       }
                     />
                   }
+                />
+                <FileUpload
+                  onFileUpload={onFileUpload}
                 />
               </Fragment>
             )}
