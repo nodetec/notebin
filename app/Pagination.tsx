@@ -1,56 +1,93 @@
 "use client";
 import { useRouter, useSearchParams } from "next/navigation";
+import Button from "./Button";
+import { IoChevronDown } from "react-icons/io5";
+import { useMediaQuery } from "react-responsive";
 
 export default function Pagination({ numPages }: any) {
-  let isFirst;
-  let isLast;
-  let prevPage: string;
-  let nextPage: string;
-
   const searchParams = useSearchParams();
+  const isSmallScreen = useMediaQuery({ minWidth: 640 });
 
   const pageSearchParam = searchParams.get("page");
 
   const currentPage = pageSearchParam ? parseInt(pageSearchParam) : 1;
-
-  isFirst = currentPage === 1;
-  isLast = currentPage === numPages;
-  prevPage = `/archive?page=${currentPage - 1}`;
-  nextPage = `/archive?page=${currentPage + 1}`;
-
   const router = useRouter();
 
-  function handleNext() {
-    router.push(nextPage);
-  }
-
-  function handlePrev() {
-    router.push(prevPage);
-  }
-
-  if (numPages === 1) return <></>;
+  const navigate = (page: number) => {
+    router.push(`/archive?page=${page}`);
+  };
 
   return (
-    <ul className="flex justify-between">
-      {!isFirst && (
-        <button onClick={handlePrev}>
-          <li className="bg-blue-700 py-2 px-3 text-white rounded-md">Prev</li>
-        </button>
-      )}
-      {/* TODO: cut middle pagination and put ... in middle after unreasonable amount of numbers */}
-      {/* {Array.from({ length: numPages }, (_, i) => ( */}
-      {/*   <Link href={`/blog/page/${i + 1}`} key={`page-${i}`}> */}
-      {/*     <li className={styles.page__number}> */}
-      {/*       {i + 1} */}
-      {/*     </li> */}
-      {/*   </Link> */}
-      {/* ))} */}
+    <div className="flex justify-between gap-2">
+      <Button
+        color="neutralLight"
+        variant="outline"
+        icon={<IoChevronDown className="rotate-90" />}
+        size="sm"
+        title="Previous page"
+        onClick={() => navigate(currentPage - 1)}
+        disabled={currentPage <= 1}
+      >
+        {isSmallScreen ? "Prev" : ""}
+      </Button>
 
-      {!isLast && (
-        <button onClick={handleNext}>
-          <li className="bg-blue-700 py-2 px-3 text-white rounded-md">Next</li>
-        </button>
-      )}
-    </ul>
+      <div className="flex items-center gap-2">
+        {currentPage > 2 && (
+          <Button
+            color="neutralLight"
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(1)}
+          >
+            1
+          </Button>
+        )}
+        {currentPage > 3 && <span>...</span>}
+        {[...Array(numPages + 1)].map((_, i) => {
+          if (i === 0) return null;
+          if (
+            currentPage === i - 1 ||
+            currentPage === i ||
+            currentPage === i + 1
+          ) {
+            return (
+              <Button
+                key={i}
+                color="neutralLight"
+                variant={i === currentPage ? "solid" : "ghost"}
+                size="sm"
+                onClick={() => navigate(i)}
+              >
+                {i.toString()}
+              </Button>
+            );
+          }
+        })}
+        {numPages > currentPage + 2 && <span>...</span>}
+        {numPages >= currentPage + 2 && (
+          <Button
+            color="neutralLight"
+            variant="ghost"
+            size="sm"
+            onClick={() => navigate(numPages)}
+          >
+            {numPages.toString()}
+          </Button>
+        )}
+      </div>
+
+      <Button
+        color="neutralLight"
+        variant="outline"
+        icon={<IoChevronDown className="-rotate-90" />}
+        title="Next page"
+        size="sm"
+        onClick={() => navigate(currentPage + 1)}
+        disabled={currentPage >= numPages}
+        iconAfter
+      >
+        {isSmallScreen ? "Next" : ""}
+      </Button>
+    </div>
   );
 }

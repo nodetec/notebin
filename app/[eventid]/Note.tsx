@@ -1,5 +1,5 @@
-import Editor from "../Editor";
 import { Event } from "nostr-tools";
+import NoteDisplay from "../NoteDisplay";
 
 interface NoteProps {
   event: Event;
@@ -35,7 +35,7 @@ export default function Note({ event }: NoteProps) {
           </div>
         ) : (
           <div className="w-full">
-            <Editor event={event} />
+            <NoteDisplay event={event} />
           </div>
         ))}
     </>
