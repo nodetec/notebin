@@ -9,6 +9,25 @@ import { useNostr } from "nostr-react";
 import { NostrService } from "../../utils/NostrService";
 import type { Event } from "nostr-tools";
 import { BsPatchCheckFill, BsLightningChargeFill } from "react-icons/bs";
+import { requestInvoice } from "lnurl-pay";
+import { utils } from "lnurl-pay";
+import { bech32 } from "bech32";
+// import {
+//   decodeUrlOrAddress,
+//   isLnurl,
+//   parseLnUrl,
+//   isLightningAddress,
+//   parseLightningAddress,
+// } from "lnurl-pay/dist/types/utils";
+// decodeUrlOrAddress - Decode a bech32 encoded url (lnurl) or lightning address and return a url
+// isLnurl - Verify if a string is a valid lnurl value
+// parseLnUrl - Parse an url and return a bech32 encoded url (lnurl)
+// isLightningAddress - Verify if a string is a lightning adress
+// parseLightningAddress - Parse an address and return username and domain
+// isOnionUrl - Verify if a string is an onion url
+// getHashFromInvoice - Decodes an invoice(string) and get the hash
+// isValidPreimage - Returns true if the given preimage is valid for invoice
+// decipherAES - Decipher ciphertext with a preimage
 
 export default function UserCard({
   name,
@@ -39,6 +58,8 @@ export default function UserCard({
   const [newLud16, setNewLud16] = useState(lud16);
   const [tipInputValue, setTipInputValue] = useState<string>("1");
   const [paymentHash, setPaymentHash] = useState();
+  const [newLnAddress, setNewLnAddress] = useState<any>();
+  const [convertedAddress, setConvertedAddress] = useState<any>();
 
   // TODO: on close reset values
 
@@ -51,7 +72,61 @@ export default function UserCard({
     setNewLnCustomValue(lnCustomValue);
     setNewLud06(lud06);
     setNewLud16(lud16);
+    setNewLnAddress(lud16);
   }, []);
+
+  useEffect(() => {
+    setNewName(name);
+    setNewAbout(about);
+    setNewPicture(picture);
+    setNewNip05(nip05);
+    setNewLnPubkey(lnPubkey);
+    setNewLnCustomValue(lnCustomValue);
+    setNewLud06(lud06);
+    setNewLud16(lud16);
+    setNewLnAddress(lud16);
+  }, [isOpen]);
+
+  async function convert(newLnAddress: any) {
+    const url = utils.decodeUrlOrAddress(newLnAddress);
+
+    if (utils.isUrl(url)) {
+      try {
+        const response = await fetch(url);
+
+        if (utils.isLnurl(newLnAddress)) {
+          console.log("RESPONSE:", response);
+          const data = await response.json();
+          console.log("DATA:", data);
+          console.log("METADATA:", JSON.parse(data.metadata)[0][1]);
+          const newConvertedAddress = JSON.parse(data.metadata)[0][1];
+          setNewLud16(newConvertedAddress);
+          setConvertedAddress(newConvertedAddress);
+          console.log(newConvertedAddress); // chrisatmachine@getalby.com
+        }
+
+        if (utils.isLightningAddress(newLnAddress)) {
+          let words = bech32.toWords(Buffer.from(url, "utf8"));
+          let newConvertedAddress = "";
+          newConvertedAddress = bech32.encode("lnurl", words, 2000);
+          setNewLud06(newConvertedAddress);
+          setConvertedAddress(newConvertedAddress);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  }
+
+  useEffect(() => {
+    async function getLnAddress() {
+      if (newLnAddress) {
+        convert(newLnAddress);
+      }
+    }
+    setConvertedAddress("");
+    getLnAddress();
+  }, [newLnAddress]);
 
   const handleClick = async () => {
     setIsOpen(!isOpen);
@@ -67,21 +142,17 @@ export default function UserCard({
     e.preventDefault();
     // @ts-ignore
     if (typeof window.webln !== "undefined") {
-      let tip = {
-        destination: lnPubkey,
-        amount: tipInputValue,
-      };
-      console.log("TIP:", tip);
-      console.log("lnCustomValue:", lnCustomValue);
-      if (lnCustomValue) {
-        // @ts-ignore
-        tip.customRecords = {
-          696969: lnCustomValue,
-        };
-      }
+      const lnUrlOrAddress = lud06 || lud16;
+
+      const { invoice, params, successAction, validatePreimage } =
+        await requestInvoice({
+          lnUrlOrAddress,
+          // @ts-ignore
+          tokens: tipInputValue, // satoshis
+        });
       try {
         // @ts-ignore
-        const result = await webln.keysend(tip);
+        const result = await webln.sendPayment(invoice);
         console.log("Tip Result:", result);
         setPaymentHash(result.paymentHash);
       } catch (e) {
@@ -90,6 +161,33 @@ export default function UserCard({
     }
     setIsOpen(!isOpen);
     setIsTipSuccessOpen(!isTipSuccessOpen);
+
+    // TODO: maybe support old keysend way of doing things
+    // // @ts-ignore
+    // if (typeof window.webln !== "undefined") {
+    //   let tip = {
+    //     destination: lnPubkey,
+    //     amount: tipInputValue,
+    //   };
+    //   console.log("TIP:", tip);
+    //   console.log("lnCustomValue:", lnCustomValue);
+    //   if (lnCustomValue) {
+    //     // @ts-ignore
+    //     tip.customRecords = {
+    //       696969: lnCustomValue,
+    //     };
+    //   }
+    //   try {
+    //     // @ts-ignore
+    //     const result = await webln.keysend(tip);
+    //     console.log("Tip Result:", result);
+    //     setPaymentHash(result.paymentHash);
+    //   } catch (e) {
+    //     console.log("Tip Error:", e);
+    //   }
+    // }
+    // setIsOpen(!isOpen);
+    // setIsTipSuccessOpen(!isTipSuccessOpen);
   };
 
   const handleSubmitNewProfile = async (e: any) => {
@@ -200,17 +298,18 @@ export default function UserCard({
             profilePublicKey={pubkey}
             contacts={contacts}
           />
-          {lnPubkey && (
-            <Button
-              color="yellow"
-              variant="ghost"
-              onClick={handleClick}
-              size="sm"
-              icon={<BsLightningChargeFill size="14" />}
-            >
-              tip
-            </Button>
-          )}
+          {lud06 ||
+            (lud16 && (
+              <Button
+                color="yellow"
+                variant="ghost"
+                onClick={handleClick}
+                size="sm"
+                icon={<BsLightningChargeFill size="14" />}
+              >
+                tip
+              </Button>
+            ))}
         </Buttons>
       )}
 
@@ -253,15 +352,31 @@ export default function UserCard({
             ⚡ Enable Lightning Tips ⚡
           </h3>
           <PopupInput
-            value={newLnPubkey}
-            onChange={(e) => setNewLnPubkey(e.target.value)}
-            label="LN Public Key"
+            value={newLnAddress}
+            onChange={(e) => setNewLnAddress(e.target.value)}
+            label="Lightning Address or LUD-06 Identifier"
           ></PopupInput>
-          <PopupInput
-            value={newLnCustomValue}
-            onChange={(e) => setNewLnCustomValue(e.target.value)}
-            label="Custom Record (if applicable)"
-          ></PopupInput>
+
+          <h5 className="text text-accent dark:bg-secondary overflow-x-scroll rounded-md text-center p-4">
+            <div className="cursor-text flex justify-start whitespace-nowrap items-center">
+              <div className="pr-4">{convertedAddress}</div>
+            </div>
+          </h5>
+          {/* <PopupInput */}
+          {/*   value={newLud16} */}
+          {/*   onChange={(e) => setNewLnCustomValue(e.target.value)} */}
+          {/*   label="LUD-16" */}
+          {/* ></PopupInput> */}
+          {/* <PopupInput */}
+          {/*   value={newLnPubkey} */}
+          {/*   onChange={(e) => setNewLnPubkey(e.target.value)} */}
+          {/*   label="LN Public Key" */}
+          {/* ></PopupInput> */}
+          {/* <PopupInput */}
+          {/*   value={newLnCustomValue} */}
+          {/*   onChange={(e) => setNewLnCustomValue(e.target.value)} */}
+          {/*   label="Custom Record (if applicable)" */}
+          {/* ></PopupInput> */}
           <Button
             color="blue"
             variant="solid"
