@@ -251,7 +251,7 @@ export default function UserCard({
       >
         <h4 className="text-lg text-green-500 text-center pb-4">{`You sent ${name} ${tipInputValue} sat(s)!`}</h4>
         <h5 className="text text-accent dark:bg-secondary overflow-x-scroll rounded-md text-center p-4">
-          <div className="flex justify-start whitespace-nowrap items-center">
+          <div className="cursor-text flex justify-start whitespace-nowrap items-center">
             <div className="mr-2">{"Payment Hash:"}</div>
             <div className="pr-4">{paymentHash}</div>
           </div>
