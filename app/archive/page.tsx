@@ -15,7 +15,7 @@ export default function ArchivePage() {
   const [filter, setFilter] = useState<Filter>({
     kinds: [2222],
     limit: 100,
-    authors: [],
+    authors: undefined,
   });
 
   if (pathname) {

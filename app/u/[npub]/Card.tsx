@@ -5,6 +5,7 @@ import { DetailedHTMLProps, FC, LiHTMLAttributes, ReactNode } from "react";
 import { BsFillFileEarmarkCodeFill, BsFillTagFill } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
 import { DUMMY_PROFILE_API } from "../../utils/constants";
+import { shortenHash } from "../../lib/utils";
 
 interface NoteProps
   extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
@@ -53,7 +54,7 @@ const Card: FC<NoteProps> = ({ event, profile = false, dateOnly = false, ...prop
                 <div className="flex items-center gap-2">
                   <img
                     className="rounded-full w-6 h-6 object-cover"
-                    src={data?.picture || DUMMY_PROFILE_API(data?.name || npub)}
+                    src={data?.picture || DUMMY_PROFILE_API(data?.name || shortenHash(npub)!)}
                     alt={data?.name}
                   />
                   <div>

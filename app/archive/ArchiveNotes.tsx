@@ -66,24 +66,26 @@ export default function ArchiveNotes({
     e.preventDefault();
     setFilter({
       ...filter,
-      authors: [],
+      authors: undefined,
     });
   }
 
   return (
     <>
-      <div className="flex gap-3">
+      <div className="flex gap-2 bg-secondary rounded-md p-2">
         <Button
-          variant={filter.authors.length ? "solid" : "outline"}
+          variant={filter.authors?.length ? "ghost" : "solid"}
           onClick={handleExploreFilter}
           size="sm"
+          className="w-full"
         >
           explore
         </Button>
         <Button
-          variant={filter.authors.length ? "outline" : "solid"}
+          variant={filter.authors?.length ? "solid" : "ghost"}
           onClick={handleFollowFilter}
           size="sm"
+          className="w-full"
         >
           following
         </Button>
