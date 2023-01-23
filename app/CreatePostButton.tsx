@@ -96,7 +96,7 @@ const CreatePostButton = ({
         await pub.on("seen", async () => {
           console.log("OUR EVENT WAS SEEN");
           setEvent(event);
-          router.push("/" + eventId);
+          router.push("/" + nip19.noteEncode(eventId));
         });
 
         pub.on("failed", (reason: any) => {
