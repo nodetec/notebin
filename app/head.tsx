@@ -51,7 +51,7 @@ export default function Head() {
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content="notebin logo" />
-      <meta property="og:url" content="https://www.notebin.org/" />
+      <meta property="og:url" content="https://notebin.org/" />
       <meta
         property="og:description"
         content="Decentralized notes using Nostr"
@@ -64,7 +64,7 @@ export default function Head() {
         property="twitter:description"
         content="Decentralized notes using Nostr"
       />
-      <meta property="twitter:url" content="https://www.notebin.org/" />
+      <meta property="twitter:url" content="https://notebin.org/" />
       <meta property="twitter:site" content="@chrisatmachine" />
       <meta property="twitter:image" content="/images/logos/notebin-card.png" />
       <meta property="twitter:image:alt" content="notebin logo" />
