@@ -52,7 +52,7 @@ export default function Pagination({ numPages }: any) {
               <Button
                 key={i}
                 color="neutralLight"
-                variant={i === currentPage ? "outline" : "ghost"}
+                variant={i === currentPage ? "solid" : "ghost"}
                 size="sm"
                 onClick={() => navigate(i)}
               >
