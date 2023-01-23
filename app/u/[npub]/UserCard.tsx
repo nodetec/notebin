@@ -8,6 +8,7 @@ import Button from "../../Button";
 import { useNostr } from "nostr-react";
 import { NostrService } from "../../utils/NostrService";
 import type { Event } from "nostr-tools";
+import { BsPatchCheckFill } from "react-icons/bs";
 
 export default function UserCard({
   name,
@@ -138,6 +139,15 @@ export default function UserCard({
       <p className="text-2xl font-bold text-zinc-200">
         <span className="text-red-500">@</span>
         {name}
+        {/* BsPatchCheckFill */}
+        {nip05 && (
+          <p className="text-sm text-accent">
+            <div className="flex items-center gap-1">
+              <BsPatchCheckFill className="text-blue-500" size="14" />
+              <span>{nip05}</span>
+            </div>
+          </p>
+        )}
       </p>
       <p className="flex items-center gap-1">
         <Truncate content={npub} color="transparent" size="sm" />
