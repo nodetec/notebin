@@ -1,11 +1,12 @@
 "use client";
-import ArchiveNote from "./ArchiveNote";
+import { useProfile } from "nostr-react";
 import { useNostr } from "nostr-react";
 import { useEffect, useContext } from "react";
 import { KeysContext } from "../context/keys-provider";
 import type { Event } from "nostr-tools";
 import Pagination from "../Pagination";
 import { useSearchParams } from "next/navigation";
+import Card from "../u/[npub]/Card";
 
 export default function ArchiveNotes({
   numPages,
@@ -85,14 +86,22 @@ export default function ArchiveNotes({
           following
         </button>
       </div>
-      {events
-        .slice(
-          currentPage * postPerPage - postPerPage,
-          currentPage * postPerPage
-        )
-        .map((event: Event) => {
-          return <ArchiveNote key={event.id} event={event} />;
-        })}
+      <ul className="flex flex-col gap-4 text-center md:text-start">
+        {events
+          .slice(
+            currentPage * postPerPage - postPerPage,
+            currentPage * postPerPage
+          )
+          .map((event: Event) => {
+            return (
+              <Card
+                key={event.id}
+                event={event}
+                profile
+              />
+            );
+          })}
+      </ul>
       <Pagination setCurrentPage={setCurrentPage} numPages={numPages} />
     </>
   );

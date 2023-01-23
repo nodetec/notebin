@@ -1,5 +1,5 @@
 import { useNostrEvents } from "nostr-react";
-import Note from "./Note";
+import Card from "./Card";
 
 export default function LatestNotes({ pubkey, name }: any) {
   const { events } = useNostrEvents({
@@ -17,12 +17,9 @@ export default function LatestNotes({ pubkey, name }: any) {
       </h1>
       <ul className="flex flex-col gap-4 text-center md:text-start">
         {events.map((event) => (
-          <Note
+          <Card
             key={event.id}
-            noteId={event.id!}
-            content={event.content}
-            tags={event.tags}
-            createdAt={event.created_at}
+            event={event}
           />
         ))}
       </ul>

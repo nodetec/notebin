@@ -1,29 +1,30 @@
 import Link from "next/link";
-import { nip19 } from "nostr-tools";
+import { useProfile } from "nostr-react";
+import { Event, nip19 } from "nostr-tools";
 import { DetailedHTMLProps, FC, LiHTMLAttributes, ReactNode } from "react";
 import { BsFillFileEarmarkCodeFill, BsFillTagFill } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
+import { DUMMY_PROFILE_API } from "../../utils/constants";
 
 interface NoteProps
   extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
-  content: string;
-  createdAt: number;
-  noteId: string;
-  tags: string[][];
+  event: Event;
+  profile?: boolean;
 }
 
-const Note: FC<NoteProps> = ({
-  content,
-  createdAt,
-  noteId,
-  tags,
-  ...props
-}) => {
+const Card: FC<NoteProps> = ({ event, profile = false, ...props }) => {
+  const { tags, content, created_at: createdAt, id: noteId } = event;
   const getValues = (name: string) => {
     const [itemTag] = tags.filter((tag: string[]) => tag[0] === name);
     const [, item] = itemTag || [, undefined];
     return item;
   };
+
+  const { data } = useProfile({
+    pubkey: event.pubkey,
+  });
+
+  const npub = nip19.npubEncode(event.pubkey);
 
   const actualTags = getValues("tags").split(",");
   const title = getValues("subject");
@@ -36,8 +37,8 @@ const Note: FC<NoteProps> = ({
       {...props}
     >
       <Link
-        href={`/${nip19.noteEncode(noteId)}`}
-        className="p-5 flex flex-row justify-between"
+        href={`/${nip19.noteEncode(noteId!)}`}
+        className="p-5 flex flex-col-reverse gap-4 md:flex-row justify-between"
       >
         <div className="flex flex-col gap-3">
           {title ? (
@@ -46,6 +47,20 @@ const Note: FC<NoteProps> = ({
             </h3>
           ) : null}
           <div className="flex flex-col sm:flex-row items-center gap-5 opacity-70">
+            {profile ? (
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-2">
+                  <img
+                    className="rounded-full w-6 h-6 object-cover"
+                    src={data?.picture || DUMMY_PROFILE_API(data?.name || npub)}
+                    alt={data?.name}
+                  />
+                  <div>
+                    <span className="text-light">{data?.name || npub}</span>
+                  </div>
+                </div>
+              </div>
+            ) : null}
             <DatePosted timestamp={createdAt} />
             <FileType type={getValues("filetype")} />
             {actualTags.length > 1 ? <NoteTags tags={actualTags} /> : null}
@@ -56,9 +71,9 @@ const Note: FC<NoteProps> = ({
         </div>
         {markdownImageContent?.groups?.filename ? (
           <img
-            className="rounded-md self-center w-12 h-12 md:w-16 md:h-16 lg:w-24 lg:h-24 object-cover"
+            className="rounded-md self-center w-full h-auto md:w-16 md:h-16 lg:w-24 lg:h-24 object-cover"
             src={markdownImageContent?.groups?.filename}
-            title={markdownImageContent?.groups?.title}
+            alt={markdownImageContent?.groups?.title}
           />
         ) : null}
       </Link>
@@ -70,14 +85,31 @@ const InfoContainer = ({ children }: { children: ReactNode }) => (
   <div className="flex items-center gap-2">{children}</div>
 );
 
-const DatePosted = ({ timestamp }: { timestamp: number }) => {
+const DatePosted = ({
+  timestamp,
+  dateOnly,
+}: {
+  timestamp: number;
+  dateOnly?: boolean;
+}) => {
   const timeStampToDate = (timestamp: number) => {
     let date = new Date(timestamp * 1000);
-    return date.toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
+    if (dateOnly) {
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      });
+    } else {
+      return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+        hour: "numeric",
+        minute: "numeric",
+        hour12: true,
+      });
+    }
   };
 
   return (
@@ -112,4 +144,4 @@ const FileType = ({ type }: { type: string }) => (
   </InfoContainer>
 );
 
-export default Note;
+export default Card;
