@@ -8,6 +8,7 @@ interface PopupInputProps
   label: string;
   error?: string;
   value?: string;
+  className?: string;
 }
 
 const PopupInput = ({
@@ -15,6 +16,7 @@ const PopupInput = ({
   error,
   placeholder = "",
   value = "",
+  className = "",
   ...props
 }: PopupInputProps) => {
   const id = useId();
@@ -29,7 +31,7 @@ const PopupInput = ({
         <input
           type="text"
           id={id}
-          className="bg-accent dark:bg-secondary rounded-md border-2 border-accent dark:border-tertiary mt-1 py-2 px-4 block w-full leading-normal"
+          className={`bg-accent dark:bg-secondary rounded-md border-2 border-accent dark:border-tertiary mt-1 py-2 px-4 block w-full leading-normal ${className}`}
           placeholder={placeholder}
           value={value}
           {...props}

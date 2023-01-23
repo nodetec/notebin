@@ -1,10 +1,9 @@
 import { useNostrEvents } from "nostr-react";
 import { nip19 } from "nostr-tools";
-import { shortenHash } from "../lib/utils";
 
 import { useContext } from "react";
 import { KeysContext } from "../context/keys-provider.jsx";
-import UserCard from "../u/[profileid]/UserCard";
+import UserCard from "../u/[npub]/UserCard";
 import Note from "./Note";
 import { DUMMY_PROFILE_API } from "../utils/constants";
 
@@ -23,15 +22,11 @@ export default function Profile({ event }: any) {
     },
   });
 
-  console.log("EVENTS:", events);
-
   const npub = nip19.npubEncode(pubkey);
   let contentObj;
   let name;
   let about;
   let picture;
-
-  // console.log("PROFILE PUBLIC KEY", pubkey);
 
   const userMetaData = events.filter(
     (event) => event.kind === 0 && pubkey === event.pubkey
@@ -58,8 +53,6 @@ export default function Profile({ event }: any) {
   );
   const loggedInUsersContacts = loggedInUserEvent[0]?.tags;
 
-  // console.log("CONTACTS:", userContacts);
-
   // npub: string;
   // name?: string | undefined;
   // display_name?: string | undefined;
@@ -69,7 +62,6 @@ export default function Profile({ event }: any) {
   // lud06?: string | undefined;
   // lud16?: string | undefined;
   // nip06?: string | undefined;
-  // console.log("DO I EVER GET HERE?")
 
   if (loggedInUsersContacts) {
     return (
@@ -83,7 +75,7 @@ export default function Profile({ event }: any) {
               currentContacts={currentContacts}
               pubkey={pubkey}
               name={name}
-              npub={shortenHash(npub)}
+              npub={npub}
               about={about}
               picture={picture}
             />

@@ -7,7 +7,6 @@ import { Fragment, useRef, useState } from "react";
 import { AiFillEdit, AiFillEye } from "react-icons/ai";
 import { RiLayoutColumnFill } from "react-icons/ri";
 import { BsFillTagFill } from "react-icons/bs";
-import Truncate from "./Truncate";
 import CreatePostButton from "./CreatePostButton";
 import FileUpload from "./FileUpload";
 
@@ -27,13 +26,8 @@ const Editor = ({
   setTagsList,
   tagInputValue,
   setTagInputValue,
-  event,
 }: any) => {
   const [tagsInputError, setTagsInputError] = useState("");
-  const [{ copied, error }, setClipboard] = useState({
-    copied: false,
-    error: false,
-  });
   const [mdPreviewMode, setMdPreviewMode] = useState<
     "off" | "preview" | "split"
   >("off");
@@ -85,11 +79,11 @@ const Editor = ({
     );
   };
 
-  const handleFocus = (e: any) => {
+  const handleFocus = () => {
     setFocused(true);
   };
 
-  const onSubmit = (titleValid: boolean) => {
+  const onPostSubmit = (titleValid: boolean) => {
     setTitleValid(titleValid);
   };
 
@@ -109,8 +103,7 @@ const Editor = ({
               type="text"
               list="filetypes"
               placeholder="filetype"
-              value={filetype || event?.tags[0][1]}
-              disabled={!!event}
+              value={filetype}
               onChange={(e) => setFiletype(e.target.value)}
             />
             <datalist id="filetypes">
@@ -160,16 +153,6 @@ const Editor = ({
               </Fragment>
             )}
           </div>
-          {event ? (
-            <div className="flex items-center gap-4">
-              <Truncate
-                content={event.content}
-                iconOnly
-                color="neutralLight"
-                variant="ghost"
-              />
-            </div>
-          ) : null}
         </div>
         <div className="flex h-[36rem] overflow-y-auto flex-col md:flex-row">
           {(filetype !== "markdown" || mdPreviewMode !== "preview") && (
@@ -182,7 +165,7 @@ const Editor = ({
                 required
                 rows={1}
                 className="bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
-                value={event ? event?.tags[5][1] : title}
+                value={title}
                 placeholder="Title..."
                 onChange={(evn) => {
                   setTitle(evn.target.value);
@@ -192,7 +175,6 @@ const Editor = ({
                 /* @ts-ignore */
                 focused={focused.toString()}
                 titlevalid={titleValid.toString()}
-                disabled={!!event}
               />
               <span className="px-6 pt-0.5 text-xs text-red-500 hidden">
                 {VALIDATION.required}
@@ -200,8 +182,8 @@ const Editor = ({
               <div className="flex flex-col grow pb-6">
                 <CodeEditor
                   className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
-                  value={event ? event?.content : text}
-                  language={event ? event?.tags[0][1] : filetype}
+                  value={text}
+                  language={filetype}
                   placeholder="Enter your note..."
                   autoCapitalize="none"
                   onChange={(evn) => setText(evn.target.value)}
@@ -243,24 +225,21 @@ const Editor = ({
       <div className="rounded-b-md border-x-2 border-b-2 border-accent dark:border-secondary p-1 pt-2 -mt-1 flex items-center justify-between gap-4">
         <TextInput
           icon={<BsFillTagFill className="w-4 h-4" />}
-          placeholder={event ? "" : "Enter tags"}
-          tagsList={event?.tags[4][1] ? event?.tags[4][1].split(",") : tagsList}
-          setTagsList={event ? () => {} : handleSetTagsList}
+          placeholder={"Enter tags"}
+          tagsList={tagsList}
+          setTagsList={handleSetTagsList}
           value={tagInputValue}
-          disabled={!!event}
           error={tagsInputError}
           onKeyDown={validateTagsInputKeyDown}
           onChange={(e) => setTagInputValue(e.target.value)}
         />
-        {event ? null : (
-          <CreatePostButton
-            filetype={filetype}
-            text={text}
-            title={title}
-            tagsList={tagsList}
-            onSubmit={onSubmit}
-          />
-        )}
+        <CreatePostButton
+          filetype={filetype}
+          text={text}
+          title={title}
+          tagsList={tagsList}
+          onSubmit={onPostSubmit}
+        />
       </div>
     </div>
   );

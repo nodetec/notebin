@@ -6,6 +6,7 @@ import { NostrService } from "./utils/NostrService";
 import { EventContext } from "./context/event-provider";
 import { KeysContext } from "./context/keys-provider.jsx";
 import { useRouter } from "next/navigation";
+import { nip19 } from "nostr-tools";
 
 interface CreatePostButtonProps {
   filetype: string;
@@ -75,7 +76,7 @@ const CreatePostButton = ({
         sub.on("event", (event: Event) => {
           console.log("we got the event we wanted:", event);
           setEvent(event);
-          router.push("/" + eventId);
+          router.push("/" + nip19.noteEncode(eventId));
         });
         sub.on("eose", () => {
           console.log("EOSE");
@@ -95,7 +96,7 @@ const CreatePostButton = ({
         await pub.on("seen", async () => {
           console.log("OUR EVENT WAS SEEN");
           setEvent(event);
-          router.push("/" + eventId);
+          router.push("/" + nip19.noteEncode(eventId));
         });
 
         pub.on("failed", (reason: any) => {

@@ -1,38 +1,33 @@
 "use client";
 import ArchiveNote from "./ArchiveNote";
-
 import { useNostr } from "nostr-react";
-import { useEffect, useState } from "react";
-import { useContext } from "react";
+import { useEffect, useContext } from "react";
 import { KeysContext } from "../context/keys-provider";
+import type { Event } from "nostr-tools";
+import Pagination from "../Pagination";
+import { useSearchParams } from "next/navigation";
 
-import type { Event, Filter } from "nostr-tools";
-
-export default function ArchiveNotes() {
+export default function ArchiveNotes({
+  numPages,
+  events,
+  setCurrentPage,
+  setFilter,
+  postPerPage,
+}: any) {
   // @ts-ignore
   const { keys: loggedInUserKeys } = useContext(KeysContext);
 
-  const [filter, setFilter] = useState<Filter>({
-    kinds: [2222],
-    limit: 10,
-  });
-  const [events, setEvents] = useState<Event[]>([]);
-  const { connectedRelays } = useNostr();
+  const searchParams = useSearchParams();
+
+  const pageSearchParam = searchParams.get("page");
+
+  const currentPage = pageSearchParam ? parseInt(pageSearchParam) : 1;
 
   useEffect(() => {
-    connectedRelays.forEach((relay) => {
-      let sub = relay.sub([filter]);
-      let eventArray: Event[] = [];
-      sub.on("event", (event: Event) => {
-        eventArray.push(event);
-      });
-      sub.on("eose", () => {
-        console.log("EOSE");
-        setEvents(eventArray);
-        sub.unsub();
-      });
-    });
-  }, [filter, connectedRelays]);
+    console.log("searchParams", searchParams.get("page"));
+  }, [searchParams]);
+
+  const { connectedRelays } = useNostr();
 
   function handleFollowFilter(e: any) {
     e.preventDefault();
@@ -45,7 +40,7 @@ export default function ArchiveNotes() {
         {
           authors: [loggedInUserKeys.publicKey],
           kinds: [3],
-          limit: 10,
+          limit: 100,
         },
       ]);
       sub.on("event", (event: Event) => {
@@ -59,7 +54,7 @@ export default function ArchiveNotes() {
         setFilter({
           kinds: [2222],
           authors: followedAuthors,
-          limit: 10,
+          limit: 100,
         });
         sub.unsub();
       });
@@ -70,7 +65,7 @@ export default function ArchiveNotes() {
     e.preventDefault();
     setFilter({
       kinds: [2222],
-      limit: 10,
+      limit: 100,
     });
   }
 
@@ -90,9 +85,15 @@ export default function ArchiveNotes() {
           following
         </button>
       </div>
-      {events.map((event) => {
-        return <ArchiveNote event={event} />;
-      })}
+      {events
+        .slice(
+          currentPage * postPerPage - postPerPage,
+          currentPage * postPerPage
+        )
+        .map((event: Event) => {
+          return <ArchiveNote key={event.id} event={event} />;
+        })}
+      <Pagination setCurrentPage={setCurrentPage} numPages={numPages} />
     </>
   );
 }

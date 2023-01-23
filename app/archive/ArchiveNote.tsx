@@ -18,11 +18,15 @@ export default function ArchiveNote({ event }: ArchiveNoteProps) {
 
   return (
     <div className="border border-gray-600 p-4 rounded-md">
-      <Link href={`/u/` + event.pubkey}>
-        <p className="text-lg text-zinc-300"> Event ID: {event.id}</p>
+      <Link href={`/` + nip19.noteEncode(event.id || "")}>
+        <p className="text-lg text-zinc-300">
+          Event ID: {nip19.noteEncode(event.id || "")}
+        </p>
       </Link>
-      <Link href={`/u/` + event.pubkey}>
-        <p className="text-lg text-zinc-300">Public Key: {event.pubkey}</p>
+      <Link href={`/u/` + nip19.npubEncode(event.pubkey)}>
+        <p className="text-lg text-zinc-300">
+          Public Key: {nip19.npubEncode(event.pubkey)}
+        </p>
       </Link>
       <img
         className="rounded-full w-6"

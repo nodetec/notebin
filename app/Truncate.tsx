@@ -8,6 +8,7 @@ import { TbClipboardX } from "react-icons/tb";
 import { Props as IButtonProps } from "./Button";
 import Button from "./Button";
 import { Fragment } from "react";
+import { shortenHash } from "./lib/utils";
 
 interface ITruncateProps extends IButtonProps {
   content: string;
@@ -22,16 +23,6 @@ const Truncate = ({
   ...props
 }: ITruncateProps) => {
   const { isCopied, isError, copyToClipboard } = useCopy();
-
-  const shorten = (content: string) => {
-    if (content) {
-      return (
-        content.substring(0, length) +
-        "..." +
-        content.substring(content.length - length)
-      );
-    }
-  };
 
   const color = isCopied
     ? "text-green-600 dark:text-green-400"
@@ -48,7 +39,7 @@ const Truncate = ({
           ? "Copied!"
           : isError
           ? "Error"
-          : shorten(content)}
+          : shortenHash(content)}
       </span>
       <Button
         className={color}

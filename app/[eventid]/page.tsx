@@ -5,12 +5,14 @@ import { Event } from "nostr-tools";
 import { EventContext } from "../context/event-provider";
 import { useContext } from "react";
 import Profile from "./Profile";
+import { nip19 } from "nostr-tools";
 
 export default function NotePage() {
   const pathname = usePathname();
-  let eventId = "";
+  let eventId: string = "";
   if (pathname) {
     eventId = pathname.split("/").pop() || "";
+    eventId = nip19.decode(eventId).data.toString();
   }
 
   // @ts-ignore

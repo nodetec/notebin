@@ -1,6 +1,5 @@
 import { useNostrEvents } from "nostr-react";
 import { nip19 } from "nostr-tools";
-import { shortenHash } from "../../lib/utils";
 import Contacts from "./Contacts";
 import LatestNotes from "./LatestNotes";
 import UserCard from "./UserCard";
@@ -9,7 +8,9 @@ import { useContext } from "react";
 import { KeysContext } from "../../context/keys-provider.jsx";
 import { DUMMY_PROFILE_API } from "../../utils/constants";
 
-export default function Profile({ pubkey }: any) {
+export default function Profile({ npub }: any) {
+  const pubkey = nip19.decode(npub).data.valueOf();
+
   // @ts-ignore
   const { keys: loggedInUserPublicKey } = useContext(KeysContext);
 
@@ -24,10 +25,14 @@ export default function Profile({ pubkey }: any) {
 
   console.log("EVENTS:", events);
 
-  const npub = nip19.npubEncode(pubkey);
   let name;
   let about;
   let picture;
+  let lud06;
+  let lud16;
+  let nip05;
+  let lnPubkey;
+  let lnCustomValue;
 
   // console.log("PROFILE PUBLIC KEY", pubkey);
 
@@ -36,10 +41,17 @@ export default function Profile({ pubkey }: any) {
   );
 
   try {
+    console.log("USER PROFILE PRE UPDATE:", userMetaData[0]);
     const content = userMetaData[0]?.content;
+    console.log("CONTENT:", content);
     const contentObj = JSON.parse(content);
     name = contentObj?.name;
+    nip05 = contentObj?.nip05;
     about = contentObj?.about;
+    lnPubkey = contentObj?.ln_pubkey;
+    lnCustomValue = contentObj?.ln_custom_value;
+    lud06 = contentObj?.lud06;
+    lud16 = contentObj?.lud16;
     picture = contentObj?.picture || DUMMY_PROFILE_API(name || npub);
   } catch {
     console.log("Error parsing content");
@@ -69,7 +81,7 @@ export default function Profile({ pubkey }: any) {
   // nip06?: string | undefined;
 
   return loggedInUsersContacts ? (
-    <div className="flex flex-col-reverse md:flex-row items-center md:items-start gap-10 lg:gap-20 md:px-10 lg:px-20 flex-1">
+    <div className="flex flex-col md:flex-row items-center md:items-start md:gap-10 lg:gap-30 lg:px-20 flex-1">
       <LatestNotes name={name} pubkey={pubkey} />
       <div className="flex flex-col flex-shrink md:sticky top-4 w-auto md:w-[25%] max-w-[22rem]">
         <UserCard
@@ -78,9 +90,14 @@ export default function Profile({ pubkey }: any) {
           currentContacts={currentContacts}
           pubkey={pubkey}
           name={name}
-          npub={shortenHash(npub)}
+          npub={npub}
+          nip05={nip05}
           about={about}
           picture={picture}
+          lnPubkey={lnPubkey}
+          lnCustomValue={lnCustomValue}
+          lud06={lud06}
+          lud16={lud16}
         />
         {currentContacts && <Contacts userContacts={currentContacts} />}
       </div>

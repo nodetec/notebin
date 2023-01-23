@@ -10,6 +10,6 @@
   ],
   "theme_color": "#121a23",
   "background_color": "#121a23",
-  "start_url": "https://www.notebin.org/",
+  "start_url": "https://notebin.org/",
   "display": "standalone"
 }
