@@ -8,7 +8,7 @@ import Button from "../../Button";
 import { useNostr } from "nostr-react";
 import { NostrService } from "../../utils/NostrService";
 import type { Event } from "nostr-tools";
-import { BsPatchCheckFill } from "react-icons/bs";
+import { BsPatchCheckFill, BsLightningChargeFill } from "react-icons/bs";
 
 export default function UserCard({
   name,
@@ -36,6 +36,7 @@ export default function UserCard({
   const [newLnCustomValue, setNewLnCustomValue] = useState(lnCustomValue);
   const [newLud06, setNewLud06] = useState(lud06);
   const [newLud16, setNewLud16] = useState(lud16);
+  const [tipInputValue, setTipInputValue] = useState<string>();
 
   // TODO: on close reset values
 
@@ -52,6 +53,16 @@ export default function UserCard({
 
   const handleClick = async () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleTipChange = (e: any) => {
+    e.preventDefault();
+    const value = e.target.value.replace(/\D/g, "");
+    setTipInputValue(value);
+  };
+
+  const handleSendTip = (e: any) => {
+    // TODO: send lightning tips
   };
   /* (contacts.includes(pubkey) */
 
@@ -155,12 +166,7 @@ export default function UserCard({
       <p className="text-sm text-accent">{about}</p>
       {loggedInUserPublicKey === pubkey ? (
         <Buttons>
-          <Button
-            color="blue"
-            variant="outline"
-            onClick={handleClick}
-            size="sm"
-          >
+          <Button color="blue" variant="ghost" onClick={handleClick} size="sm">
             edit profile
           </Button>
         </Buttons>
@@ -172,52 +178,80 @@ export default function UserCard({
             profilePublicKey={pubkey}
             contacts={contacts}
           />
+          <Button
+            color="yellow"
+            variant="ghost"
+            onClick={handleClick}
+            size="sm"
+            icon={<BsLightningChargeFill size="14" />}
+          >
+            tip
+          </Button>
         </Buttons>
       )}
-      <Popup title="Edit Profile" isOpen={isOpen} setIsOpen={setIsOpen}>
-        <PopupInput
-          value={newName}
-          onChange={(e) => setNewName(e.target.value)}
-          label="Name"
-        ></PopupInput>
-        <PopupInput
-          value={newNip05}
-          onChange={(e) => setNewNip05(e.target.value)}
-          label="NIP-05 ID"
-        ></PopupInput>
-        <PopupInput
-          value={newPicture}
-          onChange={(e) => setNewPicture(e.target.value)}
-          label="Profile Image Url"
-        ></PopupInput>
-        <PopupInput
-          value={newAbout}
-          onChange={(e) => setNewAbout(e.target.value)}
-          label="About"
-        ></PopupInput>
-        <h3 className="text-xl text-accent text-center pt-4">
-          ⚡ Enable Lightning Tips ⚡
-        </h3>
-        <PopupInput
-          value={newLnPubkey}
-          onChange={(e) => setNewLnPubkey(e.target.value)}
-          label="LN Public Key"
-        ></PopupInput>
-        <PopupInput
-          value={newLnCustomValue}
-          onChange={(e) => setNewLnCustomValue(e.target.value)}
-          label="Custom Record (if applicable)"
-        ></PopupInput>
-        <Button
-          color="blue"
-          variant="solid"
-          onClick={handleSubmitNewProfile}
-          size="sm"
-          className="w-1/4"
-        >
-          Save
-        </Button>
-      </Popup>
+      {loggedInUserPublicKey === pubkey ? (
+        <Popup title="Edit Profile" isOpen={isOpen} setIsOpen={setIsOpen}>
+          <PopupInput
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            label="Name"
+          ></PopupInput>
+          <PopupInput
+            value={newNip05}
+            onChange={(e) => setNewNip05(e.target.value)}
+            label="NIP-05 ID"
+          ></PopupInput>
+          <PopupInput
+            value={newPicture}
+            onChange={(e) => setNewPicture(e.target.value)}
+            label="Profile Image Url"
+          ></PopupInput>
+          <PopupInput
+            value={newAbout}
+            onChange={(e) => setNewAbout(e.target.value)}
+            label="About"
+          ></PopupInput>
+          <h3 className="text-xl text-accent text-center pt-4">
+            ⚡ Enable Lightning Tips ⚡
+          </h3>
+          <PopupInput
+            value={newLnPubkey}
+            onChange={(e) => setNewLnPubkey(e.target.value)}
+            label="LN Public Key"
+          ></PopupInput>
+          <PopupInput
+            value={newLnCustomValue}
+            onChange={(e) => setNewLnCustomValue(e.target.value)}
+            label="Custom Record (if applicable)"
+          ></PopupInput>
+          <Button
+            color="blue"
+            variant="solid"
+            onClick={handleSubmitNewProfile}
+            size="sm"
+            className="w-1/4"
+          >
+            Save
+          </Button>
+        </Popup>
+      ) : (
+        <Popup title="Send Tip" isOpen={isOpen} setIsOpen={setIsOpen}>
+          <PopupInput
+            label="Sats"
+            value={tipInputValue}
+            onChange={handleTipChange}
+          />
+          <Button
+            color="yellow"
+            variant="solid"
+            onClick={handleSendTip}
+            size="sm"
+            className="w-1/4"
+          >
+            Send
+          </Button>
+        </Popup>
+      )}
     </div>
   );
 }
