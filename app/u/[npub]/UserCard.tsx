@@ -3,7 +3,7 @@ import FollowButton from "./FollowButton";
 import Truncate from "../../Truncate";
 import Popup from "../../Popup";
 import PopupInput from "../../PopupInput";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "../../Button";
 import { useNostr } from "nostr-react";
 import { NostrService } from "../../utils/NostrService";
@@ -29,29 +29,30 @@ export default function UserCard({
   const contacts = loggedInUsersContacts.map((pair: string) => pair[1]);
   const [isOpen, setIsOpen] = useState(false);
   const [isTipSuccessOpen, setIsTipSuccessOpen] = useState(false);
-  const [newName, setNewName] = useState(name);
-  const [newAbout, setNewAbout] = useState(about);
-  const [newPicture, setNewPicture] = useState(picture);
-  const [newNip05, setNewNip05] = useState(nip05);
-  const [newLnPubkey, setNewLnPubkey] = useState(lnPubkey);
-  const [newLnCustomValue, setNewLnCustomValue] = useState(lnCustomValue);
-  const [newLud06, setNewLud06] = useState(lud06);
-  const [newLud16, setNewLud16] = useState(lud16);
+  const [newProfile, setProfile] = useState({
+    newName: name,
+    newAbout: about,
+    newPicture: picture,
+    newNip05: nip05,
+    newLnPubkey: lnPubkey,
+    newLnCustomValue: lnCustomValue,
+    newLud06: lud06,
+    newLud16: lud16,
+  });
+  const {
+    newName,
+    newAbout,
+    newPicture,
+    newNip05,
+    newLnPubkey,
+    newLnCustomValue,
+    newLud06,
+    newLud16,
+  } = newProfile;
   const [tipInputValue, setTipInputValue] = useState<string>("1");
   const [paymentHash, setPaymentHash] = useState();
 
   // TODO: on close reset values
-
-  useEffect(() => {
-    setNewName(name);
-    setNewAbout(about);
-    setNewPicture(picture);
-    setNewNip05(nip05);
-    setNewLnPubkey(lnPubkey);
-    setNewLnCustomValue(lnCustomValue);
-    setNewLud06(lud06);
-    setNewLud16(lud16);
-  }, []);
 
   const handleClick = async () => {
     setIsOpen(!isOpen);
@@ -231,37 +232,49 @@ export default function UserCard({
         <Popup title="Edit Profile" isOpen={isOpen} setIsOpen={setIsOpen}>
           <PopupInput
             value={newName}
-            onChange={(e) => setNewName(e.target.value)}
+            onChange={(e) =>
+              setProfile({ ...newProfile, newName: e.target.value })
+            }
             label="Name"
-          ></PopupInput>
+          />
           <PopupInput
             value={newNip05}
-            onChange={(e) => setNewNip05(e.target.value)}
+            onChange={(e) =>
+              setProfile({ ...newProfile, newNip05: e.target.value })
+            }
             label="NIP-05 ID"
-          ></PopupInput>
+          />
           <PopupInput
             value={newPicture}
-            onChange={(e) => setNewPicture(e.target.value)}
+            onChange={(e) =>
+              setProfile({ ...newProfile, newPicture: e.target.value })
+            }
             label="Profile Image Url"
-          ></PopupInput>
+          />
           <PopupInput
             value={newAbout}
-            onChange={(e) => setNewAbout(e.target.value)}
+            onChange={(e) =>
+              setProfile({ ...newProfile, newAbout: e.target.value })
+            }
             label="About"
-          ></PopupInput>
+          />
           <h3 className="text-xl text-accent text-center pt-4">
             ⚡ Enable Lightning Tips ⚡
           </h3>
           <PopupInput
             value={newLnPubkey}
-            onChange={(e) => setNewLnPubkey(e.target.value)}
+            onChange={(e) =>
+              setProfile({ ...newProfile, newLnPubkey: e.target.value })
+            }
             label="LN Public Key"
-          ></PopupInput>
+          />
           <PopupInput
             value={newLnCustomValue}
-            onChange={(e) => setNewLnCustomValue(e.target.value)}
+            onChange={(e) =>
+              setProfile({ ...newProfile, newLnCustomValue: e.target.value })
+            }
             label="Custom Record (if applicable)"
-          ></PopupInput>
+          />
           <Button
             color="blue"
             variant="solid"
