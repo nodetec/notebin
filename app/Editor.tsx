@@ -194,7 +194,6 @@ const Editor = ({
                   /* @ts-ignore */
                   filetypevalid={fileTypeValid.toString()}
                   filesizevalid={fileSizeValid.toString()}
-                  disabled={!!event}
                   padding={24}
                   style={{
                     fontSize: 15,
