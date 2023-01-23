@@ -24,7 +24,7 @@ const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
   const extractFileContent = async (e: any) => {
     // @ts-ignore
     if (fileSelector.files.length) {
-      const allowedExtensions = ['js'];
+      const allowedExtensions = ["js"];
       const sizeLimit = 1_048_576;
 
       // @ts-ignore

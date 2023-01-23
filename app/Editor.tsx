@@ -87,7 +87,11 @@ const Editor = ({
     setTitleValid(titleValid);
   };
 
-  const onFileUpload = (fileContent: string, fileTypeValid: boolean, fileSizeValid: boolean) => {
+  const onFileUpload = (
+    fileContent: string,
+    fileTypeValid: boolean,
+    fileSizeValid: boolean
+  ) => {
     setFileTypeValid(fileTypeValid);
     setFileSizeValid(fileSizeValid);
     setText(fileContent);
