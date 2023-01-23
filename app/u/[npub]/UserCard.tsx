@@ -61,10 +61,22 @@ export default function UserCard({
     }
   };
 
-  const handleSendTip = (e: any) => {
-    // TODO: send lightning tips
+  const handleSendTip = async (e: any) => {
+    e.preventDefault();
+    // @ts-ignore
+    if (typeof window.webln !== "undefined") {
+      // @ts-ignore
+      const result = await webln.keysend({
+        destination: lnPubkey,
+        amount: tipInputValue,
+        customRecords: {
+          696969: lnCustomValue,
+        },
+      });
+      console.log("Tip Result:", result);
+    }
+    setIsOpen(!isOpen);
   };
-  /* (contacts.includes(pubkey) */
 
   const handleSubmitNewProfile = async (e: any) => {
     e.preventDefault();
@@ -178,15 +190,17 @@ export default function UserCard({
             profilePublicKey={pubkey}
             contacts={contacts}
           />
-          <Button
-            color="yellow"
-            variant="ghost"
-            onClick={handleClick}
-            size="sm"
-            icon={<BsLightningChargeFill size="14" />}
-          >
-            tip
-          </Button>
+          {lnPubkey && (
+            <Button
+              color="yellow"
+              variant="ghost"
+              onClick={handleClick}
+              size="sm"
+              icon={<BsLightningChargeFill size="14" />}
+            >
+              tip
+            </Button>
+          )}
         </Buttons>
       )}
       {loggedInUserPublicKey === pubkey ? (
