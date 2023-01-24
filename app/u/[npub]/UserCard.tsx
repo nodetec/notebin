@@ -118,7 +118,6 @@ export default function UserCard({
 
   useEffect(() => {
     setTipMessage("");
-    setTipInputValue("1");
   }, [isTipOpen]);
 
   const handleClick = async () => {
