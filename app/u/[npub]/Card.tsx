@@ -1,11 +1,12 @@
 import Link from "next/link";
 import { useProfile } from "nostr-react";
 import { Event, nip19 } from "nostr-tools";
-import { DetailedHTMLProps, FC, LiHTMLAttributes, ReactNode } from "react";
+import { DetailedHTMLProps, FC, LiHTMLAttributes, ReactNode, useContext } from "react";
 import { BsFillFileEarmarkCodeFill, BsFillTagFill } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
 import { DUMMY_PROFILE_API } from "../../utils/constants";
 import { shortenHash } from "../../lib/utils";
+import { PostDirContext } from "../../context/post-dir-provider";
 
 interface NoteProps
   extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
@@ -21,6 +22,7 @@ const Card: FC<NoteProps> = ({
   ...props
 }) => {
   const { tags, content, created_at: createdAt, id: noteId } = event;
+  const {isCol} = useContext(PostDirContext);
   const getValues = (name: string) => {
     const [itemTag] = tags.filter((tag: string[]) => tag[0] === name);
     const [, item] = itemTag || [, undefined];
@@ -45,15 +47,15 @@ const Card: FC<NoteProps> = ({
     >
       <Link
         href={`/${nip19.noteEncode(noteId!)}`}
-        className="p-5 flex flex-col-reverse gap-4 justify-between"
+        className={`p-5 flex gap-4 justify-between flex-col-reverse ${isCol ? "" : "md:flex-row"}`}
       >
-        <div className="flex flex-col gap-3">
+        <div className={`flex flex-col gap-3 ${markdownImageContent?.groups?.filename ? "flex-[0.75]" : ""}`}>
           {title ? (
             <h3 className="text-2xl font-semibold text-light twolines">
               {title}
             </h3>
           ) : null}
-          <div className="flex flex-col sm:flex-row gap-5 opacity-70">
+          <div className="flex gap-5 opacity-70 flex-col md:flex-row flex-wrap">
             {profile ? (
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2">
@@ -61,12 +63,12 @@ const Card: FC<NoteProps> = ({
                     className="rounded-full w-6 h-6 object-cover"
                     src={
                       data?.picture ||
-                      DUMMY_PROFILE_API(data?.name || shortenHash(npub)!)
+                      DUMMY_PROFILE_API(data?.name || npub)
                     }
                     alt={data?.name}
                   />
                   <div>
-                    <span className="text-light">{data?.name || npub}</span>
+                    <span className="text-light">{data?.name || shortenHash(npub)!}</span>
                   </div>
                 </div>
               </div>
@@ -81,7 +83,7 @@ const Card: FC<NoteProps> = ({
         </div>
         {markdownImageContent?.groups?.filename ? (
           <img
-            className="rounded-md self-center w-full h-auto object-cover"
+            className={`rounded-md self-center w-full h-auto object-cover flex-[.25] ${isCol ? "" : "md:w-1/3"}`}
             src={markdownImageContent?.groups?.filename}
             alt={markdownImageContent?.groups?.title}
           />
