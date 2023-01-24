@@ -9,7 +9,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html data-color-mode="dark" lang="en" className="dark font-sans min-h-screen">
+    <html
+      data-color-mode="dark"
+      lang="en"
+      className="dark font-sans min-h-screen"
+    >
       {/*
         <head /> will contain the components returned by the nearest parent
         head.tsx. Find out more at https://beta.nextjs.org/docs/api-reference/file-conventions/head
