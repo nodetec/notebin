@@ -67,6 +67,16 @@ export default function UserCard({
 
   useEffect(() => {
     setNewLnAddress(lud16);
+    setProfile({
+      newName: name,
+      newAbout: about,
+      newPicture: picture,
+      newNip05: nip05,
+      // newLnPubkey: lnPubkey,
+      // newLnCustomValue: lnCustomValue,
+      newLud06: lud06,
+      newLud16: lud16,
+    });
   }, []);
 
   useEffect(() => {
