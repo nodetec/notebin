@@ -36,7 +36,10 @@ export default function UserCard({
 }: any) {
   const { connectedRelays } = useNostr();
   const { publish } = useNostr();
-  const contacts = loggedInUsersContacts.map((pair: string) => pair[1]);
+  let contacts = null;
+  if (loggedInUsersContacts) {
+    contacts = loggedInUsersContacts.map((pair: string) => pair[1]);
+  }
   const [isOpen, setIsOpen] = useState(false);
   const [isTipSuccessOpen, setIsTipSuccessOpen] = useState(false);
   const [newProfile, setProfile] = useState({
