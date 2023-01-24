@@ -24,11 +24,7 @@ const Truncate = ({
 }: ITruncateProps) => {
   const { isCopied, isError, copyToClipboard } = useCopy();
 
-  const color = isCopied
-    ? "text-green-400"
-    : isError
-    ? "text-red-400"
-    : "";
+  const color = isCopied ? "text-green-400" : isError ? "text-red-400" : "";
 
   return (
     <Fragment>
