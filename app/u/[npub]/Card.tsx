@@ -63,9 +63,13 @@ const Card: FC<NoteProps> = ({
         }`}
       >
         <div
-          className={`flex flex-col gap-3 max-w-auto md:max-w-[60%] ${
-            markdownImageContent?.groups?.filename ? "flex-[0.75]" : ""
-          }`}
+          className={`flex flex-col gap-3
+              ${
+                markdownImageContent?.groups?.filename && !isCol
+                  ? "md:max-w-[65%] flex-[.75]"
+                  : "max-w-full"
+              }
+          `}
         >
           {title ? (
             <h3 className="text-2xl font-semibold text-light twolines">
