@@ -68,6 +68,8 @@ export default function Profile({ npub }: any) {
   );
   const loggedInUsersContacts = loggedInUserEvent[0]?.tags;
 
+  console.log("LOGGED IN USER CONTACTS:", loggedInUsersContacts)
+
   // console.log("CONTACTS:", userContacts);
 
   // npub: string;

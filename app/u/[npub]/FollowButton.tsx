@@ -13,8 +13,10 @@ export default function FollowButton({
 }: any) {
   const { publish } = useNostr();
   const { connectedRelays } = useNostr();
-  let isFollowing: any = null;
-  if (isFollowing) {
+
+  let isFollowing = false;
+
+  if (contacts) {
     isFollowing = contacts.includes(profilePublicKey);
   }
 
