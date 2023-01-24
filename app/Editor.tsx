@@ -87,11 +87,11 @@ const Editor = ({
 
   return (
     <div>
-      <div className="rounded-md border-2 border-accent dark:border-secondary">
-        <div className="bg-accent dark:bg-secondary p-2 flex items-center justify-between">
+      <div className="rounded-md border-2 border-secondary">
+        <div className="bg-secondary p-2 flex items-center justify-between">
           <div className="flex gap-2">
             <input
-              className="bg-zinc-200 text-primary dark:bg-primary dark:text-accent border-0 outline-0 focus:ring-0 text-sm rounded-md"
+              className="bg-primary text-accent border-0 outline-0 focus:ring-0 text-sm rounded-md"
               type="text"
               list="filetypes"
               placeholder="filetype"
@@ -110,7 +110,7 @@ const Editor = ({
                 <Button
                   color="zincDark"
                   variant="ghost"
-                  className="hover:text-primary dark:hover:text-accent"
+                  className="hover:text-accent"
                   title={mdPreviewMode === "off" ? "Preview" : "Edit"}
                   onClick={() =>
                     setMdPreviewMode(
@@ -125,7 +125,7 @@ const Editor = ({
                   color="zincDark"
                   variant="ghost"
                   title="Split Preview"
-                  className="hover:text-primary dark:hover:text-accent"
+                  className="hover:text-accent"
                   onClick={() =>
                     setMdPreviewMode(
                       mdPreviewMode === "split" ? "off" : "split"
@@ -157,7 +157,7 @@ const Editor = ({
                     title={title}
                     required
                     rows={1}
-                    className="bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full focus:ring-0"
+                    className="text-zinc-100 bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full focus:ring-0"
                     value={title}
                     placeholder="Title..."
                     onChange={(evn) => {
@@ -183,6 +183,7 @@ const Editor = ({
                     onChange={(evn) => setText(evn.target.value)}
                     padding={24}
                     style={{
+                      color: "#c9d1d9",
                       fontSize: 15,
                     }}
                   />
@@ -202,15 +203,15 @@ const Editor = ({
                     : ""
                 }`}
             >
-              <h1 className="text-2xl font-medium mb-0 px-6 pt-6" style={{ paddingBottom: "0.375rem" }}>{title}</h1>
-              <div className="md-preview-note-wrapper"
+              <h1 className="text-zinc-100 text-2xl font-medium mb-0 px-6 pt-6" style={{ paddingBottom: "0.375rem" }}>{title}</h1>
+              <div className="md-preview-note-wrapper" style={{ color: "#c9d1d9"  }}
                 dangerouslySetInnerHTML={{ __html: setupMarkdown(text) }}
               ></div>
             </div>
           )}
         </div>
       </div>
-      <div className="rounded-b-md border-x-2 border-b-2 border-accent dark:border-secondary p-1 pt-2 -mt-1 flex items-center justify-between gap-4">
+      <div className="rounded-b-md border-x-2 border-b-2 border-secondary p-1 pt-2 -mt-1 flex items-center justify-between gap-4">
         <TextInput
           icon={<BsFillTagFill className="w-4 h-4" />}
           placeholder={"Enter tags"}

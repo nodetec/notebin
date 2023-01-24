@@ -36,51 +36,43 @@ export default function UserCard({
 }: any) {
   const { connectedRelays } = useNostr();
   const { publish } = useNostr();
-  const contacts = loggedInUsersContacts.map((pair: string) => pair[1]);
+  let contacts = null;
+  if (loggedInUsersContacts) {
+    contacts = loggedInUsersContacts.map((pair: string) => pair[1]);
+  }
   const [isOpen, setIsOpen] = useState(false);
+  const [isTipOpen, setIsTipOpen] = useState(false);
   const [isTipSuccessOpen, setIsTipSuccessOpen] = useState(false);
-  const [newProfile, setProfile] = useState({
-    newName: name,
-    newAbout: about,
-    newPicture: picture,
-    newNip05: nip05,
-    // newLnPubkey: lnPubkey,
-    // newLnCustomValue: lnCustomValue,
-    newLud06: lud06,
-    newLud16: lud16,
-  });
-  const {
-    newName,
-    newAbout,
-    newPicture,
-    newNip05,
-    // newLnPubkey,
-    // newLnCustomValue,
-    newLud06,
-    newLud16,
-  } = newProfile;
+
+  const [newName, setNewName] = useState(name);
+  const [newAbout, setNewAbout] = useState(about);
+  const [newPicture, setNewPicture] = useState(picture);
+  const [newNip05, setNewNip05] = useState(nip05);
+  // const [newLnPubkey, setNewLnPubkey] = useState(lnPubkey);
+  // const [newLnCustomValue, setNewLnCustomValue] = useState(lnCustomValue);
+  const [newLud06, setNewLud06] = useState(lud06);
+  const [newLud16, setNewLud16] = useState(lud16);
   const [tipInputValue, setTipInputValue] = useState<string>("1");
   const [tipMessage, setTipMessage] = useState<string>();
   const [paymentHash, setPaymentHash] = useState();
   const [newLnAddress, setNewLnAddress] = useState<any>();
   const [convertedAddress, setConvertedAddress] = useState<any>();
+  const [tippedAmount, setTippedAmount] = useState<any>();
 
   useEffect(() => {
     setNewLnAddress(lud16);
-    setProfile({
-      newName: name,
-      newAbout: about,
-      newPicture: picture,
-      newNip05: nip05,
-      // newLnPubkey: lnPubkey,
-      // newLnCustomValue: lnCustomValue,
-      newLud06: lud06,
-      newLud16: lud16,
-    });
   }, []);
 
   useEffect(() => {
     setNewLnAddress(lud16);
+    setNewName(name);
+    setNewAbout(about);
+    setNewPicture(picture);
+    setNewNip05(nip05);
+    // setNewLnPubkey(lnPubkey);
+    // setNewLnCustomValue(lnCustomValue);
+    setNewLud06(lud06);
+    setNewLud16(lud16);
   }, [isOpen]);
 
   async function convert(newLnAddress: any) {
@@ -97,7 +89,7 @@ export default function UserCard({
           console.log("METADATA:", JSON.parse(data.metadata)[0][1]);
           const newConvertedAddress = JSON.parse(data.metadata)[0][1];
 
-          setProfile({ ...newProfile, newLud16: newConvertedAddress });
+          setNewLud16(newConvertedAddress);
           setConvertedAddress(newConvertedAddress);
           console.log(newConvertedAddress); // chrisatmachine@getalby.com
         }
@@ -106,7 +98,7 @@ export default function UserCard({
           let words = bech32.toWords(Buffer.from(url, "utf8"));
           let newConvertedAddress = "";
           newConvertedAddress = bech32.encode("lnurl", words, 2000);
-          setProfile({ ...newProfile, newLud06: newConvertedAddress });
+          setNewLud06(newConvertedAddress);
           setConvertedAddress(newConvertedAddress);
         }
       } catch (error) {
@@ -125,8 +117,17 @@ export default function UserCard({
     getLnAddress();
   }, [newLnAddress]);
 
+  useEffect(() => {
+    setTipMessage("");
+    setTipInputValue("1");
+  }, [isTipOpen]);
+
   const handleClick = async () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleTipClick = async () => {
+    setIsTipOpen(!isTipOpen);
   };
 
   const validateTipInputKeyDown = (e: any) => {
@@ -152,12 +153,13 @@ export default function UserCard({
         // @ts-ignore
         const result = await webln.sendPayment(invoice);
         console.log("Tip Result:", result);
+        setTippedAmount(tipInputValue);
         setPaymentHash(result.paymentHash);
       } catch (e) {
         console.log("Tip Error:", e);
       }
     }
-    setIsOpen(!isOpen);
+    setIsTipOpen(!isTipOpen);
     setIsTipSuccessOpen(!isTipSuccessOpen);
 
     // TODO: maybe support old keysend way of doing things
@@ -300,7 +302,7 @@ export default function UserCard({
             <Button
               color="yellow"
               variant="ghost"
-              onClick={handleClick}
+              onClick={handleTipClick}
               size="sm"
               icon={<BsLightningChargeFill size="14" />}
             >
@@ -315,8 +317,8 @@ export default function UserCard({
         isOpen={isTipSuccessOpen}
         setIsOpen={setIsTipSuccessOpen}
       >
-        <h4 className="text-lg text-green-500 text-center pb-4">{`You sent ${name} ${tipInputValue} sat(s)!`}</h4>
-        <h5 className="text text-accent dark:bg-secondary overflow-x-scroll rounded-md text-center p-4">
+        <h4 className="text-lg text-green-500 text-center pb-4">{`You sent ${name} ${tippedAmount} sat(s)!`}</h4>
+        <h5 className="text text-accent bg-secondary overflow-x-scroll rounded-md text-center p-4">
           <div className="cursor-text flex justify-start whitespace-nowrap items-center">
             <div className="mr-2">{"Payment Hash:"}</div>
             <div className="pr-4">{paymentHash}</div>
@@ -327,30 +329,22 @@ export default function UserCard({
         <Popup title="Edit Profile" isOpen={isOpen} setIsOpen={setIsOpen}>
           <PopupInput
             value={newName}
-            onChange={(e) =>
-              setProfile({ ...newProfile, newName: e.target.value })
-            }
+            onChange={(e) => setNewName(e.target.value)}
             label="Name"
           />
           <PopupInput
             value={newNip05}
-            onChange={(e) =>
-              setProfile({ ...newProfile, newNip05: e.target.value })
-            }
+            onChange={(e) => setNewNip05(e.target.value)}
             label="NIP-05 ID"
           />
           <PopupInput
             value={newPicture}
-            onChange={(e) =>
-              setProfile({ ...newProfile, newPicture: e.target.value })
-            }
+            onChange={(e) => setNewPicture(e.target.value)}
             label="Profile Image Url"
           />
           <PopupInput
             value={newAbout}
-            onChange={(e) =>
-              setProfile({ ...newProfile, newAbout: e.target.value })
-            }
+            onChange={(e) => setNewAbout(e.target.value)}
             label="About"
           />
           <h3 className="text-xl text-accent text-center pt-4">
@@ -362,7 +356,7 @@ export default function UserCard({
             label="Lightning Address or LUD-06 Identifier"
           ></PopupInput>
 
-          <h5 className="text text-accent dark:bg-secondary overflow-x-scroll rounded-md text-center p-4">
+          <h5 className="text text-accent bg-secondary overflow-x-scroll rounded-md text-center p-4">
             <div className="cursor-text flex justify-start whitespace-nowrap items-center">
               <div className="pr-4">{convertedAddress}</div>
             </div>
@@ -393,9 +387,13 @@ export default function UserCard({
           </Button>
         </Popup>
       ) : (
-        <Popup title="Pay with Lightning" isOpen={isOpen} setIsOpen={setIsOpen}>
+        <Popup
+          title="Pay with Lightning"
+          isOpen={isTipOpen}
+          setIsOpen={setIsTipOpen}
+        >
           <h2 className="pt-2 font-bold text-lg text-accent">Amount</h2>
-          <div className="flex items-center w-full py-2 px-4 rounded-md dark:bg-primary dark:text-zinc-300 ring-1 ring-yellow-500">
+          <div className="flex items-center w-full py-2 px-4 rounded-md bg-primary text-zinc-300 ring-1 ring-yellow-500">
             <input
               type="number"
               value={tipInputValue}
@@ -404,7 +402,7 @@ export default function UserCard({
               placeholder="Enter amount in sats"
               required
               min={1}
-              className="w-full flex-1 focus:ring-0 border-0 bg-transparent dark:text-zinc-300"
+              className="w-full flex-1 focus:ring-0 border-0 bg-transparent text-zinc-300"
             />
             <span className="text-yellow-400 text-sm font-bold">satoshis</span>
           </div>
@@ -424,13 +422,13 @@ export default function UserCard({
             ))}
           </Buttons>
           <h2 className="pt-2 font-bold text-lg text-accent">Message</h2>
-          <div className="flex items-center w-full py-2 px-4 rounded-md dark:bg-primary dark:text-zinc-300 ring-1 ring-zinc-500">
+          <div className="flex items-center w-full py-2 px-4 rounded-md bg-primary text-zinc-300 ring-1 ring-zinc-500">
             <input
               type="text"
               value={tipMessage}
               onChange={(e) => setTipMessage(e.target.value)}
               placeholder="optional"
-              className="w-full flex-1 focus:ring-0 border-0 bg-transparent dark:text-zinc-300"
+              className="w-full flex-1 focus:ring-0 border-0 bg-transparent text-zinc-300"
             />
           </div>
           <Button

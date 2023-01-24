@@ -14,11 +14,11 @@ const CodeEditor = dynamic(
 const NoteDisplay = ({ event }: any) => {
   return (
     <Fragment>
-      <div className="rounded-md border-2 border-accent dark:border-secondary">
-        <div className="bg-accent dark:bg-secondary p-2 flex items-center justify-between">
+      <div className="rounded-md border-2 border-secondary">
+        <div className="bg-secondary p-2 flex items-center justify-between">
           <div className="flex gap-2 w-full justify-between">
             <input
-              className="bg-zinc-200 text-primary dark:bg-primary dark:text-accent border-0 outline-0 focus:ring-0 text-sm rounded-md"
+              className="bg-primary text-accent border-0 outline-0 focus:ring-0 text-sm rounded-md"
               type="text"
               list="filetypes"
               placeholder="filetype"
@@ -70,7 +70,7 @@ const NoteDisplay = ({ event }: any) => {
           </div>
         </div>
       </div>
-      <div className="rounded-b-md border-x-2 border-b-2 border-accent dark:border-secondary p-1 pt-2 -mt-1 flex items-center justify-between gap-4">
+      <div className="rounded-b-md border-x-2 border-b-2 border-secondary p-1 pt-2 -mt-1 flex items-center justify-between gap-4">
         <TextInput
           icon={<BsFillTagFill className="w-4 h-4" />}
           placeholder=""

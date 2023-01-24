@@ -63,27 +63,23 @@ export default function Profile({ event }: any) {
   // lud16?: string | undefined;
   // nip06?: string | undefined;
 
-  if (loggedInUsersContacts) {
-    return (
-      <div className="flex flex-col md:flex-row items-center justify-center md:items-start gap-10 md:gap-20 flex-1">
-        <Note event={event} />
-        <div className="flex flex-col flex-shrink md:sticky justify-end items-end top-4 w-full md:w-auto max-w-[22rem]">
-          {loggedInUsersContacts && (
-            <UserCard
-              loggedInUserPublicKey={loggedInUserPublicKey.publicKey}
-              loggedInUsersContacts={loggedInUsersContacts}
-              currentContacts={currentContacts}
-              pubkey={pubkey}
-              name={name}
-              npub={npub}
-              about={about}
-              picture={picture}
-            />
-          )}
-        </div>
+  return (
+    <div className="flex flex-col md:flex-row items-center justify-center md:items-start gap-10 md:gap-20 flex-1">
+      <Note event={event} />
+      <div className="flex flex-col flex-shrink md:sticky justify-end items-end top-4 w-full md:w-auto max-w-[22rem]">
+        {loggedInUsersContacts && (
+          <UserCard
+            loggedInUserPublicKey={loggedInUserPublicKey.publicKey}
+            loggedInUsersContacts={loggedInUsersContacts}
+            currentContacts={currentContacts}
+            pubkey={pubkey}
+            name={name}
+            npub={npub}
+            about={about}
+            picture={picture}
+          />
+        )}
       </div>
-    );
-  } else {
-    return <></>;
-  }
+    </div>
+  );
 }

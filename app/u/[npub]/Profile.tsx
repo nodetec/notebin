@@ -68,6 +68,8 @@ export default function Profile({ npub }: any) {
   );
   const loggedInUsersContacts = loggedInUserEvent[0]?.tags;
 
+  console.log("LOGGED IN USER CONTACTS:", loggedInUsersContacts);
+
   // console.log("CONTACTS:", userContacts);
 
   // npub: string;
@@ -80,7 +82,7 @@ export default function Profile({ npub }: any) {
   // lud16?: string | undefined;
   // nip06?: string | undefined;
 
-  return loggedInUsersContacts ? (
+  return (
     <div className="flex flex-col md:flex-row items-center md:items-start md:gap-10 lg:gap-30 lg:px-20 flex-1">
       <LatestNotes name={name} pubkey={pubkey} />
       <div className="flex flex-col flex-shrink md:sticky top-4 w-auto md:w-[25%] max-w-[22rem]">
@@ -99,8 +101,10 @@ export default function Profile({ npub }: any) {
           lud06={lud06}
           lud16={lud16}
         />
-        {currentContacts && <Contacts userContacts={currentContacts} />}
+        {loggedInUsersContacts && currentContacts && (
+          <Contacts userContacts={currentContacts} />
+        )}
       </div>
     </div>
-  ) : null;
+  );
 }
