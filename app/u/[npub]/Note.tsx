@@ -25,7 +25,12 @@ const Note: FC<NoteProps> = ({
     return item;
   };
 
-  const actualTags = getValues("tags").split(",");
+  // let actualTags: any = getValues("tags");
+
+  // if (actualTags) {
+  //   actualTags = actualTags.split(",");
+  // }
+
   const title = getValues("subject");
   const markdownImageContent =
     /!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<title>\".*\")?\)/g.exec(content);
@@ -48,7 +53,7 @@ const Note: FC<NoteProps> = ({
           <div className="flex flex-col sm:flex-row items-center gap-5 opacity-70">
             <DatePosted timestamp={createdAt} />
             <FileType type={getValues("filetype")} />
-            {actualTags.length > 1 ? <NoteTags tags={actualTags} /> : null}
+            {/* {actualTags.length > 1 ? <NoteTags tags={actualTags} /> : null} */}
           </div>
           <div className="flex flex-col sm:flex-row gap-5 opacity-70">
             <div className="twolines opacity-70">{content}</div>

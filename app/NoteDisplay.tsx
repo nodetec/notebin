@@ -22,7 +22,7 @@ const NoteDisplay = ({ event }: any) => {
               type="text"
               list="filetypes"
               placeholder="filetype"
-              value={event.tags[0][1]}
+              // value={event.tags[0][1]}
               disabled={!!event}
             />
             <datalist id="filetypes">
@@ -46,8 +46,8 @@ const NoteDisplay = ({ event }: any) => {
               required
               rows={1}
               className="bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
-              title={event.tags[5][1]}
-              value={event.tags[5][1]}
+              // title={event.tags[5][1]}
+              // value={event.tags[5][1]}
               placeholder="Title..."
               disabled
             />
@@ -74,7 +74,7 @@ const NoteDisplay = ({ event }: any) => {
         <TextInput
           icon={<BsFillTagFill className="w-4 h-4" />}
           placeholder=""
-          tagsList={event?.tags[4][1].split(",")}
+          // tagsList={event?.tags[4][1].split(",")}
           disabled
         />
       </div>

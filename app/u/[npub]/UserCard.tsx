@@ -60,6 +60,7 @@ export default function UserCard({
     newLud16,
   } = newProfile;
   const [tipInputValue, setTipInputValue] = useState<string>("1");
+  const [tipMessage, setTipMessage] = useState<string>();
   const [paymentHash, setPaymentHash] = useState();
   const [newLnAddress, setNewLnAddress] = useState<any>();
   const [convertedAddress, setConvertedAddress] = useState<any>();
@@ -135,6 +136,7 @@ export default function UserCard({
           lnUrlOrAddress,
           // @ts-ignore
           tokens: tipInputValue, // satoshis
+          comment: tipMessage,
         });
       try {
         // @ts-ignore
@@ -382,6 +384,7 @@ export default function UserCard({
         </Popup>
       ) : (
         <Popup title="Pay with Lightning" isOpen={isOpen} setIsOpen={setIsOpen}>
+          <h2 className="pt-2 font-bold text-lg text-accent">Amount</h2>
           <div className="flex items-center w-full py-2 px-4 rounded-md dark:bg-primary dark:text-zinc-300 ring-1 ring-yellow-500">
             <input
               type="number"
@@ -410,6 +413,16 @@ export default function UserCard({
               </Button>
             ))}
           </Buttons>
+          <h2 className="pt-2 font-bold text-lg text-accent">Message</h2>
+          <div className="flex items-center w-full py-2 px-4 rounded-md dark:bg-primary dark:text-zinc-300 ring-1 ring-zinc-500">
+            <input
+              type="text"
+              value={tipMessage}
+              onChange={(e) => setTipMessage(e.target.value)}
+              placeholder="optional"
+              className="w-full flex-1 focus:ring-0 border-0 bg-transparent dark:text-zinc-300"
+            />
+          </div>
           <Button
             color="yellow"
             variant="solid"
