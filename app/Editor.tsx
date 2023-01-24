@@ -63,6 +63,7 @@ const Editor = ({
   const setupMarkdown = (text: string) => {
     const md = require("markdown-it")();
     const result = md.render(text);
+    console.log("result", result)
     return result;
   };
 
@@ -144,51 +145,55 @@ const Editor = ({
             )}
           </div>
         </div>
-        <div className="flex h-[36rem] overflow-y-auto flex-col md:flex-row">
+        <div className="flex h-[36rem] flex-col md:flex-row">
           {(filetype !== "markdown" || mdPreviewMode !== "preview") && (
             <div
               className="flex flex-col w-full h-full overflow-auto"
               onScroll={scrollView}
             >
-              <textarea
-                title={title}
-                required
-                rows={1}
-                className="bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
-                value={title}
-                placeholder="Title..."
-                onChange={(evn) => {
-                  setTitle(evn.target.value);
-                  setTitleValid(true);
-                }}
-                onBlur={handleFocus}
-                /* @ts-ignore */
-                focused={focused.toString()}
-                titlevalid={titleValid.toString()}
-              />
-              <span className="px-6 pt-0.5 text-xs text-red-500 hidden">
-                {VALIDATION.required}
-              </span>
-              <div className="grow">
-                <CodeEditor
-                  className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
-                  value={text}
-                  language={filetype}
-                  placeholder="Enter your note..."
-                  autoCapitalize="none"
-                  onChange={(evn) => setText(evn.target.value)}
-                  padding={25}
-                  style={{
-                    fontSize: 15,
-                  }}
-                />
+              <div className="flex flex-col grow overflow-auto">
+                <div>
+                  <textarea
+                    title={title}
+                    required
+                    rows={1}
+                    className="bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full focus:ring-0"
+                    value={title}
+                    placeholder="Title..."
+                    onChange={(evn) => {
+                      setTitle(evn.target.value);
+                      setTitleValid(true);
+                    }}
+                    onBlur={handleFocus}
+                    /* @ts-ignore */
+                    focused={focused.toString()}
+                    titlevalid={titleValid.toString()}
+                  />
+                  <span className="px-6 pt-0.5 text-xs text-red-500 hidden">
+                    {VALIDATION.required}
+                  </span>
+                </div>
+                <div className="grow">
+                  <CodeEditor
+                    className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
+                    value={text}
+                    language={filetype}
+                    placeholder="Enter your note..."
+                    autoCapitalize="none"
+                    onChange={(evn) => setText(evn.target.value)}
+                    padding={24}
+                    style={{
+                      fontSize: 15,
+                    }}
+                  />
+                </div>
               </div>
             </div>
           )}
           {filetype === "markdown" && mdPreviewMode !== "off" && (
             <div
               ref={previewRef}
-              className={`w-full h-full overflow-y-auto prose prose-zinc dark:prose-invert p-6 
+              className={`w-full h-full overflow-auto prose prose-zinc dark:prose-invert
                 ${
                   mdPreviewMode === "preview"
                     ? "min-w-full"
@@ -197,8 +202,8 @@ const Editor = ({
                     : ""
                 }`}
             >
-              <h1 className="text-2xl font-medium mb-4">{title}</h1>
-              <div
+              <h1 className="text-2xl font-medium mb-0 px-6 pt-6" style={{ paddingBottom: "0.375rem" }}>{title}</h1>
+              <div className="md-preview-note-wrapper"
                 dangerouslySetInnerHTML={{ __html: setupMarkdown(text) }}
               ></div>
             </div>

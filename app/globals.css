@@ -11,6 +11,14 @@
   textarea[titlevalid="false"] ~ span {
     display: block;
   }
+
+  div.md-preview-note-wrapper > p {
+    overflow-wrap: break-word;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 24px;
+  }
 }
 
 html[data-color-mode="dark"]
