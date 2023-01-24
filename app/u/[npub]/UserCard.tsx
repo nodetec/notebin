@@ -57,6 +57,7 @@ export default function UserCard({
   const [paymentHash, setPaymentHash] = useState();
   const [newLnAddress, setNewLnAddress] = useState<any>();
   const [convertedAddress, setConvertedAddress] = useState<any>();
+  const [tippedAmount, setTippedAmount] = useState<any>();
 
   useEffect(() => {
     setNewLnAddress(lud16);
@@ -118,6 +119,7 @@ export default function UserCard({
 
   useEffect(() => {
     setTipMessage("");
+    setTipInputValue("1");
   }, [isTipOpen]);
 
   const handleClick = async () => {
@@ -151,6 +153,7 @@ export default function UserCard({
         // @ts-ignore
         const result = await webln.sendPayment(invoice);
         console.log("Tip Result:", result);
+        setTippedAmount(tipInputValue);
         setPaymentHash(result.paymentHash);
       } catch (e) {
         console.log("Tip Error:", e);
@@ -314,7 +317,7 @@ export default function UserCard({
         isOpen={isTipSuccessOpen}
         setIsOpen={setIsTipSuccessOpen}
       >
-        <h4 className="text-lg text-green-500 text-center pb-4">{`You sent ${name} ${tipInputValue} sat(s)!`}</h4>
+        <h4 className="text-lg text-green-500 text-center pb-4">{`You sent ${name} ${tippedAmount} sat(s)!`}</h4>
         <h5 className="text text-accent bg-secondary overflow-x-scroll rounded-md text-center p-4">
           <div className="cursor-text flex justify-start whitespace-nowrap items-center">
             <div className="mr-2">{"Payment Hash:"}</div>
