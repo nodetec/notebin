@@ -126,7 +126,7 @@ export default function UserCard({
   };
 
   const handleTipClick = async () => {
-    setIsTipOpen(!isOpen);
+    setIsTipOpen(!isTipOpen);
   };
 
   const validateTipInputKeyDown = (e: any) => {
