@@ -30,7 +30,7 @@ export default function Note({ event }: NoteProps) {
     <>
       {event &&
         (isMarkdown || tags[0][1] === "markdown" ? (
-          <div className="border-tertiary border-r pr-10 w-full prose prose-xl prose-zinc dark:prose-invert">
+          <div className="border-tertiary border-r pr-10 w-full prose prose-xl prose-invert">
             <div dangerouslySetInnerHTML={{ __html: markdown }}></div>
           </div>
         ) : (

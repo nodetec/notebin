@@ -53,7 +53,7 @@ const Card: FC<NoteProps> = ({
 
   return (
     <li
-      className="rounded-md hover:shadow-sm hover:scale-101 transition-transform hover:shadow-accent dark:bg-secondary text-accent text-left"
+      className="rounded-md hover:shadow-sm hover:scale-101 transition-transform hover:shadow-accent bg-secondary text-accent text-left"
       {...props}
     >
       <Link

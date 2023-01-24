@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply dark:bg-primary;
+    @apply bg-primary;
   }
 
   textarea:invalid[focused="true"] ~ span,

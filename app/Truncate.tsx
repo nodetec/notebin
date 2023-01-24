@@ -25,9 +25,9 @@ const Truncate = ({
   const { isCopied, isError, copyToClipboard } = useCopy();
 
   const color = isCopied
-    ? "text-green-600 dark:text-green-400"
+    ? "text-green-400"
     : isError
-    ? "text-red-600 dark:text-red-400"
+    ? "text-red-400"
     : "";
 
   return (

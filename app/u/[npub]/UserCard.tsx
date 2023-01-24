@@ -316,7 +316,7 @@ export default function UserCard({
         setIsOpen={setIsTipSuccessOpen}
       >
         <h4 className="text-lg text-green-500 text-center pb-4">{`You sent ${name} ${tipInputValue} sat(s)!`}</h4>
-        <h5 className="text text-accent dark:bg-secondary overflow-x-scroll rounded-md text-center p-4">
+        <h5 className="text text-accent bg-secondary overflow-x-scroll rounded-md text-center p-4">
           <div className="cursor-text flex justify-start whitespace-nowrap items-center">
             <div className="mr-2">{"Payment Hash:"}</div>
             <div className="pr-4">{paymentHash}</div>
@@ -362,7 +362,7 @@ export default function UserCard({
             label="Lightning Address or LUD-06 Identifier"
           ></PopupInput>
 
-          <h5 className="text text-accent dark:bg-secondary overflow-x-scroll rounded-md text-center p-4">
+          <h5 className="text text-accent bg-secondary overflow-x-scroll rounded-md text-center p-4">
             <div className="cursor-text flex justify-start whitespace-nowrap items-center">
               <div className="pr-4">{convertedAddress}</div>
             </div>
@@ -395,7 +395,7 @@ export default function UserCard({
       ) : (
         <Popup title="Pay with Lightning" isOpen={isOpen} setIsOpen={setIsOpen}>
           <h2 className="pt-2 font-bold text-lg text-accent">Amount</h2>
-          <div className="flex items-center w-full py-2 px-4 rounded-md dark:bg-primary dark:text-zinc-300 ring-1 ring-yellow-500">
+          <div className="flex items-center w-full py-2 px-4 rounded-md bg-primary text-zinc-300 ring-1 ring-yellow-500">
             <input
               type="number"
               value={tipInputValue}
@@ -404,7 +404,7 @@ export default function UserCard({
               placeholder="Enter amount in sats"
               required
               min={1}
-              className="w-full flex-1 focus:ring-0 border-0 bg-transparent dark:text-zinc-300"
+              className="w-full flex-1 focus:ring-0 border-0 bg-transparent text-zinc-300"
             />
             <span className="text-yellow-400 text-sm font-bold">satoshis</span>
           </div>
@@ -424,13 +424,13 @@ export default function UserCard({
             ))}
           </Buttons>
           <h2 className="pt-2 font-bold text-lg text-accent">Message</h2>
-          <div className="flex items-center w-full py-2 px-4 rounded-md dark:bg-primary dark:text-zinc-300 ring-1 ring-zinc-500">
+          <div className="flex items-center w-full py-2 px-4 rounded-md bg-primary text-zinc-300 ring-1 ring-zinc-500">
             <input
               type="text"
               value={tipMessage}
               onChange={(e) => setTipMessage(e.target.value)}
               placeholder="optional"
-              className="w-full flex-1 focus:ring-0 border-0 bg-transparent dark:text-zinc-300"
+              className="w-full flex-1 focus:ring-0 border-0 bg-transparent text-zinc-300"
             />
           </div>
           <Button

@@ -86,11 +86,11 @@ const Editor = ({
 
   return (
     <div>
-      <div className="rounded-md border-2 border-accent dark:border-secondary">
-        <div className="bg-accent dark:bg-secondary p-2 flex items-center justify-between">
+      <div className="rounded-md border-2 border-secondary">
+        <div className="bg-secondary p-2 flex items-center justify-between">
           <div className="flex gap-2">
             <input
-              className="bg-zinc-200 text-primary dark:bg-primary dark:text-accent border-0 outline-0 focus:ring-0 text-sm rounded-md"
+              className="bg-primary text-accent border-0 outline-0 focus:ring-0 text-sm rounded-md"
               type="text"
               list="filetypes"
               placeholder="filetype"
@@ -109,7 +109,7 @@ const Editor = ({
                 <Button
                   color="zincDark"
                   variant="ghost"
-                  className="hover:text-primary dark:hover:text-accent"
+                  className="hover:text-accent"
                   title={mdPreviewMode === "off" ? "Preview" : "Edit"}
                   onClick={() =>
                     setMdPreviewMode(
@@ -124,7 +124,7 @@ const Editor = ({
                   color="zincDark"
                   variant="ghost"
                   title="Split Preview"
-                  className="hover:text-primary dark:hover:text-accent"
+                  className="hover:text-accent"
                   onClick={() =>
                     setMdPreviewMode(
                       mdPreviewMode === "split" ? "off" : "split"
@@ -188,7 +188,7 @@ const Editor = ({
           {filetype === "markdown" && mdPreviewMode !== "off" && (
             <div
               ref={previewRef}
-              className={`w-full h-full overflow-y-auto prose prose-zinc dark:prose-invert p-6 
+              className={`w-full h-full overflow-y-auto prose prose-invert p-6 
                 ${
                   mdPreviewMode === "preview"
                     ? "min-w-full"
@@ -205,7 +205,7 @@ const Editor = ({
           )}
         </div>
       </div>
-      <div className="rounded-b-md border-x-2 border-b-2 border-accent dark:border-secondary p-1 pt-2 -mt-1 flex items-center justify-between gap-4">
+      <div className="rounded-b-md border-x-2 border-b-2 border-secondary p-1 pt-2 -mt-1 flex items-center justify-between gap-4">
         <TextInput
           icon={<BsFillTagFill className="w-4 h-4" />}
           placeholder={"Enter tags"}
