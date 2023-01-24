@@ -157,7 +157,7 @@ export default function UserCard({
         console.log("Tip Error:", e);
       }
     }
-    setIsOpen(!isOpen);
+    setIsTipOpen(!isTipOpen);
     setIsTipSuccessOpen(!isTipSuccessOpen);
 
     // TODO: maybe support old keysend way of doing things
