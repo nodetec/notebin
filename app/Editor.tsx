@@ -154,7 +154,7 @@ const Editor = ({
                 title={title}
                 required
                 rows={1}
-                className="text-white bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
+                className="text-zinc-100 bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
                 value={title}
                 placeholder="Title..."
                 onChange={(evn) => {
@@ -179,7 +179,7 @@ const Editor = ({
                   onChange={(evn) => setText(evn.target.value)}
                   padding={25}
                   style={{
-                    color: "#ffffff",
+                    color: "#c9d1d9",
                     fontSize: 15,
                   }}
                 />
