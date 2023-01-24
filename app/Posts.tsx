@@ -8,22 +8,21 @@ interface PostsProps extends HTMLAttributes<HTMLDivElement> {
   title: string;
 }
 
-const Posts = ({title, children, className, ...props}: PostsProps) => {
-  const {isCol, togglePostDir} = useContext(PostDirContext);
+const Posts = ({ title, children, className, ...props }: PostsProps) => {
+  const { isCol, togglePostDir } = useContext(PostDirContext);
   return (
     <div
       className={`flex flex-col justify-center gap-3 px-2 w-full max-w-[50rem] mx-auto ${className}`}
-      {...props}>
+      {...props}
+    >
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-3xl">{title}</h1>
-        <Button 
+        <Button
           className="hidden md:block"
           color="neutralLight"
           variant="ghost"
           size="sm"
-          icon={
-            isCol ? <CardCol /> : <CardRow />
-          }
+          icon={isCol ? <CardCol /> : <CardRow />}
           onClick={() => togglePostDir()}
         />
       </div>

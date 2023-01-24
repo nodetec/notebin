@@ -19,17 +19,17 @@ const PostDirProvider = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     localStorage.setItem("post-dir", JSON.stringify(isCol));
-  }, [isCol])
+  }, [isCol]);
 
   const togglePostDir = () => {
-    setIsCol(current => !current);
-  }
+    setIsCol((current) => !current);
+  };
 
   return (
     <PostDirContext.Provider value={{ isCol, togglePostDir }}>
       {children}
     </PostDirContext.Provider>
   );
-}
+};
 
 export default PostDirProvider;

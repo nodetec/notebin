@@ -11,7 +11,6 @@ export default function LatestNotes({ pubkey, name }: any) {
     },
   });
 
-        
   return (
     <Posts title={`${name ? `${name}'s l` : "L"}atest notes`}>
       <ul className="flex flex-col gap-4 text-center md:text-start">

@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { useProfile } from "nostr-react";
 import { Event, nip19 } from "nostr-tools";
-import { DetailedHTMLProps, FC, LiHTMLAttributes, ReactNode, useContext } from "react";
+import {
+  DetailedHTMLProps,
+  FC,
+  LiHTMLAttributes,
+  ReactNode,
+  useContext,
+} from "react";
 import { BsFillFileEarmarkCodeFill, BsFillTagFill } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
 import { DUMMY_PROFILE_API } from "../../utils/constants";
@@ -22,7 +28,7 @@ const Card: FC<NoteProps> = ({
   ...props
 }) => {
   const { tags, content, created_at: createdAt, id: noteId } = event;
-  const {isCol} = useContext(PostDirContext);
+  const { isCol } = useContext(PostDirContext);
   const getValues = (name: string) => {
     const [itemTag] = tags.filter((tag: string[]) => tag[0] === name);
     const [, item] = itemTag || [, undefined];
@@ -52,9 +58,15 @@ const Card: FC<NoteProps> = ({
     >
       <Link
         href={`/${nip19.noteEncode(noteId!)}`}
-        className={`p-5 flex gap-4 justify-between flex-col-reverse ${isCol ? "" : "md:flex-row"}`}
+        className={`p-5 flex gap-4 justify-between flex-col-reverse ${
+          isCol ? "" : "md:flex-row"
+        }`}
       >
-        <div className={`flex flex-col gap-3 ${markdownImageContent?.groups?.filename ? "flex-[0.75]" : ""}`}>
+        <div
+          className={`flex flex-col gap-3 ${
+            markdownImageContent?.groups?.filename ? "flex-[0.75]" : ""
+          }`}
+        >
           {title ? (
             <h3 className="text-2xl font-semibold text-light twolines">
               {title}
@@ -66,14 +78,13 @@ const Card: FC<NoteProps> = ({
                 <div className="flex items-center gap-2">
                   <img
                     className="rounded-full w-6 h-6 object-cover"
-                    src={
-                      data?.picture ||
-                      DUMMY_PROFILE_API(data?.name || npub)
-                    }
+                    src={data?.picture || DUMMY_PROFILE_API(data?.name || npub)}
                     alt={data?.name}
                   />
                   <div>
-                    <span className="text-light">{data?.name || shortenHash(npub)!}</span>
+                    <span className="text-light">
+                      {data?.name || shortenHash(npub)!}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -88,7 +99,9 @@ const Card: FC<NoteProps> = ({
         </div>
         {markdownImageContent?.groups?.filename ? (
           <img
-            className={`rounded-md self-center w-full h-auto object-cover flex-[.25] ${isCol ? "" : "md:w-1/3"}`}
+            className={`rounded-md self-center w-full h-auto object-cover flex-[.25] ${
+              isCol ? "" : "md:w-1/3"
+            }`}
             src={markdownImageContent?.groups?.filename}
             alt={markdownImageContent?.groups?.title}
           />
