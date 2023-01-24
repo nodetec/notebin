@@ -42,26 +42,15 @@ export default function UserCard({
   }
   const [isOpen, setIsOpen] = useState(false);
   const [isTipSuccessOpen, setIsTipSuccessOpen] = useState(false);
-  const [newProfile, setProfile] = useState({
-    newName: name,
-    newAbout: about,
-    newPicture: picture,
-    newNip05: nip05,
-    // newLnPubkey: lnPubkey,
-    // newLnCustomValue: lnCustomValue,
-    newLud06: lud06,
-    newLud16: lud16,
-  });
-  const {
-    newName,
-    newAbout,
-    newPicture,
-    newNip05,
-    // newLnPubkey,
-    // newLnCustomValue,
-    newLud06,
-    newLud16,
-  } = newProfile;
+
+  const [newName, setNewName] = useState(name);
+  const [newAbout, setNewAbout] = useState(about);
+  const [newPicture, setNewPicture] = useState(picture);
+  const [newNip05, setNewNip05] = useState(nip05);
+  // const [newLnPubkey, setNewLnPubkey] = useState(lnPubkey);
+  // const [newLnCustomValue, setNewLnCustomValue] = useState(lnCustomValue);
+  const [newLud06, setNewLud06] = useState(lud06);
+  const [newLud16, setNewLud16] = useState(lud16);
   const [tipInputValue, setTipInputValue] = useState<string>("1");
   const [tipMessage, setTipMessage] = useState<string>();
   const [paymentHash, setPaymentHash] = useState();
@@ -70,20 +59,18 @@ export default function UserCard({
 
   useEffect(() => {
     setNewLnAddress(lud16);
-    setProfile({
-      newName: name,
-      newAbout: about,
-      newPicture: picture,
-      newNip05: nip05,
-      // newLnPubkey: lnPubkey,
-      // newLnCustomValue: lnCustomValue,
-      newLud06: lud06,
-      newLud16: lud16,
-    });
   }, []);
 
   useEffect(() => {
     setNewLnAddress(lud16);
+    setNewName(name);
+    setNewAbout(about);
+    setNewPicture(picture);
+    setNewNip05(nip05);
+    // setNewLnPubkey(lnPubkey);
+    // setNewLnCustomValue(lnCustomValue);
+    setNewLud06(lud06);
+    setNewLud16(lud16);
   }, [isOpen]);
 
   async function convert(newLnAddress: any) {
@@ -100,7 +87,7 @@ export default function UserCard({
           console.log("METADATA:", JSON.parse(data.metadata)[0][1]);
           const newConvertedAddress = JSON.parse(data.metadata)[0][1];
 
-          setProfile({ ...newProfile, newLud16: newConvertedAddress });
+          setNewLud16(newConvertedAddress);
           setConvertedAddress(newConvertedAddress);
           console.log(newConvertedAddress); // chrisatmachine@getalby.com
         }
@@ -109,7 +96,7 @@ export default function UserCard({
           let words = bech32.toWords(Buffer.from(url, "utf8"));
           let newConvertedAddress = "";
           newConvertedAddress = bech32.encode("lnurl", words, 2000);
-          setProfile({ ...newProfile, newLud06: newConvertedAddress });
+          setNewLud06(newConvertedAddress);
           setConvertedAddress(newConvertedAddress);
         }
       } catch (error) {
@@ -330,30 +317,22 @@ export default function UserCard({
         <Popup title="Edit Profile" isOpen={isOpen} setIsOpen={setIsOpen}>
           <PopupInput
             value={newName}
-            onChange={(e) =>
-              setProfile({ ...newProfile, newName: e.target.value })
-            }
+            onChange={(e) => setNewName(e.target.value)}
             label="Name"
           />
           <PopupInput
             value={newNip05}
-            onChange={(e) =>
-              setProfile({ ...newProfile, newNip05: e.target.value })
-            }
+            onChange={(e) => setNewNip05(e.target.value)}
             label="NIP-05 ID"
           />
           <PopupInput
             value={newPicture}
-            onChange={(e) =>
-              setProfile({ ...newProfile, newPicture: e.target.value })
-            }
+            onChange={(e) => setNewPicture(e.target.value)}
             label="Profile Image Url"
           />
           <PopupInput
             value={newAbout}
-            onChange={(e) =>
-              setProfile({ ...newProfile, newAbout: e.target.value })
-            }
+            onChange={(e) => setNewAbout(e.target.value)}
             label="About"
           />
           <h3 className="text-xl text-accent text-center pt-4">
