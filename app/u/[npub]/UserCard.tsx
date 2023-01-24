@@ -41,6 +41,7 @@ export default function UserCard({
     contacts = loggedInUsersContacts.map((pair: string) => pair[1]);
   }
   const [isOpen, setIsOpen] = useState(false);
+  const [isTipOpen, setIsTipOpen] = useState(false);
   const [isTipSuccessOpen, setIsTipSuccessOpen] = useState(false);
 
   const [newName, setNewName] = useState(name);
@@ -115,8 +116,17 @@ export default function UserCard({
     getLnAddress();
   }, [newLnAddress]);
 
+  useEffect(() => {
+    setTipMessage("");
+    setTipInputValue("1");
+  }, [isTipOpen]);
+
   const handleClick = async () => {
     setIsOpen(!isOpen);
+  };
+
+  const handleTipClick = async () => {
+    setIsTipOpen(!isOpen);
   };
 
   const validateTipInputKeyDown = (e: any) => {
@@ -290,7 +300,7 @@ export default function UserCard({
             <Button
               color="yellow"
               variant="ghost"
-              onClick={handleClick}
+              onClick={handleTipClick}
               size="sm"
               icon={<BsLightningChargeFill size="14" />}
             >
@@ -375,7 +385,11 @@ export default function UserCard({
           </Button>
         </Popup>
       ) : (
-        <Popup title="Pay with Lightning" isOpen={isOpen} setIsOpen={setIsOpen}>
+        <Popup
+          title="Pay with Lightning"
+          isOpen={isTipOpen}
+          setIsOpen={setIsTipOpen}
+        >
           <h2 className="pt-2 font-bold text-lg text-accent">Amount</h2>
           <div className="flex items-center w-full py-2 px-4 rounded-md bg-primary text-zinc-300 ring-1 ring-yellow-500">
             <input
