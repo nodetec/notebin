@@ -63,7 +63,7 @@ const Editor = ({
   const setupMarkdown = (text: string) => {
     const md = require("markdown-it")();
     const result = md.render(text);
-    console.log("result", result)
+    console.log("result", result);
     return result;
   };
 
@@ -203,8 +203,15 @@ const Editor = ({
                     : ""
                 }`}
             >
-              <h1 className="text-zinc-100 text-2xl font-medium mb-0 px-6 pt-6" style={{ paddingBottom: "0.375rem" }}>{title}</h1>
-              <div className="md-preview-note-wrapper" style={{ color: "#c9d1d9"  }}
+              <h1
+                className="text-zinc-100 text-2xl font-medium mb-0 px-6 pt-6"
+                style={{ paddingBottom: "0.375rem" }}
+              >
+                {title}
+              </h1>
+              <div
+                className="md-preview-note-wrapper"
+                style={{ color: "#c9d1d9" }}
                 dangerouslySetInnerHTML={{ __html: setupMarkdown(text) }}
               ></div>
             </div>
