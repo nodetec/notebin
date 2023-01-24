@@ -24,6 +24,10 @@ html[data-color-mode="dark"]
   color: #c9d1d9 !important;
 }
 
+html{
+  color: #c9d1d9
+}
+
 html[data-color-mode="dark"] .w-tc-editor {
   @apply bg-primary;
 }
