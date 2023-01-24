@@ -53,7 +53,7 @@ const Card: FC<NoteProps> = ({
 
   return (
     <li
-      className="rounded-md hover:shadow-sm hover:scale-101 transition-transform hover:shadow-accent dark:bg-secondary text-accent"
+      className="rounded-md hover:shadow-sm hover:scale-101 transition-transform hover:shadow-accent dark:bg-secondary text-accent text-left"
       {...props}
     >
       <Link
@@ -63,7 +63,7 @@ const Card: FC<NoteProps> = ({
         }`}
       >
         <div
-          className={`flex flex-col gap-3 ${
+          className={`flex flex-col gap-3 max-w-auto md:max-w-[60%] ${
             markdownImageContent?.groups?.filename ? "flex-[0.75]" : ""
           }`}
         >
