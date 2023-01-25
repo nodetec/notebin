@@ -485,8 +485,8 @@ export const FILE_EXTENSIONS = [
   ".rviz",
   ".sublime-syntax",
   ".syntax",
-  ".yaml-tmlanguage"
-]
+  ".yaml-tmlanguage",
+];
 
 export const VALIDATION = {
   required: "Required field",

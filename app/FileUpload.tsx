@@ -31,7 +31,7 @@ const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
       // @ts-ignore
       let { name: fileName, size: fileSize } = fileSelector.files[0];
 
-      const fileExtension = `.${fileName.split(".").pop()}`
+      const fileExtension = `.${fileName.split(".").pop()}`;
 
       // @ts-ignore
       if (!allowedExtensions.includes(fileExtension)) {
