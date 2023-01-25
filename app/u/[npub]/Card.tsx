@@ -13,6 +13,7 @@ import { FaCalendarAlt } from "react-icons/fa";
 import { DUMMY_PROFILE_API } from "../../utils/constants";
 import { shortenHash } from "../../lib/utils";
 import { PostDirContext } from "../../context/post-dir-provider";
+import { getTagValues } from "../../lib/utils";
 
 interface NoteProps
   extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
@@ -29,11 +30,6 @@ const Card: FC<NoteProps> = ({
 }) => {
   const { tags, content, created_at: createdAt, id: noteId } = event;
   const { isCol } = useContext(PostDirContext);
-  const getValues = (name: string) => {
-    const [itemTag] = tags.filter((tag: string[]) => tag[0] === name);
-    const [, item] = itemTag || [, undefined];
-    return item;
-  };
 
   const { data } = useProfile({
     pubkey: event.pubkey,
@@ -41,13 +37,13 @@ const Card: FC<NoteProps> = ({
 
   const npub = nip19.npubEncode(event.pubkey);
 
-  // let actualTags: any = getValues("tags");
+  // let actualTags: any = getTagValues("tags");
 
   // if (actualTags) {
   //   actualTags = actualTags.split(",");
   // }
 
-  const title = getValues("subject");
+  const title = getTagValues("subject", tags);
   const markdownImageContent =
     /!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<title>\".*\")?\)/g.exec(content);
 
@@ -94,7 +90,7 @@ const Card: FC<NoteProps> = ({
               </div>
             ) : null}
             <DatePosted dateOnly={dateOnly} timestamp={createdAt} />
-            <FileType type={getValues("filetype")} />
+            <FileType type={getTagValues("filetype", tags)} />
             {/* {actualTags.length > 1 ? <NoteTags tags={actualTags} /> : null} */}
           </div>
           <div className="flex flex-col sm:flex-row gap-5 opacity-70">

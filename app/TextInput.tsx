@@ -11,8 +11,7 @@ interface TextInputProps
   icon?: JSX.Element;
   error?: string;
   tagsList?: string[];
-  // TODO: Figure out what type this should be
-  setTagsList?: any;
+  setTagsList?: (tagsList: string[]) => void;
   value?: string;
 }
 
@@ -60,7 +59,7 @@ const TextInput = ({
                     props.disabled ? "" : "group-hover:block"
                   }`}
                   onClick={() =>
-                    setTagsList(
+                    setTagsList!(
                       tagsList.filter((tagInList) => tagInList !== tag)
                     )
                   }

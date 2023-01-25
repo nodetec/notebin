@@ -1,3 +1,5 @@
+export const HOST = "https://notebin.org";
+
 export const RELAYS = [
   "wss://nostr-pub.wellorder.net",
   "wss://relay.nostr.ch",

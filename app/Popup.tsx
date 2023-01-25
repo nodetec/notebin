@@ -2,7 +2,7 @@ import { Fragment, ReactNode, useEffect } from "react";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import Button from "./Button";
 
-interface PopupProps {
+export interface PopupProps {
   title: string;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;
@@ -36,7 +36,7 @@ const Popup = ({
   return (
     <Fragment>
       <div
-        className={`z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[32rem] border-2 border-tertiary rounded-md overflow-hidden ${className}`}
+        className={`z-50 fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[33rem] border-2 border-tertiary rounded-md overflow-hidden ${className}`}
       >
         <Button
           icon={<IoMdCloseCircleOutline size={24} />}
