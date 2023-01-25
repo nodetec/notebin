@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { FaArchive } from "react-icons/fa";
 import { TbNote } from "react-icons/tb";
 import ConnectedRelaysStatus from "./ConnectedRelaysStatus";
+import HeaderButtons from "./HeaderButtons";
 import Login from "./Login";
 
 export default function Header() {
@@ -20,12 +20,7 @@ export default function Header() {
           </div>
           <div className="flex gap-4 items-center">
             <ConnectedRelaysStatus />
-            <Link href="/archive?page=1">
-              <FaArchive
-                className="text-accent opacity-70 hover:opacity-100 text-center"
-                size="24"
-              />
-            </Link>
+            <HeaderButtons />
             <Login />
           </div>
         </div>
