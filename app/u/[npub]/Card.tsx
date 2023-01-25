@@ -48,9 +48,10 @@ const Card: FC<NoteProps> = ({
 
   const MAX_LENGTH = 300;
 
-  const markdown = 
-    content.length > MAX_LENGTH ? setupMarkdown(content.slice(0, MAX_LENGTH)).concat("...read more") :
-    setupMarkdown(content.slice(0, MAX_LENGTH))
+  const markdown =
+    content.length > MAX_LENGTH
+      ? setupMarkdown(content.slice(0, MAX_LENGTH)).concat("...read more")
+      : setupMarkdown(content.slice(0, MAX_LENGTH));
 
   return (
     <li
@@ -92,9 +93,7 @@ const Card: FC<NoteProps> = ({
           <div className="flex flex-col sm:flex-row gap-5 w-full bg-primary max-h-[50vh] overflow-hidden rounded-md">
             {filetype === "markdown" ? (
               <div className="w-full max-w-full p-4 prose prose-sm prose-invert prose-img:h-[20vh] prose-img:w-auto prose-img:object-cover prose-img:mx-auto">
-                <div
-                  dangerouslySetInnerHTML={{ __html: markdown }}
-                />
+                <div dangerouslySetInnerHTML={{ __html: markdown }} />
               </div>
             ) : (
               <CodeEditor
