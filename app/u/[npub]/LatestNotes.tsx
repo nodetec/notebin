@@ -31,8 +31,6 @@ export default function LatestNotes({ profilePubkey, name }: any) {
     );
   }, [events, currentPage]);
 
-  console.log("rerendered");
-
   return (
     <Posts
       title={
