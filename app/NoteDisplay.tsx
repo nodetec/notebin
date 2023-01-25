@@ -1,10 +1,16 @@
-import { VALIDATION } from "./utils/constants";
+"use client";
+import { HOST, VALIDATION } from "./utils/constants";
 import dynamic from "next/dynamic";
 import "@uiw/react-textarea-code-editor/dist.css";
 import TextInput from "./TextInput";
 import Truncate from "./Truncate";
 import { BsFillTagFill } from "react-icons/bs";
-import { Fragment } from "react";
+import { Fragment, useState } from "react";
+import Button from "./Button";
+import { AiOutlineShareAlt } from "react-icons/ai";
+import SharePopup from "./SharePopup";
+import { getTagValues } from "./lib/utils";
+import { usePathname } from "next/navigation";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -12,6 +18,9 @@ const CodeEditor = dynamic(
 );
 
 const NoteDisplay = ({ event }: any) => {
+  const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
+  const content = getTagValues("content", event.tags);
+  const pathname = usePathname();
   return (
     <Fragment>
       <div className="rounded-md border-2 border-secondary">
@@ -22,15 +31,25 @@ const NoteDisplay = ({ event }: any) => {
               type="text"
               list="filetypes"
               placeholder="filetype"
-              // value={event.tags[0][1]}
+              value={getTagValues("filetype", event.tags)}
               disabled
             />
-            <Truncate
-              content={event.content}
-              iconOnly
-              color="neutralLight"
-              variant="ghost"
-            />
+            <div className="flex items-center gap-2">
+              <Truncate
+                content={event.content}
+                iconOnly
+                color="neutralLight"
+                variant="ghost"
+                title="Copy to clipboard"
+              />
+              <Button
+                color="neutralLight"
+                variant="ghost"
+                title="Share note"
+                icon={<AiOutlineShareAlt />}
+                onClick={() => setIsSharePopupOpen(true)}
+              />
+            </div>
           </div>
         </div>
         <div className="flex h-[36rem] overflow-y-auto flex-col md:flex-row">
@@ -39,8 +58,8 @@ const NoteDisplay = ({ event }: any) => {
               required
               rows={1}
               className="bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
-              // title={event.tags[5][1]}
-              // value={event.tags[5][1]}
+              title={content}
+              value={content}
               placeholder="Title..."
               disabled
             />
@@ -66,11 +85,16 @@ const NoteDisplay = ({ event }: any) => {
       <div className="rounded-b-md border-x-2 border-b-2 border-secondary p-1 pt-2 -mt-1 flex items-center justify-between gap-4">
         <TextInput
           icon={<BsFillTagFill className="w-4 h-4" />}
-          placeholder=""
-          // tagsList={event?.tags[4][1].split(",")}
+          tagsList={getTagValues("tags", event.tags).split(",")}
           disabled
         />
       </div>
+      <SharePopup
+        link={`${HOST}${pathname}`}
+        title="Share to"
+        isOpen={isSharePopupOpen}
+        setIsOpen={setIsSharePopupOpen}
+      />
     </Fragment>
   );
 };

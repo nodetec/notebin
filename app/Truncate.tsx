@@ -18,7 +18,7 @@ interface ITruncateProps extends IButtonProps {
 
 const Truncate = ({
   content,
-  length = 4,
+  length,
   iconOnly = false,
   ...props
 }: ITruncateProps) => {
@@ -35,7 +35,7 @@ const Truncate = ({
           ? "Copied!"
           : isError
           ? "Error"
-          : shortenHash(content)}
+          : shortenHash(content, length)}
       </span>
       <Button
         className={color}
