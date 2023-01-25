@@ -2,11 +2,11 @@ import { useNostrEvents } from "nostr-react";
 import Posts from "../../Posts";
 import Card from "./Card";
 
-export default function LatestNotes({ pubkey, name }: any) {
+export default function LatestNotes({ profilePubkey, name }: any) {
   const { events } = useNostrEvents({
     filter: {
       kinds: [2222],
-      authors: [pubkey],
+      authors: [profilePubkey],
       limit: 5,
     },
   });

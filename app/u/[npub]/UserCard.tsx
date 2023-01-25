@@ -26,19 +26,17 @@ export default function UserCard({
   npub,
   about,
   picture,
-  pubkey,
-  loggedInUsersContacts,
-  loggedInUserPublicKey,
-  // lnPubkey,
-  // lnCustomValue,
+  profilePubkey,
+  loggedInContactList,
+  loggedInPubkey,
   lud06,
   lud16,
 }: any) {
   const { connectedRelays } = useNostr();
   const { publish } = useNostr();
   let contacts = null;
-  if (loggedInUsersContacts) {
-    contacts = loggedInUsersContacts.map((pair: string) => pair[1]);
+  if (loggedInContactList) {
+    contacts = loggedInContactList.map((pair: string) => pair[1]);
   }
   const [isOpen, setIsOpen] = useState(false);
   const [isTipOpen, setIsTipOpen] = useState(false);
@@ -48,8 +46,6 @@ export default function UserCard({
   const [newAbout, setNewAbout] = useState(about);
   const [newPicture, setNewPicture] = useState(picture);
   const [newNip05, setNewNip05] = useState(nip05);
-  // const [newLnPubkey, setNewLnPubkey] = useState(lnPubkey);
-  // const [newLnCustomValue, setNewLnCustomValue] = useState(lnCustomValue);
   const [newLud06, setNewLud06] = useState(lud06);
   const [newLud16, setNewLud16] = useState(lud16);
   const [tipInputValue, setTipInputValue] = useState<string>("1");
@@ -69,8 +65,6 @@ export default function UserCard({
     setNewAbout(about);
     setNewPicture(picture);
     setNewNip05(nip05);
-    // setNewLnPubkey(lnPubkey);
-    // setNewLnCustomValue(lnCustomValue);
     setNewLud06(lud06);
     setNewLud16(lud16);
   }, [isOpen]);
@@ -161,33 +155,6 @@ export default function UserCard({
     }
     setIsTipOpen(!isTipOpen);
     setIsTipSuccessOpen(!isTipSuccessOpen);
-
-    // TODO: maybe support old keysend way of doing things
-    // // @ts-ignore
-    // if (typeof window.webln !== "undefined") {
-    //   let tip = {
-    //     destination: lnPubkey,
-    //     amount: tipInputValue,
-    //   };
-    //   console.log("TIP:", tip);
-    //   console.log("lnCustomValue:", lnCustomValue);
-    //   if (lnCustomValue) {
-    //     // @ts-ignore
-    //     tip.customRecords = {
-    //       696969: lnCustomValue,
-    //     };
-    //   }
-    //   try {
-    //     // @ts-ignore
-    //     const result = await webln.keysend(tip);
-    //     console.log("Tip Result:", result);
-    //     setPaymentHash(result.paymentHash);
-    //   } catch (e) {
-    //     console.log("Tip Error:", e);
-    //   }
-    // }
-    // setIsOpen(!isOpen);
-    // setIsTipSuccessOpen(!isTipSuccessOpen);
   };
 
   const handleSubmitNewProfile = async (e: any) => {
@@ -201,14 +168,12 @@ export default function UserCard({
       lud06: newLud06,
       lud16: newLud16,
     };
-    // ln_pubkey: newLnPubkey,
-    // ln_custom_value: newLnCustomValue,
 
     const stringifiedContent = JSON.stringify(content);
 
     let event = NostrService.createEvent(
       0,
-      loggedInUserPublicKey,
+      loggedInPubkey,
       stringifiedContent,
       []
     );
@@ -284,7 +249,7 @@ export default function UserCard({
         <Truncate content={npub} color="transparent" size="sm" />
       </p>
       <p className="text-sm text-accent">{about}</p>
-      {loggedInUserPublicKey === pubkey ? (
+      {loggedInPubkey === profilePubkey ? (
         <Buttons>
           <Button color="blue" variant="ghost" onClick={handleClick} size="sm">
             edit profile
@@ -293,9 +258,9 @@ export default function UserCard({
       ) : (
         <Buttons>
           <FollowButton
-            loggedInUserPublicKey={loggedInUserPublicKey}
-            currentContacts={loggedInUsersContacts}
-            profilePublicKey={pubkey}
+            loggedInUserPublicKey={loggedInPubkey}
+            currentContacts={loggedInContactList}
+            profilePublicKey={profilePubkey}
             contacts={contacts}
           />
           {(lud06 || lud16) && (
@@ -325,7 +290,7 @@ export default function UserCard({
           </div>
         </h5>
       </Popup>
-      {loggedInUserPublicKey === pubkey ? (
+      {loggedInPubkey === profilePubkey ? (
         <Popup title="Edit Profile" isOpen={isOpen} setIsOpen={setIsOpen}>
           <PopupInput
             value={newName}
@@ -361,21 +326,6 @@ export default function UserCard({
               <div className="pr-4">{convertedAddress}</div>
             </div>
           </h5>
-          {/* <PopupInput */}
-          {/*   value={newLud16} */}
-          {/*   onChange={(e) => setNewLnCustomValue(e.target.value)} */}
-          {/*   label="LUD-16" */}
-          {/* ></PopupInput> */}
-          {/* <PopupInput */}
-          {/*   value={newLnPubkey} */}
-          {/*   onChange={(e) => setNewLnPubkey(e.target.value)} */}
-          {/*   label="LN Public Key" */}
-          {/* ></PopupInput> */}
-          {/* <PopupInput */}
-          {/*   value={newLnCustomValue} */}
-          {/*   onChange={(e) => setNewLnCustomValue(e.target.value)} */}
-          {/*   label="Custom Record (if applicable)" */}
-          {/* ></PopupInput> */}
           <Button
             color="blue"
             variant="solid"
