@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Button from "./Button";
 import { RiFileUploadFill } from "react-icons/ri";
+import { FILE_EXTENSIONS } from "./utils/constants";
 
 interface CreatePostButtonProps {
   onFileUpload: Function;
@@ -12,7 +13,7 @@ const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
     if (typeof window !== "undefined") {
       const fileSelector = document.createElement("input");
       fileSelector.setAttribute("type", "file");
-      fileSelector.setAttribute("accept", ".js");
+      fileSelector.setAttribute("accept", `${FILE_EXTENSIONS.toString()}`);
       return fileSelector;
     }
 
@@ -24,13 +25,13 @@ const FileUpload = ({ onFileUpload }: CreateFileUploadProps) => {
   const extractFileContent = async (e: any) => {
     // @ts-ignore
     if (fileSelector.files.length) {
-      const allowedExtensions = ["js"];
+      const allowedExtensions = FILE_EXTENSIONS;
       const sizeLimit = 1_048_576;
 
       // @ts-ignore
       let { name: fileName, size: fileSize } = fileSelector.files[0];
 
-      const fileExtension = fileName.split(".").pop();
+      const fileExtension = `.${fileName.split(".").pop()}`
 
       // @ts-ignore
       if (!allowedExtensions.includes(fileExtension)) {
