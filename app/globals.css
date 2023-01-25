@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply dark:bg-primary;
+    @apply bg-primary;
   }
 
   textarea:invalid[focused="true"] ~ span,
@@ -25,6 +25,14 @@
   .w-tc-editor.min-h-full > textarea[style] {
     padding-bottom: 0 !important;
   }
+
+  div.md-preview-note-wrapper > p {
+    overflow-wrap: break-word;
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 24px;
+  }
 }
 
 html[data-color-mode="dark"]
@@ -37,23 +45,13 @@ html[data-color-mode="dark"]
   .token.punctuation {
   color: #c9d1d9 !important;
 }
-html[data-color-mode="light"]
-  .w-tc-editor
-  code[class*="language-"]
-  .token.punctuation,
-html[data-color-mode="light"]
-  .w-tc-editor
-  pre[class*="language-"]
-  .token.punctuation {
-  color: #24292f !important;
+
+html {
+  color: #c9d1d9;
 }
 
 html[data-color-mode="dark"] .w-tc-editor {
   @apply bg-primary;
-}
-
-html[data-color-mode="light"] .w-tc-editor {
-  @apply bg-zinc-200;
 }
 
 .twolines {

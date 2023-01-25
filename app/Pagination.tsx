@@ -18,7 +18,7 @@ export default function Pagination({ numPages }: any) {
   };
 
   return (
-    <div className="flex justify-between gap-2">
+    <div className="flex justify-between gap-2 mt-4">
       <Button
         color="neutralLight"
         variant="outline"

@@ -30,7 +30,7 @@ const TextInput = ({
 
   return (
     <div>
-      <div className="relative p-2 text-neutral-600 dark:text-neutral-400 flex items-center gap-4">
+      <div className="relative p-2 text-neutral-400 flex items-center gap-4">
         <label
           className="text-sm font-bold flex items-center gap-4"
           htmlFor={id}
@@ -44,12 +44,9 @@ const TextInput = ({
               <div
                 key={tag}
                 className="text-xs
-                                      bg-zinc-200
-                                      text-secondary
-                                      hover:text-secondary
-                                      dark:bg-secondary
-                                      dark:text-accent
-                                      hover:dark:text-zinc-200
+                                      bg-secondary
+                                      text-accent
+                                      hover:text-zinc-200
                                       border border-transparent
                                       rounded-md p-1 group
                                       flex items-center gap-1"
@@ -75,7 +72,7 @@ const TextInput = ({
               <input
                 type="text"
                 id={id}
-                className="focus:border-0 p-0 bg-transparent border-0 outline-0 focus:ring-0 text-secondary dark:text-zinc-200"
+                className="focus:border-0 p-0 bg-transparent border-0 outline-0 focus:ring-0 text-zinc-200"
                 placeholder={placeholder}
                 value={value}
                 {...props}
