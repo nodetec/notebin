@@ -1,4 +1,4 @@
-import { LANGUAGES, VALIDATION } from "./utils/constants";
+import { VALIDATION } from "./utils/constants";
 import dynamic from "next/dynamic";
 import "@uiw/react-textarea-code-editor/dist.css";
 import TextInput from "./TextInput";
@@ -23,15 +23,8 @@ const NoteDisplay = ({ event }: any) => {
               list="filetypes"
               placeholder="filetype"
               // value={event.tags[0][1]}
-              disabled={!!event}
+              disabled
             />
-            <datalist id="filetypes">
-              {LANGUAGES.map((lang) => (
-                <option key={lang} value={lang}>
-                  {lang}
-                </option>
-              ))}
-            </datalist>
             <Truncate
               content={event.content}
               iconOnly
