@@ -13,7 +13,6 @@ import { HiUserAdd } from "react-icons/hi";
 export default function ArchiveNotes({
   numPages,
   events,
-  setCurrentPage,
   filter,
   setFilter,
   postPerPage,
@@ -104,7 +103,7 @@ export default function ArchiveNotes({
             return <Card key={event.id} event={event} profile />;
           })}
       </ul>
-      <Pagination setCurrentPage={setCurrentPage} numPages={numPages} />
+      <Pagination numPages={numPages} />
     </>
   );
 }
