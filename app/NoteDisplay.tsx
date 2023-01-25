@@ -65,7 +65,7 @@ const NoteDisplay = ({ event }: any) => {
             />
             <div className="grow">
               <CodeEditor
-                className={`w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full "note-cursor-text"`}
+                className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full note-cursor-text"
                 value={event.content}
                 language={event.tags[0][1]}
                 autoCapitalize="none"

@@ -5,16 +5,13 @@ import KeysProvider from "./keys-provider.jsx";
 import { CustomThemeProvider } from "./theme-provider";
 import { NostrProvider } from "nostr-react";
 import { RELAYS } from "../utils/constants";
-import PostDirProvider from "./post-dir-provider";
 
 export default function Providers({ children }) {
   return (
     <NostrProvider relayUrls={RELAYS} debug={false}>
       <EventProvider>
         <KeysProvider>
-          <PostDirProvider>
-            <CustomThemeProvider>{children}</CustomThemeProvider>
-          </PostDirProvider>
+          <CustomThemeProvider>{children}</CustomThemeProvider>
         </KeysProvider>
       </EventProvider>
     </NostrProvider>
