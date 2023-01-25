@@ -14,6 +14,7 @@ export default function Note({ event }: NoteProps) {
 
   let markdown = "";
 
+  const title = getTagValues("subject", event.tags);
   const filetypeTag = getTagValues("filetype", tags);
 
   function setupMarkdown(content: string) {
@@ -34,6 +35,7 @@ export default function Note({ event }: NoteProps) {
       {event &&
         (isMarkdown ? (
           <div className="border-tertiary border-r pr-10 w-full prose prose-xl prose-invert">
+            <h1>{title}</h1>
             <div dangerouslySetInnerHTML={{ __html: markdown }}></div>
           </div>
         ) : (
