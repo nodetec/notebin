@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useProfile } from "nostr-react";
 import { nip19 } from "nostr-tools";
-import { shortenHash } from "./lib/utils";
 import { DUMMY_PROFILE_API } from "./utils/constants";
 
 interface AccountButtonProps {
@@ -15,12 +14,11 @@ export default function AccountButton({ pubkey }: AccountButtonProps) {
 
   return (
     <Link href={`/u/` + nip19.npubEncode(pubkey)}>
-      <span className="flex gap-2 bg-primary text-accent border border-tertiary rounded-full py-2 px-3 hover:border-current">
+      <span className="flex gap-2 rounded-full py-2 px-3 hover:border-current">
         <img
-          className="rounded-full w-6"
+          className="rounded-full w-10"
           src={data?.picture || DUMMY_PROFILE_API(data?.name || data?.npub!)}
         />
-        {shortenHash(nip19.npubEncode(pubkey))}
       </span>
     </Link>
   );
