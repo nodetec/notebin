@@ -2,12 +2,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useProfile } from "nostr-react";
 import { Event, nip19 } from "nostr-tools";
-import {
-  DetailedHTMLProps,
-  FC,
-  LiHTMLAttributes,
-  ReactNode,
-} from "react";
+import { DetailedHTMLProps, FC, LiHTMLAttributes, ReactNode } from "react";
 import { BsFillFileEarmarkCodeFill, BsFillTagFill } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
 import { DUMMY_PROFILE_API } from "../../utils/constants";
@@ -41,14 +36,9 @@ const Card: FC<NoteProps> = ({
 
   const npub = nip19.npubEncode(event.pubkey);
 
-  // let actualTags: any = getTagValues("tags");
-
-  // if (actualTags) {
-  //   actualTags = actualTags.split(",");
-  // }
-
   const title = getTagValues("subject", tags);
   const filetype = getTagValues("filetype", tags);
+  const actualTags = getTagValues("tags", tags);
 
   function setupMarkdown(content: string) {
     var md = require("markdown-it")();
@@ -56,17 +46,19 @@ const Card: FC<NoteProps> = ({
     return result;
   }
 
+  const MAX_LENGTH = 300;
+
+  const markdown = 
+    content.length > MAX_LENGTH ? setupMarkdown(content.slice(0, MAX_LENGTH)).concat("...read more") :
+    setupMarkdown(content.slice(0, MAX_LENGTH))
+
   return (
     <li
       className="rounded-md hover:shadow-sm hover:scale-101 transition-transform hover:shadow-accent bg-secondary text-accent text-left"
       {...props}
     >
-      <Link
-        href={`/${nip19.noteEncode(noteId!)}`}
-        className="p-5 block" >
-        <div
-          className="flex flex-col gap-3 w-full"
-        >
+      <Link href={`/${nip19.noteEncode(noteId!)}`} className="p-5 block">
+        <div className="flex flex-col gap-3 w-full">
           {title ? (
             <h3 className="text-2xl font-semibold text-light twolines">
               {title}
@@ -93,13 +85,15 @@ const Card: FC<NoteProps> = ({
             <FileType type={filetype} />
           </div>
           <div>
-            {/* {actualTags.length > 1 ? <NoteTags tags={actualTags} /> : null} */}
+            {actualTags.length > 1 ? (
+              <NoteTags tags={actualTags.split(",")} />
+            ) : null}
           </div>
-          <div className="flex flex-col sm:flex-row gap-5 w-full max-h-[50vh] overflow-y-auto bg-primary rounded-md pointer-events-none">
+          <div className="flex flex-col sm:flex-row gap-5 w-full bg-primary max-h-[50vh] overflow-hidden rounded-md">
             {filetype === "markdown" ? (
-              <div className="w-full max-w-full p-4 prose prose-sm prose-invert ">
+              <div className="w-full max-w-full p-4 prose prose-sm prose-invert prose-img:h-[20vh] prose-img:w-auto prose-img:object-cover prose-img:mx-auto">
                 <div
-                  dangerouslySetInnerHTML={{ __html: setupMarkdown(content) }}
+                  dangerouslySetInnerHTML={{ __html: markdown }}
                 />
               </div>
             ) : (
