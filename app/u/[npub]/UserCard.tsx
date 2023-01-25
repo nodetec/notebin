@@ -256,7 +256,7 @@ export default function UserCard({
             </div>
           </p>
         )}
-        {lud16 && (
+        {lud16 && utils.isLightningAddress(lud16) && (
           <p className="text-sm text-accent">
             <div className="flex items-center gap-1">
               <span className="whitespace-nowrap">{"⚡ " + lud16}</span>
