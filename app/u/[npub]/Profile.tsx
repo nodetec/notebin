@@ -15,10 +15,16 @@ export default function Profile({ npub }: any) {
   const { keys } = useContext(KeysContext);
   const loggedInPubkey = keys?.publicKey;
 
+  const authors: any = [profilePubkey];
+
+  if (loggedInPubkey) {
+    authors.push(loggedInPubkey);
+  }
+
   const { events } = useNostrEvents({
     filter: {
       kinds: [0, 3],
-      authors: [profilePubkey, loggedInPubkey],
+      authors,
       limit: 5,
     },
   });
@@ -76,9 +82,7 @@ export default function Profile({ npub }: any) {
           lud06={lud06}
           lud16={lud16}
         />
-        {loggedInContactList && profileContactList && (
-          <Contacts userContacts={profileContactList} />
-        )}
+        {profileContactList && <Contacts userContacts={profileContactList} />}
       </div>
     </div>
   );

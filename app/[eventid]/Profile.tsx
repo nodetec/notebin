@@ -14,11 +14,16 @@ export default function Profile({ event }: any) {
   const loggedInPubkey = keys?.publicKey;
 
   const profilePubkey = event?.pubkey;
+  const authors = [profilePubkey];
+
+  if (loggedInPubkey) {
+    authors.push(loggedInPubkey);
+  }
 
   const { events } = useNostrEvents({
     filter: {
       kinds: [0, 3],
-      authors: [profilePubkey, loggedInPubkey],
+      authors,
     },
   });
 
@@ -77,9 +82,7 @@ export default function Profile({ event }: any) {
           lud06={lud06}
           lud16={lud16}
         />
-        {loggedInContactList && profileContactList && (
-          <Contacts userContacts={profileContactList} />
-        )}
+        {profileContactList && <Contacts userContacts={profileContactList} />}
       </div>
     </div>
   );
