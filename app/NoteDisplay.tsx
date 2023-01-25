@@ -1,5 +1,5 @@
 "use client";
-import { HOST, VALIDATION } from "./utils/constants";
+import { HOST } from "./utils/constants";
 import dynamic from "next/dynamic";
 import "@uiw/react-textarea-code-editor/dist.css";
 import TextInput from "./TextInput";
@@ -20,6 +20,7 @@ const CodeEditor = dynamic(
 const NoteDisplay = ({ event }: any) => {
   const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
   const content = getTagValues("content", event.tags);
+  const title = getTagValues("subject", event.tags);
   const pathname = usePathname();
   return (
     <Fragment>
@@ -58,14 +59,10 @@ const NoteDisplay = ({ event }: any) => {
               required
               rows={1}
               className="bg-primary border-none focus:border-none resize-none font-medium text-2xl px-6 pt-6 pb-0 w-full overflow-hidden focus:ring-0"
-              title={content}
-              value={content}
+              value={title}
               placeholder="Title..."
               disabled
             />
-            <span className="px-6 pt-0.5 text-xs text-red-500 hidden">
-              {VALIDATION.required}
-            </span>
             <div className="grow">
               <CodeEditor
                 className={`w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full "note-cursor-text"`}
