@@ -12,7 +12,14 @@ export default function LatestNotes({ profilePubkey, name }: any) {
   });
 
   return (
-    <Posts title={`${name ? `${name}'s l` : "L"}atest notes`}>
+    <Posts
+      title={
+        events.length > 0
+          ? `${name ? `${name}'s l` : "L"}atest notes`
+          : `${name ? `${name} has no notes yet` : "No notes yet"}`
+      }
+      noPosts={events.length === 0}
+    >
       <ul className="flex flex-col gap-4 text-center md:text-start">
         {events.map((event) => (
           <Card key={event.id} event={event} dateOnly />

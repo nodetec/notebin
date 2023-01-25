@@ -6,9 +6,16 @@ import { CardCol, CardRow } from "./icons";
 interface PostsProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   title: string;
+  noPosts?: boolean;
 }
 
-const Posts = ({ title, children, className, ...props }: PostsProps) => {
+const Posts = ({
+  title,
+  noPosts,
+  children,
+  className,
+  ...props
+}: PostsProps) => {
   const { isCol, togglePostDir } = useContext(PostDirContext);
   return (
     <div
@@ -17,14 +24,16 @@ const Posts = ({ title, children, className, ...props }: PostsProps) => {
     >
       <div className="flex items-center justify-between gap-4">
         <h1 className="text-3xl">{title}</h1>
-        <Button
-          className="hidden md:block"
-          color="neutralLight"
-          variant="ghost"
-          size="sm"
-          icon={isCol ? <CardCol /> : <CardRow />}
-          onClick={() => togglePostDir()}
-        />
+        {noPosts ? null : (
+          <Button
+            className="hidden md:block"
+            color="neutralLight"
+            variant="ghost"
+            size="sm"
+            icon={isCol ? <CardCol /> : <CardRow />}
+            onClick={() => togglePostDir()}
+          />
+        )}
       </div>
       {children}
     </div>
