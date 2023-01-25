@@ -250,7 +250,7 @@ export default function UserCard({
         {lud16 && (
           <p className="text-sm text-accent">
             <div className="flex items-center gap-1">
-              <span>{"⚡ " + lud16}</span>
+              <span className="whitespace-nowrap">{"⚡ " + lud16}</span>
             </div>
           </p>
         )}
