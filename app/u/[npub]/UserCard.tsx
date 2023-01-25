@@ -12,6 +12,7 @@ import { BsPatchCheckFill, BsLightningChargeFill } from "react-icons/bs";
 import { requestInvoice } from "lnurl-pay";
 import { utils } from "lnurl-pay";
 import { bech32 } from "bech32";
+import Link from "next/link";
 
 const presetAmounts = [
   { value: "1000", label: "1k" },
@@ -227,11 +228,13 @@ export default function UserCard({
 
   return (
     <div className="flex flex-col items-center md:items-start gap-4">
-      <img
-        className="rounded-full mb-4 min-w-[9rem] w-36 h-36 object-cover"
-        src={picture}
-        alt={name}
-      />
+      <Link href={`/u/${npub}`}>
+        <img
+          className="rounded-full mb-4 min-w-[9rem] w-36 h-36 object-cover"
+          src={picture}
+          alt={name}
+        />
+      </Link>
       <p className="text-2xl font-bold text-zinc-200">
         <span className="text-red-500">@</span>
         {name}
