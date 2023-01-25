@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 import { useNostr } from "nostr-react";
 import type { Event, Filter } from "nostr-tools";
 import { useEffect, useState } from "react";
+import Posts from "../Posts";
 import ArchiveNotes from "./ArchiveNotes";
 
 export default function ArchivePage() {
@@ -15,6 +16,7 @@ export default function ArchivePage() {
   const [filter, setFilter] = useState<Filter>({
     kinds: [2222],
     limit: 100,
+    authors: undefined,
   });
 
   if (pathname) {
@@ -46,14 +48,14 @@ export default function ArchivePage() {
   }, [filter, connectedRelays]);
 
   return (
-    <div className="flex flex-col justify-center gap-3">
-      <h1 className="text-3xl">Note Archive</h1>
+    <Posts title="Note Archive">
       <ArchiveNotes
         postPerPage={POSTS_PER_PAGE}
         events={events}
         numPages={numPages}
+        filter={filter}
         setFilter={setFilter}
       />
-    </div>
+    </Posts>
   );
 }

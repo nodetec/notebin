@@ -13,7 +13,12 @@ export default function FollowButton({
 }: any) {
   const { publish } = useNostr();
   const { connectedRelays } = useNostr();
-  const isFollowing = contacts.includes(profilePublicKey);
+
+  let isFollowing = false;
+
+  if (contacts) {
+    isFollowing = contacts.includes(profilePublicKey);
+  }
 
   const handleFollow = async (e: any) => {
     e.preventDefault();

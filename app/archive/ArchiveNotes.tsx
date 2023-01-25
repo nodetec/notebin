@@ -1,16 +1,20 @@
 "use client";
-import ArchiveNote from "./ArchiveNote";
 import { useNostr } from "nostr-react";
 import { useEffect, useContext } from "react";
 import { KeysContext } from "../context/keys-provider";
 import type { Event } from "nostr-tools";
 import Pagination from "../Pagination";
 import { useSearchParams } from "next/navigation";
+import Card from "../u/[npub]/Card";
+import Button from "../Button";
+import { ImSearch } from "react-icons/im";
+import { HiUserAdd } from "react-icons/hi";
 
 export default function ArchiveNotes({
   numPages,
   events,
   setCurrentPage,
+  filter,
   setFilter,
   postPerPage,
 }: any) {
@@ -52,9 +56,8 @@ export default function ArchiveNotes({
       sub.on("eose", () => {
         console.log("EOSE");
         setFilter({
-          kinds: [2222],
+          ...filter,
           authors: followedAuthors,
-          limit: 100,
         });
         sub.unsub();
       });
@@ -64,35 +67,43 @@ export default function ArchiveNotes({
   function handleExploreFilter(e: any) {
     e.preventDefault();
     setFilter({
-      kinds: [2222],
-      limit: 100,
+      ...filter,
+      authors: undefined,
     });
   }
 
   return (
     <>
-      <div className="flex gap-3">
-        <button
+      <div className="flex gap-2 bg-secondary rounded-md p-2">
+        <Button
+          variant={filter.authors?.length ? "ghost" : "solid"}
           onClick={handleExploreFilter}
-          className="bg-blue-400 rounded-md text-xl w-40"
+          size="sm"
+          icon={<ImSearch />}
+          className="w-full"
         >
           explore
-        </button>
-        <button
+        </Button>
+        <Button
+          variant={filter.authors?.length ? "solid" : "ghost"}
           onClick={handleFollowFilter}
-          className="bg-blue-400 rounded-md text-xl w-40"
+          icon={<HiUserAdd />}
+          size="sm"
+          className="w-full"
         >
           following
-        </button>
+        </Button>
       </div>
-      {events
-        .slice(
-          currentPage * postPerPage - postPerPage,
-          currentPage * postPerPage
-        )
-        .map((event: Event) => {
-          return <ArchiveNote key={event.id} event={event} />;
-        })}
+      <ul className="flex flex-col gap-4">
+        {events
+          .slice(
+            currentPage * postPerPage - postPerPage,
+            currentPage * postPerPage
+          )
+          .map((event: Event) => {
+            return <Card key={event.id} event={event} profile />;
+          })}
+      </ul>
       <Pagination setCurrentPage={setCurrentPage} numPages={numPages} />
     </>
   );

@@ -22,13 +22,11 @@ const Select = ({ label, options, innerRef, ...props }: SelectProps) => {
   return (
     <div
       className={`
-                    text-tertiary
-                    dark:text-slate-300
+                    text-slate-300
                     relative
                     w-full
                     rounded-md
-                    bg-accent
-                    dark:bg-tertiary
+                    bg-tertiary
                     border-neutral-500
                     border-2
                     border-solid
