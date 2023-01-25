@@ -244,6 +244,13 @@ export default function UserCard({
             </div>
           </p>
         )}
+        {lud16 && (
+          <p className="text-sm text-accent">
+            <div className="flex items-center gap-1">
+              <span>{"⚡ " + lud16}</span>
+            </div>
+          </p>
+        )}
       </p>
       <p className="flex items-center gap-1">
         <Truncate content={npub} color="transparent" size="sm" />
