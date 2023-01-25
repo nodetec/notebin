@@ -38,7 +38,6 @@ export default function LatestNotes({ profilePubkey, name }: any) {
           ? `${name ? `${name}'s l` : "L"}atest notes`
           : `${name ? `${name} has no notes yet` : "No notes yet"}`
       }
-      noPosts={events.length === 0}
     >
       <ul className="flex flex-col gap-4 text-center md:text-start">
         {slicedEvents.map((event) => (

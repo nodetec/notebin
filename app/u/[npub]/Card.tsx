@@ -1,19 +1,14 @@
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useProfile } from "nostr-react";
 import { Event, nip19 } from "nostr-tools";
-import {
-  DetailedHTMLProps,
-  FC,
-  LiHTMLAttributes,
-  ReactNode,
-  useContext,
-} from "react";
+import { DetailedHTMLProps, FC, LiHTMLAttributes, ReactNode } from "react";
 import { BsFillFileEarmarkCodeFill, BsFillTagFill } from "react-icons/bs";
 import { FaCalendarAlt } from "react-icons/fa";
 import { DUMMY_PROFILE_API } from "../../utils/constants";
 import { shortenHash } from "../../lib/utils";
-import { PostDirContext } from "../../context/post-dir-provider";
 import { getTagValues } from "../../lib/utils";
+import "@uiw/react-textarea-code-editor/dist.css";
 
 interface NoteProps
   extends DetailedHTMLProps<LiHTMLAttributes<HTMLLIElement>, HTMLLIElement> {
@@ -22,6 +17,11 @@ interface NoteProps
   dateOnly?: boolean;
 }
 
+const CodeEditor = dynamic(
+  () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
+  { ssr: true }
+);
+
 const Card: FC<NoteProps> = ({
   event,
   profile = false,
@@ -29,7 +29,6 @@ const Card: FC<NoteProps> = ({
   ...props
 }) => {
   const { tags, content, created_at: createdAt, id: noteId } = event;
-  const { isCol } = useContext(PostDirContext);
 
   const { data } = useProfile({
     pubkey: event.pubkey,
@@ -37,36 +36,30 @@ const Card: FC<NoteProps> = ({
 
   const npub = nip19.npubEncode(event.pubkey);
 
-  // let actualTags: any = getTagValues("tags");
-
-  // if (actualTags) {
-  //   actualTags = actualTags.split(",");
-  // }
-
   const title = getTagValues("subject", tags);
-  const markdownImageContent =
-    /!\[[^\]]*\]\((?<filename>.*?)(?=\"|\))(?<title>\".*\")?\)/g.exec(content);
+  const filetype = getTagValues("filetype", tags);
+  const actualTags = getTagValues("tags", tags);
+
+  function setupMarkdown(content: string) {
+    var md = require("markdown-it")();
+    var result = md.render(content);
+    return result;
+  }
+
+  const MAX_LENGTH = 300;
+
+  const markdown =
+    content.length > MAX_LENGTH
+      ? setupMarkdown(content.slice(0, MAX_LENGTH)).concat("...read more")
+      : setupMarkdown(content.slice(0, MAX_LENGTH));
 
   return (
     <li
       className="rounded-md hover:shadow-sm hover:scale-101 transition-transform hover:shadow-accent bg-secondary text-accent text-left"
       {...props}
     >
-      <Link
-        href={`/${nip19.noteEncode(noteId!)}`}
-        className={`p-5 flex gap-4 justify-between flex-col-reverse ${
-          isCol ? "" : "md:flex-row"
-        }`}
-      >
-        <div
-          className={`flex flex-col gap-3
-              ${
-                markdownImageContent?.groups?.filename && !isCol
-                  ? "md:max-w-[65%] flex-[.75]"
-                  : "max-w-full"
-              }
-          `}
-        >
+      <Link href={`/${nip19.noteEncode(noteId!)}`} className="p-5 block">
+        <div className="flex flex-col gap-3 w-full">
           {title ? (
             <h3 className="text-2xl font-semibold text-light twolines">
               {title}
@@ -90,22 +83,33 @@ const Card: FC<NoteProps> = ({
               </div>
             ) : null}
             <DatePosted dateOnly={dateOnly} timestamp={createdAt} />
-            <FileType type={getTagValues("filetype", tags)} />
-            {/* {actualTags.length > 1 ? <NoteTags tags={actualTags} /> : null} */}
+            <FileType type={filetype} />
           </div>
-          <div className="flex flex-col sm:flex-row gap-5 opacity-70">
-            <div className="twolines opacity-70">{content}</div>
+          <div>
+            {actualTags.length > 1 ? (
+              <NoteTags tags={actualTags.split(",")} />
+            ) : null}
+          </div>
+          <div className="flex flex-col sm:flex-row gap-5 w-full bg-primary max-h-[50vh] overflow-hidden rounded-md">
+            {filetype === "markdown" ? (
+              <div className="w-full max-w-full p-4 prose prose-sm prose-invert prose-img:h-[20vh] prose-img:w-auto prose-img:object-cover prose-img:mx-auto">
+                <div dangerouslySetInnerHTML={{ __html: markdown }} />
+              </div>
+            ) : (
+              <CodeEditor
+                className="w-full outline-none min-h-full pointer-events-none"
+                value={content}
+                language={filetype}
+                autoCapitalize="none"
+                disabled
+                padding={25}
+                style={{
+                  fontSize: 15,
+                }}
+              />
+            )}
           </div>
         </div>
-        {markdownImageContent?.groups?.filename ? (
-          <img
-            className={`rounded-md self-center w-full h-auto object-cover flex-[.25] ${
-              isCol ? "" : "md:w-1/3"
-            }`}
-            src={markdownImageContent?.groups?.filename}
-            alt={markdownImageContent?.groups?.title}
-          />
-        ) : null}
       </Link>
     </li>
   );
