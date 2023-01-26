@@ -1,6 +1,9 @@
 "use client";
 import { useNostr } from "nostr-react";
+import { ImSpinner9 } from "react-icons/im";
 import { TbChevronDown } from "react-icons/tb";
+import { RELAYS } from "./utils/constants";
+import { TiWarning } from "react-icons/ti";
 
 const ConnectedRelaysStatus = () => {
   const { connectedRelays, isLoading } = useNostr();
@@ -35,15 +38,18 @@ const ConnectedRelaysStatus = () => {
       <span
         className={`w-2 h-2 rounded-full inline-block ${relayConnectionStateColors.bg}`}
       />
-      <span>
-        {isLoading
-          ? "Connecting..."
-          : connectedRelays
-          ? `Connected to ${connectedRelaysCount} relay${
-              connectedRelaysCount > 1 ? "s" : ""
-            }`
-          : "Not connected (refresh browser)"}
-      </span>
+      {
+        <span className="flex gap-2 items-center">
+          {isLoading ? (
+            <ImSpinner9 className="animate-spin" />
+          ) : connectedRelays ? (
+            `${connectedRelaysCount}/${RELAYS.length}`
+          ) : (
+            <TiWarning />
+          )}{" "}
+          <span>📡</span>
+        </span>
+      }
       {connectedRelaysCount > 0 ? (
         <span>
           <TbChevronDown className="w-4 h-4" />
@@ -53,6 +59,15 @@ const ConnectedRelaysStatus = () => {
         <span
           className={`absolute z-50 hidden group-focus:flex mx-auto min-w-max -bottom-4 right-0 items-center gap-4 flex-col translate-y-full border border-current p-4 rounded-md bg-primary ${relayConnectionStateColors.fg}`}
         >
+          <span className="border-b border-b-current pb-3 w-full">
+            {isLoading
+              ? "Connecting..."
+              : connectedRelays
+              ? `Connected to ${connectedRelaysCount} relay${
+                  connectedRelaysCount > 1 ? "s" : ""
+                }`
+              : "Not connected (refresh page)"}
+          </span>
           {connectedRelays.map((relay) => (
             <span key={relay.url} className="">
               {relay.url}
