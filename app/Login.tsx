@@ -8,7 +8,7 @@ import AccountButton from "./AccountButton";
 
 import { KeysContext } from "./context/keys-provider.jsx";
 import PopupInput from "./PopupInput";
-import { generatePrivateKey, getPublicKey } from 'nostr-tools'
+import { generatePrivateKey, getPublicKey } from "nostr-tools";
 import { ImShuffle } from "react-icons/im";
 import { FaSignInAlt } from "react-icons/fa";
 
@@ -94,7 +94,7 @@ export default function Login() {
             onChange={(e) => setKeys({ ...keys, privateKey: e.target.value })}
             password={keys.privateKey}
             isPassword={hidePrivateKey}
-            toggleIsPassword={() => setHidePrivateKey(current => !current)}
+            toggleIsPassword={() => setHidePrivateKey((current) => !current)}
           />
         </div>
         <PopupInput
@@ -120,7 +120,7 @@ export default function Login() {
             size="sm"
             icon={<FaSignInAlt />}
           >
-          Login
+            Login
           </Button>
         </div>
         <h2 className="text-center">OR</h2>

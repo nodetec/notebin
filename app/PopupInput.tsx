@@ -41,8 +41,9 @@ const PopupInput = ({
           <input
             type={isPassword ? "password" : "text"}
             id={id}
-            className={`bg-secondary rounded-md border-2 border-tertiary mt-1 py-2 block w-full leading-normal ${toggleIsPassword ? "pl-4 pr-20" : "px-4"
-              } ${className}`}
+            className={`bg-secondary rounded-md border-2 border-tertiary mt-1 py-2 block w-full leading-normal ${
+              toggleIsPassword ? "pl-4 pr-20" : "px-4"
+            } ${className}`}
             placeholder={placeholder}
             value={value}
             {...props}
