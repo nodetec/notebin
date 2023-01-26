@@ -12,27 +12,28 @@ const ConnectedRelaysStatus = () => {
 
   const relayConnectionStateColors = isLoading
     ? {
-      bg: "bg-yellow-400",
-      fg: "text-yellow-400",
-    }
+        bg: "bg-yellow-400",
+        fg: "text-yellow-400",
+      }
     : error
-      ? { bg: "bg-red-400", fg: "text-red-400" }
-      : connectedRelays
-        ? {
-          bg: "bg-green-400",
-          fg: "text-green-400",
-        }
-        : {
-          bg: "bg-neutral-400",
-          fg: "text-neutral-400",
-        };
+    ? { bg: "bg-red-400", fg: "text-red-400" }
+    : connectedRelays
+    ? {
+        bg: "bg-green-400",
+        fg: "text-green-400",
+      }
+    : {
+        bg: "bg-neutral-400",
+        fg: "text-neutral-400",
+      };
 
   return (
     <button
       className={`py-2 px-4 rounded-full bg-opacity-20 text-xs flex items-center gap-2 font-semibold relative border border-transparent focus:border-current group
               ${connectedRelaysCount > 0 ? "hover:border-current" : ""}
-              ${relayConnectionStateColors.bg} ${relayConnectionStateColors.fg
-        }`}
+              ${relayConnectionStateColors.bg} ${
+        relayConnectionStateColors.fg
+      }`}
     >
       <span
         className={`w-2 h-2 rounded-full inline-block ${relayConnectionStateColors.bg}`}
@@ -43,7 +44,10 @@ const ConnectedRelaysStatus = () => {
             <ImSpinner9 className="animate-spin" />
           ) : connectedRelays ? (
             `${connectedRelaysCount}/${RELAYS.length}`
-          ) : <TiWarning />} <span>📡</span>
+          ) : (
+            <TiWarning />
+          )}{" "}
+          <span>📡</span>
         </span>
       }
       {connectedRelaysCount > 0 ? (
@@ -59,9 +63,10 @@ const ConnectedRelaysStatus = () => {
             {isLoading
               ? "Connecting..."
               : connectedRelays
-                ? `Connected to ${connectedRelaysCount} relay${connectedRelaysCount > 1 ? "s" : ""
+              ? `Connected to ${connectedRelaysCount} relay${
+                  connectedRelaysCount > 1 ? "s" : ""
                 }`
-                : "Not connected (refresh page)"}
+              : "Not connected (refresh page)"}
           </span>
           {connectedRelays.map((relay) => (
             <span key={relay.url} className="">
