@@ -16,6 +16,7 @@ module.exports = {
         tertiary: "#272F37",
         accent: "#9FA6B1",
         light: "rgb(205, 215, 232)",
+        gray: "#9FA6B170",
       },
       boxShadow: {
         overlay: "0 0 0 100vmax rgba(0, 0, 0, 0.7)",

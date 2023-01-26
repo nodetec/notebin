@@ -38,7 +38,7 @@ const Card: FC<NoteProps> = ({
 
   const title = getTagValues("subject", tags);
   const filetype = getTagValues("filetype", tags);
-  const actualTags = getTagValues("tags", tags);
+  const actualTags = getTagValues("tags", tags).split(",");
 
   function setupMarkdown(content: string) {
     var md = require("markdown-it")();
@@ -85,7 +85,7 @@ const Card: FC<NoteProps> = ({
             <DatePosted dateOnly={dateOnly} timestamp={createdAt} />
             <FileType type={filetype} />
           </div>
-          <div>{actualTags && <NoteTags tags={actualTags.split(",")} />}</div>
+          <div>{actualTags && <NoteTags showIcon tags={actualTags} />}</div>
           <div className="flex flex-col sm:flex-row gap-5 w-full bg-primary max-h-[50vh] overflow-hidden rounded-md">
             {filetype === "markdown" ? (
               <div className="w-full max-w-full p-4 prose prose-sm prose-invert prose-img:h-[20vh] prose-img:w-auto prose-img:object-cover prose-img:mx-auto">
@@ -115,7 +115,7 @@ const InfoContainer = ({ children }: { children: ReactNode }) => (
   <div className="flex items-center gap-2">{children}</div>
 );
 
-const DatePosted = ({
+export const DatePosted = ({
   timestamp,
   dateOnly,
 }: {
@@ -152,14 +152,24 @@ const DatePosted = ({
   );
 };
 
-const NoteTags = ({ tags }: { tags: string[] }) => (
+export const NoteTags = ({
+  tags,
+  showIcon = false,
+}: {
+  tags: string[];
+  showIcon?: boolean;
+}) => (
   <InfoContainer>
-    <span>
-      <BsFillTagFill className="w-4 h-4 text-current" />
-    </span>
-    <ul className="flex items-center gap-2">
+    {showIcon ? (
+      <span>
+        <BsFillTagFill className="w-4 h-4 text-current" />
+      </span>
+    ) : null}
+    <ul className="flex items-center gap-2 list-none pl-0 my-0">
       {tags.map((tag: string) => (
-        <li key={tag}>#{tag}</li>
+        <li className="bg-primary py-1 px-2 rounded-md" key={tag}>
+          {tag}
+        </li>
       ))}
     </ul>
   </InfoContainer>

@@ -57,7 +57,7 @@ const Footer = () => (
             href={social.url}
             target="_blank"
             rel="nofollow noopener noreferrer"
-            className="flex items-center gap-2 text-accent text-center"
+            className="flex items-center gap-2 text-gray hover:text-accent text-center"
           >
             <span>
               <social.Icon />

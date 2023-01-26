@@ -42,7 +42,6 @@ const NoteDisplay = ({ event, filetype }: any) => {
             ) : (
               <p className="text-accent font-semibold pl-2">note</p>
             )}
-
             <div className="flex items-center gap-2">
               <Truncate
                 content={content}
