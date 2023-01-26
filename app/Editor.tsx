@@ -31,8 +31,11 @@ const Editor = ({
     "off" | "preview" | "split"
   >("off");
 
-  const [focused, setFocused] = useState(false);
+  const [titleFocused, setTitleFocused] = useState(false);
+  const [textFocused, setTextFocused] = useState(false);
+
   const [titleValid, setTitleValid] = useState(true);
+  const [textValid, setTextValid] = useState(true);
 
   const previewRef = useRef(null);
 
@@ -63,7 +66,6 @@ const Editor = ({
   const setupMarkdown = (text: string) => {
     const md = require("markdown-it")();
     const result = md.render(text);
-    console.log("result", result);
     return result;
   };
 
@@ -77,12 +79,17 @@ const Editor = ({
     );
   };
 
-  const handleFocus = () => {
-    setFocused(true);
+  const handleTitleFocus = () => {
+    setTitleFocused(true);
   };
 
-  const onPostSubmit = (titleValid: boolean) => {
-    setTitleValid(titleValid);
+  const handleTextFocus = () => {
+    setTextFocused(true);
+  };
+
+  const onPostSubmit = (validations: { title: boolean; text: boolean }) => {
+    setTitleValid(validations.title);
+    setTextValid(validations.text);
   };
 
   return (
@@ -164,29 +171,40 @@ const Editor = ({
                       setTitle(evn.target.value);
                       setTitleValid(true);
                     }}
-                    onBlur={handleFocus}
+                    onBlur={handleTitleFocus}
                     /* @ts-ignore */
-                    focused={focused.toString()}
+                    titlefocused={titleFocused.toString()}
                     titlevalid={titleValid.toString()}
                   />
                   <span className="px-6 pt-0.5 text-xs text-red-500 hidden">
                     {VALIDATION.required}
                   </span>
                 </div>
-                <div className="grow">
+                <div className="flex flex-col grow">
                   <CodeEditor
+                    required
                     className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
                     value={text}
                     language={filetype}
                     placeholder="Enter your note..."
                     autoCapitalize="none"
-                    onChange={(evn) => setText(evn.target.value)}
+                    onChange={(evn) => {
+                      setText(evn.target.value);
+                      setTextValid(true);
+                    }}
+                    onBlur={handleTextFocus}
+                    /* @ts-ignore */
+                    textfocused={textFocused.toString()}
+                    textvalid={textValid.toString()}
                     padding={24}
                     style={{
                       color: "#c9d1d9",
                       fontSize: 15,
                     }}
                   />
+                  <span className="px-6 pt-0.5 pb-6 text-xs text-red-500 hidden">
+                    {VALIDATION.required}
+                  </span>
                 </div>
               </div>
             </div>

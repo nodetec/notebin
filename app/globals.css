@@ -7,9 +7,23 @@
     @apply bg-primary;
   }
 
-  textarea:invalid[focused="true"] ~ span,
+  textarea:invalid[titlefocused="true"] ~ span,
   textarea[titlevalid="false"] ~ span {
     display: block;
+  }
+
+  div:has(textarea:invalid[textfocused="true"]) + span,
+  div:has(textarea[textvalid="false"]) + span {
+    display: block;
+  }
+
+  .w-tc-editor.min-h-full {
+    min-height: auto;
+    flex-grow: 1;
+  }
+
+  .w-tc-editor.min-h-full > textarea[style] {
+    padding-bottom: 0 !important;
   }
 
   div.md-preview-note-wrapper > p {
