@@ -19,7 +19,7 @@ const CodeEditor = dynamic(
 
 const NoteDisplay = ({ event, filetype }: any) => {
   const [isSharePopupOpen, setIsSharePopupOpen] = useState(false);
-  const content = getTagValues("content", event.tags);
+  const content = event.content;
   const title = getTagValues("subject", event.tags);
   const pathname = usePathname();
   let tagsList: any = getTagValues("tags", event.tags);
@@ -45,7 +45,7 @@ const NoteDisplay = ({ event, filetype }: any) => {
 
             <div className="flex items-center gap-2">
               <Truncate
-                content={event.content}
+                content={content}
                 iconOnly
                 color="neutralLight"
                 variant="ghost"
@@ -77,7 +77,7 @@ const NoteDisplay = ({ event, filetype }: any) => {
             <div className="grow">
               <CodeEditor
                 className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full note-cursor-text"
-                value={event.content}
+                value={content}
                 language={filetype}
                 autoCapitalize="none"
                 disabled
