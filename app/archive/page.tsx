@@ -48,14 +48,16 @@ export default function ArchivePage() {
   }, [filter, connectedRelays]);
 
   return (
-    <Posts title="Note Archive">
-      <ArchiveNotes
-        postPerPage={POSTS_PER_PAGE}
-        events={events}
-        numPages={numPages}
-        filter={filter}
-        setFilter={setFilter}
-      />
-    </Posts>
+    <div className="flex justify-center flex-col items-center">
+      <Posts title="Note Archive">
+        <ArchiveNotes
+          postPerPage={POSTS_PER_PAGE}
+          events={events}
+          numPages={numPages}
+          filter={filter}
+          setFilter={setFilter}
+        />
+      </Posts>
+    </div>
   );
 }
