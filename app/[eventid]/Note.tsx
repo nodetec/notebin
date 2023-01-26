@@ -22,7 +22,7 @@ export default function Note({ event }: NoteProps) {
   return (
     <>
       {event && (
-        <div className="w-full">
+        <div className="w-full max-w-[70rem]">
           {isMarkdown ? (
             <MarkdownDisplay event={event} />
           ) : (

@@ -12,7 +12,7 @@ const Posts = ({ title, children, className, ...props }: PostsProps) => {
   const router = useRouter();
   return (
     <div
-      className={`flex flex-col justify-center flex-1 gap-3 px-2 w-full max-w-[50rem] mx-auto ${className}`}
+      className={`flex flex-col justify-center flex-1 gap-3 px-2 w-full max-w-[50rem] 2xl:max-w-[90rem] ${className ? className : ""}`}
       {...props}
     >
       <div className="flex items-center justify-between gap-4">

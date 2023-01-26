@@ -67,3 +67,9 @@ html[data-color-mode="dark"] .w-tc-editor {
 .note-cursor-text textArea {
   @apply cursor-text;
 }
+
+.max-h-img {
+  /* min max */
+  max-height: 20vh;
+  max-width: 100%;
+}

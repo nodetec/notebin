@@ -27,7 +27,7 @@ const NoteDisplay = ({ event, filetype }: any) => {
 
   return (
     <Fragment>
-      <div className="rounded-md border-2 border-secondary">
+      <div className="rounded-md border-2 border-secondary flex-1">
         <div className="bg-secondary p-2 flex items-center justify-between">
           <div className="flex gap-2 w-full items-center justify-between">
             {filetype ? (

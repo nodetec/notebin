@@ -66,7 +66,7 @@ export default function Profile({ npub }: any) {
   const loggedInContactList = loggedInContactEvents[0]?.tags;
 
   return (
-    <div className="flex flex-col md:flex-row items-center md:items-start md:gap-10 lg:gap-30 lg:px-20 flex-1">
+    <div className="flex flex-col md:flex-row items-center md:items-start md:gap-10 lg:gap-30 lg:px-20 flex-1 justify-center">
       <LatestNotes name={name} profilePubkey={profilePubkey} />
       <div className="flex flex-col flex-shrink md:sticky top-4 w-auto md:w-[25%] max-w-[22rem]">
         <UserCard
