@@ -1,6 +1,6 @@
 "use client";
 import { useNostr } from "nostr-react";
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { KeysContext } from "../context/keys-provider";
 import type { Event } from "nostr-tools";
 import Pagination from "../Pagination";
@@ -25,10 +25,6 @@ export default function ArchiveNotes({
   const pageSearchParam = searchParams.get("page");
 
   const currentPage = pageSearchParam ? parseInt(pageSearchParam) : 1;
-
-  useEffect(() => {
-    console.log("searchParams", searchParams.get("page"));
-  }, [searchParams]);
 
   const { connectedRelays } = useNostr();
 
