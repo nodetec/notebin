@@ -31,14 +31,7 @@ const NoteDisplay = ({ event, filetype }: any) => {
         <div className="bg-secondary p-2 flex items-center justify-between">
           <div className="flex gap-2 w-full items-center justify-between">
             {filetype ? (
-              <input
-                className="bg-primary text-accent border-0 outline-0 focus:ring-0 text-sm rounded-md"
-                type="text"
-                list="filetypes"
-                placeholder="filetype"
-                value={filetype}
-                disabled
-              />
+              <p className="text-accent font-semibold pl-2">{filetype}</p>
             ) : (
               <p className="text-accent font-semibold pl-2">note</p>
             )}
