@@ -85,7 +85,11 @@ const Card: FC<NoteProps> = ({
             <DatePosted dateOnly={dateOnly} timestamp={createdAt} />
             <FileType type={filetype} />
           </div>
-          <div>{actualTags.length ? <NoteTags showIcon tags={actualTags.split(",")} /> : null}</div>
+          <div>
+            {actualTags.length ? (
+              <NoteTags showIcon tags={actualTags.split(",")} />
+            ) : null}
+          </div>
           <div className="flex flex-col sm:flex-row gap-5 w-full bg-primary max-h-[50vh] overflow-hidden rounded-md">
             {filetype === "markdown" ? (
               <div className="w-full max-w-full p-4 prose prose-sm prose-invert prose-img:h-[20vh] prose-img:w-auto prose-img:object-cover prose-img:mx-auto">
