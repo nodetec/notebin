@@ -87,7 +87,7 @@ const Editor = ({
     setTextFocused(true);
   };
 
-  const onPostSubmit = (validations: { title: boolean, text: boolean }) => {
+  const onPostSubmit = (validations: { title: boolean; text: boolean }) => {
     setTitleValid(validations.title);
     setTextValid(validations.text);
   };
@@ -189,7 +189,7 @@ const Editor = ({
                     placeholder="Enter your note..."
                     autoCapitalize="none"
                     onChange={(evn) => {
-                      setText(evn.target.value)
+                      setText(evn.target.value);
                       setTextValid(true);
                     }}
                     onBlur={handleTextFocus}

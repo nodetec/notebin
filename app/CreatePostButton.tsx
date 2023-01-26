@@ -42,7 +42,7 @@ const CreatePostButton = ({
     const validations = {
       title: title.trim().length ? true : false,
       text: text.trim().length ? true : false,
-    }
+    };
 
     onSubmit(validations);
 
