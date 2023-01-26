@@ -39,9 +39,14 @@ const CreatePostButton = ({
   const post = async (e: any) => {
     e.preventDefault();
 
-    if (title.trim().length) {
-      onSubmit(true);
+    const validations = {
+      title: title.trim().length ? true : false,
+      text: text.trim().length ? true : false,
+    }
 
+    onSubmit(validations);
+
+    if (validations.title && validations.text) {
       setPost({ postSending: true, postError: "" });
 
       const publicKey = keys.publicKey;
@@ -104,8 +109,6 @@ const CreatePostButton = ({
           console.log("OUR EVENT HAS FAILED");
         });
       }
-    } else {
-      onSubmit(false);
     }
   };
 
