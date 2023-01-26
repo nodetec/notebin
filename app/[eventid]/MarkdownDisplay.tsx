@@ -41,15 +41,13 @@ const MarkdownDisplay = ({ event }: MarkdownDisplayProps) => {
           />
           <h1 className="my-0 text-light text-3xl">{title}</h1>
         </div>
-        <div>
-          <Button
-            color="neutralLight"
-            variant="ghost"
-            title="Share note"
-            icon={<AiOutlineShareAlt />}
-            onClick={() => setIsSharePopupOpen(true)}
-          />
-        </div>
+        <Button
+          color="neutralLight"
+          variant="ghost"
+          title="Share note"
+          icon={<AiOutlineShareAlt />}
+          onClick={() => setIsSharePopupOpen(true)}
+        />
       </div>
       <div
         className="rounded-md p-4 md:p-8 mx-auto bg-secondary w-full prose prose-xl prose-invert h-full"
