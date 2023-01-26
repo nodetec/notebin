@@ -10,6 +10,7 @@ import { KeysContext } from "./context/keys-provider.jsx";
 import PopupInput from "./PopupInput";
 import { generatePrivateKey, getPublicKey } from 'nostr-tools'
 import { ImShuffle } from "react-icons/im";
+import { FaSignInAlt } from "react-icons/fa";
 
 export default function Login() {
   // @ts-ignore
@@ -104,6 +105,7 @@ export default function Login() {
         <div className="flex items-center gap-2 ">
           <Button
             className="w-full"
+            color="neutralLight"
             variant="outline"
             onClick={generateKeys}
             size="sm"
@@ -113,9 +115,10 @@ export default function Login() {
           </Button>
           <Button
             className="w-full"
-            onClick={loginHandler}
+            // TODO: here you need to implement the login with the generated keys
+            /* onClick={loginHandler} */
             size="sm"
-
+            icon={<FaSignInAlt />}
           >
           Login
           </Button>
