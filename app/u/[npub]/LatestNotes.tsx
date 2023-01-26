@@ -44,7 +44,7 @@ export default function LatestNotes({ profilePubkey, name }: any) {
           <Card key={event.id} event={event} dateOnly />
         ))}
       </ul>
-      <Pagination numPages={numPages} />
+      {numPages > 1 ? <Pagination numPages={numPages} /> : null}
     </Posts>
   );
 }
