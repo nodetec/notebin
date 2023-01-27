@@ -9,6 +9,7 @@ import Card from "../u/[npub]/Card";
 import Button from "../Button";
 import { ImSearch } from "react-icons/im";
 import { HiUserAdd } from "react-icons/hi";
+import BasicDatePicker from "../BasicDatePicker";
 
 export default function ArchiveNotes({
   numPages,
@@ -92,6 +93,9 @@ export default function ArchiveNotes({
         >
           following
         </Button>
+      </div>
+      <div className="flex gap-2 rounded-md p-2">
+        <BasicDatePicker />
       </div>
       <ul className="flex flex-col gap-4">
         {events
