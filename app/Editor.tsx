@@ -103,6 +103,7 @@ const Editor = ({
     setFileTypeValid(fileTypeValid);
     setFileSizeValid(fileSizeValid);
     setText(fileContent);
+    setTextValid(true);
   };
 
   return (
