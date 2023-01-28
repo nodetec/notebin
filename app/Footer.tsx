@@ -1,3 +1,4 @@
+"use client";
 import { IconType } from "react-icons";
 import {
   AiFillGithub,
@@ -48,7 +49,7 @@ const SOCIALS: ISocialLink[] = [
 ];
 
 const Footer = () => (
-  <footer className="mt-12">
+  <footer className="mt-12 mx-auto">
     <ul className="container items-center justify-center flex gap-8 flex-wrap py-4">
       {SOCIALS.map((social) => (
         <li key={social.url}>
@@ -56,7 +57,7 @@ const Footer = () => (
             href={social.url}
             target="_blank"
             rel="nofollow noopener noreferrer"
-            className="flex items-center gap-2 text-accent opacity-70 hover:opacity-100 text-center"
+            className="flex items-center gap-2 text-gray hover:text-accent text-center"
           >
             <span>
               <social.Icon />

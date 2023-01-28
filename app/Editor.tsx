@@ -32,8 +32,11 @@ const Editor = ({
     "off" | "preview" | "split"
   >("off");
 
-  const [focused, setFocused] = useState(false);
+  const [titleFocused, setTitleFocused] = useState(false);
+  const [textFocused, setTextFocused] = useState(false);
+
   const [titleValid, setTitleValid] = useState(true);
+  const [textValid, setTextValid] = useState(true);
   const [fileTypeValid, setFileTypeValid] = useState(true);
   const [fileSizeValid, setFileSizeValid] = useState(true);
 
@@ -66,7 +69,6 @@ const Editor = ({
   const setupMarkdown = (text: string) => {
     const md = require("markdown-it")();
     const result = md.render(text);
-    console.log("result", result);
     return result;
   };
 
@@ -80,12 +82,17 @@ const Editor = ({
     );
   };
 
-  const handleFocus = () => {
-    setFocused(true);
+  const handleTitleFocus = () => {
+    setTitleFocused(true);
   };
 
-  const onPostSubmit = (titleValid: boolean) => {
-    setTitleValid(titleValid);
+  const handleTextFocus = () => {
+    setTextFocused(true);
+  };
+
+  const onPostSubmit = (validations: { title: boolean; text: boolean }) => {
+    setTitleValid(validations.title);
+    setTextValid(validations.text);
   };
 
   const onFileUpload = (
@@ -178,9 +185,9 @@ const Editor = ({
                       setTitle(evn.target.value);
                       setTitleValid(true);
                     }}
-                    onBlur={handleFocus}
+                    onBlur={handleTitleFocus}
                     /* @ts-ignore */
-                    focused={focused.toString()}
+                    titlefocused={titleFocused.toString()}
                     titlevalid={titleValid.toString()}
                   />
                   <span className="px-6 pt-0.5 text-xs text-red-500 hidden">
@@ -189,6 +196,7 @@ const Editor = ({
                 </div>
                 <div className="flex flex-col grow">
                   <CodeEditor
+                    required
                     className="w-full focus:border focus:border-blue-500 p-3 outline-none min-h-full"
                     value={text}
                     language={filetype}
@@ -198,10 +206,15 @@ const Editor = ({
                       setText(evn.target.value);
                       setFileTypeValid(true);
                       setFileSizeValid(true);
+                      setTextValid(true);
                     }}
                     /* @ts-ignore */
                     filetypevalid={fileTypeValid.toString()}
                     filesizevalid={fileSizeValid.toString()}
+                    onBlur={handleTextFocus}
+                    /* @ts-ignore */
+                    textfocused={textFocused.toString()}
+                    textvalid={textValid.toString()}
                     padding={24}
                     style={{
                       color: "#c9d1d9",
@@ -209,7 +222,7 @@ const Editor = ({
                     }}
                   />
                   <span className="px-6 pt-0.5 pb-6 text-xs text-red-500 hidden">
-                    {!fileTypeValid ? VALIDATION.fileType : VALIDATION.fileSize}
+                    { !fileTypeValid ? VALIDATION.fileType : !fileSizeValid ? VALIDATION.fileSize: VALIDATION.required }
                   </span>
                 </div>
               </div>

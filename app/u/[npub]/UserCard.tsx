@@ -58,6 +58,15 @@ export default function UserCard({
 
   useEffect(() => {
     setNewLnAddress(lud16);
+    console.log("NAME:", name);
+    console.log("ABOUT:", about);
+    console.log("PICTURE:", picture);
+    console.log("NIP05:", nip05);
+    console.log("LUD06:", lud06);
+    console.log("LUD16:", lud16);
+    console.log("LNADDRESS:", newLnAddress);
+    console.log("CONVERTEDADDRESS:", convertedAddress);
+    console.log("TIPPEDAMOUNT:", tippedAmount);
   }, []);
 
   useEffect(() => {
@@ -247,7 +256,7 @@ export default function UserCard({
             </div>
           </p>
         )}
-        {lud16 && (
+        {lud16 && utils.isLightningAddress(lud16) && (
           <p className="text-sm text-accent">
             <div className="flex items-center gap-1">
               <span className="whitespace-nowrap">{"⚡ " + lud16}</span>
@@ -259,33 +268,40 @@ export default function UserCard({
         <Truncate content={npub} color="transparent" size="sm" />
       </p>
       <p className="text-sm text-accent">{about}</p>
-      {loggedInPubkey === profilePubkey ? (
-        <Buttons>
-          <Button color="blue" variant="ghost" onClick={handleClick} size="sm">
-            edit profile
-          </Button>
-        </Buttons>
-      ) : (
-        <Buttons>
-          <FollowButton
-            loggedInUserPublicKey={loggedInPubkey}
-            currentContacts={loggedInContactList}
-            profilePublicKey={profilePubkey}
-            contacts={contacts}
-          />
-          {(lud06 || lud16) && (
+
+      {loggedInPubkey &&
+        (loggedInPubkey === profilePubkey ? (
+          <Buttons>
             <Button
-              color="yellow"
+              color="blue"
               variant="ghost"
-              onClick={handleTipClick}
+              onClick={handleClick}
               size="sm"
-              icon={<BsLightningChargeFill size="14" />}
             >
-              tip
+              edit profile
             </Button>
-          )}
-        </Buttons>
-      )}
+          </Buttons>
+        ) : (
+          <Buttons>
+            <FollowButton
+              loggedInUserPublicKey={loggedInPubkey}
+              currentContacts={loggedInContactList}
+              profilePublicKey={profilePubkey}
+              contacts={contacts}
+            />
+            {(lud06 || lud16) && (
+              <Button
+                color="yellow"
+                variant="ghost"
+                onClick={handleTipClick}
+                size="sm"
+                icon={<BsLightningChargeFill size="14" />}
+              >
+                tip
+              </Button>
+            )}
+          </Buttons>
+        ))}
 
       <Popup
         title="Success"

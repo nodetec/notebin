@@ -1,11 +1,16 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Button from "./Button";
 import { IoChevronDown } from "react-icons/io5";
 import { useMediaQuery } from "react-responsive";
 
-export default function Pagination({ numPages }: any) {
+interface PaginationProps {
+  numPages: number;
+}
+
+export default function Pagination({ numPages }: PaginationProps) {
   const searchParams = useSearchParams();
+  const pathname = usePathname();
   const isSmallScreen = useMediaQuery({ minWidth: 640 });
 
   const pageSearchParam = searchParams.get("page");
@@ -14,7 +19,7 @@ export default function Pagination({ numPages }: any) {
   const router = useRouter();
 
   const navigate = (page: number) => {
-    router.push(`/archive?page=${page}`);
+    router.push(`${pathname}?page=${page}`);
   };
 
   return (

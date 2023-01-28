@@ -2,7 +2,7 @@ import { Fragment, ReactNode, useEffect } from "react";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import Button from "./Button";
 
-interface PopupProps {
+export interface PopupProps {
   title: string;
   isOpen: boolean;
   setIsOpen: (isOpen: boolean) => void;

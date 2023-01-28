@@ -1,6 +1,6 @@
 "use client";
 import { useNostr } from "nostr-react";
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import { KeysContext } from "../context/keys-provider";
 import type { Event } from "nostr-tools";
 import Pagination from "../Pagination";
@@ -13,7 +13,6 @@ import { HiUserAdd } from "react-icons/hi";
 export default function ArchiveNotes({
   numPages,
   events,
-  setCurrentPage,
   filter,
   setFilter,
   postPerPage,
@@ -26,10 +25,6 @@ export default function ArchiveNotes({
   const pageSearchParam = searchParams.get("page");
 
   const currentPage = pageSearchParam ? parseInt(pageSearchParam) : 1;
-
-  useEffect(() => {
-    console.log("searchParams", searchParams.get("page"));
-  }, [searchParams]);
 
   const { connectedRelays } = useNostr();
 
@@ -104,7 +99,7 @@ export default function ArchiveNotes({
             return <Card key={event.id} event={event} profile />;
           })}
       </ul>
-      <Pagination setCurrentPage={setCurrentPage} numPages={numPages} />
+      {numPages > 1 ? <Pagination numPages={numPages} /> : null}
     </>
   );
 }

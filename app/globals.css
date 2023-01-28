@@ -7,13 +7,18 @@
     @apply bg-primary;
   }
 
-  textarea:invalid[focused="true"] ~ span,
+  textarea:invalid[titlefocused="true"] ~ span,
   textarea[titlevalid="false"] ~ span {
     display: block;
   }
 
   div:has(textarea[filetypevalid="false"]) + span,
   div:has(textarea[filesizevalid="false"]) + span {
+    display: block;
+  }
+
+  div:has(textarea:invalid[textfocused="true"]) + span,
+  div:has(textarea[textvalid="false"]) + span {
     display: block;
   }
 
@@ -66,4 +71,10 @@ html[data-color-mode="dark"] .w-tc-editor {
 
 .note-cursor-text textArea {
   @apply cursor-text;
+}
+
+.max-h-img {
+  /* min max */
+  max-height: 20vh;
+  max-width: 100%;
 }
