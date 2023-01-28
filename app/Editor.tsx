@@ -222,7 +222,11 @@ const Editor = ({
                     }}
                   />
                   <span className="px-6 pt-0.5 pb-6 text-xs text-red-500 hidden">
-                    { !fileTypeValid ? VALIDATION.fileType : !fileSizeValid ? VALIDATION.fileSize: VALIDATION.required }
+                    {!fileTypeValid
+                      ? VALIDATION.fileType
+                      : !fileSizeValid
+                      ? VALIDATION.fileSize
+                      : VALIDATION.required}
                   </span>
                 </div>
               </div>
