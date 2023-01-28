@@ -12,6 +12,11 @@
     display: block;
   }
 
+  div:has(textarea[filetypevalid="false"]) + span,
+  div:has(textarea[filesizevalid="false"]) + span {
+    display: block;
+  }
+
   div:has(textarea:invalid[textfocused="true"]) + span,
   div:has(textarea[textvalid="false"]) + span {
     display: block;

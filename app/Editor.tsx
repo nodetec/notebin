@@ -8,6 +8,7 @@ import { AiFillEdit, AiFillEye } from "react-icons/ai";
 import { RiLayoutColumnFill } from "react-icons/ri";
 import { BsFillTagFill } from "react-icons/bs";
 import CreatePostButton from "./CreatePostButton";
+import FileUpload from "./FileUpload";
 
 const CodeEditor = dynamic(
   () => import("@uiw/react-textarea-code-editor").then((mod) => mod.default),
@@ -36,6 +37,8 @@ const Editor = ({
 
   const [titleValid, setTitleValid] = useState(true);
   const [textValid, setTextValid] = useState(true);
+  const [fileTypeValid, setFileTypeValid] = useState(true);
+  const [fileSizeValid, setFileSizeValid] = useState(true);
 
   const previewRef = useRef(null);
 
@@ -90,6 +93,17 @@ const Editor = ({
   const onPostSubmit = (validations: { title: boolean; text: boolean }) => {
     setTitleValid(validations.title);
     setTextValid(validations.text);
+  };
+
+  const onFileUpload = (
+    fileContent: string,
+    fileTypeValid: boolean,
+    fileSizeValid: boolean
+  ) => {
+    setFileTypeValid(fileTypeValid);
+    setFileSizeValid(fileSizeValid);
+    setText(fileContent);
+    setTextValid(true);
   };
 
   return (
@@ -148,6 +162,7 @@ const Editor = ({
                     />
                   }
                 />
+                <FileUpload onFileUpload={onFileUpload} />
               </Fragment>
             )}
           </div>
@@ -190,8 +205,13 @@ const Editor = ({
                     autoCapitalize="none"
                     onChange={(evn) => {
                       setText(evn.target.value);
+                      setFileTypeValid(true);
+                      setFileSizeValid(true);
                       setTextValid(true);
                     }}
+                    /* @ts-ignore */
+                    filetypevalid={fileTypeValid.toString()}
+                    filesizevalid={fileSizeValid.toString()}
                     onBlur={handleTextFocus}
                     /* @ts-ignore */
                     textfocused={textFocused.toString()}
@@ -203,7 +223,11 @@ const Editor = ({
                     }}
                   />
                   <span className="px-6 pt-0.5 pb-6 text-xs text-red-500 hidden">
-                    {VALIDATION.required}
+                    {!fileTypeValid
+                      ? VALIDATION.fileType
+                      : !fileSizeValid
+                      ? VALIDATION.fileSize
+                      : VALIDATION.required}
                   </span>
                 </div>
               </div>
