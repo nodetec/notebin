@@ -194,7 +194,11 @@ const Editor = ({
                     language={filetype}
                     placeholder="Enter your note..."
                     autoCapitalize="none"
-                    onChange={(evn) => setText(evn.target.value)}
+                    onChange={(evn) => {
+                      setText(evn.target.value);
+                      setFileTypeValid(true);
+                      setFileSizeValid(true);
+                    }}
                     /* @ts-ignore */
                     filetypevalid={fileTypeValid.toString()}
                     filesizevalid={fileSizeValid.toString()}
