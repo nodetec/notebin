@@ -86,7 +86,7 @@ const Card: FC<NoteProps> = ({
             <FileType type={filetype} />
           </div>
           <div>
-            {actualTags.length ? (
+            {actualTags && actualTags.length ? (
               <NoteTags showIcon tags={actualTags.split(",")} />
             ) : null}
           </div>
