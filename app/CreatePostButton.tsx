@@ -81,7 +81,7 @@ const CreatePostButton = ({
         sub.on("event", (event: Event) => {
           console.log("we got the event we wanted:", event);
           setEvent(event);
-          router.push("/" + nip19.noteEncode(eventId));
+          router.push("/u/" + nip19.noteEncode(eventId));
         });
         sub.on("eose", () => {
           console.log("EOSE");
