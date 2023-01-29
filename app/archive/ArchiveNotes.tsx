@@ -94,8 +94,13 @@ export default function ArchiveNotes({
           following
         </Button>
       </div>
-      <div className="flex gap-2 rounded-md p-2">
-        <BasicDatePicker />
+      <div className="flex flex-wrap justify-start gap-3 rounded-md p-2">
+        <div className="mr-3">
+          <BasicDatePicker label="start"/>
+        </div>
+        <div className="mr-3">
+          <BasicDatePicker label="end" />
+        </div>
       </div>
       <ul className="flex flex-col gap-4">
         {events

@@ -86,9 +86,9 @@ const Card: FC<NoteProps> = ({
             <FileType type={filetype} />
           </div>
           <div>
-            {actualTags.length ? (
-              <NoteTags showIcon tags={actualTags.split(",")} />
-            ) : null}
+            {/* {actualTags.length ? ( */}
+            {/*   <NoteTags showIcon tags={actualTags.split(",")} /> */}
+            {/* ) : null} */}
           </div>
           <div className="flex flex-col sm:flex-row gap-5 w-full bg-primary max-h-[50vh] overflow-hidden rounded-md">
             {filetype === "markdown" ? (
