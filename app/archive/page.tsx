@@ -20,11 +20,11 @@ export default function ArchivePage() {
     limit: 100,
     authors: undefined,
     since: undefined,
-    until: undefined
+    until: undefined,
   });
 
   if (pathname) {
-    console.log('pathname is:', pathname);
+    console.log("pathname is:", pathname);
     // page = pathname.split("/").pop() || "1";
   }
 
@@ -32,12 +32,12 @@ export default function ArchivePage() {
     connectedRelays.forEach((relay) => {
       let sub = relay.sub([filter]);
       let eventArray: Event[] = [];
-      sub.on('event', (event: Event) => {
+      sub.on("event", (event: Event) => {
         eventArray.push(event);
       });
-      sub.on('eose', () => {
-        console.log('EOSE');
-        console.log('eventArray', eventArray);
+      sub.on("eose", () => {
+        console.log("EOSE");
+        console.log("eventArray", eventArray);
         setEvents(eventArray);
         setIsLoading(false);
         if (eventArray.length) {
