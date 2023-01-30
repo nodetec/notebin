@@ -39,13 +39,18 @@ export default function ArchiveNotes({
   useEffect(() => {
     let datesAreOnSameDay = true;
     if (sinceDate && untilDate) {
-      datesAreOnSameDay = areDatesOnSameDay(sinceDate, untilDate)
+      datesAreOnSameDay = areDatesOnSameDay(sinceDate, untilDate);
     }
 
-    if (typeof(since) === 'number' && typeof(until) === 'number' && until > since && !datesAreOnSameDay) {
+    if (
+      typeof since === "number" &&
+      typeof until === "number" &&
+      until > since &&
+      !datesAreOnSameDay
+    ) {
       dateFilter(since, until);
     }
-  }, [since, until])
+  }, [since, until]);
 
   const { connectedRelays } = useNostr();
 
@@ -89,12 +94,16 @@ export default function ArchiveNotes({
   }
 
   const areDatesOnSameDay = (date1: Date, date2: Date) => {
-    if (date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) {
+    if (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    ) {
       return true;
     }
 
     return false;
-  }
+  };
 
   const handleDates = (unixTime: Number, label: string, date: Date) => {
     if (label === "since") {
@@ -108,7 +117,7 @@ export default function ArchiveNotes({
       // @ts-ignore
       setUntilDate(date);
     }
-  }
+  };
 
   const dateFilter = (since: Number, until: Number) => {
     setFilter({
@@ -116,7 +125,7 @@ export default function ArchiveNotes({
       since,
       until,
     });
-  }
+  };
 
   return (
     <>
