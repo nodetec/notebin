@@ -1,17 +1,83 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider'
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker'
 import TextField from '@mui/material/TextField'
+import { addDays, subDays, getUnixTime } from 'date-fns'
 
 interface BasicDatePicker {
   label: string;
+  handleDates: Function;
+  since: Number;
+  until: Number;
+  sinceDate: Date;
+  untilDate: Date;
 }
 
 const BasicDatePicker = ({
-  label
+  label,
+  handleDates,
+  since,
+  until,
+  sinceDate,
+  untilDate,
 }: BasicDatePicker) => {
-  const [value, setValue] = useState(null)
+  const minDate = new Date('2020-11-01T00:00:00.000Z');
+  const maxDate = new Date().setHours(23, 59, 59, 999);
+
+  const [value, setValue] = useState(null);
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      convertDate(value);
+    }, 1000);
+    return () => clearTimeout(timeoutId);
+  }, [value]);
+
+  const convertDate = (date: any) => {
+    if (date !== null && Date.prototype.toString.call(date) !== 'Invalid Date' && date >= minDate && date <= maxDate) {
+      if (label === 'since') {
+        date.setHours(0, 0, 0, 0);
+      } else if (label === 'until') {
+        date.setHours(23, 59, 59, 999);
+      }
+      const unixTime = getUnixTime(date);
+      handleDates(unixTime, label, date);
+    } else {
+      handleDates(undefined, label, null);
+    }
+  }
+
+  const determineMinDate = () => {
+    if (label === 'since') {
+      return minDate;
+    } else if (label === 'until') {
+      if (sinceDate === null) {
+        const date = new Date('2020-11-02T23:59:59.999Z');
+        return date;
+      } else {
+        const date = addDays(sinceDate, 1);
+        date.setHours(23, 59, 59, 999);
+        return date;
+      }
+    }
+  }
+
+  const determineMaxDate = () => {
+    if (label === 'until') {
+      return maxDate;
+    } else if (label === 'since') {
+      if (untilDate === null) {
+        const date = subDays(new Date(), 1);
+        date.setHours(0, 0, 0, 0);
+        return date;
+      } else {
+        const date = subDays(untilDate, 1);
+        date.setHours(0, 0, 0, 0);
+        return date;
+      }
+    }
+  }
 
   // @ts-ignore
   const popperSx: SxProps = {
@@ -47,7 +113,14 @@ const BasicDatePicker = ({
     },
     "& .MuiPickersDay-root": {
       fontFamily: "Inter var, sans-serif",
-      fontSize: "0.75rem"
+      fontSize: "0.75rem",
+      backgroundColor: "rgb(33 42 55)"
+    },
+    "& .MuiPickersDay-root.Mui-disabled": {
+      color: "rgb(159 166 177)"
+    },
+    "& .MuiButtonBase-root-MuiPickersDay-root:not(.Mui-selected)": {
+      border: "1px solid rgb(23 23 23)"
     },
     "& .MuiPickersDay-root:focus.Mui-selected": {
       backgroundColor: "rgb(96 165 250)"
@@ -84,8 +157,11 @@ const BasicDatePicker = ({
       <DatePicker
         label={label}
         value={value}
+        minDate={determineMinDate()}
+        maxDate={determineMaxDate()}
         onChange={(newValue) => {
-          setValue(newValue)
+          // @ts-ignore
+          setValue(newValue);
         }}
         PopperProps={{
           sx: popperSx

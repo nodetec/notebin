@@ -1,6 +1,6 @@
 "use client";
 import { useNostr } from "nostr-react";
-import { useEffect, useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { KeysContext } from "../context/keys-provider";
 import type { Event } from "nostr-tools";
 import Pagination from "../Pagination";
@@ -27,9 +27,25 @@ export default function ArchiveNotes({
 
   const currentPage = pageSearchParam ? parseInt(pageSearchParam) : 1;
 
+  const [since, setSince] = useState(undefined);
+  const [until, setUntil] = useState(undefined);
+  const [sinceDate, setSinceDate] = useState(null);
+  const [untilDate, setUntilDate] = useState(null);
+
   useEffect(() => {
     console.log("searchParams", searchParams.get("page"));
   }, [searchParams]);
+
+  useEffect(() => {
+    let datesAreOnSameDay = true;
+    if (sinceDate && untilDate) {
+      datesAreOnSameDay = areDatesOnSameDay(sinceDate, untilDate)
+    }
+
+    if (typeof(since) === 'number' && typeof(until) === 'number' && until > since && !datesAreOnSameDay) {
+      dateFilter(since, until);
+    }
+  }, [since, until])
 
   const { connectedRelays } = useNostr();
 
@@ -72,6 +88,36 @@ export default function ArchiveNotes({
     });
   }
 
+  const areDatesOnSameDay = (date1: Date, date2: Date) => {
+    if (date1.getFullYear() === date2.getFullYear() && date1.getMonth() === date2.getMonth() && date1.getDate() === date2.getDate()) {
+      return true;
+    }
+
+    return false;
+  }
+
+  const handleDates = (unixTime: Number, label: string, date: Date) => {
+    if (label === "since") {
+      // @ts-ignore
+      setSince(unixTime);
+      // @ts-ignore
+      setSinceDate(date);
+    } else if (label === "until") {
+      // @ts-ignore
+      setUntil(unixTime);
+      // @ts-ignore
+      setUntilDate(date);
+    }
+  }
+
+  const dateFilter = (since: Number, until: Number) => {
+    setFilter({
+      ...filter,
+      since,
+      until,
+    });
+  }
+
   return (
     <>
       <div className="flex gap-2 bg-secondary rounded-md p-2">
@@ -94,12 +140,26 @@ export default function ArchiveNotes({
           following
         </Button>
       </div>
-      <div className="flex flex-wrap justify-start gap-3 rounded-md p-2">
+      <div className="flex flex-wrap justify-start gap-3 rounded-md p-2 basic-date-pickers">
         <div className="mr-3">
-          <BasicDatePicker label="start"/>
+          <BasicDatePicker
+            label="since"
+            // @ts-ignore
+            until={until}
+            // @ts-ignore
+            untilDate={untilDate}
+            handleDates={handleDates}
+          />
         </div>
         <div className="mr-3">
-          <BasicDatePicker label="end" />
+          <BasicDatePicker
+            label="until"
+            // @ts-ignore
+            since={since}
+            // @ts-ignore
+            sinceDate={sinceDate}
+            handleDates={handleDates}
+          />
         </div>
       </div>
       <ul className="flex flex-col gap-4">

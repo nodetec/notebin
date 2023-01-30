@@ -1,10 +1,10 @@
-"use client";
-import { usePathname } from "next/navigation";
-import { useNostr } from "nostr-react";
-import type { Event, Filter } from "nostr-tools";
-import { useEffect, useState } from "react";
-import Posts from "../Posts";
-import ArchiveNotes from "./ArchiveNotes";
+'use client';
+import { usePathname } from 'next/navigation';
+import { useNostr } from 'nostr-react';
+import type { Event, Filter } from 'nostr-tools';
+import { useEffect, useState } from 'react';
+import Posts from '../Posts';
+import ArchiveNotes from './ArchiveNotes';
 
 export default function ArchivePage() {
   const pathname = usePathname();
@@ -17,10 +17,12 @@ export default function ArchivePage() {
     kinds: [2222],
     limit: 100,
     authors: undefined,
+    since: undefined,
+    until: undefined
   });
 
   if (pathname) {
-    console.log("pathname is:", pathname);
+    console.log('pathname is:', pathname);
     // page = pathname.split("/").pop() || "1";
   }
 
@@ -28,12 +30,12 @@ export default function ArchivePage() {
     connectedRelays.forEach((relay) => {
       let sub = relay.sub([filter]);
       let eventArray: Event[] = [];
-      sub.on("event", (event: Event) => {
+      sub.on('event', (event: Event) => {
         eventArray.push(event);
       });
-      sub.on("eose", () => {
-        console.log("EOSE");
-        console.log("eventArray", eventArray);
+      sub.on('eose', () => {
+        console.log('EOSE');
+        console.log('eventArray', eventArray);
         setEvents(eventArray);
         if (eventArray.length) {
           const length = Math.ceil(eventArray.length / POSTS_PER_PAGE);
