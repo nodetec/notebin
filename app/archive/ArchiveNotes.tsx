@@ -96,7 +96,7 @@ export default function ArchiveNotes({
       ...filter,
       authors: undefined,
     });
-  }
+  };
 
   const areDatesOnSameDay = (date1: Date, date2: Date) => {
     if (
@@ -110,7 +110,12 @@ export default function ArchiveNotes({
     return false;
   };
 
-  const handleDates = (unixTime: Number, label: string, date: Date, isDatePickerEmpty: boolean) => {
+  const handleDates = (
+    unixTime: Number,
+    label: string,
+    date: Date,
+    isDatePickerEmpty: boolean
+  ) => {
     if (label === "since") {
       // @ts-ignore
       setSince(unixTime);
