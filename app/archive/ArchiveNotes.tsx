@@ -31,6 +31,8 @@ export default function ArchiveNotes({
   const [until, setUntil] = useState(undefined);
   const [sinceDate, setSinceDate] = useState(null);
   const [untilDate, setUntilDate] = useState(null);
+  const [isDatePickerSinceEmpty, setIsDatePickerSinceEmpty] = useState(false);
+  const [isDatePickerUntilEmpty, setIsDatePickerUntilEmpty] = useState(false);
 
   useEffect(() => {
     console.log("searchParams", searchParams.get("page"));
@@ -44,6 +46,9 @@ export default function ArchiveNotes({
 
     if (typeof(since) === 'number' && typeof(until) === 'number' && until > since && !datesAreOnSameDay) {
       dateFilter(since, until);
+    } else if (isDatePickerSinceEmpty && isDatePickerUntilEmpty) {
+      // @ts-ignore
+      dateFilter(undefined, undefined);
     }
   }, [since, until])
 
@@ -80,7 +85,7 @@ export default function ArchiveNotes({
     });
   }
 
-  function handleExploreFilter(e: any) {
+  const handleExploreFilter = (e: any) => {
     e.preventDefault();
     setFilter({
       ...filter,
@@ -96,17 +101,19 @@ export default function ArchiveNotes({
     return false;
   }
 
-  const handleDates = (unixTime: Number, label: string, date: Date) => {
+  const handleDates = (unixTime: Number, label: string, date: Date, isDatePickerEmpty: boolean) => {
     if (label === "since") {
       // @ts-ignore
       setSince(unixTime);
       // @ts-ignore
       setSinceDate(date);
+      setIsDatePickerSinceEmpty(isDatePickerEmpty);
     } else if (label === "until") {
       // @ts-ignore
       setUntil(unixTime);
       // @ts-ignore
       setUntilDate(date);
+      setIsDatePickerUntilEmpty(isDatePickerEmpty);
     }
   }
 
@@ -116,6 +123,14 @@ export default function ArchiveNotes({
       since,
       until,
     });
+
+    if (isDatePickerSinceEmpty && isDatePickerUntilEmpty) {
+      if (!filter.authors?.length) {
+        handleExploreFilter;
+      } else {
+        handleFollowFilter;
+      }
+    }
   }
 
   return (

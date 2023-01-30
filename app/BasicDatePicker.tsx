@@ -35,6 +35,12 @@ const BasicDatePicker = ({
   }, [value]);
 
   const convertDate = (date: any) => {
+    let isDatePickerEmpty = false;
+    if (date === null) {
+      // @ts-ignore
+      isDatePickerEmpty = true;
+    }
+
     if (date !== null && Date.prototype.toString.call(date) !== 'Invalid Date' && date >= minDate && date <= maxDate) {
       if (label === 'since') {
         date.setHours(0, 0, 0, 0);
@@ -42,9 +48,9 @@ const BasicDatePicker = ({
         date.setHours(23, 59, 59, 999);
       }
       const unixTime = getUnixTime(date);
-      handleDates(unixTime, label, date);
+      handleDates(unixTime, label, date, isDatePickerEmpty);
     } else {
-      handleDates(undefined, label, null);
+      handleDates(undefined, label, null, isDatePickerEmpty);
     }
   }
 
