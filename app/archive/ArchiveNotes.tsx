@@ -172,7 +172,7 @@ export default function ArchiveNotes({
             return <Card key={event.id} event={event} profile />;
           })}
       </ul>
-      <Pagination numPages={numPages} />
+      {numPages > 1 ? <Pagination numPages={numPages} /> : null}
     </>
   );
 }

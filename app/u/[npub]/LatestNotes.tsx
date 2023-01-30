@@ -1,6 +1,7 @@
 import { useSearchParams } from "next/navigation";
 import { useNostrEvents } from "nostr-react";
 import { useEffect, useMemo, useState } from "react";
+import Loading from "../../Loading";
 import Pagination from "../../Pagination";
 import Posts from "../../Posts";
 import Card from "./Card";
@@ -8,7 +9,7 @@ import Card from "./Card";
 const POSTS_PER_PAGE = 5;
 
 export default function LatestNotes({ profilePubkey, name }: any) {
-  const { events } = useNostrEvents({
+  const { events, isLoading } = useNostrEvents({
     filter: {
       kinds: [2222],
       authors: [profilePubkey],
@@ -39,12 +40,18 @@ export default function LatestNotes({ profilePubkey, name }: any) {
           : `${name ? `${name} has no notes yet` : "No notes yet"}`
       }
     >
-      <ul className="flex flex-col gap-4 text-center md:text-start">
-        {slicedEvents.map((event) => (
-          <Card key={event.id} event={event} dateOnly />
-        ))}
-      </ul>
-      <Pagination numPages={numPages} />
+      <div className="flex-1">
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <ul className="flex flex-col gap-4 text-center md:text-start">
+            {slicedEvents.map((event) => (
+              <Card key={event.id} event={event} dateOnly />
+            ))}
+          </ul>
+        )}
+      </div>
+      {numPages > 1 ? <Pagination numPages={numPages} /> : null}
     </Posts>
   );
 }
