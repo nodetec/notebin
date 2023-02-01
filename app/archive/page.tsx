@@ -16,7 +16,7 @@ export default function ArchivePage() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [filter, setFilter] = useState<Filter>({
-    kinds: [2222],
+    kinds: [1050],
     limit: 100,
     authors: undefined,
   });

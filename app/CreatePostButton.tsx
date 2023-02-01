@@ -60,7 +60,7 @@ const CreatePostButton = ({
         ["subject", title],
       ];
 
-      let event = NostrService.createEvent(2222, publicKey, text, tags);
+      let event = NostrService.createEvent(1050, publicKey, text, tags);
 
       try {
         event = await NostrService.addEventData(event);

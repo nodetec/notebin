@@ -11,7 +11,7 @@ const POSTS_PER_PAGE = 5;
 export default function LatestNotes({ profilePubkey, name }: any) {
   const { events, isLoading } = useNostrEvents({
     filter: {
-      kinds: [2222],
+      kinds: [1050],
       authors: [profilePubkey],
     },
   });

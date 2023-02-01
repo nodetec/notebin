@@ -27,7 +27,7 @@ export default function NotePage() {
   const { events } = useNostrEvents({
     filter: {
       ids: [eventId],
-      kinds: [2222],
+      kinds: [1050],
     },
   });
 
