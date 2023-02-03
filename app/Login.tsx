@@ -7,12 +7,17 @@ import Button from "./Button";
 import AccountButton from "./AccountButton";
 
 import { KeysContext } from "./context/keys-provider.jsx";
+import PopupInput from "./PopupInput";
+import { generatePrivateKey, getPublicKey } from "nostr-tools";
+import { ImShuffle } from "react-icons/im";
+import { FaSignInAlt } from "react-icons/fa";
 
 export default function Login() {
   // @ts-ignore
   const { keys, setKeys } = useContext(KeysContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isLightningConnected, setIsLightningConnected] = useState(false);
+  const [hidePrivateKey, setHidePrivateKey] = useState(true);
 
   useEffect(() => {
     const shouldReconnect = localStorage.getItem("shouldReconnect");
@@ -28,7 +33,7 @@ export default function Login() {
           // @ts-ignore
           const publicKey = await nostr.getPublicKey();
           // console.log("public key", publicKey);
-          setKeys({ privateKey: "", publicKey: publicKey });
+          setKeys({ privateKey: "", publicKey });
         } catch (e: any) {
           console.log(e.message);
         }
@@ -39,7 +44,7 @@ export default function Login() {
     if (shouldReconnect === "true") {
       getConnected(shouldReconnect);
     }
-  }, []);
+  }, [setKeys]);
 
   const loginHandler = async () => {
     // @ts-ignore
@@ -54,6 +59,12 @@ export default function Login() {
     console.log("connected to lightning");
     setIsLightningConnected(true);
     setIsOpen(false);
+  };
+
+  const generateKeys = () => {
+    const privateKey = generatePrivateKey();
+    const publicKey = getPublicKey(privateKey);
+    setKeys({ privateKey, publicKey });
   };
 
   const handleClick = async () => {
@@ -76,12 +87,48 @@ export default function Login() {
       )}
 
       <Popup title="Generate Keys" isOpen={isOpen} setIsOpen={setIsOpen}>
+        <div className="flex items-center gap-2">
+          <PopupInput
+            label="Private Key"
+            value={keys?.privateKey}
+            onChange={(e) => setKeys({ ...keys, privateKey: e.target.value })}
+            password={keys.privateKey}
+            isPassword={hidePrivateKey}
+            toggleIsPassword={() => setHidePrivateKey((current) => !current)}
+          />
+        </div>
+        <PopupInput
+          label="Public Key"
+          value={keys?.publicKey}
+          onChange={(e) => setKeys({ ...keys, publicKey: e.target.value })}
+        />
+        <div className="flex items-center gap-2 ">
+          <Button
+            className="w-full"
+            color="neutralLight"
+            variant="outline"
+            onClick={generateKeys}
+            size="sm"
+            icon=<ImShuffle />
+          >
+            Generate Keys
+          </Button>
+          <Button
+            className="w-full"
+            // TODO: here you need to implement the login with the generated keys
+            /* onClick={loginHandler} */
+            size="sm"
+            icon={<FaSignInAlt />}
+          >
+            Login
+          </Button>
+        </div>
+        <h2 className="text-center">OR</h2>
         <Button
           className="w-full"
           onClick={loginHandler}
-          color="blue"
           size="sm"
-          icon={<BsLightningChargeFill size="14" />}
+          icon={<BsLightningChargeFill />}
         >
           {isLightningConnected ? "connected" : "Login with NIP-07 Extension"}
         </Button>
