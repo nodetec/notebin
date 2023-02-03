@@ -1,6 +1,6 @@
 "use client";
 import { useNostr } from "nostr-react";
-import { useContext } from "react";
+import { useState, useEffect, useContext } from "react";
 import { KeysContext } from "../context/keys-provider";
 import type { Event } from "nostr-tools";
 import Pagination from "../Pagination";
@@ -9,6 +9,7 @@ import Card from "../u/[npub]/Card";
 import Button from "../Button";
 import { ImSearch } from "react-icons/im";
 import { HiUserAdd } from "react-icons/hi";
+import BasicDatePicker from "../BasicDatePicker";
 
 export default function ArchiveNotes({
   numPages,
@@ -25,6 +26,36 @@ export default function ArchiveNotes({
   const pageSearchParam = searchParams.get("page");
 
   const currentPage = pageSearchParam ? parseInt(pageSearchParam) : 1;
+
+  const [since, setSince] = useState(undefined);
+  const [until, setUntil] = useState(undefined);
+  const [sinceDate, setSinceDate] = useState(null);
+  const [untilDate, setUntilDate] = useState(null);
+  const [isDatePickerSinceEmpty, setIsDatePickerSinceEmpty] = useState(false);
+  const [isDatePickerUntilEmpty, setIsDatePickerUntilEmpty] = useState(false);
+
+  useEffect(() => {
+    console.log("searchParams", searchParams.get("page"));
+  }, [searchParams]);
+
+  useEffect(() => {
+    let datesAreOnSameDay = true;
+    if (sinceDate && untilDate) {
+      datesAreOnSameDay = areDatesOnSameDay(sinceDate, untilDate);
+    }
+
+    if (
+      typeof since === "number" &&
+      typeof until === "number" &&
+      until > since &&
+      !datesAreOnSameDay
+    ) {
+      dateFilter(since, until);
+    } else if (isDatePickerSinceEmpty && isDatePickerUntilEmpty) {
+      // @ts-ignore
+      dateFilter(undefined, undefined);
+    }
+  }, [since, until]);
 
   const { connectedRelays } = useNostr();
 
@@ -59,13 +90,62 @@ export default function ArchiveNotes({
     });
   }
 
-  function handleExploreFilter(e: any) {
+  const handleExploreFilter = (e: any) => {
     e.preventDefault();
     setFilter({
       ...filter,
       authors: undefined,
     });
-  }
+  };
+
+  const areDatesOnSameDay = (date1: Date, date2: Date) => {
+    if (
+      date1.getFullYear() === date2.getFullYear() &&
+      date1.getMonth() === date2.getMonth() &&
+      date1.getDate() === date2.getDate()
+    ) {
+      return true;
+    }
+
+    return false;
+  };
+
+  const handleDates = (
+    unixTime: Number,
+    label: string,
+    date: Date,
+    isDatePickerEmpty: boolean
+  ) => {
+    if (label === "since") {
+      // @ts-ignore
+      setSince(unixTime);
+      // @ts-ignore
+      setSinceDate(date);
+      setIsDatePickerSinceEmpty(isDatePickerEmpty);
+    } else if (label === "until") {
+      // @ts-ignore
+      setUntil(unixTime);
+      // @ts-ignore
+      setUntilDate(date);
+      setIsDatePickerUntilEmpty(isDatePickerEmpty);
+    }
+  };
+
+  const dateFilter = (since: Number, until: Number) => {
+    setFilter({
+      ...filter,
+      since,
+      until,
+    });
+
+    if (isDatePickerSinceEmpty && isDatePickerUntilEmpty) {
+      if (!filter.authors?.length) {
+        handleExploreFilter;
+      } else {
+        handleFollowFilter;
+      }
+    }
+  };
 
   return (
     <>
@@ -88,6 +168,28 @@ export default function ArchiveNotes({
         >
           following
         </Button>
+      </div>
+      <div className="flex flex-wrap justify-start gap-3 rounded-md p-2 basic-date-pickers">
+        <div className="mr-3">
+          <BasicDatePicker
+            label="since"
+            // @ts-ignore
+            until={until}
+            // @ts-ignore
+            untilDate={untilDate}
+            handleDates={handleDates}
+          />
+        </div>
+        <div className="mr-3">
+          <BasicDatePicker
+            label="until"
+            // @ts-ignore
+            since={since}
+            // @ts-ignore
+            sinceDate={sinceDate}
+            handleDates={handleDates}
+          />
+        </div>
       </div>
       <ul className="flex flex-col gap-4">
         {events

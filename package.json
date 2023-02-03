@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/styled": "^11.10.5",
+    "@mui/x-date-pickers": "^5.0.15",
     "@next/font": "13.1.1",
     "@types/node": "18.11.18",
     "@types/react": "18.0.26",
@@ -16,6 +18,7 @@
     "@uiw/react-textarea-code-editor": "^2.0.6",
     "bech32": "^2.0.0",
     "crypto-js": "^4.1.1",
+    "date-fns": "^2.29.3",
     "eslint": "8.31.0",
     "eslint-config-next": "13.1.1",
     "lnurl-pay": "^2.1.1",

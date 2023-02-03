@@ -19,6 +19,8 @@ export default function ArchivePage() {
     kinds: [1050],
     limit: 100,
     authors: undefined,
+    since: undefined,
+    until: undefined,
   });
 
   if (pathname) {
