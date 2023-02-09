@@ -2,7 +2,7 @@ export const HOST = "https://notebin.org";
 
 export const RELAYS = [
   "wss://nostr-pub.wellorder.net",
-  "wss://nostr.chaker.net",
+  "wss://nostr.nosbin.net",
   // "wss://relay.nostr.ch",
   // "wss://relay.snort.social",
   // "wss://nostr.bitcoiner.social",
@@ -15,14 +15,13 @@ export const RELAYS = [
 
 export const PROFILE_RELAYS = [
   "wss://nostr-pub.wellorder.net",
-  "wss://nostr.chaker.net",
   // "wss://relay.nostr.ch",
-  // "wss://relay.snort.social",
+  "wss://relay.snort.social",
   // "wss://nostr.bitcoiner.social",
   // "wss://nostr.onsats.org",
   // "wss://nostr-relay.wlvs.space",
   // "wss://nostr.zebedee.cloud",
-  // "wss://relay.damus.io",
+  "wss://relay.damus.io",
   // "wss://relay.nostr.info",
 ];
 
