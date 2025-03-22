@@ -23,7 +23,6 @@
 		"@uiw/codemirror-extensions-langs": "^4.23.10",
 		"@uiw/codemirror-theme-github": "^4.23.10",
 		"@uiw/react-codemirror": "^4.23.10",
-		"argon2": "^0.41.1",
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"lucide-react": "^0.483.0",
