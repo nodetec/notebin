@@ -15,7 +15,7 @@ export function LanguageSelect() {
   const setLang = useAppState((state) => state.setLang);
   const lang = useAppState((state) => state.lang);
   return (
-    <Select onValueChange={(e: LanguageName) => setLang(e)} defaultValue={lang}>
+    <Select onValueChange={(e: LanguageName) => setLang(e)} value={lang}>
       <SelectTrigger className="h-6 w-[125px] rounded-md text-xs">
         <SelectValue className="font-mono" placeholder="language" />
       </SelectTrigger>
@@ -23,7 +23,7 @@ export function LanguageSelect() {
         {languages.map((object) => (
           <SelectItem
             key={object.value}
-            className="text-xs"
+            className="font-mono text-xs"
             value={object.value}
           >
             {object.displayName}

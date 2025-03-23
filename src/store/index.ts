@@ -1,7 +1,6 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import type { LanguageName } from "@uiw/codemirror-extensions-langs";
-import { initialContent } from "~/lib/initialContent";
 
 interface State {
   content: string;
@@ -20,16 +19,16 @@ interface State {
 export const useAppState = create<State>()(
   persist(
     (set) => ({
-      content: initialContent,
+      content: "",
       setContent: (content) => set({ content }),
 
-      filename: undefined,
+      filename: "",
       setFilename: (filename) => set({ filename }),
 
       lang: "typescript",
       setLang: (lang) => set({ lang }),
 
-      description: undefined,
+      description: "",
       setDescription: (description) => set({ description }),
     }),
     {
