@@ -1,6 +1,6 @@
 import { nip19 } from "nostr-tools";
 import { Description, Filename, CopyButton } from "~/features/editor";
-import { ReadEditor } from "~/features/editor/components/ReadEditor";
+import { ReadEditor } from "~/features/editor";
 import { ZapButton } from "~/features/zap";
 
 export default async function SnippetPage({

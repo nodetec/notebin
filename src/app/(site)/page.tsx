@@ -3,8 +3,8 @@ import { DescriptionInput } from "~/features/editor";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/auth";
 import type { UserWithKeys } from "~/types";
-import PostButton from "~/features/post/components/PostButton";
-import { ActiveEditor } from "~/features/editor/components/ActiveEditor";
+import { PostButton } from "~/features/post";
+import { ActiveEditor } from "~/features/editor";
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);

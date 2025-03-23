@@ -12,7 +12,7 @@ type PostButtonProps = {
   user: UserWithKeys;
 };
 
-export default function PostButton({ user }: PostButtonProps) {
+export function PostButton({ user }: PostButtonProps) {
   const content = useAppState((state) => state.content);
   const filename = useAppState((state) => state.filename);
   const lang = useAppState((state) => state.lang);
