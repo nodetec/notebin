@@ -54,10 +54,6 @@ async function postSnippet(payload: PostSnippetPayload) {
 
   if (relays.length > 0 && event) {
     await publish(event, relays);
-    useAppState.getState().setContent("");
-    useAppState.getState().setFilename("");
-    useAppState.getState().setDescription("");
-    useAppState.getState().setLang("typescript");
 
     const eventPointer: EventPointer = {
       id: event.id,
@@ -68,6 +64,10 @@ async function postSnippet(payload: PostSnippetPayload) {
 
     const nevent = nip19.neventEncode(eventPointer);
     redirectToSnippet(nevent);
+    useAppState.getState().setContent("");
+    useAppState.getState().setFilename("");
+    useAppState.getState().setDescription("");
+    useAppState.getState().setLang("typescript");
   }
 }
 
