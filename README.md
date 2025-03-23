@@ -1,4 +1,4 @@
-# NIP-: Code Snippets
+# NIP-95: Code Snippets
 
 `draft` `optional`
 
