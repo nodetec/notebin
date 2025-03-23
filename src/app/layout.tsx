@@ -21,7 +21,7 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "Notebin.io | Code Sharing Platform",
   description:
-    "Share and collaborate on code snippets easily with Notebin.io. A modern, fast, and secure platform for developers to share code snippets, get feedback, and collaborate in real-time.",
+    "A modern, fast, and secure platform for developers to share code snippets.",
   keywords: [
     "code sharing",
     "code snippets",
