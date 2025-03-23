@@ -1,0 +1,41 @@
+import type { LanguageName } from "@uiw/codemirror-extensions-langs";
+
+export const languages: {
+  displayName: string;
+  value: LanguageName;
+}[] = [
+  { displayName: "Bash", value: "shell" },
+  { displayName: "C", value: "c" },
+  { displayName: "C#", value: "csharp" },
+  { displayName: "CSS", value: "css" },
+  { displayName: "Docker", value: "dockerfile" },
+  { displayName: "Elm", value: "elm" },
+  { displayName: "Erlang", value: "erlang" },
+  { displayName: "Go", value: "go" },
+  { displayName: "Haskell", value: "haskell" },
+  { displayName: "HTML", value: "html" },
+  { displayName: "Java", value: "java" },
+  { displayName: "JavaScript", value: "javascript" },
+  { displayName: "JSON", value: "json" },
+  { displayName: "JSX", value: "jsx" },
+  { displayName: "Kotlin", value: "kotlin" },
+  { displayName: "Lua", value: "lua" },
+  { displayName: "Markdown", value: "markdown" },
+  { displayName: "Powershell", value: "powershell" },
+  { displayName: "PHP", value: "php" },
+  { displayName: "Python", value: "python" },
+  { displayName: "R", value: "r" },
+  { displayName: "Ruby", value: "ruby" },
+  { displayName: "Rust", value: "rust" },
+  { displayName: "Scala", value: "scala" },
+  { displayName: "Solidity", value: "solidity" },
+  { displayName: "SQL", value: "sql" },
+  { displayName: "Swift", value: "swift" },
+  { displayName: "Svelte", value: "svelte" },
+  { displayName: "TOML", value: "toml" },
+  { displayName: "TypeScript", value: "typescript" },
+  { displayName: "TSX", value: "tsx" },
+  { displayName: "Vue", value: "vue" },
+  { displayName: "XML", value: "xml" },
+  { displayName: "YAML", value: "yaml" },
+];
