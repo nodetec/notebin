@@ -1,4 +1,4 @@
-# NIP-XX: Code Snippets
+# NIP-: Code Snippets
 
 `draft` `optional`
 
@@ -14,20 +14,18 @@ The `.content` field contains the actual code snippet text.
 
 ## Required Tags
 
-- `l` - Programming language name (lowercase). Examples: "javascript", "python", "rust"
-- `x` - File extension (without the dot). Examples: "js", "py", "rs"
+- `f` - Filename of the code snippet
 
 ## Optional Tags
 
-- `title` - Name/title of the snippet
+- `l` - Programming language name (lowercase). Examples: "javascript", "python", "rust"
+- `x` - File extension (without the dot). Examples: "js", "py", "rs"
 - `description` - Brief description of what the code does
 - `runtime` - Runtime or environment specification (e.g., "node v18.15.0", "python 3.11")
 - `license` - License under which the code is shared (e.g., "MIT", "GPL-3.0", "Apache-2.0")
-- `gist` - URL to an external gist if this is mirrored from somewhere else
-- `deps` - Dependencies required for the code to run (can be repeated)
+- `dep` - Dependency required for the code to run (can be repeated)
 - `repo` - Reference to a repository where this code originates
 - `version` - Version of the code or library
-- `author` - Original author if different from the publisher
 
 ## Format
 
@@ -41,12 +39,12 @@ The `.content` field contains the actual code snippet text.
   "tags": [
     ["l", "javascript"],
     ["x", "js"],
-    ["title", "Simple Hello World Function"],
+    ["f", "hello-world.js"],
     ["description", "A basic JavaScript function that prints 'Hello, Nostr!' to the console"],
     ["runtime", "node v18.15.0"],
     ["license", "MIT"],
-    ["deps", "none"],
-    ["version", "1.0.0"]
+    ["dep", "none"],
+    ["repo", "https://github.com/nostr-protocol/nostr"]
   ],
   "sig": "<64-bytes signature of the id>"
 }
@@ -61,7 +59,7 @@ Clients that support this NIP SHOULD:
 3. Render the code with appropriate formatting, preserving whitespace and indentation.
 4. Display the language and extension prominently.
 5. Provide "run" functionality for supported languages when possible.
-6. Display the title and description (if available) as part of the snippet presentation.
+6. Display the description (if available) as part of the snippet presentation.
 
 Clients MAY provide additional functionality such as:
 
@@ -82,11 +80,10 @@ Relays supporting this NIP SHOULD:
 
 Clients MAY implement specialized search for code snippets using combinations of:
 
-1. Language
-2. Extension
-3. Content text
-4. Dependencies
-5. Title keywords
+1. Filename
+2. Language
+3. Extension
+4. Content text
 
 ## Examples
 
@@ -99,7 +96,7 @@ Clients MAY implement specialized search for code snippets using combinations of
   "tags": [
     ["l", "javascript"],
     ["x", "js"],
-    ["title", "Sum Calculator"],
+    ["f", "sum-calculator.js"],
     ["description", "A function that calculates the sum of two numbers"]
   ]
 }
@@ -114,7 +111,7 @@ Clients MAY implement specialized search for code snippets using combinations of
   "tags": [
     ["l", "python"],
     ["x", "py"],
-    ["title", "Person Class Example"],
+    ["f", "person-class.py"],
     [
       "description",
       "A simple Python class representing a person with greeting functionality"
@@ -135,11 +132,7 @@ This NIP can be extended in the future to support:
 1. Multi-file snippets
 2. Version control history for snippets
 3. Integration with execution environments
-4. References to libraries or frameworks
-5. Standardized testing parameters
 
 ## Implementations
 
-- notebin.io
-
----
+- [notebin.io](https://notebin.io)
