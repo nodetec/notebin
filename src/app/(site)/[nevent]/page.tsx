@@ -6,7 +6,7 @@ import { ZapButton } from "~/features/zap";
 export default async function SnippetPage({
   params,
 }: {
-  params: { nevent: string };
+  params: Promise<{ nevent: string }>;
 }) {
   const { nevent } = await params;
 
