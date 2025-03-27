@@ -9,8 +9,10 @@ export default async function SnippetPage({
   params: Promise<{ nevent: string }>;
 }) {
   const { nevent } = await params;
-
-  const decodeResult = nip19.decode(nevent);
+  
+  // Normalize the nevent string to lowercase before decoding
+  const normalizedNevent = nevent.toLowerCase();
+  const decodeResult = nip19.decode(normalizedNevent);
 
   if (decodeResult.type === "nevent") {
     const { kind, id, author, relays } = decodeResult.data;
