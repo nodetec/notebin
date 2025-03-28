@@ -22,7 +22,9 @@ export default async function HomePage() {
       </div>
       <DescriptionInput />
       <div className="flex w-full items-center justify-end">
-        <PostButton user={user} />
+        {user?.publicKey && (
+          <PostButton publicKey={user.publicKey} secretKey={user.secretKey} />
+        )}
       </div>
     </>
   );

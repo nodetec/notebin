@@ -1,25 +1,24 @@
 "use client";
 
-import { Button } from "~/components/ui/button";
-import { useAppState } from "~/store";
-import type { UserWithKeys } from "~/types";
-import { usePostMutation } from "../hooks/usePostMutation";
 import { toast } from "sonner";
-import { useRelayMetadataEvent } from "~/hooks/useRelayMetaDataEvent";
+import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
+import { useAppState } from "~/store";
+import { usePostMutation } from "../hooks/usePostMutation";
+import { useNostrProfile } from "~/hooks/useNostrProfile";
 
 type PostButtonProps = {
-  user: UserWithKeys;
+  publicKey: string;
+  secretKey?: string;
 };
 
-export function PostButton({ user }: PostButtonProps) {
+export function PostButton({ publicKey, secretKey }: PostButtonProps) {
   const content = useAppState((state) => state.content);
   const filename = useAppState((state) => state.filename);
   const lang = useAppState((state) => state.lang);
   const description = useAppState((state) => state.description);
 
-  const relayMetadataEvent = useRelayMetadataEvent(user?.publicKey);
-
+  const nostrProfile = useNostrProfile(publicKey, true);
   const { mutate: postSnippet, isPending } = usePostMutation();
 
   const handlePost = async () => {
@@ -28,27 +27,22 @@ export function PostButton({ user }: PostButtonProps) {
       return;
     }
 
-    if (!user.publicKey || !user.secretKey) {
-      toast.error("Please login to post");
-      return;
-    }
-
     postSnippet({
       content,
       filename,
       lang,
       description,
-      publicKey: user.publicKey,
-      secretKey: user.secretKey,
-      relayMetadataEvent: relayMetadataEvent.data,
+      publicKey,
+      secretKey,
+      writeRelays: nostrProfile.data?.writeRelays,
     });
   };
 
   return (
     <Button
       className={cn(
-        "w-full py-6 font-bold font-semibold text-base md:w-auto md:py-2 md:text-sm",
-        isPending && "cursor-progress"
+        "w-full py-6 font-mono font-semibold text-base md:w-auto md:py-2 md:text-sm",
+        isPending && "cursor-progress",
       )}
       type="submit"
       onClick={handlePost}

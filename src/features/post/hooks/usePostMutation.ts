@@ -1,11 +1,10 @@
 import { useMutation } from "@tanstack/react-query";
 import type { LanguageName } from "@uiw/codemirror-extensions-langs";
-import { type EventTemplate, type Event, nip19 } from "nostr-tools";
+import { type EventTemplate, nip19 } from "nostr-tools";
 import type { EventPointer } from "nostr-tools/nip19";
 import { redirectToSnippet } from "~/actions/redirectToSnippet";
 import { DEFAULT_RELAYS } from "~/lib/constants";
 import { finishEvent } from "~/lib/nostr/finishEvent";
-import { parseRelayMetadataEvent } from "~/lib/nostr/parseRelayMetadataEvent";
 import { parseUint8Array } from "~/lib/nostr/parseUint8Array";
 import { publish } from "~/lib/nostr/publish";
 import { getExtension } from "~/lib/utils";
@@ -18,7 +17,7 @@ interface PostSnippetPayload {
   description?: string;
   publicKey: string;
   secretKey?: string;
-  relayMetadataEvent?: Event | null;
+  writeRelays?: string[];
 }
 
 async function postSnippet(payload: PostSnippetPayload) {
@@ -43,9 +42,8 @@ async function postSnippet(payload: PostSnippetPayload) {
 
   let relays: string[] = DEFAULT_RELAYS;
 
-  if (payload.relayMetadataEvent) {
-    const relayMetaData = parseRelayMetadataEvent(payload.relayMetadataEvent);
-    relays = relayMetaData.writeRelays;
+  if (payload.writeRelays) {
+    relays = payload.writeRelays;
   }
 
   const secretKey = parseUint8Array(payload.secretKey);

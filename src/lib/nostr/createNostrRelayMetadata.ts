@@ -1,13 +1,21 @@
 import type { Event } from "nostr-tools";
 
-export interface RelayMetadata {
+export interface NostrRelayMetadata {
+  event: Event | null;
   relays: string[];
   readRelays: string[];
   writeRelays: string[];
 }
 
-export function parseRelayMetadataEvent(event?: Event | null): RelayMetadata {
-  if (!event) return { relays: [], readRelays: [], writeRelays: [] };
+export function createNostrRelayMetadata(event: Event | null) {
+  if (!event) {
+    return {
+      event: null,
+      relays: [],
+      readRelays: [],
+      writeRelays: [],
+    };
+  }
 
   const relays = event?.tags?.map((tag) => tag[1] ?? "").filter(Boolean) ?? [];
 
@@ -23,5 +31,5 @@ export function parseRelayMetadataEvent(event?: Event | null): RelayMetadata {
       .map((tag) => tag[1] ?? "")
       .filter(Boolean) ?? [];
 
-  return { relays, readRelays, writeRelays };
+  return { event, relays, readRelays, writeRelays };
 }

@@ -1,48 +1,28 @@
 "use client";
 
-import { useMemo } from "react";
-
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Skeleton } from "~/components/ui/skeleton";
-import { useProfileEvent } from "~/hooks/useProfileEvent";
+import { useNostrProfile } from "~/hooks/useNostrProfile";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
-import { parseRelayMetadataEvent } from "~/lib/nostr/parseRelayMetadataEvent";
-import { useRelayMetadataEvent } from "~/hooks/useRelayMetaDataEvent";
-import type { UserWithKeys } from "~/types";
-import { useSession } from "next-auth/react";
-import { parseProfileEvent } from "~/lib/nostr/parseProfileEvent";
+import { getAvatar } from "~/lib/utils";
+import { shortenNpub } from "~/lib/nostr/shortNpub";
 
 type Props = {
   publicKey: string;
 };
 
 export function UserDropdown({ publicKey }: Props) {
-  const session = useSession();
+  const nostrProfile = useNostrProfile(publicKey, true);
 
-  const user = session.data?.user as UserWithKeys;
-
-  const senderPubkey = user?.publicKey;
-
-  const relayMetadataEvent = useRelayMetadataEvent(senderPubkey);
-
-  const relayMetadata = useMemo(
-    () => parseRelayMetadataEvent(relayMetadataEvent.data),
-    [relayMetadataEvent],
-  );
-
-  const profileEvent = useProfileEvent(senderPubkey, relayMetadata.writeRelays);
-
-  const profile = useMemo(
-    () => parseProfileEvent(profileEvent.data),
-    [profileEvent],
-  );
+  console.log(nostrProfile.data);
 
   return (
     <DropdownMenu>
@@ -52,13 +32,12 @@ export function UserDropdown({ publicKey }: Props) {
           size="icon"
           className="overflow-hidden rounded-full focus-visible:ring-muted"
         >
-          {profileEvent.status === "pending" ? (
+          {nostrProfile.status === "pending" ? (
             <Skeleton className="aspect-square w-12 overflow-hidden rounded-full object-cover" />
           ) : (
             <Image
               className="aspect-square w-12 overflow-hidden rounded-full object-cover"
-              //   src={profile?.content?.picture ?? getAvatar(publicKey)}
-              src={profile?.content?.picture ?? ""}
+              src={nostrProfile.data?.picture ?? getAvatar(publicKey)}
               width={48}
               height={48}
               alt=""
@@ -68,12 +47,14 @@ export function UserDropdown({ publicKey }: Props) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mt-1" align="end">
-        {/* <DropdownMenuItem asChild> */}
-        {/* <Link href={createProfileLink(profile, publicKey)}> */}
-        {/* {profile?.content?.name ?? shortenNpub(publicKey)} */}
-        {/* </Link> */}
-        {/* </DropdownMenuItem> */}
-        {/* <DropdownMenuSeparator /> */}
+        <DropdownMenuItem className="truncate" asChild>
+          {/* <Link href={createProfileLink(profile, publicKey)}> */}
+          <span className="truncate">
+            {nostrProfile.data?.name ?? shortenNpub(publicKey)}
+          </span>
+          {/* </Link> */}
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
         {/* <DropdownMenuItem asChild>
           <Link href="/settings">Settings</Link>
         </DropdownMenuItem> */}

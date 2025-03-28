@@ -1,7 +1,10 @@
+import { getServerSession } from "next-auth";
 import { nip19 } from "nostr-tools";
+import { authOptions } from "~/auth";
 import { Description, Filename, CopyButton } from "~/features/editor";
 import { ReadEditor } from "~/features/editor";
 import { ZapButton } from "~/features/zap";
+import type { UserWithKeys } from "~/types";
 
 export default async function SnippetPage({
   params,
@@ -9,10 +12,14 @@ export default async function SnippetPage({
   params: Promise<{ nevent: string }>;
 }) {
   const { nevent } = await params;
-  
+
   // Normalize the nevent string to lowercase before decoding
   const normalizedNevent = nevent.toLowerCase();
   const decodeResult = nip19.decode(normalizedNevent);
+
+  const session = await getServerSession(authOptions);
+
+  const user = session?.user as UserWithKeys;
 
   if (decodeResult.type === "nevent") {
     const { kind, id, author, relays } = decodeResult.data;
@@ -34,7 +41,13 @@ export default async function SnippetPage({
                 author={author}
                 relays={relays}
               />
-              <ZapButton eventId={id} />
+              {user?.publicKey && author && (
+                <ZapButton
+                  eventId={id}
+                  author={author}
+                  senderPubkey={user.publicKey}
+                />
+              )}
             </div>
           </div>
           <ReadEditor
@@ -45,9 +58,6 @@ export default async function SnippetPage({
           />
         </div>
         <Description eventId={id} kind={kind} author={author} relays={relays} />
-        {/* <div className="flex w-full items-center justify-end">
-        <PostButton user={user} />
-      </div> */}
       </>
     );
   }
