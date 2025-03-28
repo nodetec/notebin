@@ -23,14 +23,14 @@ interface PostSnippetPayload {
 async function postSnippet(payload: PostSnippetPayload) {
   const tags: string[][] = [
     ["l", payload.lang],
-    ["f", payload.filename],
+    ["name", payload.filename],
     ["description", payload.description ?? ""],
   ];
 
   const extension = getExtension(payload.filename);
 
   if (extension) {
-    tags.push(["x", extension]);
+    tags.push(["extension", extension]);
   }
 
   const eventTemplate: EventTemplate = {
