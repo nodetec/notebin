@@ -6,14 +6,14 @@ interface State {
   content: string;
   setContent: (content: string) => void;
 
-  filename: string | undefined;
-  setFilename: (filename: string | undefined) => void;
+  filename: string;
+  setFilename: (filename: string) => void;
 
   lang: LanguageName;
   setLang: (lang: LanguageName) => void;
 
-  description: string | undefined;
-  setDescription: (description: string | undefined) => void;
+  description: string;
+  setDescription: (description: string) => void;
 }
 
 export const useAppState = create<State>()(

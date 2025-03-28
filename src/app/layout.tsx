@@ -7,6 +7,7 @@ import QueryClientProviderWrapper from "~/providers/query-client-provider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 import { Toaster } from "sonner";
+import { TooltipProvider } from "~/components/ui/tooltip";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -60,10 +61,6 @@ export const metadata: Metadata = {
     images: ["/og-image.png"],
     creator: "@notebinio",
   },
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "white" },
-    { media: "(prefers-color-scheme: dark)", color: "#09090b" },
-  ],
   viewport: {
     width: "device-width",
     initialScale: 1,
@@ -89,8 +86,10 @@ export default function RootLayout({
         >
           <QueryClientProviderWrapper>
             <AuthProvider>
-              {children}
-              <Toaster />
+              <TooltipProvider>
+                {children}
+                <Toaster />
+              </TooltipProvider>
             </AuthProvider>
             <ReactQueryDevtools initialIsOpen={false} />
           </QueryClientProviderWrapper>
