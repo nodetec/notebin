@@ -14,10 +14,8 @@ export function Filename({ eventId, kind, author, relays }: FilenameProps) {
   const { data: snippet } = useSnippetEvent(eventId, kind, author, relays);
 
   return (
-    <div className="flex items-center gap-2">
-      <p className="pl-1 font-bold font-mono text-muted-foreground text-sm">
-        {getTagValue(snippet, "f")}
-      </p>
-    </div>
+    <span className="truncate pl-1 font-bold font-mono text-muted-foreground text-sm">
+      {getTagValue(snippet, "name")}
+    </span>
   );
 }
