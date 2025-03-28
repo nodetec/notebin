@@ -7,7 +7,7 @@ import { useAppState } from "~/store";
 import { TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
 import { Tooltip } from "~/components/ui/tooltip";
 
-export default function CreateNavButton() {
+export function CreateNavButton() {
   const router = useRouter();
   const pathname = usePathname();
 

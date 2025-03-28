@@ -5,7 +5,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "~/auth";
 import Link from "next/link";
 import { UserDropdown } from "~/features/login";
-import CreateNavButton from "~/features/navigation/components/CreateNavButton";
+import { CreateNavButton } from "~/features/navigation/components/CreateNavButton";
+import { ArchiveNavButton } from "~/features/navigation/components/ArchiveNavButton";
 
 export default async function SiteLayout({
   children,
@@ -32,7 +33,7 @@ export default async function SiteLayout({
             {/* <Button variant="ghost">Archive</Button> */}
           </div>
           <div className="flex items-center gap-2">
-            {/* <ArchiveNavButton /> */}
+            <ArchiveNavButton />
             <CreateNavButton />
             {user?.publicKey ? (
               <UserDropdown publicKey={user?.publicKey} />
