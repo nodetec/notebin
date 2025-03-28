@@ -30,7 +30,9 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
   return (
     <div className="flex flex-col gap-2">
       <Link href={`/${createNevent(snippet.event, DEFAULT_RELAYS)}`}>
-        <h2 className="font-semibold text-blue-400">{snippet.name || "Untitled"}</h2>
+        <h2 className="truncate font-semibold text-blue-400 text-sm">
+          {snippet.name || "Untitled"}
+        </h2>
       </Link>
 
       <div className="h-[204px] overflow-hidden rounded-md border bg-background text-md">
