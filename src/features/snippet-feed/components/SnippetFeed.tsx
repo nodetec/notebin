@@ -2,13 +2,10 @@
 
 import { useNostrSnippets } from "~/hooks/useNostrSnippets";
 
-import { useTheme } from "next-themes";
 import { SnippetCard } from "./SnippetCard";
 import { Button } from "~/components/ui/button";
 
 export function SnippetFeed() {
-  const { resolvedTheme } = useTheme();
-
   const { data, isLoading, isError, fetchNextPage, hasNextPage } =
     useNostrSnippets();
 
