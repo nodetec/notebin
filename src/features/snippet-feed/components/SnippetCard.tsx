@@ -40,6 +40,22 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
           className="[&_.cm-editor]:!bg-background [&_.cm-scroller]:!bg-background [&_.cm-editor.cm-focused]:!outline-none [&_.cm-gutters]:!bg-background [&_.cm-lineNumbers]:!min-w-[40px] [&_.cm-lineNumbers]:!text-muted-foreground/80 w-full overflow-hidden text-sm"
           value={snippet?.content}
           basicSetup={{
+            allowMultipleSelections: false,
+            autocompletion: false,
+            bracketMatching: false,
+            closeBrackets: false,
+            closeBracketsKeymap: false,
+            completionKeymap: false,
+            history: false,
+            drawSelection: false,
+            crosshairCursor: false,
+            dropCursor: false,
+            highlightSelectionMatches: false,
+            indentOnInput: false,
+            highlightSpecialChars: false,
+            foldKeymap: false,
+            lintKeymap: false,
+            searchKeymap: false,
             lineNumbers: true,
             foldGutter: false,
             rectangularSelection: false,
