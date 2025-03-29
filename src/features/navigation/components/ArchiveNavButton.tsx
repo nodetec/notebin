@@ -7,7 +7,7 @@ export function ArchiveNavButton() {
     <Link href="/archive">
       <Button className="font-mono" variant="outline">
         <ArchiveIcon />
-        Archive
+        <span className="hidden md:block">Archive</span>
       </Button>
     </Link>
   );
