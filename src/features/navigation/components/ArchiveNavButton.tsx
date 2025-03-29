@@ -5,7 +5,7 @@ import Link from "next/link";
 export function ArchiveNavButton() {
   return (
     <Link href="/archive">
-      <Button variant="outline">
+      <Button className="font-mono" variant="outline">
         <ArchiveIcon />
         Archive
       </Button>
