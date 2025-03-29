@@ -1,8 +1,4 @@
-import {
-  keepPreviousData,
-  useQuery,
-  useQueryClient,
-} from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { DEFAULT_RELAYS } from "~/lib/constants";
 import { SimplePool } from "nostr-tools";
 import { createNostrSnippet } from "~/lib/nostr/createNostrSnippet";
@@ -115,7 +111,6 @@ export const useNostrSnippets = () => {
     refetchOnMount: true,
     gcTime: Number.POSITIVE_INFINITY,
     staleTime: Number.POSITIVE_INFINITY,
-    placeholderData: keepPreviousData,
   });
 
   // Function to load the next (older) page of events
