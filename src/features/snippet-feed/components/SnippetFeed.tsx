@@ -1,32 +1,50 @@
 "use client";
-
 import { useNostrSnippets } from "~/hooks/useNostrSnippets";
-
 import { SnippetCard } from "./SnippetCard";
 import { Button } from "~/components/ui/button";
 
 export function SnippetFeed() {
-  const { data, isLoading, isError, fetchNextPage, hasNextPage } =
-    useNostrSnippets();
-
+  const {
+    data,
+    isPending,
+    isError,
+    error,
+    loadOlderEvents,
+    loadNewerEvents,
+    resetToFirstPage,
+    hasOlderEvents,
+    hasNewerEvents,
+  } = useNostrSnippets();
   return (
     <div className="flex flex-col gap-8">
-      {data?.pages.map((page) => (
-        <div key={page.nextCursor} className="flex flex-col gap-8">
-          {page.snippets.map((snippet) => (
-            <div key={snippet.event.id}>
-              <SnippetCard snippet={snippet} />
-            </div>
-          ))}
+      {data?.map((snippet) => (
+        <div key={snippet.event.id}>
+          <SnippetCard snippet={snippet} />
         </div>
       ))}
-      {hasNextPage && (
-        <div className="flex justify-center">
-          <Button onClick={() => fetchNextPage()} type="button">
-            Load more
+      <div className="flex justify-between gap-4">
+        {hasNewerEvents ? (
+          <Button
+            className="font-mono"
+            onClick={loadNewerEvents}
+            disabled={isPending || !hasNewerEvents}
+          >
+            {isPending ? "Loading..." : "Newer"}
           </Button>
-        </div>
-      )}
+        ) : (
+          <Button className="font-mono" onClick={resetToFirstPage}>
+            Refresh
+          </Button>
+        )}
+        <Button
+          className="font-mono"
+          onClick={loadOlderEvents}
+          disabled={isPending || !hasOlderEvents}
+          type="button"
+        >
+          {isPending ? "Loading..." : "Older"}
+        </Button>
+      </div>
     </div>
   );
 }
