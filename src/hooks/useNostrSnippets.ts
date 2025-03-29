@@ -1,63 +1,69 @@
-import { useInfiniteQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { DEFAULT_RELAYS } from "~/lib/constants";
 import { SimplePool } from "nostr-tools";
 import { createNostrSnippet } from "~/lib/nostr/createNostrSnippet";
+import { useState } from "react";
 
-const fetchPage = async ({ pageParam }: { pageParam: number }) => {
-  const pool = new SimplePool();
+export const useNostrSnippets = (initialPage: number) => {
+  const [page, setPage] = useState(initialPage);
+  const [since, setSince] = useState<number | undefined>(undefined);
 
-  let limit = 5;
+  const fetchPage = async () => {
+    const pool = new SimplePool();
 
-  if (pageParam === 0) {
-    limit = 10;
-  }
+    const limit = 10;
+    const events = await pool.querySync(DEFAULT_RELAYS, {
+      kinds: [1337],
+      limit,
+      until: page === 0 ? undefined : page,
+      since,
+    });
 
-  const events = await pool.querySync(DEFAULT_RELAYS, {
-    kinds: [1337],
-    limit,
-    until: pageParam === 0 ? undefined : pageParam - 1,
-  });
+    let snippets = events.map((event) => createNostrSnippet(event));
 
-  let snippets = events.map((event) => createNostrSnippet(event));
+    pool.close(DEFAULT_RELAYS);
 
-  pool.close(DEFAULT_RELAYS);
+    // slice events to limit
+    snippets = snippets.slice(0, limit);
 
-  if (!snippets) {
-    return { snippets: [], nextCursor: pageParam };
-  }
+    // Sort the events by created_at in descending order
+    snippets.sort((a, b) => b.createdAt - a.createdAt);
 
-  // slice events to limit
-  snippets = snippets.slice(0, limit);
-
-  // Sort the events by created_at in descending order
-  snippets.sort((a, b) => b.createdAt - a.createdAt);
-
-  let nextCursor = pageParam;
-  if (snippets.length > 0) {
-    const lastEvent = snippets[snippets.length - 1];
-    if (lastEvent) {
-      nextCursor = lastEvent.createdAt;
-    }
-  }
-
-  return {
-    snippets,
-    nextCursor,
+    return snippets;
   };
-};
 
-export const useNostrSnippets = () => {
-  return useInfiniteQuery({
-    queryKey: ["snippets"],
-    queryFn: ({ pageParam }) =>
-      fetchPage({
-        pageParam,
-      }),
+  const queryResult = useQuery({
+    queryKey: ["snippets", page, since],
+    queryFn: fetchPage,
     refetchOnWindowFocus: false,
     refetchOnMount: true,
     gcTime: Number.POSITIVE_INFINITY,
     staleTime: Number.POSITIVE_INFINITY,
-    initialPageParam: 0,
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
   });
+
+  // Navigation helper functions
+  const navigateToOlder = (): void => {
+    if (!queryResult.data || queryResult.data.length === 0) return;
+    const oldestEvent = [...queryResult.data].sort(
+      (a, b) => a.createdAt - b.createdAt,
+    )[0];
+    setPage(oldestEvent.createdAt);
+    setSince(undefined);
+  };
+
+  const navigateToNewer = (): void => {
+    if (!queryResult.data || queryResult.data.length === 0) return;
+    const newestEvent = [...queryResult.data].sort(
+      (a, b) => b.createdAt - a.createdAt,
+    )[0];
+    setSince(newestEvent.createdAt);
+    setPage(0);
+  };
+
+  return {
+    ...queryResult,
+    currentSnippets: queryResult.data || [],
+    navigateToOlder,
+    navigateToNewer,
+  };
 };
