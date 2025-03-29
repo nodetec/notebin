@@ -34,6 +34,10 @@ export async function getNostrProfile(
     readRelays = nostrRelayMetadata.readRelays;
   }
 
+  if (relays.length === 0) {
+    relays = DEFAULT_RELAYS;
+  }
+
   const profileEvent = await pool.get(relays, {
     kinds: [0],
     authors: [publicKey],
