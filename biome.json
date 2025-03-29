@@ -11,6 +11,9 @@
   "linter": {
     "enabled": true,
     "rules": {
+      "suspicious": {
+        "noArrayIndexKey": "off"
+      },
       "correctness": {
         "noUnusedImports": "warn",
         "useHookAtTopLevel": "error"

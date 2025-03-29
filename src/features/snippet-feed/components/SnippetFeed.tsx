@@ -1,7 +1,8 @@
 "use client";
 import { useNostrSnippets } from "~/hooks/useNostrSnippets";
-import { SnippetCard } from "./SnippetCard";
 import { Button } from "~/components/ui/button";
+import { SnippetCardSkeleton } from "./SnippetCardSkeleton";
+import { SnippetCard } from "./SnippetCard";
 
 export function SnippetFeed() {
   const {
@@ -17,11 +18,21 @@ export function SnippetFeed() {
   } = useNostrSnippets();
   return (
     <div className="flex flex-col gap-8">
-      {data?.map((snippet) => (
-        <div key={snippet.event.id}>
-          <SnippetCard snippet={snippet} />
-        </div>
-      ))}
+      {isPending ? (
+        <>
+          {Array.from({ length: 10 }).map((_, index) => (
+            <div key={index}>
+              <SnippetCardSkeleton />
+            </div>
+          ))}
+        </>
+      ) : (
+        data?.map((snippet) => (
+          <div key={snippet.event.id}>
+            <SnippetCard snippet={snippet} />
+          </div>
+        ))
+      )}
       <div className="flex justify-between gap-4">
         {hasNewerEvents ? (
           <Button
