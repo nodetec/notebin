@@ -1,9 +1,14 @@
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  keepPreviousData,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { DEFAULT_RELAYS } from "~/lib/constants";
 import { SimplePool } from "nostr-tools";
 import { createNostrSnippet } from "~/lib/nostr/createNostrSnippet";
 import { useState, useRef, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { toast } from "sonner";
 
 export const useNostrSnippets = () => {
   const router = useRouter();
@@ -90,6 +95,7 @@ export const useNostrSnippets = () => {
     refetchOnMount: true,
     gcTime: Number.POSITIVE_INFINITY,
     staleTime: Number.POSITIVE_INFINITY,
+    placeholderData: keepPreviousData,
   });
 
   // Function to load the next (older) page of events
@@ -132,6 +138,14 @@ export const useNostrSnippets = () => {
 
   // Reset to first page
   const resetToFirstPage = () => {
+    toast("Refreshing...", {
+      description: "Refreshing the snippet feed.",
+      dismissible: true,
+      invert: true,
+      duration: 1500,
+      position: "top-center",
+    });
+
     setUntil(undefined);
     pageHistory.current = [];
     currentPageIndex.current = 0;

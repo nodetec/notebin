@@ -11,8 +11,9 @@ export function SnippetFeed() {
     error,
     loadOlderEvents,
     loadNewerEvents,
-    hasNewerEvents,
+    resetToFirstPage,
     hasOlderEvents,
+    hasNewerEvents,
   } = useNostrSnippets();
   return (
     <div className="flex flex-col gap-8">
@@ -21,19 +22,27 @@ export function SnippetFeed() {
           <SnippetCard snippet={snippet} />
         </div>
       ))}
-      <div className="flex justify-center gap-4">
+      <div className="flex justify-between gap-4">
+        {hasNewerEvents ? (
+          <Button
+            className="font-mono"
+            onClick={loadNewerEvents}
+            disabled={isPending || !hasNewerEvents}
+          >
+            {isPending ? "Loading..." : "Newer"}
+          </Button>
+        ) : (
+          <Button className="font-mono" onClick={resetToFirstPage}>
+            Refresh
+          </Button>
+        )}
         <Button
-          onClick={loadNewerEvents}
-          disabled={isPending || !hasNewerEvents}
-        >
-          {isPending ? "Loading..." : "Load Newer"}
-        </Button>
-        <Button
+          className="font-mono"
           onClick={loadOlderEvents}
           disabled={isPending || !hasOlderEvents}
           type="button"
         >
-          {isPending ? "Loading..." : "Load Older"}
+          {isPending ? "Loading..." : "Older"}
         </Button>
       </div>
     </div>
