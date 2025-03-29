@@ -2,16 +2,35 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { DEFAULT_RELAYS } from "~/lib/constants";
 import { SimplePool } from "nostr-tools";
 import { createNostrSnippet } from "~/lib/nostr/createNostrSnippet";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 
 export const useNostrSnippets = () => {
-  const [until, setUntil] = useState<number | undefined>(undefined);
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const queryClient = useQueryClient();
   const limit = 3;
+
+  // Initialize until from URL or undefined
+  const [until, setUntil] = useState<number | undefined>(() => {
+    const untilParam = searchParams.get("until");
+    return untilParam ? Number.parseInt(untilParam, 10) : undefined;
+  });
 
   // Keep track of page history with timestamps
   const pageHistory = useRef<number[]>([]);
   const currentPageIndex = useRef<number>(0);
+
+  // Update URL when until changes
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (until === undefined) {
+      params.delete("until");
+    } else {
+      params.set("until", until.toString());
+    }
+    router.push(`?${params.toString()}`);
+  }, [until, router, searchParams]);
 
   const fetchPage = async () => {
     const pool = new SimplePool();
