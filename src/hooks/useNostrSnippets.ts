@@ -14,7 +14,7 @@ export const useNostrSnippets = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const queryClient = useQueryClient();
-  const limit = 3;
+  const limit = 10;
 
   // Initialize until from URL or undefined
   const [until, setUntil] = useState<number | undefined>(() => {
