@@ -105,7 +105,7 @@ export const useNostrSnippets = () => {
   };
 
   const queryResult = useQuery({
-    queryKey: ["snippets", until, pageHistory, currentPageIndex],
+    queryKey: ["snippets", until],
     queryFn: fetchPage,
     refetchOnWindowFocus: false,
     refetchOnMount: true,
