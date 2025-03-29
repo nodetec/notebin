@@ -3,6 +3,7 @@ import { DEFAULT_RELAYS } from "~/lib/constants";
 import { SimplePool } from "nostr-tools";
 import { createNostrSnippet } from "~/lib/nostr/createNostrSnippet";
 import { useState, useEffect } from "react";
+
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 

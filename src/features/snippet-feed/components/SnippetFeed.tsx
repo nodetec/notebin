@@ -33,7 +33,6 @@ export function SnippetFeed() {
           </div>
         ))
       )}
-
       <div className="flex justify-between gap-4">
         {hasNewerEvents ? (
           <Button
