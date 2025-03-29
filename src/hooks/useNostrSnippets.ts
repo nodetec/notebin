@@ -6,7 +6,7 @@ import {
 import { DEFAULT_RELAYS } from "~/lib/constants";
 import { SimplePool } from "nostr-tools";
 import { createNostrSnippet } from "~/lib/nostr/createNostrSnippet";
-import { useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
@@ -22,11 +22,18 @@ export const useNostrSnippets = () => {
     return untilParam ? Number.parseInt(untilParam, 10) : undefined;
   });
 
-  // Keep track of page history with timestamps
-  const pageHistory = useRef<number[]>([]);
-  const currentPageIndex = useRef<number>(0);
+  // Initialize page history and current page index from URL or defaults
+  const [pageHistory, setPageHistory] = useState<number[]>(() => {
+    const historyParam = searchParams.get("history");
+    return historyParam ? JSON.parse(decodeURIComponent(historyParam)) : [];
+  });
 
-  // Update URL when until changes
+  const [currentPageIndex, setCurrentPageIndex] = useState<number>(() => {
+    const indexParam = searchParams.get("pageIndex");
+    return indexParam ? Number.parseInt(indexParam, 10) : 0;
+  });
+
+  // Update URL when state changes
   useEffect(() => {
     const params = new URLSearchParams(searchParams.toString());
     if (until === undefined) {
@@ -34,8 +41,21 @@ export const useNostrSnippets = () => {
     } else {
       params.set("until", until.toString());
     }
+
+    if (pageHistory.length === 0) {
+      params.delete("history");
+    } else {
+      params.set("history", encodeURIComponent(JSON.stringify(pageHistory)));
+    }
+
+    if (currentPageIndex === 0) {
+      params.delete("pageIndex");
+    } else {
+      params.set("pageIndex", currentPageIndex.toString());
+    }
+
     router.push(`?${params.toString()}`);
-  }, [until, router, searchParams]);
+  }, [until, pageHistory, currentPageIndex, router, searchParams]);
 
   const fetchPage = async () => {
     const pool = new SimplePool();
@@ -74,12 +94,12 @@ export const useNostrSnippets = () => {
       // For the first page, initialize the page history
       if (
         until === undefined &&
-        pageHistory.current.length === 0 &&
+        pageHistory.length === 0 &&
         snippets.length > 0
       ) {
         // Store the current page's newest timestamp
-        pageHistory.current = [snippets[0].createdAt + 1]; // +1 to ensure we get this snippet in "newer" queries
-        currentPageIndex.current = 0;
+        setPageHistory([snippets[0].createdAt + 1]); // +1 to ensure we get this snippet in "newer" queries
+        setCurrentPageIndex(0);
       }
     } else {
       console.log("No snippets found");
@@ -89,7 +109,7 @@ export const useNostrSnippets = () => {
   };
 
   const queryResult = useQuery({
-    queryKey: ["snippets", until],
+    queryKey: ["snippets", until, pageHistory, currentPageIndex],
     queryFn: fetchPage,
     refetchOnWindowFocus: false,
     refetchOnMount: true,
@@ -106,16 +126,15 @@ export const useNostrSnippets = () => {
       const newUntil = oldestSnippet.createdAt - 1; // -1 to avoid getting the same event again
 
       // Update the page history - remove any forward history if we're not at the end
-      if (currentPageIndex.current < pageHistory.current.length - 1) {
-        pageHistory.current = pageHistory.current.slice(
-          0,
-          currentPageIndex.current + 1,
-        );
-      }
+      const newHistory =
+        currentPageIndex < pageHistory.length - 1
+          ? pageHistory.slice(0, currentPageIndex + 1)
+          : pageHistory;
 
       // Add the new page to history
-      pageHistory.current.push(newUntil);
-      currentPageIndex.current = pageHistory.current.length - 1;
+      const updatedHistory = [...newHistory, newUntil];
+      setPageHistory(updatedHistory);
+      setCurrentPageIndex(updatedHistory.length - 1);
 
       // Update the query
       setUntil(newUntil);
@@ -124,13 +143,12 @@ export const useNostrSnippets = () => {
 
   // Function to load newer events (previous page)
   const loadNewerEvents = () => {
-    if (currentPageIndex.current > 0) {
+    if (currentPageIndex > 0) {
       // Move back one page in history
-      currentPageIndex.current--;
+      const newIndex = currentPageIndex - 1;
+      setCurrentPageIndex(newIndex);
       const previousPageUntil =
-        currentPageIndex.current === 0
-          ? undefined
-          : pageHistory.current[currentPageIndex.current];
+        newIndex === 0 ? undefined : pageHistory[newIndex];
 
       setUntil(previousPageUntil);
     }
@@ -147,8 +165,8 @@ export const useNostrSnippets = () => {
     });
 
     setUntil(undefined);
-    pageHistory.current = [];
-    currentPageIndex.current = 0;
+    setPageHistory([]);
+    setCurrentPageIndex(0);
     queryClient.invalidateQueries({ queryKey: ["snippets"] });
   };
 
@@ -158,6 +176,6 @@ export const useNostrSnippets = () => {
     loadNewerEvents,
     resetToFirstPage,
     hasOlderEvents: queryResult.data && queryResult.data.length === limit,
-    hasNewerEvents: currentPageIndex.current > 0,
+    hasNewerEvents: currentPageIndex > 0,
   };
 };
