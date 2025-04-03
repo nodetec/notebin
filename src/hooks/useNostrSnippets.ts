@@ -113,5 +113,6 @@ export const useNostrSnippets = () => {
     resetToFirstPage,
     hasOlderEvents: queryResult.data && queryResult.data.length === limit,
     hasNewerEvents: currentPageIndex > 0,
+    currentPageIndex,
   };
 };

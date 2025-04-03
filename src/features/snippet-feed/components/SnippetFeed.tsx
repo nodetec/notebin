@@ -30,6 +30,7 @@ export function SnippetFeed() {
     resetToFirstPage,
     hasOlderEvents,
     hasNewerEvents,
+    currentPageIndex,
   } = useNostrSnippets();
   return (
     <div className="flex flex-col gap-8">
@@ -62,6 +63,7 @@ export function SnippetFeed() {
             Refresh
           </Button>
         )}
+        <span className="font-mono text-muted-foreground">Page: {currentPageIndex + 1}</span>
         <Button
           className="font-mono"
           onClick={loadOlderEvents}
