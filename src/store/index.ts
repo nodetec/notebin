@@ -14,6 +14,15 @@ interface State {
 
   description: string;
   setDescription: (description: string) => void;
+
+  until: number | undefined;
+  setUntil: (until: number) => void;
+
+  pageHistory: number[];
+  setPageHistory: (pageHistory: number[]) => void;
+
+  currentPageIndex: number;
+  setCurrentPageIndex: (currentPageIndex: number) => void;
 }
 
 export const useAppState = create<State>()(
@@ -30,6 +39,15 @@ export const useAppState = create<State>()(
 
       description: "",
       setDescription: (description) => set({ description }),
+
+      until: undefined,
+      setUntil: (until) => set({ until }),
+
+      pageHistory: [],
+      setPageHistory: (pageHistory) => set({ pageHistory }),
+
+      currentPageIndex: 0,
+      setCurrentPageIndex: (currentPageIndex) => set({ currentPageIndex }),
     }),
     {
       name: "notebin-storage",
@@ -40,6 +58,6 @@ export const useAppState = create<State>()(
         lang: state.lang,
         description: state.description,
       }),
-    }
-  )
+    },
+  ),
 );
