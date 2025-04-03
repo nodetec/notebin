@@ -49,7 +49,7 @@ export function SnippetFeed() {
           </div>
         ))
       )}
-      <div className="flex justify-between gap-4">
+      <div className="flex items-center justify-between gap-4">
         {hasNewerEvents ? (
           <Button
             className="font-mono"
@@ -63,7 +63,9 @@ export function SnippetFeed() {
             Refresh
           </Button>
         )}
-        <span className="font-mono text-muted-foreground">Page: {currentPageIndex + 1}</span>
+        <span className="font-mono text-muted-foreground">
+          Page: {currentPageIndex + 1}
+        </span>
         <Button
           className="font-mono"
           onClick={loadOlderEvents}
