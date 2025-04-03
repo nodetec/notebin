@@ -31,8 +31,6 @@ export const useNostrSnippets = () => {
       until,
     });
 
-    console.log("Fetching with until:", until);
-
     // Convert events to snippets
     let snippets = events.map((event) => createNostrSnippet(event));
 
@@ -82,13 +80,7 @@ export const useNostrSnippets = () => {
       const previousPageUntil =
         currentPageIndex === 0 ? undefined : pageHistory[currentPageIndex - 1];
 
-      console.log("previousPageUntil", previousPageUntil);
-
       if (previousPageUntil) {
-        console.log(
-          "setting page history",
-          pageHistory.slice(0, currentPageIndex - 1),
-        );
         setPageHistory(pageHistory.slice(0, currentPageIndex - 1));
         setUntil(previousPageUntil);
         const params = new URLSearchParams(searchParams.toString());
