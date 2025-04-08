@@ -15,6 +15,9 @@ interface State {
   description: string;
   setDescription: (description: string) => void;
 
+  tags: string[];
+  setTags: (tags: string[]) => void;
+
   until: number | undefined;
   setUntil: (until: number) => void;
 
@@ -40,6 +43,9 @@ export const useAppState = create<State>()(
       description: "",
       setDescription: (description) => set({ description }),
 
+      tags: [],
+      setTags: (tags) => set({ tags }),
+
       until: undefined,
       setUntil: (until) => set({ until }),
 
@@ -57,7 +63,8 @@ export const useAppState = create<State>()(
         filename: state.filename,
         lang: state.lang,
         description: state.description,
+        tags: state.tags,
       }),
-    },
-  ),
+    }
+  )
 );

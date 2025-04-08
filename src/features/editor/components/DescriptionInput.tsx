@@ -11,7 +11,7 @@ export function DescriptionInput() {
     <Input
       value={description}
       placeholder="description"
-      className="my-8 max-w-4xl rounded-md py-5 font-mono text-sm"
+      className="my-8 max-w-4xl rounded-md py-5 font-mono text-sm dark:bg-muted/30"
       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
         setDescription(e.target.value)
       }

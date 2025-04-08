@@ -5,6 +5,8 @@ import { authOptions } from "~/auth";
 import type { UserWithKeys } from "~/types";
 import { PostButton } from "~/features/post";
 import { ActiveEditor } from "~/features/editor";
+import { TagsInput } from "~/features/editor";
+import { InputTagList } from "~/features/editor";
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);
@@ -13,14 +15,16 @@ export default async function HomePage() {
 
   return (
     <>
-      <div className="overflow-hidden rounded-md border border-border bg-background">
+      <DescriptionInput />
+      <div className="overflow-hidden rounded-md border border-border">
         <div className="flex w-full items-center justify-between gap-4 border-b bg-muted/50 px-2 py-3 align-start dark:bg-muted/30">
           <FilenameInput />
           <LanguageSelect />
         </div>
         <ActiveEditor />
+        <TagsInput />
       </div>
-      <DescriptionInput />
+      <InputTagList />
       <div className="flex w-full items-center justify-end">
         {user?.publicKey && (
           <PostButton publicKey={user.publicKey} secretKey={user.secretKey} />

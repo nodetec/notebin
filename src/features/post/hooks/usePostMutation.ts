@@ -18,6 +18,7 @@ interface PostSnippetPayload {
   publicKey: string;
   secretKey?: string;
   writeRelays?: string[];
+  tags?: string[];
 }
 
 async function postSnippet(payload: PostSnippetPayload) {
@@ -26,6 +27,10 @@ async function postSnippet(payload: PostSnippetPayload) {
     ["name", payload.filename],
     ["description", payload.description ?? ""],
   ];
+
+  if (payload.tags) {
+    tags.push(...payload.tags.map((tag) => ["t", tag]));
+  }
 
   const extension = getExtension(payload.filename);
 
@@ -66,6 +71,7 @@ async function postSnippet(payload: PostSnippetPayload) {
     useAppState.getState().setFilename("");
     useAppState.getState().setDescription("");
     useAppState.getState().setLang("typescript");
+    useAppState.getState().setTags([]);
   }
 }
 

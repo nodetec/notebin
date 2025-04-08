@@ -6,3 +6,5 @@ export { Description } from "./components/Description";
 export { CopyButton } from "./components/CopyButton";
 export { ActiveEditor } from "./components/ActiveEditor";
 export { ReadEditor } from "./components/ReadEditor";
+export { TagsInput } from "./components/TagsInput";
+export { InputTagList } from "./components/InputTagList";

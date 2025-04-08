@@ -17,6 +17,7 @@ export function PostButton({ publicKey, secretKey }: PostButtonProps) {
   const filename = useAppState((state) => state.filename);
   const lang = useAppState((state) => state.lang);
   const description = useAppState((state) => state.description);
+  const tags = useAppState((state) => state.tags);
 
   const nostrProfile = useNostrProfile(publicKey, true);
   const { mutate: postSnippet, isPending } = usePostMutation();
@@ -35,13 +36,14 @@ export function PostButton({ publicKey, secretKey }: PostButtonProps) {
       publicKey,
       secretKey,
       writeRelays: nostrProfile.data?.writeRelays,
+      tags,
     });
   };
 
   return (
     <Button
       className={cn(
-        "w-full py-6 font-mono font-semibold text-base md:w-auto md:py-2 md:text-sm",
+        "mt-8 w-full py-6 font-mono font-semibold text-base md:w-auto md:py-2 md:text-sm",
         isPending && "cursor-progress",
       )}
       type="submit"

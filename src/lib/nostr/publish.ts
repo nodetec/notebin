@@ -5,7 +5,6 @@ export async function publish(event: Event, relays: string[]) {
   if (!event) {
     return false;
   }
-  console.log("event", event);
 
   const pool = new SimplePool();
 
@@ -14,8 +13,6 @@ export async function publish(event: Event, relays: string[]) {
   const retrievedEvent = await pool.get(relays, {
     ids: [event.id],
   });
-
-  console.log("retrievedEvent", retrievedEvent);
 
   pool.close(relays);
 

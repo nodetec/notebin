@@ -3,6 +3,7 @@ import { nip19 } from "nostr-tools";
 import { authOptions } from "~/auth";
 import { Description, Filename, CopyButton } from "~/features/editor";
 import { ReadEditor } from "~/features/editor";
+import { TagList } from "~/features/editor/components/TagList";
 import { ZapButton } from "~/features/zap";
 import type { UserWithKeys } from "~/types";
 
@@ -24,8 +25,10 @@ export default async function SnippetPage({
   if (decodeResult.type === "nevent") {
     const { kind, id, author, relays } = decodeResult.data;
 
+    // TODO: refactor this nonsense
     return (
       <>
+        <Description eventId={id} kind={kind} author={author} relays={relays} />
         <div className="overflow-hidden rounded-md border border-border bg-background">
           <div className="flex min-h-[61px] w-full items-center justify-between gap-4 border-b bg-muted/50 px-2 py-3 align-start dark:bg-muted/30">
             <Filename
@@ -57,7 +60,7 @@ export default async function SnippetPage({
             relays={relays}
           />
         </div>
-        <Description eventId={id} kind={kind} author={author} relays={relays} />
+        <TagList eventId={id} kind={kind} author={author} relays={relays} />
       </>
     );
   }
