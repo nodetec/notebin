@@ -1,12 +1,12 @@
 "use client";
 
-import { ArchiveIcon } from "lucide-react";
+import { Scissors } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useAppState } from "~/store";
 
-export function ArchiveNavButton() {
+export function SnippetsNavButton() {
   const queryClient = useQueryClient();
   const router = useRouter();
   const setPageHistory = useAppState((state) => state.setPageHistory);
@@ -18,13 +18,13 @@ export function ArchiveNavButton() {
     await queryClient.invalidateQueries({
       queryKey: ["snippets"],
     });
-    router.push("/archive");
+    router.push("/snippets");
   };
 
   return (
     <Button className="font-mono" variant="outline" onClick={handleClick}>
-      <ArchiveIcon />
-      <span className="hidden md:block">Archive</span>
+      <Scissors />
+      <span className="hidden md:block">Snippets</span>
     </Button>
   );
 }
