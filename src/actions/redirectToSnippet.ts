@@ -3,5 +3,5 @@
 import { redirect } from "next/navigation";
 
 export async function redirectToSnippet(eventId: string) {
-  redirect(`/${eventId}`);
+  redirect(`/snippet/${eventId}`);
 }

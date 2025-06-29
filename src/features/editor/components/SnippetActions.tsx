@@ -113,7 +113,7 @@ export function SnippetActions({
       };
 
       const nevent = nip19.neventEncode(eventPointer);
-      const url = `${window.location.origin}/${nevent}`;
+      const url = `${window.location.origin}/snippet/${nevent}`;
 
       // Copy to clipboard
       await navigator.clipboard.writeText(url);
