@@ -1,35 +1,71 @@
 import { createMcpHandler } from "@vercel/mcp-adapter";
+import { type Filter, nip19, SimplePool } from "nostr-tools";
 import { z } from "zod";
+import { DEFAULT_RELAYS } from "~/lib/constants";
 
 const handler = createMcpHandler(
   (server) => {
     server.tool(
-      "test",
-      "test tool",
+      "fetchCodeSnippets",
+      "Fetch code snippets from Notebin",
       {
-        test: z.string(),
+        npub: z.string(),
+        limit: z.number().default(100),
+        language: z.string().optional(),
+        tags: z.array(z.string()).optional(),
       },
-       async ({ test }) => ({
-        content: [
-          {
-            type: "text",
-            text: `test tool ${test}`,
-          },
-        ],
-      })
+      async ({ npub, limit, language, tags }) => {
+        try {
+          const publicKey = nip19.decode(npub).data as string;
+
+          const pool = new SimplePool();
+
+          const filter: Filter = {
+            kinds: [1337],
+            limit: limit,
+            authors: [publicKey],
+          };
+
+          if (language) {
+            filter["#l"] = [language];
+          }
+
+          if (tags) {
+            filter["#t"] = tags;
+          }
+
+          const events = await pool.querySync(DEFAULT_RELAYS, filter);
+
+          pool.close(DEFAULT_RELAYS);
+
+          return {
+            content: [
+              {
+                type: "text",
+                text: JSON.stringify(events, null, 2),
+              },
+            ],
+          };
+        } catch (error) {
+          return {
+            content: [
+              {
+                type: "text",
+                text: `Error fetching snippets: ${
+                  error instanceof Error ? error.message : String(error)
+                }`,
+              },
+            ],
+          };
+        }
+      },
     );
   },
   {
     capabilities: {
       tools: {
-        test: {
-          description: "test tool",
-          parameters: {
-            type: "object",
-            properties: {
-              test: { type: "string" },
-            },
-          },
+        fetchCodeSnippets: {
+          description: "Fetch code snippets from Notebin",
         },
       },
     },
@@ -40,7 +76,7 @@ const handler = createMcpHandler(
     streamableHttpEndpoint: "/mcp",
     verboseLogs: true,
     maxDuration: 60,
-  }
+  },
 );
 
 export { handler as GET, handler as POST, handler as DELETE };
