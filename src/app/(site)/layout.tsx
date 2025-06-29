@@ -1,12 +1,12 @@
-import { Login } from "~/features/login/components/Login";
-import { shortenNpub } from "~/lib/nostr/shortNpub";
-import type { UserWithKeys } from "~/types";
+import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/auth";
-import Link from "next/link";
 import { UserDropdown } from "~/features/login";
+import { Login } from "~/features/login/components/Login";
 import { CreateNavButton } from "~/features/navigation/components/CreateNavButton";
 import { SnippetsNavButton } from "~/features/navigation/components/SnippetsNavButton";
+import { shortenNpub } from "~/lib/nostr/shortNpub";
+import type { UserWithKeys } from "~/types";
 
 export default async function SiteLayout({
   children,

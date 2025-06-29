@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
-import { DEFAULT_RELAYS } from "~/lib/constants";
 import { SimplePool } from "nostr-tools";
-import { createNostrProfile } from "~/lib/nostr/createNostrProfile";
+import { DEFAULT_RELAYS } from "~/lib/constants";
 import type { NostrProfile } from "~/lib/nostr/createNostrProfile";
+import { createNostrProfile } from "~/lib/nostr/createNostrProfile";
 import { createNostrRelayMetadata } from "~/lib/nostr/createNostrRelayMetadata";
 
 export async function getNostrProfile(

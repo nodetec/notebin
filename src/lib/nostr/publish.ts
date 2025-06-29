@@ -1,5 +1,5 @@
-import { SimplePool } from "nostr-tools";
 import type { Event } from "nostr-tools";
+import { SimplePool } from "nostr-tools";
 
 export async function publish(event: Event, relays: string[]) {
   if (!event) {

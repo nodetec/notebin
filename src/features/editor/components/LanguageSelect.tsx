@@ -1,5 +1,6 @@
 "use client";
 
+import type { LanguageName } from "@uiw/codemirror-extensions-langs";
 import {
   Select,
   SelectContent,
@@ -7,7 +8,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "~/components/ui/select";
-import type { LanguageName } from "@uiw/codemirror-extensions-langs";
 import { languages } from "~/lib/languages";
 import { useAppState } from "~/store";
 

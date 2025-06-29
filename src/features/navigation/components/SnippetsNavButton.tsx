@@ -1,9 +1,9 @@
 "use client";
 
-import { Scissors } from "lucide-react";
-import { Button } from "~/components/ui/button";
 import { useQueryClient } from "@tanstack/react-query";
+import { Scissors } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { Button } from "~/components/ui/button";
 import { useAppState } from "~/store";
 
 export function SnippetsNavButton() {

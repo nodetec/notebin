@@ -1,6 +1,6 @@
+import type { LanguageName } from "@uiw/codemirror-extensions-langs";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
-import type { LanguageName } from "@uiw/codemirror-extensions-langs";
 
 interface State {
   content: string;
@@ -65,6 +65,6 @@ export const useAppState = create<State>()(
         description: state.description,
         tags: state.tags,
       }),
-    }
-  )
+    },
+  ),
 );

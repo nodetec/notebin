@@ -1,5 +1,9 @@
 "use client";
 
+import Image from "next/image";
+import Link from "next/link";
+import { signOut } from "next-auth/react";
+import { nip19 } from "nostr-tools";
 import { Button } from "~/components/ui/button";
 import {
   DropdownMenu,
@@ -10,12 +14,8 @@ import {
 } from "~/components/ui/dropdown-menu";
 import { Skeleton } from "~/components/ui/skeleton";
 import { useNostrProfile } from "~/hooks/useNostrProfile";
-import { signOut } from "next-auth/react";
-import Image from "next/image";
-import Link from "next/link";
-import { getAvatar } from "~/lib/utils";
 import { shortenNpub } from "~/lib/nostr/shortNpub";
-import { nip19 } from "nostr-tools";
+import { getAvatar } from "~/lib/utils";
 
 type Props = {
   publicKey: string;

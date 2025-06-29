@@ -1,7 +1,8 @@
 "use client";
 
+import type { Event } from "nostr-tools";
 import { useState } from "react";
-
+import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import {
   Dialog,
@@ -15,8 +16,6 @@ import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { DEFAULT_RELAYS } from "~/lib/constants";
 import { sendZap, type ZapRequest } from "../lib/zap";
-import type { Event } from "nostr-tools";
-import { toast } from "sonner";
 
 type Props = {
   children: React.ReactNode;

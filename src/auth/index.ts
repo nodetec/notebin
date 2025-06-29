@@ -1,6 +1,6 @@
-import type { TokenWithKeys, UserWithKeys } from "~/types";
 import type { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import type { TokenWithKeys, UserWithKeys } from "~/types";
 
 export const authOptions: AuthOptions = {
   providers: [

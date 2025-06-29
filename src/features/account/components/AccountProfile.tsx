@@ -1,15 +1,14 @@
 "use client";
 
-import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AlertCircle, CheckCircle, Loader2, User } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { useNostrProfile } from "~/hooks/useNostrProfile";
-import { useUpdateProfile } from "~/hooks/useUpdateProfile";
+import { Alert, AlertDescription } from "~/components/ui/alert";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Alert, AlertDescription } from "~/components/ui/alert";
-import { Progress } from "~/components/ui/progress";
 import {
   Form,
   FormControl,
@@ -20,11 +19,12 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
+import { Progress } from "~/components/ui/progress";
 import { Textarea } from "~/components/ui/textarea";
-import { getAvatar } from "~/lib/utils";
+import { useNostrProfile } from "~/hooks/useNostrProfile";
+import { useUpdateProfile } from "~/hooks/useUpdateProfile";
 import { verifyNip05 } from "~/lib/nostr/verifyNip05";
-import { useState, useEffect } from "react";
-import { CheckCircle, AlertCircle, User, Loader2 } from "lucide-react";
+import { getAvatar } from "~/lib/utils";
 
 const profileSchema = z.object({
   name: z.string().max(50).optional(),
@@ -127,15 +127,15 @@ export function AccountProfile({ publicKey, secretKey }: AccountProfileProps) {
         <CardContent className="pt-6">
           <div className="space-y-4">
             <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-muted rounded-full animate-pulse" />
+              <div className="h-16 w-16 animate-pulse rounded-full bg-muted" />
               <div className="space-y-2">
-                <div className="h-4 w-32 bg-muted rounded animate-pulse" />
-                <div className="h-3 w-24 bg-muted rounded animate-pulse" />
+                <div className="h-4 w-32 animate-pulse rounded bg-muted" />
+                <div className="h-3 w-24 animate-pulse rounded bg-muted" />
               </div>
             </div>
             <div className="space-y-3">
               {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="h-10 bg-muted rounded animate-pulse" />
+                <div key={i} className="h-10 animate-pulse rounded bg-muted" />
               ))}
             </div>
           </div>
@@ -184,8 +184,8 @@ export function AccountProfile({ publicKey, secretKey }: AccountProfileProps) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex items-center space-x-4 mb-6">
-            <Avatar className="w-16 h-16">
+          <div className="mb-6 flex items-center space-x-4">
+            <Avatar className="h-16 w-16">
               <AvatarImage src={currentPicture} alt={displayName} />
               <AvatarFallback>
                 {displayName.charAt(0).toUpperCase()}
@@ -193,7 +193,7 @@ export function AccountProfile({ publicKey, secretKey }: AccountProfileProps) {
             </Avatar>
             <div>
               <h3 className="font-semibold">{displayName}</h3>
-              <p className="text-sm text-muted-foreground font-mono">
+              <p className="font-mono text-muted-foreground text-sm">
                 {profile?.shortNpub}
               </p>
             </div>
@@ -254,7 +254,7 @@ export function AccountProfile({ publicKey, secretKey }: AccountProfileProps) {
                 )}
               />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <FormField
                   control={form.control}
                   name="website"
@@ -287,7 +287,7 @@ export function AccountProfile({ publicKey, secretKey }: AccountProfileProps) {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 <FormField
                   control={form.control}
                   name="github"

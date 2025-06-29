@@ -1,10 +1,10 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { DEFAULT_RELAYS } from "~/lib/constants";
-import { SimplePool } from "nostr-tools";
-import { createNostrSnippet } from "~/lib/nostr/createNostrSnippet";
-import type { NostrSnippet } from "~/lib/nostr/createNostrSnippet";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState, useEffect } from "react";
+import { SimplePool } from "nostr-tools";
+import { useEffect, useState } from "react";
+import { DEFAULT_RELAYS } from "~/lib/constants";
+import type { NostrSnippet } from "~/lib/nostr/createNostrSnippet";
+import { createNostrSnippet } from "~/lib/nostr/createNostrSnippet";
 
 export async function getUserSnippets(
   publicKey: string,

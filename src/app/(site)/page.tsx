@@ -1,12 +1,15 @@
-import { FilenameInput, LanguageSelect } from "~/features/editor";
-import { DescriptionInput } from "~/features/editor";
 import { getServerSession } from "next-auth";
 import { authOptions } from "~/auth";
-import type { UserWithKeys } from "~/types";
+import {
+  ActiveEditor,
+  DescriptionInput,
+  FilenameInput,
+  InputTagList,
+  LanguageSelect,
+  TagsInput,
+} from "~/features/editor";
 import { PostButton } from "~/features/post";
-import { ActiveEditor } from "~/features/editor";
-import { TagsInput } from "~/features/editor";
-import { InputTagList } from "~/features/editor";
+import type { UserWithKeys } from "~/types";
 
 export default async function HomePage() {
   const session = await getServerSession(authOptions);

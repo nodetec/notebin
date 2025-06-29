@@ -1,13 +1,13 @@
 import {
-  finalizeEvent,
-  type EventTemplate,
   type Event,
+  type EventTemplate,
+  finalizeEvent,
   getEventHash,
 } from "nostr-tools";
 
 export const finishEventWithSecretKey = (
   eventTemplate: EventTemplate,
-  secretKey: Uint8Array<ArrayBufferLike>
+  secretKey: Uint8Array<ArrayBufferLike>,
 ) => {
   const event = finalizeEvent(eventTemplate, secretKey);
 
@@ -33,7 +33,7 @@ export async function finishEventWithExtension(t: EventTemplate) {
 
 export async function finishEvent(
   eventTemplate: EventTemplate,
-  secretKey?: Uint8Array<ArrayBufferLike>
+  secretKey?: Uint8Array<ArrayBufferLike>,
 ) {
   let event: Event | null = null;
   console.log("secretKey", secretKey);

@@ -1,9 +1,10 @@
-import { getUser } from "~/actions/auth";
-import { finishEventWithSecretKey } from "~/lib/nostr/finishEvent";
 import type { Event, EventTemplate } from "nostr-tools";
 import { getZapEndpoint } from "nostr-tools/nip57";
-
-import { finishEventWithExtension } from "~/lib/nostr/finishEvent";
+import { getUser } from "~/actions/auth";
+import {
+  finishEventWithExtension,
+  finishEventWithSecretKey,
+} from "~/lib/nostr/finishEvent";
 import { getTagValue } from "~/lib/nostr/getTagValue";
 import { parseUint8Array } from "~/lib/nostr/parseUint8Array";
 export interface InvoiceResponse {

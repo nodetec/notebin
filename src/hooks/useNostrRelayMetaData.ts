@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { DEFAULT_RELAYS } from "~/lib/constants";
 import { SimplePool } from "nostr-tools";
+import { DEFAULT_RELAYS } from "~/lib/constants";
 import {
   createNostrRelayMetadata,
   type NostrRelayMetadata,

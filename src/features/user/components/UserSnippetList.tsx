@@ -1,9 +1,9 @@
 "use client";
 
-import { useUserSnippets } from "~/hooks/useUserSnippets";
+import { Button } from "~/components/ui/button";
 import { SnippetCard } from "~/features/snippet-feed/components/SnippetCard";
 import { SnippetCardSkeleton } from "~/features/snippet-feed/components/SnippetCardSkeleton";
-import { Button } from "~/components/ui/button";
+import { useUserSnippets } from "~/hooks/useUserSnippets";
 
 interface UserSnippetListProps {
   publicKey: string;
@@ -24,21 +24,21 @@ export function UserSnippetList({ publicKey }: UserSnippetListProps) {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Code Snippets</h2>
+      <h2 className="font-semibold text-xl">Code Snippets</h2>
 
       <div className="flex flex-col gap-8">
         {isPending ? (
           <div className="flex flex-col gap-8">
             {Array.from({ length: 5 }).map((_, i) => (
-              <SnippetCardSkeleton key={i} />
+              <SnippetCardSkeleton key={i} hideAuthor={true} />
             ))}
           </div>
         ) : isError ? (
-          <div className="text-center py-8 text-muted-foreground">
+          <div className="py-8 text-center text-muted-foreground">
             Error loading snippets
           </div>
         ) : !snippets || snippets.length === 0 ? (
-          <div className="text-center py-8 space-y-4">
+          <div className="space-y-4 py-8 text-center">
             <div className="text-muted-foreground">No snippets found</div>
             <div className="flex justify-center gap-2">
               {hasNewerEvents ? (
@@ -66,6 +66,7 @@ export function UserSnippetList({ publicKey }: UserSnippetListProps) {
               <SnippetCard
                 key={`${snippet.event.id}-${index}`}
                 snippet={snippet}
+                hideAuthor={true}
               />
             ))}
           </div>

@@ -47,6 +47,37 @@ npm run lint       # Next.js linting (also runs Biome)
 - Auth config: `src/auth/index.ts`
 - Nostr utilities: `src/lib/nostr/`
 
+## Libraries & Dependencies
+
+### Batshit (Request Batching)
+- **Purpose**: Batch management library for deduplicating and batching requests within a time window
+- **Installation**: `npm install @yornaath/batshit`
+- **Key Features**:
+  - Automatically groups similar data requests to reduce API calls
+  - Configurable schedulers (time-based, size-based, or hybrid)
+  - Custom resolvers for complex data mapping
+- **Basic Usage**:
+  ```typescript
+  import { create, keyResolver, windowScheduler } from "@yornaath/batshit";
+  
+  const users = create({
+    fetcher: async (ids: number[]) => {
+      return client.users.where({ userId_in: ids });
+    },
+    resolver: keyResolver("id"),
+    scheduler: windowScheduler(10), // 10ms time window
+  });
+  
+  // These requests will be batched if called within 10ms
+  const user1 = await users.fetch(1);
+  const user2 = await users.fetch(2);
+  ```
+- **Best Practices**:
+  - Create batchers once, outside of component renders
+  - Use memoization for context-specific batchers
+  - Consider `windowedFiniteBatchScheduler()` for size + time constraints
+- **Documentation**: https://github.com/yornaath/batshit
+
 ## Documentation
 - **Next.js**: https://nextjs.org/docs
 - **React**: https://react.dev/reference/react

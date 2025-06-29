@@ -1,9 +1,13 @@
 "use client";
 
-import { useState } from "react";
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { bytesToHex } from "@noble/hashes/utils";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { getPublicKey, nip19 } from "nostr-tools";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -13,11 +17,6 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { signIn } from "next-auth/react";
-import Link from "next/link";
-import { getPublicKey, nip19 } from "nostr-tools";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
 
 const isValidNsec = (nsec: string) => {
   try {

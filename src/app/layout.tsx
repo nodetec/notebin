@@ -1,13 +1,12 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "~/styles/globals.css";
-import { ThemeProvider } from "~/providers/theme-provider";
-import AuthProvider from "~/providers/auth-provider";
-import QueryClientProviderWrapper from "~/providers/query-client-provider";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
 import { Toaster } from "sonner";
 import { TooltipProvider } from "~/components/ui/tooltip";
+import AuthProvider from "~/providers/auth-provider";
+import QueryClientProviderWrapper from "~/providers/query-client-provider";
+import { ThemeProvider } from "~/providers/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

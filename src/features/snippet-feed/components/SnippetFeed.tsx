@@ -1,11 +1,11 @@
 "use client";
-import { useNostrSnippets } from "~/hooks/useNostrSnippets";
-import { Button } from "~/components/ui/button";
-import { SnippetCardSkeleton } from "./SnippetCardSkeleton";
-import { SnippetCard } from "./SnippetCard";
-import { useAppState } from "~/store";
-import { useEffect } from "react";
 import { useSearchParams } from "next/navigation";
+import { useEffect } from "react";
+import { Button } from "~/components/ui/button";
+import { useNostrSnippets } from "~/hooks/useNostrSnippets";
+import { useAppState } from "~/store";
+import { SnippetCard } from "./SnippetCard";
+import { SnippetCardSkeleton } from "./SnippetCardSkeleton";
 export function SnippetFeed() {
   const until = useAppState((state) => state.until);
   const setUntil = useAppState((state) => state.setUntil);

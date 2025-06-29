@@ -1,5 +1,5 @@
-import { nip19 } from "nostr-tools";
 import type { Event } from "nostr-tools";
+import { nip19 } from "nostr-tools";
 import type { EventPointer } from "nostr-tools/nip19";
 
 export function createNevent(event: Event, relays: string[]) {

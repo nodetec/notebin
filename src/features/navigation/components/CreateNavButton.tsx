@@ -1,11 +1,14 @@
 "use client";
 
 import { PlusIcon } from "lucide-react";
-import { Button } from "~/components/ui/button";
 import { usePathname, useRouter } from "next/navigation";
+import { Button } from "~/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "~/components/ui/tooltip";
 import { useAppState } from "~/store";
-import { TooltipContent, TooltipTrigger } from "~/components/ui/tooltip";
-import { Tooltip } from "~/components/ui/tooltip";
 
 export function CreateNavButton() {
   const router = useRouter();

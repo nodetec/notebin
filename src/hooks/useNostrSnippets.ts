@@ -1,9 +1,9 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { DEFAULT_RELAYS } from "~/lib/constants";
+import { useRouter, useSearchParams } from "next/navigation";
 import { SimplePool } from "nostr-tools";
+import { DEFAULT_RELAYS } from "~/lib/constants";
 import { createNostrSnippet } from "~/lib/nostr/createNostrSnippet";
 import { useAppState } from "~/store";
-import { useRouter, useSearchParams } from "next/navigation";
 
 export const useNostrSnippets = () => {
   const queryClient = useQueryClient();

@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "~/components/ui/button";
 import { Zap } from "lucide-react";
-import { ZapDialog } from "./ZapDialog";
+import { Button } from "~/components/ui/button";
 import { useNostrProfile } from "~/hooks/useNostrProfile";
+import { ZapDialog } from "./ZapDialog";
 
 type Props = {
   eventId: string;

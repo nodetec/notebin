@@ -1,9 +1,9 @@
 "use server";
 
+import { redirect } from "next/navigation";
+import { getServerSession } from "next-auth";
 import { authOptions } from "~/auth";
 import type { UserWithKeys } from "~/types";
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
 
 export async function getUser() {
   const session = await getServerSession(authOptions);

@@ -1,25 +1,23 @@
-import { githubLight } from "@uiw/codemirror-theme-github";
-
-import CodeMirror from "@uiw/react-codemirror";
-import { useTheme } from "next-themes";
-import { githubDark } from "@uiw/codemirror-theme-github";
-import type { NostrSnippet } from "~/lib/nostr/createNostrSnippet";
-import { useMemo } from "react";
 import {
   type LanguageName,
   loadLanguage,
 } from "@uiw/codemirror-extensions-langs";
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
+import CodeMirror from "@uiw/react-codemirror";
 import Link from "next/link";
-import { createNevent } from "~/lib/nostr/createNevent";
+import { useTheme } from "next-themes";
+import { useMemo } from "react";
 import { DEFAULT_RELAYS } from "~/lib/constants";
-import { nip19 } from "nostr-tools";
-import { shortenNpub } from "~/lib/nostr/shortNpub";
+import { createNevent } from "~/lib/nostr/createNevent";
+import type { NostrSnippet } from "~/lib/nostr/createNostrSnippet";
+import { AuthorProfile } from "./AuthorProfile";
 
 type SnippetCardProps = {
   snippet: NostrSnippet;
+  hideAuthor?: boolean;
 };
 
-export function SnippetCard({ snippet }: SnippetCardProps) {
+export function SnippetCard({ snippet, hideAuthor = false }: SnippetCardProps) {
   const { resolvedTheme } = useTheme();
 
   const languageExtension = useMemo(() => {
@@ -29,26 +27,34 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
     return extension ? [extension] : [];
   }, [snippet]);
 
-  const authorNpub = snippet.event.pubkey
-    ? nip19.npubEncode(snippet.event.pubkey)
-    : null;
-  const shortAuthor = shortenNpub(snippet.event.pubkey);
-
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex items-center justify-between">
-        <Link href={`/${createNevent(snippet.event, DEFAULT_RELAYS)}`}>
-          <h2 className="truncate font-mono font-semibold text-blue-400 text-sm">
-            {snippet.name || "Untitled"}
-          </h2>
-        </Link>
-        {authorNpub && (
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center gap-2 text-sm">
+          {snippet.event.pubkey && !hideAuthor && (
+            <>
+              <AuthorProfile
+                publicKey={snippet.event.pubkey}
+                showAvatar={true}
+                showName={true}
+                showNip05={false}
+                avatarSize="sm"
+                className="text-muted-foreground hover:text-foreground"
+              />
+              <span className="text-muted-foreground">/</span>
+            </>
+          )}
           <Link
-            href={`/user/${authorNpub}`}
-            className="text-xs text-muted-foreground hover:text-foreground transition-colors font-mono"
+            href={`/${createNevent(snippet.event, DEFAULT_RELAYS)}`}
+            className="truncate font-mono font-semibold text-blue-400 transition-colors hover:text-blue-300"
           >
-            {shortAuthor}
+            {snippet.name || "Untitled"}
           </Link>
+        </div>
+        {snippet.description && (
+          <p className="line-clamp-1 text-muted-foreground text-sm">
+            {snippet.description}
+          </p>
         )}
       </div>
 

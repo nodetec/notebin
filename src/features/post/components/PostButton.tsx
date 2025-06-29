@@ -2,10 +2,10 @@
 
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
+import { useNostrProfile } from "~/hooks/useNostrProfile";
 import { cn } from "~/lib/utils";
 import { useAppState } from "~/store";
 import { usePostMutation } from "../hooks/usePostMutation";
-import { useNostrProfile } from "~/hooks/useNostrProfile";
 
 type PostButtonProps = {
   publicKey: string;

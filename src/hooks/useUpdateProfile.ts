@@ -1,9 +1,9 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { EventTemplate } from "nostr-tools";
 import { DEFAULT_RELAYS } from "~/lib/constants";
 import { finishEvent } from "~/lib/nostr/finishEvent";
-import { publish } from "~/lib/nostr/publish";
 import { parseUint8Array } from "~/lib/nostr/parseUint8Array";
-import type { EventTemplate } from "nostr-tools";
+import { publish } from "~/lib/nostr/publish";
 
 interface ProfileData {
   name?: string;

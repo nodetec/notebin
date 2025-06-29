@@ -1,13 +1,13 @@
 "use client";
 
-import { useNostrProfile } from "~/hooks/useNostrProfile";
-import { UserSnippetList } from "./UserSnippetList";
-import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
-import { Card, CardContent, CardHeader } from "~/components/ui/card";
-import { Badge } from "~/components/ui/badge";
-import { ExternalLink, Globe, MapPin, Github, Twitter } from "lucide-react";
+import { ExternalLink, Github, Globe, MapPin, Twitter } from "lucide-react";
 import Link from "next/link";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Badge } from "~/components/ui/badge";
+import { Card, CardContent, CardHeader } from "~/components/ui/card";
+import { useNostrProfile } from "~/hooks/useNostrProfile";
 import { getAvatar } from "~/lib/utils";
+import { UserSnippetList } from "./UserSnippetList";
 
 interface UserProfileProps {
   publicKey: string;
@@ -23,17 +23,17 @@ export function UserProfile({ publicKey, npub }: UserProfileProps) {
         <Card>
           <CardHeader>
             <div className="flex items-center space-x-4">
-              <div className="w-16 h-16 bg-muted rounded-full animate-pulse" />
+              <div className="h-16 w-16 animate-pulse rounded-full bg-muted" />
               <div className="space-y-2">
-                <div className="h-6 w-48 bg-muted rounded animate-pulse" />
-                <div className="h-4 w-32 bg-muted rounded animate-pulse" />
+                <div className="h-6 w-48 animate-pulse rounded bg-muted" />
+                <div className="h-4 w-32 animate-pulse rounded bg-muted" />
               </div>
             </div>
           </CardHeader>
           <CardContent>
             <div className="space-y-2">
-              <div className="h-4 w-full bg-muted rounded animate-pulse" />
-              <div className="h-4 w-3/4 bg-muted rounded animate-pulse" />
+              <div className="h-4 w-full animate-pulse rounded bg-muted" />
+              <div className="h-4 w-3/4 animate-pulse rounded bg-muted" />
             </div>
           </CardContent>
         </Card>
@@ -46,7 +46,7 @@ export function UserProfile({ publicKey, npub }: UserProfileProps) {
       <div className="space-y-6">
         <Card>
           <CardContent className="pt-6">
-            <div className="text-center py-8 text-muted-foreground">
+            <div className="py-8 text-center text-muted-foreground">
               Error loading profile
             </div>
           </CardContent>
@@ -63,10 +63,10 @@ export function UserProfile({ publicKey, npub }: UserProfileProps) {
       <Card>
         <CardHeader>
           <div className="flex items-start space-x-4">
-            <Avatar className="w-16 h-16">
-              <AvatarImage 
-                src={profile?.picture || getAvatar(publicKey)} 
-                alt={displayName} 
+            <Avatar className="h-16 w-16">
+              <AvatarImage
+                src={profile?.picture || getAvatar(publicKey)}
+                alt={displayName}
               />
               <AvatarFallback>
                 {displayName.charAt(0).toUpperCase()}
@@ -74,8 +74,8 @@ export function UserProfile({ publicKey, npub }: UserProfileProps) {
             </Avatar>
             <div className="flex-1 space-y-2">
               <div>
-                <h1 className="text-2xl font-bold">{displayName}</h1>
-                <p className="text-sm text-muted-foreground font-mono">
+                <h1 className="font-bold text-2xl">{displayName}</h1>
+                <p className="font-mono text-muted-foreground text-sm">
                   {shortNpub}
                 </p>
                 {profile?.nip05 && (
@@ -96,7 +96,7 @@ export function UserProfile({ publicKey, npub }: UserProfileProps) {
           <CardContent className="space-y-4">
             {profile?.about && (
               <div>
-                <h3 className="font-semibold mb-2">About</h3>
+                <h3 className="mb-2 font-semibold">About</h3>
                 <p className="text-muted-foreground">{profile.about}</p>
               </div>
             )}
@@ -118,7 +118,7 @@ export function UserProfile({ publicKey, npub }: UserProfileProps) {
                   }
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                  className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <Globe size={16} />
                   <span>{profile.website}</span>
@@ -135,7 +135,7 @@ export function UserProfile({ publicKey, npub }: UserProfileProps) {
                   }
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                  className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <Github size={16} />
                   <span>{profile.github}</span>
@@ -152,7 +152,7 @@ export function UserProfile({ publicKey, npub }: UserProfileProps) {
                   }
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center gap-1 text-muted-foreground hover:text-foreground transition-colors"
+                  className="flex items-center gap-1 text-muted-foreground transition-colors hover:text-foreground"
                 >
                   <Twitter size={16} />
                   <span>{profile.twitter}</span>

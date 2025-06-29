@@ -1,12 +1,11 @@
 "use client";
 
-import { useMemo, useCallback } from "react";
-import CodeMirror from "@uiw/react-codemirror";
-import { githubLight } from "@uiw/codemirror-theme-github";
-import { githubDark } from "@uiw/codemirror-theme-github";
 import { loadLanguage } from "@uiw/codemirror-extensions-langs";
-import { useAppState } from "~/store";
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
+import CodeMirror from "@uiw/react-codemirror";
 import { useTheme } from "next-themes";
+import { useCallback, useMemo } from "react";
+import { useAppState } from "~/store";
 
 export function ActiveEditor() {
   const setContent = useAppState((state) => state.setContent);

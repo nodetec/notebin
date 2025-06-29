@@ -1,8 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { signIn } from "next-auth/react";
+import { generateSecretKey, getPublicKey, nip19 } from "nostr-tools";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
 import { Button } from "~/components/ui/button";
 import {
   Form,
@@ -12,11 +16,6 @@ import {
   FormMessage,
 } from "~/components/ui/form";
 import { Input } from "~/components/ui/input";
-import { signIn } from "next-auth/react";
-import Link from "next/link";
-import { generateSecretKey, getPublicKey, nip19 } from "nostr-tools";
-import { useForm } from "react-hook-form";
-import * as z from "zod";
 
 const isValidNpub = (npub: string) => {
   try {

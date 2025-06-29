@@ -1,16 +1,15 @@
 "use client";
 
-import { useMemo } from "react";
-import CodeMirror from "@uiw/react-codemirror";
-import { githubLight } from "@uiw/codemirror-theme-github";
-import { githubDark } from "@uiw/codemirror-theme-github";
 import {
   type LanguageName,
   loadLanguage,
 } from "@uiw/codemirror-extensions-langs";
+import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
+import CodeMirror from "@uiw/react-codemirror";
 import { useTheme } from "next-themes";
-import { useSnippetEvent } from "../hooks/useSnippetEvent";
+import { useMemo } from "react";
 import { getTagValue } from "~/lib/nostr/getTagValue";
+import { useSnippetEvent } from "../hooks/useSnippetEvent";
 
 type ReadEditorProps = {
   kind?: number;
