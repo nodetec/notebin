@@ -45,7 +45,7 @@ export function SnippetCard({ snippet, hideAuthor = false }: SnippetCardProps) {
             </>
           )}
           <Link
-            href={`/${createNevent(snippet.event, DEFAULT_RELAYS)}`}
+            href={`/snippet/${createNevent(snippet.event, DEFAULT_RELAYS)}`}
             className="truncate font-mono font-semibold text-blue-400 transition-colors hover:text-blue-300"
           >
             {snippet.name || "Untitled"}
