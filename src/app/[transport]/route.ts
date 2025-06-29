@@ -42,3 +42,5 @@ const handler = createMcpHandler(
     maxDuration: 60,
   }
 );
+
+export { handler as GET, handler as POST, handler as DELETE };
