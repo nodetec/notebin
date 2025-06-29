@@ -1,10 +1,11 @@
 "use client";
 
-import { Download, MoreVertical, Trash2 } from "lucide-react";
+import { Download, Link, MoreVertical, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import type { EventTemplate } from "nostr-tools";
-import { SimplePool } from "nostr-tools";
+import { nip19, SimplePool } from "nostr-tools";
+import type { EventPointer } from "nostr-tools/nip19";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import {
@@ -80,6 +81,49 @@ export function SnippetActions({
     URL.revokeObjectURL(url);
   };
 
+  const handleCopyEventId = async () => {
+    try {
+      // Create the nevent identifier
+      const eventPointer: EventPointer = {
+        id: eventId,
+        kind: kind || 1337,
+        author: author,
+        relays: relays || DEFAULT_RELAYS,
+      };
+
+      const nevent = nip19.neventEncode(eventPointer);
+
+      // Copy to clipboard
+      await navigator.clipboard.writeText(nevent);
+      toast.success("Event ID copied to clipboard");
+    } catch (error) {
+      console.error("Failed to copy event ID:", error);
+      toast.error("Failed to copy event ID");
+    }
+  };
+
+  const handleCopyLink = async () => {
+    try {
+      // Create the nevent identifier for the URL
+      const eventPointer: EventPointer = {
+        id: eventId,
+        kind: kind || 1337,
+        author: author,
+        relays: relays || DEFAULT_RELAYS,
+      };
+
+      const nevent = nip19.neventEncode(eventPointer);
+      const url = `${window.location.origin}/${nevent}`;
+
+      // Copy to clipboard
+      await navigator.clipboard.writeText(url);
+      toast.success("Link copied to clipboard");
+    } catch (error) {
+      console.error("Failed to copy link:", error);
+      toast.error("Failed to copy link");
+    }
+  };
+
   const handleDelete = async () => {
     if (!event || !user?.secretKey) {
       toast.error("Unable to delete snippet");
@@ -138,6 +182,14 @@ export function SnippetActions({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={handleCopyEventId}>
+          <Link className="mr-2 h-4 w-4" />
+          Copy event ID
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleCopyLink}>
+          <Link className="mr-2 h-4 w-4" />
+          Copy link
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={handleDownload}>
           <Download className="mr-2 h-4 w-4" />
           Download
