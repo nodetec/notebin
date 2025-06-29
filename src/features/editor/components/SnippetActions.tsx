@@ -64,8 +64,6 @@ export function SnippetActions({
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-
-    toast.success(`Downloaded ${fullFilename}`);
   };
 
   return (
