@@ -86,7 +86,7 @@ const fetchInvoice = async (zapEndpoint: string, zapRequestEvent: Event) => {
   if (!amount) throw new Error("amount not found");
 
   let url = `${zapEndpoint}?amount=${amount}&nostr=${encodeURIComponent(
-    JSON.stringify(zapRequestEvent)
+    JSON.stringify(zapRequestEvent),
   )}`;
 
   if (comment) {
@@ -131,7 +131,7 @@ export const sendZap = async (zapRequest: ZapRequest, profileEvent: Event) => {
       if (!secretKey) throw new Error("secret key not found");
       zapRequestEvent = await finishEventWithSecretKey(
         zapRequestEventTemplate,
-        secretKey
+        secretKey,
       );
     } else {
       console.error("User not found");

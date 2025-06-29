@@ -12,8 +12,10 @@ import { Skeleton } from "~/components/ui/skeleton";
 import { useNostrProfile } from "~/hooks/useNostrProfile";
 import { signOut } from "next-auth/react";
 import Image from "next/image";
+import Link from "next/link";
 import { getAvatar } from "~/lib/utils";
 import { shortenNpub } from "~/lib/nostr/shortNpub";
+import { nip19 } from "nostr-tools";
 
 type Props = {
   publicKey: string;
@@ -21,6 +23,7 @@ type Props = {
 
 export function UserDropdown({ publicKey }: Props) {
   const nostrProfile = useNostrProfile(publicKey, true);
+  const npub = nip19.npubEncode(publicKey);
 
   console.log(nostrProfile.data);
 
@@ -48,23 +51,14 @@ export function UserDropdown({ publicKey }: Props) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="mt-1" align="end">
         <DropdownMenuItem className="truncate" asChild>
-          {/* <Link href={createProfileLink(profile, publicKey)}> */}
-          <span className="truncate">
+          <Link href={`/user/${npub}`} className="truncate">
             {nostrProfile.data?.name ?? shortenNpub(publicKey)}
-          </span>
-          {/* </Link> */}
+          </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
-        {/* <DropdownMenuItem asChild>
-          <Link href="/settings">Settings</Link>
-        </DropdownMenuItem> */}
-        {/* <DropdownMenuItem asChild>
-          <Link href="/relays">Relays</Link>
-        </DropdownMenuItem> */}
-        {/* <DropdownMenuItem className="my-2 cursor-pointer text-[1rem] font-medium"> */}
-        {/*   Stacks */}
-        {/* </DropdownMenuItem> */}
-        {/* <DropdownMenuSeparator /> */}
+        <DropdownMenuItem asChild>
+          <Link href="/account">Account</Link>
+        </DropdownMenuItem>
         <DropdownMenuItem onClick={() => signOut()}>Logout</DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

@@ -12,6 +12,8 @@ import {
 import Link from "next/link";
 import { createNevent } from "~/lib/nostr/createNevent";
 import { DEFAULT_RELAYS } from "~/lib/constants";
+import { nip19 } from "nostr-tools";
+import { shortenNpub } from "~/lib/nostr/shortNpub";
 
 type SnippetCardProps = {
   snippet: NostrSnippet;
@@ -27,13 +29,28 @@ export function SnippetCard({ snippet }: SnippetCardProps) {
     return extension ? [extension] : [];
   }, [snippet]);
 
+  const authorNpub = snippet.event.pubkey
+    ? nip19.npubEncode(snippet.event.pubkey)
+    : null;
+  const shortAuthor = shortenNpub(snippet.event.pubkey);
+
   return (
     <div className="flex flex-col gap-2">
-      <Link href={`/${createNevent(snippet.event, DEFAULT_RELAYS)}`}>
-        <h2 className="truncate font-mono font-semibold text-blue-400 text-sm">
-          {snippet.name || "Untitled"}
-        </h2>
-      </Link>
+      <div className="flex items-center justify-between">
+        <Link href={`/${createNevent(snippet.event, DEFAULT_RELAYS)}`}>
+          <h2 className="truncate font-mono font-semibold text-blue-400 text-sm">
+            {snippet.name || "Untitled"}
+          </h2>
+        </Link>
+        {authorNpub && (
+          <Link
+            href={`/user/${authorNpub}`}
+            className="text-xs text-muted-foreground hover:text-foreground transition-colors font-mono"
+          >
+            {shortAuthor}
+          </Link>
+        )}
+      </div>
 
       <div className="h-[204px] overflow-hidden rounded-md border bg-background text-md">
         <CodeMirror

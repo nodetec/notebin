@@ -6,7 +6,7 @@ export async function getSnippet(
   eventId: string,
   relays?: string[],
   kind?: number,
-  author?: string | undefined
+  author?: string | undefined,
 ) {
   if (!author) {
     return null;
@@ -29,7 +29,7 @@ export const useSnippetEvent = (
   eventId: string,
   kind?: number,
   author?: string | undefined,
-  relays?: string[]
+  relays?: string[],
 ) => {
   return useQuery({
     queryKey: ["snippet", kind, eventId, author],

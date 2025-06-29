@@ -35,4 +35,4 @@ export function CopyButton({ eventId, kind, author, relays }: Props) {
       <Copy className="size-4" />
     </Button>
   );
-} 
+}

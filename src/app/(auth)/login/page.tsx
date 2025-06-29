@@ -45,7 +45,7 @@ export default function UserAuthForm() {
   });
 
   const signInWithExtension = async (
-    e: React.MouseEvent<HTMLButtonElement>
+    e: React.MouseEvent<HTMLButtonElement>,
   ) => {
     e.preventDefault();
     setIsLoading(true);
