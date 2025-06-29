@@ -1,6 +1,6 @@
 "use client";
 
-import { Download, Link, MoreVertical, Trash2 } from "lucide-react";
+import { Code, Download, Link, MoreVertical, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import type { EventTemplate } from "nostr-tools";
@@ -124,6 +124,25 @@ export function SnippetActions({
     }
   };
 
+  const handleCopyEventJson = async () => {
+    if (!event) {
+      toast.error("Unable to copy event JSON");
+      return;
+    }
+
+    try {
+      // Format the event JSON nicely
+      const eventJson = JSON.stringify(event, null, 2);
+
+      // Copy to clipboard
+      await navigator.clipboard.writeText(eventJson);
+      toast.success("Event JSON copied to clipboard");
+    } catch (error) {
+      console.error("Failed to copy event JSON:", error);
+      toast.error("Failed to copy event JSON");
+    }
+  };
+
   const handleDelete = async () => {
     if (!event || !user?.secretKey) {
       toast.error("Unable to delete snippet");
@@ -189,6 +208,10 @@ export function SnippetActions({
         <DropdownMenuItem onClick={handleCopyLink}>
           <Link className="mr-2 h-4 w-4" />
           Copy link
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={handleCopyEventJson}>
+          <Code className="mr-2 h-4 w-4" />
+          Copy event JSON
         </DropdownMenuItem>
         <DropdownMenuItem onClick={handleDownload}>
           <Download className="mr-2 h-4 w-4" />
