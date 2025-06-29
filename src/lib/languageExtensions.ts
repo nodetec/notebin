@@ -1,6 +1,6 @@
 import type { LanguageName } from "@uiw/codemirror-extensions-langs";
 
-export const languageToExtension: Record<LanguageName, string> = {
+export const languageToExtension: Partial<Record<LanguageName, string>> = {
   shell: "sh",
   c: "c",
   csharp: "cs",
