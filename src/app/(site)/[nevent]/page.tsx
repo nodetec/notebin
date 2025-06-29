@@ -6,6 +6,7 @@ import {
   Description,
   Filename,
   ReadEditor,
+  SnippetActions,
 } from "~/features/editor";
 import { TagList } from "~/features/editor/components/TagList";
 import { AuthorProfile } from "~/features/snippet-feed";
@@ -67,6 +68,12 @@ export default async function SnippetPage({
                   senderPubkey={user.publicKey}
                 />
               )}
+              <SnippetActions
+                eventId={id}
+                kind={kind}
+                author={author}
+                relays={relays}
+              />
             </div>
           </div>
           <ReadEditor

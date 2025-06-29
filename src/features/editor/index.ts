@@ -7,4 +7,5 @@ export { FilenameInput } from "./components/FilenameInput";
 export { InputTagList } from "./components/InputTagList";
 export { LanguageSelect } from "./components/LanguageSelect";
 export { ReadEditor } from "./components/ReadEditor";
+export { SnippetActions } from "./components/SnippetActions";
 export { TagsInput } from "./components/TagsInput";
