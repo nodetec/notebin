@@ -39,3 +39,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+/paidmcp
+skills.zip
+*.zip
+/Context-Engineering

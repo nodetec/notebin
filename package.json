@@ -7,11 +7,17 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "update": "npx npm-check-updates -i"
+    "update": "npx npm-check-updates -i",
+    "mcp:test": "node scripts/test-mcp.mjs",
+    "mcp:paid": "node scripts/paid-mcp-http.mjs",
+    "mcp:paid:test": "node scripts/test-paid-mcp.mjs",
+    "mcp:paid:inspect": "npx @modelcontextprotocol/inspector node scripts/paid-mcp-server.mjs"
   },
   "dependencies": {
     "@dicebear/collection": "^9.2.3",
     "@dicebear/core": "^9.2.3",
+    "@getalby/paidmcp": "^1.0.3",
+    "@getalby/sdk": "^7.0.0",
     "@hookform/resolvers": "^5.1.1",
     "@modelcontextprotocol/sdk": "^1.13.2",
     "@radix-ui/react-avatar": "^1.1.10",
@@ -36,6 +42,7 @@
     "@yornaath/batshit": "^0.10.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
     "lucide-react": "^0.525.0",
     "nanoid": "^5.1.5",
     "next": "15.3.4",

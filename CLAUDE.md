@@ -1,15 +1,22 @@
 # CLAUDE.md
 
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
 ## Project Overview
 - **Notebin**: A decentralized code snippet sharing platform using Nostr protocol (NIP-C0 implementation)
 - Built with Next.js 15, React 19, TypeScript, and Tailwind CSS
 - Uses shadcn/ui components and Radix UI primitives
 
 ## Architecture & Patterns
-- **Feature-based structure**: Components organized in `src/features/` by domain (editor, login, navigation, post, snippet-feed, zap)
+- **Feature-based structure**: Components organized in `src/features/` by domain (account, editor, login, navigation, post, snippet-feed, user, zap)
 - **Barrel exports**: Each feature exports components via `index.ts` files
 - **State management**: Zustand store in `src/store/index.ts` with localStorage persistence
 - **Path aliases**: Uses `~/` for `src/` directory
+
+## Nostr Protocol
+- **Event kind**: Code snippets use kind `1337` (NIP-C0)
+- **Default relay**: `wss://relay.notebin.io`
+- **Identifiers**: Uses `npub` (public key) and `nip19` encoding
 
 ## Key Technologies
 - **Nostr integration**: Uses `nostr-tools` for decentralized functionality
@@ -46,6 +53,14 @@ npm run lint       # Next.js linting (also runs Biome)
 - Constants: `src/lib/constants.ts`
 - Auth config: `src/auth/index.ts`
 - Nostr utilities: `src/lib/nostr/`
+- MCP server: `src/app/[transport]/route.ts`
+
+## MCP Server
+The project includes an MCP server at `src/app/[transport]/route.ts` using `@vercel/mcp-adapter`:
+- **SSE endpoint**: `/sse`
+- **HTTP endpoint**: `/mcp`
+- **Tool**: `fetchCodeSnippets` - fetches snippets by npub with optional language/tag filters
+- **Test script**: `node scripts/test-mcp.mjs [origin]`
 
 ## Libraries & Dependencies
 
