@@ -8,7 +8,9 @@ import { githubDark, githubLight } from "@uiw/codemirror-theme-github";
 import CodeMirror from "@uiw/react-codemirror";
 import { useTheme } from "next-themes";
 import { useMemo } from "react";
+import { Badge } from "~/components/ui/badge";
 import { getTagValue } from "~/lib/nostr/getTagValue";
+import { decodeBase64Content } from "~/lib/utils";
 import { useSnippetEvent } from "../hooks/useSnippetEvent";
 
 type ReadEditorProps = {
@@ -23,6 +25,13 @@ export function ReadEditor({ kind, eventId, author, relays }: ReadEditorProps) {
 
   const { data: snippet } = useSnippetEvent(eventId, kind, author, relays);
 
+  const { content, isBase64Encoded } = useMemo(() => {
+    if (!snippet?.content) {
+      return { content: "", isBase64Encoded: false };
+    }
+    return decodeBase64Content(snippet.content);
+  }, [snippet?.content]);
+
   const languageExtension = useMemo(() => {
     const extension = loadLanguage(
       (getTagValue(snippet, "l") as LanguageName) || "markdown",
@@ -31,10 +40,17 @@ export function ReadEditor({ kind, eventId, author, relays }: ReadEditorProps) {
   }, [snippet]);
 
   return (
-    <div className="h-full bg-background text-md">
+    <div className="relative h-full bg-background text-md">
+      {isBase64Encoded && (
+        <div className="absolute top-2 right-4 z-10">
+          <Badge variant="secondary" className="font-mono text-[10px]">
+            base64 decoded
+          </Badge>
+        </div>
+      )}
       <CodeMirror
         className="[&_.cm-editor]:!bg-background [&_.cm-editor]:!h-full [&_.cm-scroller]:!bg-background [&_.cm-editor.cm-focused]:!outline-none [&_.cm-gutters]:!bg-background [&_.cm-lineNumbers]:!min-w-[40px] [&_.cm-lineNumbers]:!text-muted-foreground/80 [&_.cm-gutters]:!my-2 [&_.cm-content]:!my-2 [&_.cm-lineNumbers]:!px-1 h-full w-full text-sm"
-        value={snippet?.content}
+        value={content}
         basicSetup={{
           lineNumbers: true,
           foldGutter: false,

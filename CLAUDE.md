@@ -15,7 +15,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Nostr Protocol
 - **Event kind**: Code snippets use kind `1337` (NIP-C0)
-- **Default relay**: `wss://relay.notebin.io`
+- **Default relays**: configurable via `NEXT_PUBLIC_NOSTR_RELAYS` (comma-separated); falls back to public relays if unset
 - **Identifiers**: Uses `npub` (public key) and `nip19` encoding
 
 ## Key Technologies

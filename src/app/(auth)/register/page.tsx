@@ -3,6 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { signIn } from "next-auth/react";
+import { bytesToHex } from "@noble/hashes/utils";
 import { generateSecretKey, getPublicKey, nip19 } from "nostr-tools";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -71,7 +72,8 @@ export default function RegisterForm() {
     setIsLoading(true);
     const { npub, nsec } = values;
     const publicKey = nip19.decode(npub).data as string;
-    const secretKey = nip19.decode(nsec).data as Uint8Array;
+    const secretKeyUint8 = nip19.decode(nsec).data as Uint8Array;
+    const secretKey = bytesToHex(secretKeyUint8);
 
     await signIn("credentials", {
       publicKey,

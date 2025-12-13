@@ -7,6 +7,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import Link from "next/link";
 import { useTheme } from "next-themes";
 import { useMemo } from "react";
+import { Badge } from "~/components/ui/badge";
 import { DEFAULT_RELAYS } from "~/lib/constants";
 import { createNevent } from "~/lib/nostr/createNevent";
 import type { NostrSnippet } from "~/lib/nostr/createNostrSnippet";
@@ -50,6 +51,11 @@ export function SnippetCard({ snippet, hideAuthor = false }: SnippetCardProps) {
           >
             {snippet.name || "Untitled"}
           </Link>
+          {snippet.isBase64Encoded && (
+            <Badge variant="secondary" className="ml-2 font-mono text-[10px]">
+              base64
+            </Badge>
+          )}
         </div>
         {snippet.description && (
           <p className="line-clamp-1 text-muted-foreground text-sm">

@@ -1,8 +1,10 @@
 "use client";
 
 import { Copy } from "lucide-react";
+import { useMemo } from "react";
 import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
+import { decodeBase64Content } from "~/lib/utils";
 import { useSnippetEvent } from "../hooks/useSnippetEvent";
 
 type Props = {
@@ -15,11 +17,16 @@ type Props = {
 export function CopyButton({ eventId, kind, author, relays }: Props) {
   const { data: snippet } = useSnippetEvent(eventId, kind, author, relays);
 
+  const content = useMemo(() => {
+    if (!snippet?.content) return "";
+    return decodeBase64Content(snippet.content).content;
+  }, [snippet?.content]);
+
   const handleCopy = async () => {
-    if (!snippet?.content) return;
+    if (!content) return;
 
     try {
-      await navigator.clipboard.writeText(snippet.content);
+      await navigator.clipboard.writeText(content);
       toast("Copied to clipboard", {
         description: "The snippet has been copied to your clipboard.",
       });
