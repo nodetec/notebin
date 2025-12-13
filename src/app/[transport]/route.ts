@@ -1,6 +1,7 @@
 import { type Filter, nip19, SimplePool } from "nostr-tools";
 import { NWCClient } from "@getalby/sdk";
 import { DEFAULT_RELAYS } from "~/lib/constants";
+import { decodeBase64Content } from "~/lib/utils";
 
 /**
  * MCP Server configuration
@@ -72,11 +73,11 @@ async function generateInvoice(satoshi: number, description: string) {
   });
 
   // Store payment hash as valid
-  setPaymentValid(invoice.paymentHash);
+  setPaymentValid(invoice.payment_hash);
 
   return {
-    payment_request: invoice.paymentRequest,
-    payment_hash: invoice.paymentHash,
+    payment_request: invoice.invoice, // bolt11 invoice string
+    payment_hash: invoice.payment_hash,
   };
 }
 
@@ -88,8 +89,8 @@ async function verifyPayment(paymentHash: string): Promise<boolean> {
   if (!client) return false;
 
   try {
-    const lookup = await client.lookupInvoice({ paymentHash });
-    return !!lookup.settledAt;
+    const lookup = await client.lookupInvoice({ payment_hash: paymentHash });
+    return !!lookup.settled_at;
   } catch {
     return false;
   }
@@ -147,6 +148,7 @@ const PAID_TOOLS = {
         tags: { type: "array", items: { type: "string" }, description: "Filter by tags" },
         keyword: { type: "string", description: "Search for keyword in snippet content" },
         limit: { type: "number", description: "Maximum snippets (up to 500)", default: 100 },
+        raw: { type: "boolean", description: "Return raw content without base64 decoding", default: false },
         payment_hash: { type: "string", description: "Payment hash from paid invoice (required for execution)" },
       },
       required: [],
@@ -164,6 +166,7 @@ async function executeSearchSnippetsPremium(args: {
   tags?: string[];
   keyword?: string;
   limit?: number;
+  raw?: boolean;
 }) {
   const pool = new SimplePool();
 
@@ -201,13 +204,19 @@ async function executeSearchSnippetsPremium(args: {
     const descTag = event.tags.find((t) => t[0] === "summary" || t[0] === "description");
     const tags = event.tags.filter((t) => t[0] === "t").map((t) => t[1]);
 
+    // Decode base64 content unless raw mode requested
+    const { content: decodedContent, isBase64Encoded } = args.raw
+      ? { content: event.content, isBase64Encoded: false }
+      : decodeBase64Content(event.content);
+
     return {
       id: event.id,
       title: titleTag?.[1] || "Untitled",
       description: descTag?.[1] || null,
       language: langTag?.[1] || "unknown",
       tags,
-      content: event.content, // Full content for premium
+      content: decodedContent,
+      is_base64_encoded: isBase64Encoded,
       author: nip19.npubEncode(event.pubkey),
       created_at: event.created_at,
       sig: event.sig,
