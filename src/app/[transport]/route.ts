@@ -2,6 +2,7 @@ import { type Filter, nip19, SimplePool } from "nostr-tools";
 import { NWCClient } from "@getalby/sdk";
 import { DEFAULT_RELAYS } from "~/lib/constants";
 import { decodeBase64Content } from "~/lib/utils";
+import { getPaymentStorage } from "~/lib/payment-storage";
 
 /**
  * MCP Server configuration
@@ -13,14 +14,16 @@ const SERVER_INFO = {
 };
 
 // =============================================================================
-// PAYMENT INFRASTRUCTURE (Step B)
+// PAYMENT INFRASTRUCTURE
+// Uses Redis with atomic Lua scripts to prevent TOCTOU race conditions.
+// @see paidmcp-starter/docs/adr/004-atomic-payment-claims.md
 // =============================================================================
 
 /**
- * Payment storage (in-memory for testing)
- * In production, use Redis for persistence across serverless invocations
+ * Payment storage singleton (Redis-based)
+ * Initialized once at module load, reused across all requests.
  */
-const paymentStorage = new Map<string, { valid: boolean; created: number }>();
+const paymentStorage = getPaymentStorage();
 
 /**
  * NWC client singleton (lazy initialized)
@@ -37,31 +40,10 @@ function getNwcClient(): NWCClient | null {
 }
 
 /**
- * Check if a payment hash is valid (exists and unused)
+ * Generate invoice for paid tool.
+ * Stores payment hash as VALID in Redis.
  */
-function isPaymentValid(paymentHash: string): boolean {
-  const record = paymentStorage.get(paymentHash);
-  return record?.valid === true;
-}
-
-/**
- * Mark payment hash as valid (after invoice created)
- */
-function setPaymentValid(paymentHash: string): void {
-  paymentStorage.set(paymentHash, { valid: true, created: Date.now() });
-}
-
-/**
- * Invalidate payment hash (after tool executed)
- */
-function invalidatePayment(paymentHash: string): void {
-  paymentStorage.set(paymentHash, { valid: false, created: Date.now() });
-}
-
-/**
- * Generate invoice for paid tool
- */
-async function generateInvoice(satoshi: number, description: string) {
+async function generateInvoice(satoshi: number, description: string, toolName: string) {
   const client = getNwcClient();
   if (!client) {
     throw new Error("NWC not configured. Set NWC_URL environment variable.");
@@ -72,8 +54,15 @@ async function generateInvoice(satoshi: number, description: string) {
     description,
   });
 
-  // Store payment hash as valid
-  setPaymentValid(invoice.payment_hash);
+  // Store payment hash as VALID in Redis
+  await paymentStorage.setValid(invoice.payment_hash, {
+    toolName,
+    paramsHash: "", // Could add params hash for extra security
+    created: Date.now(),
+  });
+
+  console.log(`[TOCTOU-FIX] 📝 Payment hash created: ${invoice.payment_hash.slice(0, 16)}...`);
+  console.log(`[TOCTOU-FIX]    State: (none) → VALID`);
 
   return {
     payment_request: invoice.invoice, // bolt11 invoice string
@@ -425,7 +414,8 @@ async function handleMcpRequest(body: { jsonrpc: string; method: string; params?
           try {
             const invoice = await generateInvoice(
               toolConfig._price.satoshi,
-              `${toolConfig._price.description}: ${args.keyword || args.language || "search"}`
+              `${toolConfig._price.description}: ${args.keyword || args.language || "search"}`,
+              "searchSnippetsPremium"
             );
             return {
               jsonrpc: "2.0",
@@ -454,33 +444,62 @@ async function handleMcpRequest(body: { jsonrpc: string; method: string; params?
           }
         }
 
-        // Phase 2: payment_hash provided → verify and execute
-        if (!isPaymentValid(paymentHash)) {
+        // =====================================================================
+        // Phase 2: payment_hash provided → ATOMIC claim, verify, execute
+        // This flow eliminates TOCTOU race conditions.
+        // @see paidmcp-starter/docs/adr/004-atomic-payment-claims.md
+        // =====================================================================
+
+        // Step 1: Atomic claim (VALID → PROCESSING)
+        // This prevents concurrent requests from using the same hash
+        console.log(`[TOCTOU-FIX] 🔒 Attempting atomic claim: ${paymentHash.slice(0, 16)}...`);
+        const claimed = await paymentStorage.tryClaimForProcessing(paymentHash);
+        if (!claimed) {
+          console.log(`[TOCTOU-FIX] ❌ Claim REJECTED (hash invalid, in-use, or consumed)`);
+          console.log(`[TOCTOU-FIX]    → Race condition PREVENTED or hash already used`);
           return {
             jsonrpc: "2.0",
             id,
-            error: { code: -32602, message: "Invalid or already used payment_hash" },
+            error: { code: -32602, message: "Invalid, in-use, or already consumed payment_hash" },
           };
         }
+        console.log(`[TOCTOU-FIX] ✓ Claim SUCCESS`);
+        console.log(`[TOCTOU-FIX]    State: VALID → PROCESSING`);
 
-        // Verify payment with NWC
+        // Step 2: Verify payment with NWC
+        // Hash is now PROCESSING - no race condition possible
+        console.log(`[TOCTOU-FIX] 💰 Verifying payment with NWC...`);
         const paid = await verifyPayment(paymentHash);
         if (!paid) {
+          // Payment not verified - release back so user can retry after paying
+          console.log(`[TOCTOU-FIX] ⚠️ Payment NOT verified - releasing hash back`);
+          console.log(`[TOCTOU-FIX]    State: PROCESSING → VALID (preserved for retry)`);
+          await paymentStorage.releaseBack(paymentHash);
           return {
             jsonrpc: "2.0",
             id,
             error: { code: -32602, message: "Payment not received. Please pay the invoice first." },
           };
         }
+        console.log(`[TOCTOU-FIX] ✓ Payment VERIFIED`);
 
-        // Invalidate hash (one-time use)
-        invalidatePayment(paymentHash);
-
-        // Execute the tool
+        // Step 3: Execute the tool
         try {
+          console.log(`[TOCTOU-FIX] 🚀 Executing tool...`);
           const result = await executeSearchSnippetsPremium(args as Parameters<typeof executeSearchSnippetsPremium>[0]);
+
+          // Step 4: Consume the hash (PROCESSING → INVALID)
+          await paymentStorage.consume(paymentHash);
+          console.log(`[TOCTOU-FIX] ✓ Tool executed successfully`);
+          console.log(`[TOCTOU-FIX]    State: PROCESSING → INVALID (consumed)`);
+          console.log(`[TOCTOU-FIX] 🎉 Payment flow complete!`);
+
           return { jsonrpc: "2.0", id, result };
         } catch (error) {
+          // Tool failed but payment was verified - consume anyway (payment is settled)
+          await paymentStorage.consume(paymentHash);
+          console.log(`[TOCTOU-FIX] ❌ Tool execution FAILED`);
+          console.log(`[TOCTOU-FIX]    State: PROCESSING → INVALID (consumed despite error)`);
           return {
             jsonrpc: "2.0",
             id,
@@ -576,12 +595,14 @@ export async function GET(request: Request): Promise<Response> {
     });
   }
 
-  // Regular GET - health check
+  // Regular GET - health check with Redis status
+  const redisHealthy = await paymentStorage.ping();
   return new Response(
     JSON.stringify({
       name: SERVER_INFO.name,
       version: SERVER_INFO.version,
-      status: "ok",
+      status: redisHealthy ? "ok" : "degraded",
+      redis: redisHealthy ? "connected" : "disconnected",
       endpoints: { mcp: "POST /mcp", sse: "GET /sse" },
     }),
     { status: 200, headers: { "Content-Type": "application/json" } }
