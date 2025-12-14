@@ -154,7 +154,7 @@ const PAID_TOOLS = {
       required: [],
     },
     // Pricing config
-    _price: { satoshi: 10, description: "Premium search" },
+    _price: { satoshi: 1, description: "Premium search" },
   },
 };
 
