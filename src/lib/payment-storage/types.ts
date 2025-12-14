@@ -66,6 +66,13 @@ export interface IPaymentStorage {
   getState(paymentHash: string): Promise<PaymentState | null>;
 
   /**
+   * Get metadata for a payment hash.
+   * Used to verify params binding on claim.
+   * Returns null if hash doesn't exist.
+   */
+  getMetadata(paymentHash: string): Promise<PaymentMetadata | null>;
+
+  /**
    * Check if storage is healthy/connected.
    */
   ping(): Promise<boolean>;

@@ -141,6 +141,20 @@ export class RedisPaymentStorage implements IPaymentStorage {
     return state as PaymentState;
   }
 
+  async getMetadata(paymentHash: string): Promise<PaymentMetadata | null> {
+    const data = await this.redis.hgetall(this.key(paymentHash));
+    if (!data || !data.state) return null;
+
+    return {
+      toolName: data.toolName || "",
+      paramsHash: data.paramsHash || "",
+      created: parseInt(data.created || "0", 10),
+      processingStarted: data.processingStarted
+        ? parseInt(data.processingStarted, 10)
+        : undefined,
+    };
+  }
+
   async ping(): Promise<boolean> {
     try {
       const result = await this.redis.ping();

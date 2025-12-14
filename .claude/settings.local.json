@@ -6,7 +6,9 @@
       "Bash(npm run build:*)",
       "Bash(grep:*)",
       "Bash(find:*)",
-      "Bash(git config:*)"
+      "Bash(git config:*)",
+      "Bash(dir \"C:\\Users\\emman\\source\\repos\\notebin\")",
+      "Bash(findstr:*)"
     ]
   }
 }

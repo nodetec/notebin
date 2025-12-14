@@ -2,7 +2,7 @@ import { type Filter, nip19, SimplePool } from "nostr-tools";
 import { NWCClient } from "@getalby/sdk";
 import { DEFAULT_RELAYS } from "~/lib/constants";
 import { decodeBase64Content } from "~/lib/utils";
-import { getPaymentStorage } from "~/lib/payment-storage";
+import { getPaymentStorage, hashParams, extractBindableParams } from "~/lib/payment-storage";
 
 /**
  * MCP Server configuration
@@ -41,9 +41,19 @@ function getNwcClient(): NWCClient | null {
 
 /**
  * Generate invoice for paid tool.
- * Stores payment hash as VALID in Redis.
+ * Stores payment hash as VALID in Redis with params binding.
+ *
+ * @param satoshi - Amount to charge in satoshis
+ * @param description - Invoice description
+ * @param toolName - Name of the tool being paid for
+ * @param args - Tool arguments (used to compute paramsHash for binding)
  */
-async function generateInvoice(satoshi: number, description: string, toolName: string) {
+async function generateInvoice(
+  satoshi: number,
+  description: string,
+  toolName: string,
+  args: Record<string, unknown>
+) {
   const client = getNwcClient();
   if (!client) {
     throw new Error("NWC not configured. Set NWC_URL environment variable.");
@@ -54,15 +64,20 @@ async function generateInvoice(satoshi: number, description: string, toolName: s
     description,
   });
 
-  // Store payment hash as VALID in Redis
+  // Compute params hash for binding - prevents payment hash theft
+  const bindableParams = extractBindableParams(args, toolName);
+  const paramsHashValue = hashParams(bindableParams);
+
+  // Store payment hash as VALID in Redis with params binding
   await paymentStorage.setValid(invoice.payment_hash, {
     toolName,
-    paramsHash: "", // Could add params hash for extra security
+    paramsHash: paramsHashValue,
     created: Date.now(),
   });
 
   console.log(`[TOCTOU-FIX] 📝 Payment hash created: ${invoice.payment_hash.slice(0, 16)}...`);
   console.log(`[TOCTOU-FIX]    State: (none) → VALID`);
+  console.log(`[TOCTOU-FIX]    Params bound: ${paramsHashValue.slice(0, 16)}...`);
 
   return {
     payment_request: invoice.invoice, // bolt11 invoice string
@@ -415,7 +430,8 @@ async function handleMcpRequest(body: { jsonrpc: string; method: string; params?
             const invoice = await generateInvoice(
               toolConfig._price.satoshi,
               `${toolConfig._price.description}: ${args.keyword || args.language || "search"}`,
-              "searchSnippetsPremium"
+              "searchSnippetsPremium",
+              args as Record<string, unknown>
             );
             return {
               jsonrpc: "2.0",
@@ -465,6 +481,28 @@ async function handleMcpRequest(body: { jsonrpc: string; method: string; params?
         }
         console.log(`[TOCTOU-FIX] ✓ Claim SUCCESS`);
         console.log(`[TOCTOU-FIX]    State: VALID → PROCESSING`);
+
+        // Step 1b: Verify params hash binding (prevents payment hash theft)
+        // This ensures the payment_hash can only be used with the same params it was generated for
+        const storedMetadata = await paymentStorage.getMetadata(paymentHash);
+        if (storedMetadata?.paramsHash) {
+          const currentBindableParams = extractBindableParams(args as Record<string, unknown>, "searchSnippetsPremium");
+          const currentParamsHash = hashParams(currentBindableParams);
+
+          if (storedMetadata.paramsHash !== currentParamsHash) {
+            console.log(`[TOCTOU-FIX] ❌ Params hash MISMATCH - possible theft attempt!`);
+            console.log(`[TOCTOU-FIX]    Stored:  ${storedMetadata.paramsHash.slice(0, 16)}...`);
+            console.log(`[TOCTOU-FIX]    Current: ${currentParamsHash.slice(0, 16)}...`);
+            // Release back - params don't match what invoice was generated for
+            await paymentStorage.releaseBack(paymentHash);
+            return {
+              jsonrpc: "2.0",
+              id,
+              error: { code: -32602, message: "Payment hash was generated for different parameters. Request a new invoice." },
+            };
+          }
+          console.log(`[TOCTOU-FIX] ✓ Params hash VERIFIED`);
+        }
 
         // Step 2: Verify payment with NWC
         // Hash is now PROCESSING - no race condition possible

@@ -3,6 +3,7 @@ import type { IPaymentStorage } from "./types";
 
 export type { IPaymentStorage, PaymentMetadata, PaymentState } from "./types";
 export { RedisPaymentStorage } from "./redis";
+export { hashParams, extractBindableParams } from "./utils";
 
 /**
  * Singleton storage instance.

@@ -1,0 +1,62 @@
+╔══════════════════════════════════════════════════════════════╗
+║     Payment Hash Theft Prevention Test (Interactive)         ║
+╚══════════════════════════════════════════════════════════════╝
+
+Timestamp: 2025-12-14T16:56:38.387Z
+
+Step 1: Getting Lightning Invoice with ORIGINAL params
+
+  Original params:
+    language: "typescript"
+    keyword:  "original-binding-test"
+    limit:    10
+
+  Amount:        1 sats
+  Payment Hash:  8000bb071a5723c97309d36d20848b445db125832df039dfd3813758e4da6b3b
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │ INVOICE (copy and pay with Lightning wallet):              │
+  └─────────────────────────────────────────────────────────────┘
+
+  Invoice: lnbc10n1p5namzxdpu2pex2mtfw4kjqum9v9exx6p6yphhy6t8d9hxzmpdvf5kuerfdenj6ar9wd6qnp4qge3j3ufwcxhndsr8fhyv5dzt6c4mkr9fmfrl86qp24fvvy4l7fd6pp5sqqtkpc62u3ujucf6dkjppytg3wmzfvr9hcrnh7nsym43ex6dvassp5p6havh4ktc3c249v3qtfuwrl6jgtgzvw97rr3cjkn4ek4f20nwpq9qyysgqcqpcxqyz5vqrzjq25ceph0xekwyf426mnhq62eg4hpwqg93y2u8jl4y7ehmg2rhv2yzrss9cqq2fcqqqqqqqlgqqqp8zqqjqrzjqw9fu4j39mycmg440ztkraa03u5qhtuc5zfgydsv6ml38qd4azymlapyqqqqqqq4cuqqqqlgqqqq86qqjq486e0vrgucqytuhr5gyeym82fk6jxnfuunmsldgfylp5gs3szt93d5354y93d3m8rnnv8qpn8vqvemdgjaxplutuuzpumxxktkf984qpt3vvmn
+
+
+Payment confirmed by user. Starting theft simulation...
+
+Step 2: Attempting to use payment_hash with DIFFERENT params
+
+  Stolen params (DIFFERENT from original):
+    language: "python" (was "typescript")
+    keyword:  "stolen-attempt" (was "original-binding-test")
+    limit:    100 (was 10)
+
+  Simulating attacker using your paid payment_hash...
+
+  Duration: 74ms
+
+  ✅ THEFT BLOCKED!
+     Error: "Payment hash was generated for different parameters. Request a new invoice."
+
+Step 3: Verifying ORIGINAL params still work
+
+  Using payment_hash with the SAME params it was generated for...
+
+  Duration: 1079ms
+
+  ✅ ORIGINAL PARAMS ACCEPTED!
+     Tool executed successfully with matching params.
+
+╔══════════════════════════════════════════════════════════════╗
+║                        SUMMARY                               ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  🎉 PARAMS BINDING VERIFIED!                                 ║
+║                                                              ║
+║  The theft attempt with different params was BLOCKED.       ║
+║  Payment hashes are correctly bound to their original       ║
+║  request parameters.                                        ║
+║                                                              ║
+╠══════════════════════════════════════════════════════════════╣
+║  Theft attempt (different params): ✅ BLOCKED                  ║
+║  Original params:                  ✅ ACCEPTED                  ║
+╚══════════════════════════════════════════════════════════════╝
