@@ -18,6 +18,8 @@ PaidMCP Server is a template for building MCP servers that charge Bitcoin Lightn
 | Changing payment logic | `docs/architecture.md`, `docs/adr/001-two-phase-payment.md` |
 | Adding transport mode | `docs/guides/transport-modes.md`, `packages/transports/README.md` |
 | Custom storage backend | `docs/guides/custom-storage.md`, `packages/storage/README.md` |
+| **Fixing race conditions** | `docs/adr/004-atomic-payment-claims.md`, `docs/guides/distributed-storage.md` |
+| **Production deployment** | `docs/guides/distributed-storage.md`, `docs/guides/implementation-plan-toctou-fix.md` |
 | Debugging issues | `docs/guides/troubleshooting.md` + relevant module README |
 | Understanding why X | Check `docs/adr/` for Architecture Decision Records |
 
@@ -31,6 +33,7 @@ These rules are ALWAYS true. Violating them will break the system:
 4. **STDIO mode: no console.log** — use `console.error()` for debugging
 5. **ES2022 imports need .js extension** — `import from "./file.js"` not `"./file"`
 6. **Tool responses need both formats** — `content[]` AND `structuredContent`
+7. **Payment claims must be ATOMIC** — use `tryClaimForProcessing()` not separate check+invalidate (see [ADR-004](docs/adr/004-atomic-payment-claims.md))
 
 ## Project Structure
 
@@ -76,10 +79,14 @@ NWC_URL="nostr+walletconnect://pubkey?relay=wss://...&secret=..."
 | [Creating Tools](docs/guides/creating-tools.md) | Adding paid tools step-by-step |
 | [Transport Modes](docs/guides/transport-modes.md) | STDIO vs HTTP vs SSE |
 | [Custom Storage](docs/guides/custom-storage.md) | Persistent payment tracking |
+| [Distributed Storage](docs/guides/distributed-storage.md) | Redis + Lua for production (TOCTOU fix) |
+| [Implementation Plan](docs/guides/implementation-plan-toctou-fix.md) | Step-by-step TOCTOU fix guide |
 | [Troubleshooting](docs/guides/troubleshooting.md) | Common errors and fixes |
 | **ADRs** | |
 | [001: Two-Phase Payment](docs/adr/001-two-phase-payment.md) | Why two-phase payment flow |
 | [002: NWC Over LNURL](docs/adr/002-nwc-over-lnurl.md) | Why NWC for wallet integration |
+| [003: Custom MCP Handler](docs/adr/003-custom-mcp-over-vercel-adapter.md) | Why custom handler over Vercel adapter |
+| [004: Atomic Payment Claims](docs/adr/004-atomic-payment-claims.md) | TOCTOU fix with Three-State FSM |
 | **Module READMEs** | |
 | [packages/tools](packages/tools/README.md) | Tool implementation patterns |
 | [packages/storage](packages/storage/README.md) | Storage backend details |

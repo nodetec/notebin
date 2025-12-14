@@ -1,0 +1,66 @@
+╔══════════════════════════════════════════════════════════════╗
+║       TOCTOU Race Condition Test (Interactive)               ║
+╚══════════════════════════════════════════════════════════════╝
+
+Timestamp: 2025-12-14T15:32:05.677Z
+
+Step 1: Getting Lightning Invoice
+
+  Amount:        1 sats
+  Payment Hash:  13b5a05f1747f45cdaf18f182f2d39f39436d245e73f40b34593e360b3820ccd
+
+  ┌─────────────────────────────────────────────────────────────┐
+  │ INVOICE (copy and pay):                                     │
+  └─────────────────────────────────────────────────────────────┘
+
+  Invoice: lnbc10n1p5nakr4dpg2pex2mtfw4kjqum9v9exx6p6ypexzcm9946x2um5np4qge3j3ufwcxhndsr8fhyv5dzt6c4mkr9fmfrl86qp24fvvy4l7fd6pp5zw66qhchgl69ekh33uvz7tfe7w2rd5j9uul5pv69j03kpvuzpnxssp5mtykxcuv9rfkv6lzxxddf4c3awqzdd70zqfvkvgeuttqulgvdfqq9qyysgqcqpcxqyz5vqrzjq25ceph0xekwyf426mnhq62eg4hpwqg93y2u8jl4y7ehmg2rhv2yzrss9cqq2fcqqqqqqqlgqqqp8zqqjqrzjqw9fu4j39mycmg440ztkraa03u5qhtuc5zfgydsv6ml38qd4azymlapyqqqqqqq4cuqqqqlgqqqq86qqjqhmazsdcal30tlew96nnkpeyc9jnv0nahmk3fvvmsgcj9fqhe2qyyec3790f23j7x4hmvy3wd2qz49vpvke8d46cqww6jwp8w70qep9qphlvk6d
+
+
+Payment confirmed by user. Starting concurrent test...
+
+Step 2: Firing 10 CONCURRENT requests with same payment_hash
+
+  Payment Hash: 13b5a05f1747f45cdaf1...
+  Starting concurrent attack simulation...
+
+  → Request #1 launched at +0ms
+  → Request #2 launched at +1ms
+  → Request #3 launched at +2ms
+  → Request #4 launched at +3ms
+  → Request #5 launched at +4ms
+  → Request #6 launched at +4ms
+  → Request #7 launched at +5ms
+  → Request #8 launched at +6ms
+  → Request #9 launched at +7ms
+  → Request #10 launched at +7ms
+
+Step 3: Results
+
+  Request | Launch | Status  | Duration | Details
+  --------|--------|---------|----------|--------------------------------
+  #2      | +   1ms | ❌ BLOCK |    255ms | Invalid, in-use, or already consumed payment_hash
+  #3      | +   2ms | ❌ BLOCK |    255ms | Invalid, in-use, or already consumed payment_hash
+  #5      | +   4ms | ❌ BLOCK |    261ms | Invalid, in-use, or already consumed payment_hash
+  #8      | +   6ms | ❌ BLOCK |    271ms | Invalid, in-use, or already consumed payment_hash
+  #7      | +   5ms | ❌ BLOCK |    273ms | Invalid, in-use, or already consumed payment_hash
+  #4      | +   3ms | ❌ BLOCK |    274ms | Invalid, in-use, or already consumed payment_hash
+  #10     | +   7ms | ❌ BLOCK |    277ms | Invalid, in-use, or already consumed payment_hash
+  #9      | +   7ms | ❌ BLOCK |    284ms | Invalid, in-use, or already consumed payment_hash
+  #6      | +   4ms | ❌ BLOCK |    287ms | Invalid, in-use, or already consumed payment_hash
+  #1      | +   0ms | ✅ OK    |   1323ms | TOOL EXECUTED SUCCESSFULLY!
+
+╔══════════════════════════════════════════════════════════════╗
+║                        SUMMARY                               ║
+╠══════════════════════════════════════════════════════════════╣
+║  Concurrent requests:  10                                  ║
+║  Total time:           1324ms                              ║
+║  ✅ Successes:          1                                   ║
+║  ❌ Blocked:            9                                   ║
+╠══════════════════════════════════════════════════════════════╣
+║                                                              ║
+║  🎉 TOCTOU FIX VERIFIED!                                     ║
+║                                                              ║
+║  Only 1 of 10 concurrent requests succeeded.                ║
+║  The atomic Lua script prevented 9 double-spend attempts!   ║
+║                                                              ║
+╚══════════════════════════════════════════════════════════════╝
